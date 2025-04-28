@@ -1,11 +1,13 @@
-import Header from "./components/Header/header.jsx"
-import Navigation from "./components/Navigation/navigation.jsx"
+import Header from "./components/Header/header.jsx";
+import Main from "./components/Main/main.jsx";
+import Footer from "./components/Footer/footer.jsx";
 function App() {
 
   return (
     <>
-      <Header/>
-      <Navigation/>
+      <Header />
+      <Main />
+      <Footer />
     </>
   )
 }
