@@ -1,24 +1,39 @@
+import { useState } from "react"; // CORRECT import
 import Sidebar from "./Sidebar";
-import Header from "./header";
+import Header from "./header"; // Attention aussi à la casse !
 import MainContent from "./MainContent";
-import Footer from "./Footer"; // Si vous souhaitez un footer
+import Footer from "./Footer";
 
-function Layout() {
+export default function App() {
+  const [isOpen, setIsOpen] = useState(true);
+
   return (
-    <div className="flex h-screen bg-gray-100">
-      <Sidebar />
-
-      <div className="flex flex-col flex-1">
+    <div className="min-h-screen flex flex-col">
+      {/* Header */}
+      <header className="bg-secondary flex items-center w-full text-white p-4 w-full">
+        <div className="mr-8 text-center text-poppins text-xs bg-dark py-2 px-2 rounded">
+          <button onClick={() => setIsOpen(!isOpen)}>Menu</button>
+        </div>
         <Header />
+      </header>
 
-        <main className="p-4 flex-1 overflow-auto">
-          <MainContent />
+      {/* Conteneur principal avec navigation et contenu */}
+      <div className="flex flex-grow">
+        {/* Navigation Drawer */}
+        <aside className={`bg-gray text-white w-64 p-4 transition-transform h-screen ${isOpen ? "block" : "hidden"} flex-shrink-0`}>
+          <Sidebar />
+        </aside>
+
+        {/* Main Content */}
+        <main className="flex-grow p-4 container">
+          < MainContent/>
         </main>
-
-        <Footer />
       </div>
+
+      {/* Footer */}
+      <footer className="bg-secondary text-white p-4 w-full">
+        <Footer />
+      </footer>
     </div>
   );
 }
-
-export default Layout;
