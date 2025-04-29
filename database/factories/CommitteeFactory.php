@@ -9,7 +9,7 @@ use Carbon\Carbon;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Committee>
  */
-class CommittteeFactory extends Factory
+class CommitteeFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,7 +18,7 @@ class CommittteeFactory extends Factory
      */
     public function definition(): array
     {
-        $agreementStartDate = fake()->now();
+        $agreementStartDate = fake()->dateTimeBetween('0 years', 'now');
 
         return [
             'name' => fake()->company(),
@@ -26,7 +26,8 @@ class CommittteeFactory extends Factory
             'agreement_end_date' => Carbon::createFromDate($agreementStartDate->format('Y'),12,31),
             // 'agreement_end_date' => now()->addYear(), // la date un an plutard
             'auto_renew' => fake()->boolean(70),
-            'created_by' => User::inRandomOrder()->first(), // sélectionne un user existant au hasard
+            // 'created_by' => User::inRandomOrder()->first()?->id,
+            'created_by' => User::whereIn('role_id', [1, 2])->inRandomOrder()->first(), // sélectionne un user(staff[2] ou admin[1]) existant au hasard
         ];
     }
 }
