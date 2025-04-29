@@ -17,11 +17,11 @@ return new class extends Migration
             $table->date('agreement_start_date');
             $table->date('agreement_end_date');
             $table->boolean('auto_renew');
-            $table->timestamps(); // Laravel écrit manuellement les deux autres ligne (2)
+            $table->timestamps(); // Laravel écrit manuellement les deux autres ligne, mais on plus de prise dessus(2)
             // $table->timestamp('created_at'); (2)
             // $table->timestamp('udpated_at'); (2)
             $table->softDeletes();
-            $table->integer("created_by"); // + ce champ (1)
+            $table->integer("created_by");
         });
     }
 
