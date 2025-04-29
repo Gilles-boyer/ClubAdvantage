@@ -1,12 +1,8 @@
-import Layout from './components/layout';
+import React from "react";
+import AppRoutes from "./router/index";
 
-function App() {
+const App = () => {
+  return <AppRoutes />;
+};
 
-  return (
-    <>
-      <Layout />
-    </>
-  )
-}
-
-export default App
+export default App;

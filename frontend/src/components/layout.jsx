@@ -1,8 +1,9 @@
 import { useState } from "react"; // CORRECT import
 import Sidebar from "./Sidebar";
 import Header from "./header"; // Attention aussi à la casse !
-import MainContent from "./MainContent";
+// import MainContent from "./MainContent";
 import Footer from "./Footer";
+import { Outlet } from "react-router-dom";
 
 export default function App() {
   const [isOpen, setIsOpen] = useState(true);
@@ -23,7 +24,7 @@ export default function App() {
 
         {/* Main Content */}
         <main className="flex-grow p-4 container">
-          < MainContent/>
+          < Outlet/>
         </main>
       </div>
 
