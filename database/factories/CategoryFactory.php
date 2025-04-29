@@ -24,8 +24,8 @@ class CategoryFactory extends Factory
                 'Expérience VIP', 
                 'Location salle',
             ]),
-            'description' => fake()->sentence(),
-            'is_active' => fake()->boolean(90) ? 'active' : 'inactive', // 90% de chance que ce soit active grace a boolean(90)
+            'description' => fake()->sentence(), //description aléatoire
+            'is_active' => fake()->boolean(90), // retourne true ou false avec 90% d'avoir true
         ];
     }
 }
