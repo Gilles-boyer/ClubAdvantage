@@ -10,11 +10,8 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
-      <header className="bg-secondary flex items-center w-full text-white p-4 w-full">
-        <div className="mr-8 text-center text-poppins text-xs bg-dark py-2 px-2 rounded">
-          <button onClick={() => setIsOpen(!isOpen)}>Menu</button>
-        </div>
-        <Header />
+      <header  className="bg-secondary flex items-center w-full text-white p-4 w-full">
+        <Header menu={{isOpen, setIsOpen}} />
       </header>
 
       {/* Conteneur principal avec navigation et contenu */}
