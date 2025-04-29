@@ -24,11 +24,20 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'first_name' => fake()->first_name(),
+            'last_name' => fake()->last_name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
+            'password' => static::$password ??= Hash::make('password'), // réutilise le mdp à chaque fois
             'remember_token' => Str::random(10),
+            'terms_accepted_at' => now(),
+            'status' => fake()->randomElement(['active','inactive','expired']),
+            'role_id' => 1,       // à adapter selon les seeder
+            'committee_id' => null
+            
+            // On va recuperer l'id d'un Role au hasard dans la table roles.
+            // 'role_id' => Role::pluck('id')->random(),
+            // 'committee_id' => null \App\Models\Committee::inRandomOrder()->first()?->id,
         ];
     }
 
