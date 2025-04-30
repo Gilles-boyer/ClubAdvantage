@@ -12,7 +12,7 @@ export function ErrorBoundary() {
                         {error.status} {error.statusText}
                     </h1>
                     <p>{error.data}</p>
-                    <Button onClick={"/"} className="bg-secondary text-white mt-5" action="Retour à l'accueil"/>
+                    <Button path={"/"} className="bg-secondary text-white mt-5 py-2 px-3 rounded" action="Retour à l'accueil"/>
                 </div>
             </>
         );

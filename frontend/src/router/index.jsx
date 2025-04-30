@@ -1,8 +1,12 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Home from '../views/Home';
 import Profil from '../views/Profil';
+import Login from '../views/Login';
 import Layout from '../components/Layout';
 import { ErrorBoundary } from '../components/ErrorBoundary';
+import Offer from '../views/Offer';
+import Scan from '../views/Scan';
+import Committees from '../views/Committee';
 
 const router = createBrowserRouter([
   {
@@ -12,6 +16,10 @@ const router = createBrowserRouter([
     children: [
       { path: '', element: <Home /> },
       { path: '/profil', element: <Profil /> },
+      { path: '/login', element: <Login /> },
+      { path: '/offers', element: <Offer /> },
+      { path: '/committees', element: <Committees /> },
+      { path: '/scan', element: <Scan /> },
     ]
   }
 ]);
