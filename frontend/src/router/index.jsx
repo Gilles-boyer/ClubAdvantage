@@ -1,20 +1,19 @@
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "../components/layout";
-import Home from "../views/Home";
-import Profil from "../views/Profil";
+import { createBrowserRouter } from 'react-router-dom';
+import Home from '../views/Home';
+import Profil from '../views/Profil';
+import Layout from '../components/Layout';
+import { ErrorBoundary } from '../components/ErrorBoundary';
 
-const AppRoutes = () => {
-    return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Layout />}>
-                    <Route index element={<Home />} />
-                    <Route path="profil" element={<Profil />} />
-                </Route>
-            </Routes>
-        </BrowserRouter>
-    );
-};
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Layout />,
+    errorElement: <ErrorBoundary />,
+    children: [
+      { path: '', element: <Home /> },
+      { path: '/profil', element: <Profil /> },
+    ]
+  }
+]);
 
-export default AppRoutes;
+export default router;
