@@ -24,6 +24,13 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        static $adminCreated = false;
+
+        // Crée un seul super admin et plusieur role entre 2 et 4 
+        $roleId = $adminCreated ? fake()->numberBetween(2, 4) : 1;
+        $adminCreated = true;
+
+        // crée aléatoirement des dates sur les deux derniers années
         $createdAt = fake()->dateTimeBetween('-2 years', 'now');
 
         return [
@@ -35,19 +42,18 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'terms_accepted_at' => now(),
             'status' => fake()->randomElement(['active','inactive','expired']),
-            'role_id' => 1,       // à adapter selon les seeder
-            'committee_id' => null,
+            'role_id' => $roleId,
 
-            // On va emetre un created_at aleatoire et l'utiliser pour garder la valeur Y mais changer la valeur M et J.
+            // Associe un comiité uniquement aux rôle 3(membre) et 4(CSE)
+            'committee_id' => in_array($roleId, [3, 4]) ? \App\Models\Committee::inRandomOrder()->first()?->id : null,
             'created_at' => $createdAt,
+
+            // Met à jour la date de fin de l'année d'inscription 
             'updated_at' => Carbon::createFromDate($createdAt->format('Y'),12,31),
             
-            // On va recuperer l'id d'un Role au hasard dans la table roles.
-            // 'role_id' => Role::pluck('id')->random(),
-            // 'committee_id' => null \App\Models\Committee::inRandomOrder()->first()?->id,
         ];
     }
-
+    
     /**
      * Indicate that the model's email address should be unverified.
      */
@@ -58,3 +64,14 @@ class UserFactory extends Factory
         ]);
     }
 }
+
+/**-----------------Des éventuelle ESSAIS----------------
+ *  
+ * return [
+ *  ...
+ *  // On va recuperer l'id d'un Role au hasard dans la table roles.
+ *  'role_id' => Role::pluck('id')->random(),
+ *  'committee_id' => null \App\Models\Committee::inRandomOrder()->first()?->id,
+ *  ...
+ * ];
+*/
