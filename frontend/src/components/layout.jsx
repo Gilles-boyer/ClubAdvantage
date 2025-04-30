@@ -1,7 +1,6 @@
-import { useState } from "react"; // CORRECT import
+import { useState } from "react";
 import Sidebar from "./Sidebar";
-import Header from "./header"; // Attention aussi à la casse !
-// import MainContent from "./MainContent";
+import Header from "./header";
 import Footer from "./Footer";
 import { Outlet } from "react-router-dom";
 

@@ -1,4 +1,5 @@
 import { isRouteErrorResponse, useRouteError } from "react-router-dom";
+import Button from "./Button";
 
 export function ErrorBoundary() {
     const error = useRouteError();
@@ -11,6 +12,7 @@ export function ErrorBoundary() {
                         {error.status} {error.statusText}
                     </h1>
                     <p>{error.data}</p>
+                    <Button onClick={"/"} className="bg-secondary text-white mt-5" action="Retour à l'accueil"/>
                 </div>
             </>
         );
