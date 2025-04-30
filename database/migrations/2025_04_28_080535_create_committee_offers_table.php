@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('committee_offer', function (Blueprint $table) {
+        Schema::create('committee_offers', function (Blueprint $table) {
             $table->unsignedBigInteger('committee_id');
             $table->unsignedBigInteger('offer_id');
+            $table->timestamp('assigned_at');
         
             $table->primary(['committee_id', 'offer_id']);
         
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('committee_offer');
+        Schema::dropIfExists('committee_offers');
     }
 };

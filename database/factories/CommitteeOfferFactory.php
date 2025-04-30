@@ -20,8 +20,8 @@ class CommitteeOfferFactory extends Factory
     public function definition(): array
     {
         return [
-            'committee_id' => Committee::inRandomOrder()->first()?->id(),
-            'offer_id' => Offer::inRandomOrder()->first()?->id(),
+            'committee_id' => Committee::inRandomOrder()->first()?->id,
+            'offer_id' => Offer::inRandomOrder()->first()?->id,
             'assigned_at' => Carbon::now(),
         ];
     }

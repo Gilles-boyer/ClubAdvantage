@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CommitteeSeeder::class,
             OfferSeeder::class,
+            CommitteeOfferSeeder::class,
         ]);
     }
 }
