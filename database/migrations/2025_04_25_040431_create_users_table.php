@@ -18,16 +18,17 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('remember_token')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('terms_accepted_at')->nullable();
             $table->enum('status', ['active', 'inactive', 'expired']);
-            $table->bigInteger('role_id');
-            $table->string('remember_token')->nullable();
+            $table->unsignedBigInteger('role_id');
             $table->unsignedBigInteger('committee_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('committee_id')->references('id')->on('committees');
+            $table->foreign('role_id')->references('id')->on('roles');
 
         });
     }

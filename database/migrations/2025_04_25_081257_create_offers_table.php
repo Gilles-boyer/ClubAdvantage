@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('category_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
+            
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('category_id')->references('id')->on('categories');
         });

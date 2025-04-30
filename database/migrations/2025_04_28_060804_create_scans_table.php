@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
+            
             // L'utilisateur STAFF qui fait un scan
             $table->foreign('scanned_by')->references('id')->on('users');
             // L'utilisateur Membre du CSE / CSE qui se fait scanner
