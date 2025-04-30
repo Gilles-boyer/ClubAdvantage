@@ -10,6 +10,7 @@ const Sidebar = () => {
             <NavLinkButton to="/profil" label="Profil" />
             <NavLinkButton to="/committees" label="CSE" />
             <NavLinkButton to="/offers" label="Offres" />
+            <NavLinkButton to="/scan" label="Scan" />
         </ul>
       </nav>
     </>
