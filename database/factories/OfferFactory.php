@@ -23,7 +23,9 @@ class OfferFactory extends Factory
             'description' => fake()->paragraph(),
             'is_active' => fake()->boolean(),
             'created_by' => Category::inRandomOrder()->first(), 
-            'category_id' => User::whereIn('role_id', [1,2])->inRandomOrder()->first(),
+            'category_id' => \App\Models\Category::inRandomOrder()->first()?->id,
         ];
     }
 }
+
+//User::whereIn('role_id', [1,2])->inRandomOrder()->first(),
