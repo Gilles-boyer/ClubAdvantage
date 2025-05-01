@@ -1,11 +1,11 @@
 import { useState } from "react";
 
-export default function GetCategory() {
+export default function AddCategory() {
   const [nameCategory, setNameCategory] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault(); 
-    console.log("Catégorie :", nameCategory);
+    alert(`Catégorie '${nameCategory}' ajoutée !`);
     reset();
 };
 const onChange = (e) => {
