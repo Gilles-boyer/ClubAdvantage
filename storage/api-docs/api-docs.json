@@ -1,0 +1,125 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Club Advantage API",
+        "description": "Documentation de l’API Club Advantage",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/users": {
+            "get": {
+                "tags": [
+                    "Utilisateurs"
+                ],
+                "summary": "Liste des utilisateurs",
+                "operationId": "67307bc842e29e52da26b57f99c0e77d",
+                "responses": {
+                    "200": {
+                        "description": "Succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Utilisateurs"
+                ],
+                "summary": "Créer un utilisateur",
+                "operationId": "0107a7c05fd7303419e3aa1150155e5f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "first_name",
+                                    "last_name",
+                                    "email",
+                                    "password",
+                                    "role_id"
+                                ],
+                                "properties": {
+                                    "first_name": {
+                                        "type": "string"
+                                    },
+                                    "last_name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "role_id": {
+                                        "type": "integer"
+                                    },
+                                    "committee_id": {
+                                        "type": "integer",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Créé avec succès"
+                    },
+                    "400": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "User": {
+                "title": "Utilisateur",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "first_name": {
+                        "type": "string"
+                    },
+                    "last_name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "role_id": {
+                        "type": "integer"
+                    },
+                    "committee_id": {
+                        "type": "integer",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Utilisateurs",
+            "description": "Utilisateurs"
+        }
+    ]
+}

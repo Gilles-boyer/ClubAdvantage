@@ -9,6 +9,20 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Model
 {
+
+    /**
+ * @OA\Schema(
+ *     schema="User",
+ *     type="object",
+ *     title="Utilisateur",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="first_name", type="string"),
+ *     @OA\Property(property="last_name", type="string"),
+ *     @OA\Property(property="email", type="string", format="email"),
+ *     @OA\Property(property="role_id", type="integer"),
+ *     @OA\Property(property="committee_id", type="integer", nullable=true),
+ * )
+ */
     use HasApiTokens, HasFactory, SoftDeletes;
 
     protected $fillable = [
@@ -30,3 +44,4 @@ class User extends Model
         'deleted_at' => 'datetime',
     ];
 }
+
