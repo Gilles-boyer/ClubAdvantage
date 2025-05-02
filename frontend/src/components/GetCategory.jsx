@@ -28,7 +28,7 @@ export const GetCategory = () => {
 
     return (
         <>
-            <h1 className='text-center pb-5'>Catégories existantes 👇</h1>
+            <h1 className='text-center w-150 mt-6 mx-auto font-poppins'>Catégories existantes</h1>
             <div className='w-200 mx-auto grid grid-cols-2 gap-4 p-2'>
                 {categories.map((category) => (
                     <div key={category.id} className='py-3 bg-primary rounded col-span-2 lg:col-span-1 flex items-center'>
