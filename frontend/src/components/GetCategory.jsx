@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Icon from '@mdi/react';
+import { mdilDelete } from '@mdi/light-js';
 
 export const GetCategory = () => {
 
@@ -15,25 +17,25 @@ export const GetCategory = () => {
             });
     }, []);
 
-    
+
     const handleDelete = (id) => {
         axios.delete(`http://localhost:5000/categories/${id}`)
-            // .then(() => {
-            //     setCategories(prev => prev.filter(cat => cat.id !== id));
-            // })
+        .then(() => {
+            console.log(`Deleted post with ID ${id}`);
+          })
             .catch((err) => console.error("Erreur DELETE :", err));
     };
 
     return (
         <>
             <h1 className='text-center pb-5'>Catégories existantes 👇</h1>
-            <div className='border rounded bg-gray text-center w-200 mx-auto grid grid-cols-2 gap-4 p-2'>
+            <div className='w-200 mx-auto grid grid-cols-2 gap-4 p-2'>
                 {categories.map((category) => (
-                    <div key={category.id} className='py-3 bg-primary rounded col-span-2 lg:col-span-1 flex justify-around'>
-                        <p>
-                            <span>{category.name}</span>
+                    <div key={category.id} className='py-3 bg-primary rounded col-span-2 lg:col-span-1 flex items-center'>
+                        <p className='font-medium text-center flex-grow'>
+                            {category.name}
                         </p>
-                        <p><span onClick={() => handleDelete(category.id)} className='p-1'>X</span></p>
+                        <Icon path={mdilDelete} size={1.2} onClick={() => handleDelete(category.id)} className='p-1 text-red-700 rounded hover:text-gray hover:bg-red-700 me-2' />
                     </div>
                 ))}
             </div>
