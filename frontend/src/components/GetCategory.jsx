@@ -2,15 +2,16 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Icon from '@mdi/react';
 import { mdilDelete } from '@mdi/light-js';
+import { displayCategories } from '../services/categoryService';
 
 export const GetCategory = () => {
 
     const [categories, setCategories] = useState([])
 
     useEffect(() => {
-        axios.get('http://localhost:5173/db.json')
+        displayCategories()
             .then(response => {
-                setCategories(response.data.categories);
+                setCategories(response.data);
             })
             .catch(error => {
                 console.error("Erreur de récupération :", error);
