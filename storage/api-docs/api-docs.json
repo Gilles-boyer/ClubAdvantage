@@ -68,6 +68,20 @@
                                     "committee_id": {
                                         "type": "integer",
                                         "nullable": true
+                                    },
+                                    "email_verified_at": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "terms_accepted_at": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "status": {
+                                        "type": "string"
+                                    },
+                                    "remember_token": {
+                                        "type": "string"
                                     }
                                 },
                                 "type": "object"
@@ -104,11 +118,37 @@
                         "type": "string",
                         "format": "email"
                     },
+                    "password": {
+                        "type": "string",
+                        "format": "password"
+                    },
+                    "email_verified_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "terms_accepted_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "active",
+                            "inactive",
+                            "expired"
+                        ]
+                    },
                     "role_id": {
                         "type": "integer"
                     },
                     "committee_id": {
                         "type": "integer",
+                        "nullable": true
+                    },
+                    "remember_token": {
+                        "type": "string",
                         "nullable": true
                     }
                 },
