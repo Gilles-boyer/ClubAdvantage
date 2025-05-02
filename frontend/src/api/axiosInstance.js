@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-export default axios.create({
+ let client = axios.create({
     baseURL: "http://localhost:5174/api",
     headers: {
       "Content-Type": "application/json",
@@ -9,3 +9,4 @@ export default axios.create({
     },
   });
 
+export default client;

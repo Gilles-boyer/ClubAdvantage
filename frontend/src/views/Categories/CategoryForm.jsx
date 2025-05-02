@@ -1,13 +1,26 @@
 import { useState } from "react";
+import axios from "axios";
 
 export default function AddCategory() {
   const [nameCategory, setNameCategory] = useState("");
 
   const handleSubmit = (e) => {
-    e.preventDefault(); 
-    alert(`Catégorie '${nameCategory}' ajoutée !`);
-    reset();
-};
+    e.preventDefault();
+  
+    axios.post("http://localhost:5000/categories", {
+      name: nameCategory,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    })
+    .then(() => {
+      alert("Catégorie ajoutée !")
+      reset();
+    })
+    .catch((err) => {
+      console.error("Error POST :", err);
+    });
+  };
+  
 const onChange = (e) => {
     setNameCategory(e.target.value)
   }
