@@ -1,10 +1,12 @@
+import DisplayOffers from "../components/DisplayOffers";
 import CategoryForm from "./Categories/CategoryForm";
 import CategoryList from "./Categories/CategoryList";
 
 export default function Offer() {
     return <>
         <h2 className="text-center font-medium bg-gray py-4 w-full">Offres</h2>
-        <CategoryForm />
-        <CategoryList />
+        <CategoryForm />  //! Formulaire d'ajout de catégories
+        <CategoryList />  //! Affichage des catégories sous forme de 'grid'
+        <DisplayOffers />
     </>
 }

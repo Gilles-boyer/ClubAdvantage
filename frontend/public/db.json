@@ -36,5 +36,39 @@
       "created_at": "2025-05-02T15:32:36.199Z",
       "updated_at": "2025-05-02T15:32:36.199Z"
     }
+  ],
+  "offers": [
+    {
+      "id": "be73",
+      "title": "Bapteme Porsche 718",
+      "description": "This is a little and boring description for developpement testing and improvements",
+      "is_active": false,
+      "created_at": "2025-05-02T07:48:36.230Z",
+      "updated_at": "2025-05-02T07:48:36.230Z"
+    },
+    {
+      "id": "z46e",
+      "title": "Bapteme Alpine A110",
+      "description": "This is a little and boring description for developpement testing and improvements",
+      "is_active": true,
+      "created_at": "2025-05-02T07:48:36.230Z",
+      "updated_at": "2025-05-02T07:48:36.230Z"
+    },
+    {
+      "id": "f6ad",
+      "title": "Session Karting 10 personnes",
+      "description": "Ceci est une fausse description pour les tests de composants",
+      "is_active": true,
+      "craated_at": "2025-05-03T15:40:20.224Z",
+      "updated_at": "2025-05-03T15:40:20.224Z"
+    },
+    {
+      "id": "8dff",
+      "title": "SODI - 10% ",
+      "description": "Remise de 10M sur les articles de la marque SODI",
+      "is_active": true,
+      "craated_at": "2025-05-03T15:43:38.543Z",
+      "updated_at": "2025-05-03T15:43:38.543Z"
+    }
   ]
 }
