@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import Icon from '@mdi/react';
 import { mdilDelete } from '@mdi/light-js';
-import { displayCategories } from '../services/categoryService';
+import { deleteCategory, displayCategories } from '../services/categoryService';
 
 export const GetCategory = () => {
 
@@ -20,7 +19,7 @@ export const GetCategory = () => {
 
 
     const handleDelete = (id) => {
-        axios.delete(`http://localhost:5000/categories/${id}`)
+        deleteCategory(id)
         .then(() => {
             console.log(`Deleted post with ID ${id}`);
           })

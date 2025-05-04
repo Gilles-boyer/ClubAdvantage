@@ -1,12 +1,6 @@
 {
   "categories": [
     {
-      "id": "be73",
-      "name": "SuperCar",
-      "created_at": "2025-05-02T07:48:36.230Z",
-      "updated_at": "2025-05-02T07:48:36.230Z"
-    },
-    {
       "id": "9e0e",
       "name": "Rallye",
       "created_at": "2025-05-02T09:41:17.609Z",
@@ -35,6 +29,12 @@
       "name": "SuperCar",
       "created_at": "2025-05-02T15:32:36.199Z",
       "updated_at": "2025-05-02T15:32:36.199Z"
+    },
+    {
+      "id": "0576",
+      "name": "Rallye",
+      "created_at": "2025-05-04T06:30:11.704Z",
+      "updated_at": "2025-05-04T06:30:11.704Z"
     }
   ],
   "offers": [
@@ -42,7 +42,7 @@
       "id": "be73",
       "title": "Bapteme Porsche 718",
       "description": "This is a little and boring description for developpement testing and improvements",
-      "is_active": false,
+      "is_active": true,
       "created_at": "2025-05-02T07:48:36.230Z",
       "updated_at": "2025-05-02T07:48:36.230Z"
     },
@@ -50,7 +50,7 @@
       "id": "z46e",
       "title": "Bapteme Alpine A110",
       "description": "This is a little and boring description for developpement testing and improvements",
-      "is_active": true,
+      "is_active": false,
       "created_at": "2025-05-02T07:48:36.230Z",
       "updated_at": "2025-05-02T07:48:36.230Z"
     },

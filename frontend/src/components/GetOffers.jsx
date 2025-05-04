@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
-import { displayOffers, updatedStatus} from '../services/offersService';
+import { deleteOffer, displayOffers, updatedStatus } from '../services/offersService';
+import Icon from '@mdi/react';
+import { mdilDelete } from '@mdi/light-js';
 
 export default function GetOffers() {
 
@@ -16,25 +18,32 @@ export default function GetOffers() {
     }, []);
 
     const handleStatus = (id, currentStatus) => {
-      
+
         const updated = { //! Modifie la valeur du statut ('is_active')
             is_active: !currentStatus,
-          };
-          console.log(id);
-          
+        };
+        console.log(id);
+
         updatedStatus(id, updated) //! Modifie la valeur du statut en BDD avec la nouvelle valeur (axios.patch)
-        .then(() => { //! Permet de modifier l'affichage sans avoir à rafraichir la page à chaque interaction
-            setOffers((prev) =>
-              prev.map((offer) =>
-                offer.id === id ? { ...offer, is_active: !currentStatus } : offer
-              )
-            );
-          })
+            .then(() => { //! Permet de modifier l'affichage sans avoir à rafraichir la page à chaque interaction
+                setOffers((prev) =>
+                    prev.map((offer) =>
+                        offer.id === id ? { ...offer, is_active: !currentStatus } : offer
+                    )
+                );
+            })
 
-        .catch(err => console.error("Erreur de mise à jour :", err));
+            .catch(err => console.error("Erreur de mise à jour :", err));
 
-         };
-      
+    };
+    const handleDelete = (id) => {
+        deleteOffer(id)
+            .then(() => {
+                console.log(`Deleted post with ID ${id}`);
+            })
+            .catch((err) => console.error("Erreur DELETE :", err));
+    };
+
     return (
         <>
             {offers.map((offer) => (
@@ -56,7 +65,7 @@ export default function GetOffers() {
 
                     </td>
                     <td className="px-6 py-4 bg-primary">
-                        <span>Actions</span>
+                        <Icon path={mdilDelete} size={1.2} onClick={() => handleDelete(offer.id)} className='p-1 text-red-700 mx-auto rounded hover:text-gray hover:bg-red-700 me-2' />
                     </td>
                 </tr>
             ))}

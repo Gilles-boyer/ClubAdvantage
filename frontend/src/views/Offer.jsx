@@ -5,8 +5,8 @@ import CategoryList from "./Categories/CategoryList";
 export default function Offer() {
     return <>
         <h2 className="text-center font-medium bg-gray py-4 w-full">Offres</h2>
-        <CategoryForm />  //! Formulaire d'ajout de catégories
-        <CategoryList />  //! Affichage des catégories sous forme de 'grid'
+        <CategoryForm />
+        <CategoryList />
         <DisplayOffers />
     </>
 }
