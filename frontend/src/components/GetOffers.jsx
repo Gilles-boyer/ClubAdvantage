@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { deleteOffer, displayOffers, updatedStatus } from '../services/offersService';
-import Icon from '@mdi/react';
-import { mdilDelete } from '@mdi/light-js';
+import DeleteButton from './DeleteButton';
 
 export default function GetOffers() {
 
@@ -36,14 +35,6 @@ export default function GetOffers() {
             .catch(err => console.error("Erreur de mise à jour :", err));
 
     };
-    const handleDelete = (id) => {
-        deleteOffer(id)
-            .then(() => {
-                console.log(`Deleted post with ID ${id}`);
-            })
-            .catch((err) => console.error("Erreur DELETE :", err));
-    };
-
     return (
         <>
             {offers.map((offer) => (
@@ -65,7 +56,7 @@ export default function GetOffers() {
 
                     </td>
                     <td className="px-6 py-4 bg-primary">
-                        <Icon path={mdilDelete} size={1.2} onClick={() => handleDelete(offer.id)} className='p-1 text-red-700 mx-auto rounded hover:text-gray hover:bg-red-700 me-2' />
+                        <DeleteButton id={offer.id} onDelete={deleteOffer} />
                     </td>
                 </tr>
             ))}

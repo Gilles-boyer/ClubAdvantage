@@ -2,7 +2,7 @@ import { GetCategory } from "../../components/GetCategory";
 
 export default function CategoryList(){
     return (
-    <div>
+    <div className="overflow-x-auto">
         <GetCategory />
     </div>
 )}

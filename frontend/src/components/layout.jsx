@@ -22,7 +22,7 @@ export default function App() {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-grow p-4 container">
+        <main className="flex-grow p-4 container mx-auto overflow-x-hidden">
           < Outlet/>
         </main>
       </div>
