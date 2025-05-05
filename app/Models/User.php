@@ -9,25 +9,6 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Model
 {
-
-/**
- * @OA\Schema(
- *     schema="User",
- *     type="object",
- *     title="Utilisateur",
- *     @OA\Property(property="id", type="integer"),
- *     @OA\Property(property="first_name", type="string"),
- *     @OA\Property(property="last_name", type="string"),
- *     @OA\Property(property="email", type="string", format="email"),
- *     @OA\Property(property="password", type="string", format="password"),
- *     @OA\Property(property="email_verified_at", type="string", format="date-time", nullable=true),
- *     @OA\Property(property="terms_accepted_at", type="string", format="date-time", nullable=true),
- *     @OA\Property(property="status", type="string", enum={"active", "inactive", "expired"}),
- *     @OA\Property(property="role_id", type="integer"),
- *     @OA\Property(property="committee_id", type="integer", nullable=true),
- *     @OA\Property(property="remember_token", type="string", nullable=true),
- * )
- */
     use HasApiTokens, HasFactory, SoftDeletes;
 
     protected $fillable = [
