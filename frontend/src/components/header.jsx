@@ -11,7 +11,7 @@ const Header = ({ menu }) => {
       />
       <div className="text-2xl font-bold">Dashboard</div>
       <button
-        className="bg-dark font-poppins text-xs px-3 py-2 rounded text-white hover:bg-primary"
+        className="bg-neutral font-poppins text-xs px-3 py-2 rounded text-white hover:bg-primary"
         type="button"
       >
         Déconnexion

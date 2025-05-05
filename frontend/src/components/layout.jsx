@@ -17,12 +17,12 @@ export default function App() {
       {/* Conteneur principal avec navigation et contenu */}
       <div className="flex flex-grow">
         {/* Navigation Drawer */}
-        <aside className={`bg-gray text-white w-64 p-4 transition-transform h-screen ${isOpen ? "block" : "hidden"} flex-shrink-0`}>
+        <aside className={`bg-accent text-white w-64 p-4 transition-transform h-screen ${isOpen ? "block" : "hidden"} flex-shrink-0`}>
           <Sidebar />
         </aside>
 
         {/* Main Content */}
-        <main className="flex-grow p-4 container mx-auto overflow-x-hidden">
+        <main className="flex-grow p-4 container">
           < Outlet/>
         </main>
       </div>

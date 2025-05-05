@@ -1,18 +1,43 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Delicious+Handrawn&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import 'tailwindcss';
+@plugin "daisyui" {
+    themes: light --default;
+  }
 
-@theme {
-    --color-dark: oklch(0.31 0.026 54.24);
-    /*equivalent to hex '#3a2c23' */
+
+
+  @plugin "daisyui/theme" {
+    name: "light";
+    default: false;
+    prefersdark: false;
+    color-scheme: "dark";
+    --color-base-100: oklch(98% 0.003 247.858);
+    --color-base-200: oklch(92% 0.004 286.32);
+    --color-base-300: oklch(55% 0.016 285.938);
+    --color-base-content: oklch(12% 0.042 264.695);
     --color-primary: oklch(0.79 0.0681 74.74);
-    /*equivalent to hex '#d6b68b' */
+    --color-primary-content: oklch(100% 0 0);
     --color-secondary: oklch(0.64 0.0611 70.7);
-    /*equivalent to hex '#a48663' */
-    --color-gray: oklch(0.91 0.0109 76.59);
-    /*equivalent to hex '#e7e2db' */
-
-    --font-inter: "Inter", "sans-serif";
-    /*Font for secondary elements (buttons)*/
-    --font-poppins: "Poppins", "sans-serif";
-    /*Font for primary text elements (title, text)*/
-}
+    --color-secondary-content: oklch(100% 0 0);
+    --color-accent: oklch(0.91 0.0109 76.59);
+    --color-accent-content: oklch(98% 0.016 73.684);
+    --color-neutral: oklch(0.31 0.026 54.24);
+    --color-neutral-content: oklch(98% 0 0);
+    --color-info: oklch(51% 0.262 276.966);
+    --color-info-content: oklch(97% 0.013 236.62);
+    --color-success: oklch(59% 0.145 163.225);
+    --color-success-content: oklch(98% 0.031 120.757);
+    --color-warning: oklch(70% 0.213 47.604);
+    --color-warning-content: oklch(98% 0.026 102.212);
+    --color-error: oklch(57% 0.245 27.325);
+    --color-error-content: oklch(97% 0.014 343.198);
+    --radius-selector: 0.5rem;
+    --radius-field: 0.5rem;
+    --radius-box: 0.5rem;
+    --size-selector: 0.25rem;
+    --size-field: 0.25rem;
+    --border: 1px;
+    --depth: 1;
+    --noise: 0;
+  }
+  

@@ -58,7 +58,7 @@ export default function AddOffers() {
           onChange={onChangeDesc}
           className="border rounded p-2 bg-gray"
         />
-        <button type="submit" className="bg-dark text-white px-3 py-3 rounded text-xs uppercase">
+        <button type="submit" className="bg-neutral text-white px-3 py-3 rounded text-xs uppercase">
           Enregistrer
         </button>
       </form>

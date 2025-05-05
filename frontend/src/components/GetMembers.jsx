@@ -19,8 +19,8 @@ export const GetMembers = () => {
     return (
         <>
             {members.map((member) => (
-                <tr className="border-b border-dark text-black " key={member.id}>
-                    <th scope="row" className="px-6 py-4 font-medium text-dark whitespace-nowrap bg-primary">
+                <tr className="border-b border-neutral text-black " key={member.id}>
+                    <th scope="row" className="px-6 py-4 font-medium text-neutral whitespace-nowrap bg-primary">
                         {member.lastName}
                     </th>
                     <td className="px-6 py-4">

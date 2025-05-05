@@ -60,7 +60,7 @@ export default function AddMembers() {
 
     return (
         <>
-            <form onSubmit={handleSubmit} className="spacetext-center space-y-2 my-3 bg-gray p-6 rounded">
+            <form onSubmit={handleSubmit} className="spacetext-center space-y-2 my-3 bg-accent p-6 rouned w-fit mx-auto">
                 <div className="flex flex-col space-y-2">
                     <input
                         type="text"
@@ -68,7 +68,7 @@ export default function AddMembers() {
                         placeholder="Nom"
                         value={lastName}
                         onChange={onChangeLastName}
-                        className="border rounded p-2 bg-white"
+                        className="input block mx-auto"
                     />
                     <input
                         type="text"
@@ -76,17 +76,17 @@ export default function AddMembers() {
                         placeholder="Prenom"
                         value={firstName}
                         onChange={onChangeFirstName}
-                        className="border rounded p-2 bg-white"
+                        className="input block mx-auto"
                     />
                 </div>
-                <div className="flex flex-col space-y-2">
+                <div className="flex flex-col space-y-2" block mx-auto>
                     <input
                         type="email"
                         name="email"
                         placeholder="Email"
                         value={email}
                         onChange={onChangeEmail}
-                        className="border rounded p-2 bg-white"
+                        className="input block mx-auto"
                     />
                     <input
                         type="tel"
@@ -94,11 +94,11 @@ export default function AddMembers() {
                         placeholder="Numéro de téléphone"
                         value={phone}
                         onChange={onChangePhone}
-                        className="border rounded p-2 bg-white"
+                        className="input block mx-auto"
                     />
                 </div>
                 <div className="flex flex-col space-y-3">
-                    <div className="space-x-3 bg-white p-2 rounded">
+                    <div className="input block mx-auto">
                         <label htmlFor="status">Choisissez le statut :</label>
 
                         <select id="" name="members" value={status} onChange={onChangeStatus}>
@@ -108,7 +108,7 @@ export default function AddMembers() {
                             <option value="expired">expiré</option>
                         </select>
                     </div>
-                    <button type="submit" className="bg-dark text-white px-3 py-3 rounded text-xs uppercase mx-auto">
+                    <button type="submit" className="btn btn-outline btn-neutral text-xs uppercase mx-auto">
                         Enregistrer
                     </button>
                 </div>

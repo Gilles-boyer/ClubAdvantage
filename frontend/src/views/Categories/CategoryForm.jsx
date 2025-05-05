@@ -44,7 +44,7 @@ const onChange = (e) => {
             onChange={onChange}
             className="border rounded p-2 bg-gray"
           />
-          <button type="submit" className="bg-dark text-white px-3 py-2 rounded">
+          <button type="submit" className="bg-neutral text-white px-3 py-2 rounded">
             Ajouter
           </button>
         </form>
