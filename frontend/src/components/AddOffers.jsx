@@ -7,7 +7,7 @@ export default function AddOffers() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    
     createOffer({
       title: nameOffer,
       description: description,

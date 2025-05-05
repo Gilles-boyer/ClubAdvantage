@@ -4,9 +4,8 @@ export const getMembers = () => {
   return client.get("/members"); 
 };
 
-export const createMember = (lastName, FirstName, email, phone) => {
-    alert("Membre Enregistré !");
-  return client.post("/members", lastName, FirstName, email, phone);
+export const createMember = (lastName, FirstName, email, telephone, status) => {
+  return client.post("/members", lastName, FirstName, email, telephone, status);
 };
 
 export const deleteMember= (id) => {

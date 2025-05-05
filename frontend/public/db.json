@@ -77,7 +77,7 @@
       "email": "exemple@gmail.com",
       "lastName": "Doe",
       "firstName": "John",
-      "telephone": "0693 153 456",
+      "telephone": "0693153456",
       "status": "active",
       "created_at": "2025-05-02T07:48:36.230Z",
       "updated_at": "2025-05-02T07:48:36.230Z"
@@ -87,7 +87,7 @@
       "email": "marie.dupont@example.com",
       "lastName": "Dupont",
       "firstName": "Marie",
-      "telephone": "0692 872 344",
+      "telephone": "0692872344",
       "status": "inactive",
       "created_at": "2025-04-20T11:15:26.000Z",
       "updated_at": "2025-04-22T09:42:13.000Z"
@@ -97,7 +97,7 @@
       "email": "hugo.martin@example.com",
       "lastName": "Martin",
       "firstName": "Hugo",
-      "telephone": "0693 112 879",
+      "telephone": "0693112879",
       "status": "active",
       "created_at": "2025-03-18T14:03:12.000Z",
       "updated_at": "2025-03-19T08:50:00.000Z"
@@ -107,7 +107,7 @@
       "email": "lea.benoit@example.com",
       "lastName": "Benoit",
       "firstName": "Léa",
-      "telephone": "0692 456 789",
+      "telephone": "0692456789",
       "status": "expired",
       "created_at": "2025-02-10T16:21:00.000Z",
       "updated_at": "2025-02-10T16:21:00.000Z"
@@ -117,7 +117,7 @@
       "email": "paul.renard@example.com",
       "lastName": "Renard",
       "firstName": "Paul",
-      "telephone": "0693 999 111",
+      "telephone": "0693999111",
       "status": "active",
       "created_at": "2025-01-05T09:05:44.000Z",
       "updated_at": "2025-01-10T17:36:22.000Z"
