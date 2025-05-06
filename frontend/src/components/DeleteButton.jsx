@@ -10,6 +10,6 @@ export default function DeleteButton({ id, onDelete }) {
   };
 
   return (
-    <Icon path={mdilDelete} size={1.2} onClick={handleClick} className='p-1 text-red-700 rounded hover:text-gray hover:bg-red-700 me-2' />
+    <Icon path={mdilDelete} size={1.2} onClick={handleClick} className='p-1 text-red-700 mask mask-squircle hover:text-white hover:bg-red-700 me-2' />
   );
 }

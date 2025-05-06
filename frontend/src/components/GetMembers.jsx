@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import DeleteButton from './DeleteButton';
 import { deleteMember, getMembers } from '../services/memberService';
+import UpdateButton from './UpdateButton';
 
 export const GetMembers = () => {
 
@@ -19,8 +20,8 @@ export const GetMembers = () => {
     return (
         <>
             {members.map((member) => (
-                <tr className="border-b border-neutral text-black " key={member.id}>
-                    <th scope="row" className="px-6 py-4 font-medium text-neutral whitespace-nowrap bg-primary">
+                <tr className="hover:bg-accent text-black " key={member.id}>
+                    <th scope="row" className="px-6 py-4 font-medium text-neutral whitespace-nowrap">
                         {member.lastName}
                     </th>
                     <td className="px-6 py-4">
@@ -35,7 +36,8 @@ export const GetMembers = () => {
                     <td className="px-6 py-4">
                         {member.status}
                     </td>
-                    <td className="px-6 py-4 bg-primary">
+                    <td className="px-6 py-4">
+                        <UpdateButton />
                         <DeleteButton id={member.id} onDelete={deleteMember} />
                     </td>
                 </tr>

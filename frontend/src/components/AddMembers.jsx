@@ -57,10 +57,14 @@ export default function AddMembers() {
         setPhone("");
         setStatus("");
     };
-
+    const [toggle, setToggle] =useState(true)
     return (
         <>
-            <form onSubmit={handleSubmit} className="spacetext-center space-y-2 my-3 bg-accent p-6 rouned w-fit mx-auto">
+            <div className='flex w-fit'>
+                <button onClick={() => setToggle(!toggle)} className='btn btn-primary uppercase font-medium px-3 py-2 me-2 text-xs hover:bg-secondary hover:text-white'>Ajouter un adhérent</button>
+            </div>
+            {toggle && (
+                <form onSubmit={handleSubmit} className="spacetext-center space-y-2 my-3 bg-accent p-6 rouned w-fit mx-auto rounded">
                 <div className="flex flex-col space-y-2">
                     <input
                         type="text"
@@ -112,7 +116,7 @@ export default function AddMembers() {
                         Enregistrer
                     </button>
                 </div>
-            </form>
+            </form>)}
         </>
     )
 }

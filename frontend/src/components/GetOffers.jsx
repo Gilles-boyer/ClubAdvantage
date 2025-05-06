@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { deleteOffer, displayOffers, updatedStatus } from '../services/offersService';
 import DeleteButton from './DeleteButton';
+import UpdateButton from './UpdateButton';
 
 export default function GetOffers() {
 
@@ -56,6 +57,7 @@ export default function GetOffers() {
 
                     </td>
                     <td className="px-6 py-4 bg-primary">
+                        <UpdateButton />
                         <DeleteButton id={offer.id} onDelete={deleteOffer} />
                     </td>
                 </tr>
