@@ -1,34 +1,22 @@
 import { useState } from "react";
-import { createCategory } from "../../services/categoryService";
 
-export default function AddCategory() {
-  const [nameCategory, setNameCategory] = useState("");
+export default function AddCategory({onAddCategory}) {
+  const [name, setName] = useState("")
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
-    createCategory({
-      name: nameCategory,
+
+    const newCategory = {
+      name: name,
       created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    })
-      .then(() => {
-        alert("Catégorie ajoutée !");
-        reset();
-      })
-      .catch((err) => {
-        console.error("Error POST :", err);
-        console.log(err.response);
-        
-      });
+      updated_at: new Date().toISOString(),
+    }
+    onAddCategory(newCategory);
+    reset();
   };
-  
-const onChange = (e) => {
-    setNameCategory(e.target.value)
-  }
 
   const reset = () => {
-    setNameCategory("");
+    return setName('')
   };
 
   return (
@@ -40,8 +28,8 @@ const onChange = (e) => {
             type="text"
             name="nameCategory"
             placeholder="Nom de la catégorie"
-            value={nameCategory}
-            onChange={onChange}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             className="border rounded p-2 bg-gray"
           />
           <button type="submit" className="bg-neutral text-white px-3 py-2 rounded">
