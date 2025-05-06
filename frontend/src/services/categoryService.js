@@ -9,6 +9,10 @@ export const createCategory = (nameCategory) => {
   return client.post("/categories", nameCategory);
 };
 
+export const updateCategory = (id, nameCategory) => {
+  return client.patch(`/categories${id}`, nameCategory)
+}
+
 export const deleteCategory = (id) => {
   return client.delete(`/categories/${id}`);
 };
