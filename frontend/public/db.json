@@ -3,36 +3,48 @@
     {
       "id": "9e0e",
       "name": "Rallye",
+      "description":"Ceci est une superbe description",
+      "status": true,
       "created_at": "2025-05-02T09:41:17.609Z",
       "updated_at": "2025-05-02T09:41:17.609Z"
     },
     {
       "id": "96e6",
       "name": "SuperAdmin",
+      "description":"Ceci est une superbe description",
+      "status": true,
       "created_at": "2025-05-02T09:41:22.272Z",
       "updated_at": "2025-05-02T09:41:22.272Z"
     },
     {
       "id": "e6ad",
       "name": "Kart",
+      "description":"Ceci est une superbe description",
+      "status": false,
       "created_at": "2025-05-02T15:24:58.231Z",
       "updated_at": "2025-05-02T15:24:58.231Z"
     },
     {
       "id": "253d",
       "name": "Developpement",
+      "description":"Ceci est une superbe description",
+      "status": true,
       "created_at": "2025-05-02T15:32:30.976Z",
       "updated_at": "2025-05-02T15:32:30.976Z"
     },
     {
       "id": "6775",
       "name": "SuperCar",
+      "description":"Ceci est une superbe description",
+      "status": false,
       "created_at": "2025-05-02T15:32:36.199Z",
       "updated_at": "2025-05-02T15:32:36.199Z"
     },
     {
       "id": "e9aa",
       "name": "SuperCar",
+      "description":"Ceci est une superbe description",
+      "status": true,
       "created_at": "2025-05-04T15:49:06.311Z",
       "updated_at": "2025-05-04T15:49:06.311Z"
     }

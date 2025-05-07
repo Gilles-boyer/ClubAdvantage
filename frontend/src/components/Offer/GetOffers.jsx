@@ -1,11 +1,9 @@
-import { useState, useEffect } from 'react';
-import { deleteOffer, displayOffers, updatedStatus } from '../services/offersService';
-import DeleteButton from './DeleteButton';
-import UpdateButton from './UpdateButton';
+import { useEffect } from 'react';
+import { deleteOffer, displayOffers, updatedStatus } from '../../services/offersService';
+import DeleteButton from '../DeleteButton';
+import UpdateButton from '../UpdateButton';
 
-export default function GetOffers() {
-
-    const [offers, setOffers] = useState([])
+export default function GetOffers([offers, setOffers]) {
 
     useEffect(() => {
         displayOffers()

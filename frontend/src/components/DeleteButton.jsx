@@ -1,10 +1,10 @@
 import Icon from "@mdi/react";
 import { mdilDelete } from '@mdi/light-js';
 
-export default function DeleteButton({ id, onDelete }) {
+export default function DeleteButton({ index, onDelete }) {
   const handleClick = () => {
     if (window.confirm("Supprimer cet élément ?")) {
-      onDelete(id)
+      onDelete(index)
       .catch((err) => console.error("Erreur DELETE :", err));
     }
   };
