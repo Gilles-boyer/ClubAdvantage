@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createOffer } from "../services/offersService";
+import { createOffer } from "../../services/offersService";
 
 export default function AddOffers() {
   const [nameOffer, setNameOffer] = useState("");
