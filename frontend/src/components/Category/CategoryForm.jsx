@@ -1,5 +1,7 @@
 import { useState } from "react";
 import InputCheck from "./InputCheck";
+import Icon from '@mdi/react';
+import { mdilAlert } from '@mdi/light-js';
 
 export default function AddCategory({ onAddCategory }) {
   const [name, setName] = useState("")
@@ -59,12 +61,13 @@ export default function AddCategory({ onAddCategory }) {
             Valider
           </button>
           {error.hasError && (
-            <div className="alert alert-error mt-3">
+            <div className="alert alert-error mt-3 w-100 mx-auto">
+              <Icon path={mdilAlert} size={1} />
               <span className="text-sm">
-                {error.type === "empty" && "Les champs ne doivent pas être vides."}
-                {error.type === "notString" && "Les champs doivent être du texte."}
-                {error.type === "invalidNameLenght" && "Le nom ne doit pas dépassé 255 caractères."}
-                {error.type === "invalidDescLenght" && "La description ne doit pas dépassée 1000 caractères."}
+                {error.type === "empty" && "Les champs ne doivent pas être vides"}
+                {error.type === "notString" && "Les champs ne doivent pas contenir de chifres"}
+                {error.type === "invalidNameLenght" && "Le nom ne doit pas dépassé 255 caractères"}
+                {error.type === "invalidDescLenght" && "La description ne doit pas dépassée 1000 caractères"}
               </span>
             </div>
           )}

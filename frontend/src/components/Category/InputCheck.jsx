@@ -3,8 +3,10 @@ export default function InputCheck(nom, description) {
       hasError: false,
       type: '',
     };
-  
-    if (typeof(nom) !== 'string' || typeof(description) !== 'string') {
+
+    const regex = /\d{1,}/;
+
+    if (regex.test(nom) || regex.test(description)) {
       return {
         hasError: true,
         type: 'notString',
@@ -21,7 +23,7 @@ export default function InputCheck(nom, description) {
     if (nom.length > 255){
         return {
             hasError: true,
-            type: 'invalidNameLenght'
+            type: 'invalidNameLenght',
         }
     }
     if (description.length > 1000){

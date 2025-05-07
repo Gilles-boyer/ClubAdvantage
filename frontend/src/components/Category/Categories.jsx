@@ -49,8 +49,8 @@ export default function Categories() {
 
     return (
         <>
-            <h1 className='text-center w-150 mt-6 mx-auto font-poppins'>Catégories existantes</h1>
             <AddCategory onAddCategory={handleAddCategory} />
+            <h1 className='text-center w-150 mt-6 mx-auto font-poppins'>Catégories existantes</h1>
             <section className="relative overflow-x-auto pt-10 mx-auto">
                 <div className='w-fit mx-auto'>
                     <table className="text-sm text-left rtl:text-right">
