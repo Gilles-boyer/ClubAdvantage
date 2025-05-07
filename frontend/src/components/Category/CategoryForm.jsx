@@ -1,16 +1,27 @@
 import { useState } from "react";
+import InputCheck from "./InputCheck";
 
 export default function AddCategory({ onAddCategory }) {
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
+  const [error, setError] = useState("")
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const check = InputCheck(name, description);
+    if (check.hasError) {
+      setError(check);
+      return;
+    }
+
+    setError({ hasError: false, type: "" });
+
+
     const newCategory = {
       name: name,
       description: description,
-      status: false,
+      is_active: false,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     }
@@ -47,6 +58,16 @@ export default function AddCategory({ onAddCategory }) {
           <button type="submit" className="btn btn-neutral">
             Valider
           </button>
+          {error.hasError && (
+            <div className="alert alert-error mt-3">
+              <span className="text-sm">
+                {error.type === "empty" && "Les champs ne doivent pas être vides."}
+                {error.type === "notString" && "Les champs doivent être du texte."}
+                {error.type === "invalidNameLenght" && "Le nom ne doit pas dépassé 255 caractères."}
+                {error.type === "invalidDescLenght" && "La description ne doit pas dépassée 1000 caractères."}
+              </span>
+            </div>
+          )}
         </form>
       </div>
     </div>

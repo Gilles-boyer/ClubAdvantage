@@ -56,7 +56,7 @@ export default function Categories() {
                     <table className="text-sm text-left rtl:text-right">
                         <thead className="text-xs uppercase bg-secondary">
                             <tr>
-                                <th className="px-6 py-3">Titre</th>
+                                <th className="px-6 py-3">Nom</th>
                                 <th className="px-6 py-3">Description</th>
                                 <th className="px-6 py-3">Statut</th>
                                 <th className="px-6 py-3">Action</th>
@@ -72,7 +72,7 @@ export default function Categories() {
                                     <td className="px-6 py-4">
                                         <button
                                             onClick={() => handleStatus(index)}
-                                            className={`py-1 px-3 rounded text-white w-20 ${category.status ? "bg-green-600" : "bg-red-600"
+                                            className={`py-1 px-3 rounded text-white w-20 ${category.is_active ? "bg-green-600" : "bg-red-600"
                                                 }`}
                                         >
                                             {category.status ? "Actif" : "Inactif"}
@@ -84,7 +84,7 @@ export default function Categories() {
                                         label2="description" 
                                         currentVal1={category.name}
                                         currentVal2={category.description} />
-                                        
+
                                         <DeleteButton index={index} onDelete={handleDeleteCategory} />
                                     </td>
                                 </tr>
