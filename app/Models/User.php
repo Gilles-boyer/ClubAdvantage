@@ -23,10 +23,21 @@ class User extends Model
         'committee_id',
         'remember_token',
     ];
- // Dit à laravel que c'est champs doivent être manipulés comme des dates automatique
+    // Dit à laravel que c'est champs doivent être manipulés comme des dates automatique
     protected $casts = [
         'email_verified_at' => 'datetime',
         'terms_accepted_at' => 'datetime',
         'deleted_at' => 'datetime',
     ];
+    // Relation avec le rôle de l'utilisateur
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    // Relation avec le comité (si applicable)
+    public function committee()
+    {
+        return $this->belongsTo(Committee::class);
+    }
 }

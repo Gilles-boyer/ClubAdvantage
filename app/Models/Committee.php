@@ -17,4 +17,8 @@ class Committee extends Model
         'auto_renew',
         'created_by',
     ];
+    // Récupére tous les utilisateurs (membres ou CSE) liés à ce comité
+    public function users() {
+        return $this->hasMany(User::class);
+    }
 }
