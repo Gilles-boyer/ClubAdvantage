@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Category extends Model
 {
     use HasFactory, SoftDeletes;
-    
     protected $fillable = [
+        // id automatique!
         'name',
         'description',
         'is_active',
