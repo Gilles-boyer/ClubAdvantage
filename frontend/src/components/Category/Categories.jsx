@@ -29,15 +29,15 @@ export default function Categories() {
 
     const handleStatus = (index) => {
         setCategories(prev => {
-          const copy = [...prev];
+            const copy = [...prev];
 
-          copy[index] = {
-            ...copy[index],
-            status: !copy[index].status,
-          };
-          return copy;
+            copy[index] = {
+                ...copy[index],
+                status: !copy[index].status,
+            };
+            return copy;
         });
-      };
+    };
 
     const handleDeleteCategory = (index) => {
         setCategories((prev) => {
@@ -79,7 +79,12 @@ export default function Categories() {
                                         </button>
                                     </td>
                                     <td className="px-6 py-4 bg-primary">
-                                        <UpdateButton index={index} onUpdate={handleUpdateCategory} label1="nom" label2="description"/>
+                                        <UpdateButton index={index} onUpdate={handleUpdateCategory}
+                                        label1="nom"
+                                        label2="description" 
+                                        currentVal1={category.name}
+                                        currentVal2={category.description} />
+                                        
                                         <DeleteButton index={index} onDelete={handleDeleteCategory} />
                                     </td>
                                 </tr>
