@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommitteeController;
+use App\Http\Controllers\CommitteeOfferController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ScanController;
@@ -21,11 +22,6 @@ Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
 
 // Cette seule ligne génère automatiquement toutes les routes classiques (index, show, store, update, destroy)
 Route::apiResource('roles', RoleController::class);
-    // Route::get('/roles', [RoleController::class, 'index']);
-    // Route::get('/roles/{role}', [RoleController::class, 'show']);
-    // Route::post('/roles', [RoleController::class, 'store']);
-    // Route::put('/roles/{role}', [RoleController::class, 'update']);
-    // Route::delete('/roles/{role}', [RoleController::class, 'destroy']);
 
 Route::apiResource('offers', OfferController::class);
 
@@ -34,4 +30,6 @@ Route::apiResource('users', UserController::class);
 Route::apiResource('committees', CommitteeController::class);
 
 Route::apiResource('scans', ScanController::class);
+
+Route::apiResource('committee-offers', CommitteeOfferController::class);
 

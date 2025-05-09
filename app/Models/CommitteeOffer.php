@@ -10,7 +10,9 @@ class CommitteeOffer extends Model
     use HasFactory;
 
     // Laravel vas gérer assigned_at comme une vrai date
-    protected $dates = ['assigned_at'];
+    protected $casts = [
+        'assigned_at' => 'datetime',
+    ];
     
     // Pour pas que Laravel essaye de les insérers automatiquement.
     public $timestamps = false;
