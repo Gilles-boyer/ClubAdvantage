@@ -1,18 +1,17 @@
 import Icon from "@mdi/react";
 import { mdilPencil } from '@mdi/light-js';
 
-export default function UpdateButton({ index, onUpdate, label1='', label2='', currentVal1='', currentVal2='' }) {
+export default function UpdateButton({ index, onUpdate, currentName='', currentDesc='' }) {
   const handleClick = () => {
-    const updateVal1 = prompt(`Modifier le ${label1} :`, currentVal1);
-    const updateVal2 = prompt(`Modifier le ${label2} :`, currentVal2);
+    const categoryToEdit = {
+      index,
+      name: currentName,
+      description: currentDesc
+    }
 
-    if (updateVal1 === null || updateVal2 === null) return;
-
-    const finalVal1 = updateVal1.trim() !== "" ? updateVal1 : currentVal1;
-    const finalVal2 = updateVal2.trim() !== "" ? updateVal2 : currentVal2;
-
-    onUpdate(index, finalVal1, finalVal2)
-      .catch((err) => console.error("Erreur UPDATE :", err));
+    onUpdate(categoryToEdit)
+    console.log('Valeurs par défaut :', currentName, currentDesc);
+    
   };
 
   return (

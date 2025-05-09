@@ -1,29 +1,44 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Icon from '@mdi/react';
 import { mdilAlert } from '@mdi/light-js';
 import { Textbox } from "react-inputs-validation";
 
-export default function AddCategory({ onAddCategory }) {
+export default function AddCategory({ onAddCategory, onEditUpCat }) {
   const [name, setName] = useState("")
   const [errorName, setErrorName] = useState("")
   const [description, setDescription] = useState("")
   const [errorDesc, setErrorDesc] = useState("")
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const newCategory = {
-      name: name,
-      description: description,
-      is_active: false,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
+  useEffect(() => {
+    console.log(onEditUpCat);
+    
+    if (onEditUpCat) {
+      setName(onEditUpCat.name);
+      setDescription(onEditUpCat.description);
     }
-    onAddCategory(newCategory);
-    reset();
-    setErrorName('')
-    setErrorDesc('')
+  }, [onEditUpCat]);
+
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+  const newCategory = {
+    name,
+    description,
+    is_active: false,
+    updated_at: new Date().toISOString(),
   };
+
+  if (onEditUpCat?.index !== undefined) {
+    newCategory.index = onEditUpCat.index;
+  } else {
+    newCategory.created_at = new Date().toISOString();
+  }
+
+  onAddCategory(newCategory);
+  reset();
+  setErrorName('');
+  setErrorDesc('');
+};
 
   const reset = () => {
     setName('')

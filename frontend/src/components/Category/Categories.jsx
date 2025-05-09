@@ -6,6 +6,7 @@ import UpdateButton from "../UpdateButton";
 
 export default function Categories() {
     const [categories, setCategories] = useState([]);
+    const [toUpCategory, setToUpCategory] = useState(null);
 
     useEffect(() => {
         displayCategories()
@@ -14,26 +15,35 @@ export default function Categories() {
     }, []); //!Récupère les données dans la BDD - READ
 
     const handleAddCategory = (newCategory) => {
-        setCategories((prev) => [...prev, newCategory]);
-    }; //! Fonction pour ajouter une catégorie, créer un nouveau tableau avec l'ajout de l'objet newCategory - CREATE
-
-    const handleUpdateCategory = (index, updateCatName, updateCatDesc) => {
-        setCategories((prev) => {
-            const copy = [...prev];
-            copy[index].name = updateCatName;
-            copy[index].description = updateCatDesc;
-            copy[index].updated_at = new Date().toISOString();
-            return copy;
-        }); //! Fonction pour modifier une catégorie - UPDATE
+        if (newCategory.index !== undefined) {
+            setCategories((prev) => {
+                const copy = [...prev];
+                copy[newCategory.index] = {
+                    ...copy[newCategory.index],
+                    name: newCategory.name,
+                    description: newCategory.description,
+                    is_active: false,
+                    updated_at: new Date().toISOString(),
+                };
+                return copy;
+            });
+            setToUpCategory(null);
+        } else {
+            setCategories((prev) => [...prev, newCategory]);
+        }
     };
+    //! Fonction pour ajouter une catégorie, créer un nouveau tableau avec l'ajout de l'objet newCategory - CREATE
+    const handleToUpCat = (categoryToEdit) => {
+        setToUpCategory(categoryToEdit)
+    }
 
-    const handleStatus = (index) => { //!Fonction pour modifier le statut de chaque catégorie (toggle)
+    const handleStatus = (index) => { //! Fonction pour modifier le statut de chaque catégorie (toggle)
         setCategories(prev => {
             const copy = [...prev];
 
             copy[index] = {
                 ...copy[index],
-                status: !copy[index].status,
+                is_active: !copy[index].is_active,
             };
             return copy;
         });
@@ -49,7 +59,7 @@ export default function Categories() {
 
     return (
         <>
-            <AddCategory onAddCategory={handleAddCategory} />
+            <AddCategory onAddCategory={handleAddCategory} onEditUpCat={toUpCategory} />
             <h1 className='text-center w-150 mt-6 mx-auto font-poppins'>Catégories existantes</h1>
             <section className="relative overflow-x-auto pt-10 mx-auto">
                 <div className='w-fit mx-auto'>
@@ -64,7 +74,7 @@ export default function Categories() {
                         </thead>
                         <tbody>
                             {categories.map((category, index) => (
-                                <tr key={category.id} className="border-b border-dark text-black">
+                                <tr key={index} className="border-b border-dark text-black">
                                     <th className="px-6 py-4 font-medium text-dark whitespace-nowrap bg-primary">
                                         {category.name}
                                     </th>
@@ -79,11 +89,9 @@ export default function Categories() {
                                         </button>
                                     </td>
                                     <td className="px-6 py-4 bg-primary">
-                                        <UpdateButton index={index} onUpdate={handleUpdateCategory}
-                                        label1="nom"
-                                        label2="description" 
-                                        currentVal1={category.name}
-                                        currentVal2={category.description} />
+                                        <UpdateButton index={index} onUpdate={handleToUpCat}
+                                            currentName={category.name}
+                                            currentDesc={category.description} />
 
                                         <DeleteButton index={index} onDelete={handleDeleteCategory} />
                                     </td>
