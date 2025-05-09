@@ -75,7 +75,7 @@ export default function Categories() {
                                             className={`py-1 px-3 rounded text-white w-20 ${category.is_active ? "bg-green-600" : "bg-red-600"
                                                 }`}
                                         >
-                                            {category.status ? "Actif" : "Inactif"}
+                                            {category.is_active ? "Actif" : "Inactif"}
                                         </button>
                                     </td>
                                     <td className="px-6 py-4 bg-primary">
