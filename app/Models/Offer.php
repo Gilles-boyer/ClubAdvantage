@@ -29,4 +29,12 @@ class Offer extends Model
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
+
+    // Relation : Les comités liés à cette offre
+    public function committees()
+    {
+        return $this->belongsToMany(Committee::class, 'committee_offers')
+                    ->withPivot('assigned_at'); // Pour inclure la date d'affectation dans les résultats
+    }
 }
+

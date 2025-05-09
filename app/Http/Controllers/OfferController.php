@@ -11,14 +11,14 @@ class OfferController extends Controller
     // Liste toutes les offres
     public function index() 
     {
-        $offers = Offer::with(['creator', 'category'])->get();
+        $offers = Offer::with(['creator', 'category', 'committees'])->get();
         return OfferResource::collection($offers);
     }
     
     // Affiche une offre en détail
     public function show(Offer $offer) 
     {
-        $offer->load(['creator', 'category']);
+        $offer->load(['creator', 'category', 'committees']);
         return new OfferResource($offer);
     }
 
