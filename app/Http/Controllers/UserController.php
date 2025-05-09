@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     public function index(Request $request) {
-        $query = User::with(['role', 'committee']);
+        $query = User::with(['role', 'committee', 'createdCommittees', 'committeeMembers']);
     
         if ($request->has('role')) {
             $query->where('role_id', $request->role);
@@ -39,7 +39,7 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        $user->load(['role', 'committee']);
+        $user->load(['role', 'committee', 'createdCommittees', 'committeeMembers']);
     
         $message = null;
         if (in_array($user->role_id, [3, 4]) && empty($user->committee_id)) {
