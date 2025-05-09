@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommitteeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\UserController;
@@ -34,3 +35,12 @@ Route::get('/users/{user}', [UserController::class, 'show']);
 Route::post('/users', [UserController::class, 'store']);
 Route::put('/users/{user}', [UserController::class, 'update']);
 Route::delete('/users/{user}', [UserController::class, 'destroy']);
+
+
+// Cette seule ligne génère automatiquement toutes les routes REST classiques (index, show, store, update, destroy)
+Route::apiResource('committees', CommitteeController::class);
+    // Route::get('/committees', [CommitteeController::class, 'index']);
+    // Route::get('/committees/{committee}', [CommitteeController::class, 'show']);
+    // Route::post('/committees', [CommitteeController::class, 'store']);
+    // Route::put('/committees/{committee}', [CommitteeController::class, 'update']);
+    // Route::delete('/committees/{committee}', [CommitteeController::class, 'destroy']);
