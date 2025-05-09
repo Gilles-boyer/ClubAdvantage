@@ -20,12 +20,12 @@ export default function InputCheck(nom, description) {
       };
     }
 
-    if (nom.length > 255){
-        return {
-            hasError: true,
-            type: 'invalidNameLenght',
-        }
-    }
+    // if (nom.length > 255){
+    //     return {
+    //         hasError: true,
+    //         type: 'invalidNameLenght',
+    //     }
+    // }
     if (description.length > 1000){
         return {
             hasError: true,

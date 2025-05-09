@@ -1,24 +1,16 @@
 import { useState } from "react";
-import InputCheck from "./InputCheck";
 import Icon from '@mdi/react';
 import { mdilAlert } from '@mdi/light-js';
+import { Textbox } from "react-inputs-validation";
 
 export default function AddCategory({ onAddCategory }) {
   const [name, setName] = useState("")
+  const [errorName, setErrorName] = useState("")
   const [description, setDescription] = useState("")
-  const [error, setError] = useState("")
+  const [errorDesc, setErrorDesc] = useState("")
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const check = InputCheck(name, description);
-    if (check.hasError) {
-      setError(check);
-      return;
-    }
-
-    setError({ hasError: false, type: "" });
-
 
     const newCategory = {
       name: name,
@@ -29,6 +21,8 @@ export default function AddCategory({ onAddCategory }) {
     }
     onAddCategory(newCategory);
     reset();
+    setErrorName('')
+    setErrorDesc('')
   };
 
   const reset = () => {
@@ -41,36 +35,64 @@ export default function AddCategory({ onAddCategory }) {
       <h3 className="font-poppins text-center py-1 text-lg font-medium bg-primary">Ajouter une catégorie</h3>
       <div className="p-5 mx-auto rounded">
         <form onSubmit={handleSubmit} className="space-x-2 mt-4 text-center">
-          <input
-            type="text"
-            name="nameCategory"
-            placeholder="Nom de la catégorie"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="border rounded p-2 bg-gray"
-          />
-          <input
-            type="text"
-            name="descriptionCategory"
-            placeholder="Description de la catégorie"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="border rounded p-2 bg-gray"
-          />
+          <div className="form-control mb-4">
+            <label htmlFor="nameCategory" className="label">
+              <span className="label-text">Nom de la catégorie</span>
+            </label>
+            <Textbox
+              id="nameCategory"
+              name="nameCategory"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              onBlur={(e) => {
+                if (!e.target.value.trim()) {
+                  return setErrorName('Le Nom ne peut pas être vide !')
+                }
+                if (e.target.value.length > 255) {
+                  return setErrorName('Le Nom ne doit pas dépasser 255 caractères !')
+                }
+                if (typeof (e.target.value) !== "string") {
+                  return setErrorName('Le Nom doit être une chaine de caractères !')
+                }
+              }}
+
+              className="input input-bordered w-full"
+              placeholder="Nom de la catégorie"
+            />
+            {errorName && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorName}</p></div>}
+          </div>
+
+          <div className="form-control mb-4">
+            <label htmlFor="nameCategory" className="label">
+              <span className="label-text">Description de la catégorie</span>
+            </label>
+            <Textbox
+              id="descriptionCategory"
+              name="descriptionCategory"
+              type="text"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              onBlur={(e) => {
+                if (!e.target.value.trim()) {
+                  return setErrorDesc('La Description ne peut pas être vide !')
+                }
+                if (e.target.value.length > 1000) {
+                  return setErrorDesc('La Description ne doit pas dépasser 1000 caractères !')
+                }
+                if (typeof (e.target.value) !== "string") {
+                  return setErrorDesc('La Description doit être une chaine de caractères !')
+                }
+              }}
+
+              className="input input-bordered w-full"
+              placeholder="Nom de la catégorie"
+            />
+            {errorDesc && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorDesc}</p></div>}
+          </div>
           <button type="submit" className="btn btn-neutral">
             Valider
           </button>
-          {error.hasError && (
-            <div className="alert alert-error mt-3 w-100 mx-auto">
-              <Icon path={mdilAlert} size={1} />
-              <span className="text-sm">
-                {error.type === "empty" && "Les champs ne doivent pas être vides"}
-                {error.type === "notString" && "Les champs ne doivent pas contenir de chifres"}
-                {error.type === "invalidNameLenght" && "Le nom ne doit pas dépassé 255 caractères"}
-                {error.type === "invalidDescLenght" && "La description ne doit pas dépassée 1000 caractères"}
-              </span>
-            </div>
-          )}
         </form>
       </div>
     </div>
