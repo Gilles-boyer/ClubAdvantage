@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommitteeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\OfferController;
+use App\Http\Controllers\ScanController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -31,3 +32,6 @@ Route::apiResource('offers', OfferController::class);
 Route::apiResource('users', UserController::class);
 
 Route::apiResource('committees', CommitteeController::class);
+
+Route::apiResource('scans', ScanController::class);
+
