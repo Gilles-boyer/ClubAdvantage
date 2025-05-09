@@ -6,23 +6,38 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class OfferRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
+    // Autorisation de la requête
+    public function authorize(): bool 
     {
-        return false;
+        return true; // Mettre false si on veux restreindre l'accès
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
-    public function rules(): array
+    // Règles de validation pour créer ou mettre à jour une offre
+    public function rules(): array 
     {
         return [
-            //
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'is_active' => 'required|boolean',
+            'created_by' => 'nullable|exists:users,id',
+            'category_id' => 'nullable|exists:categories,id',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'title.required' => 'Le titre de l’offre est obligatoire.',
+            'title.string' => 'Le titre doit être une chaîne de caractères.',
+            'title.max' => 'Le titre ne doit pas dépasser 255 caractères.',
+
+            'description.string' => 'La description doit être une chaîne de caractères.',
+
+            'is_active.required' => 'Le champ "actif" est obligatoire.',
+            'is_active.boolean' => 'Le champ "actif" doit être de type booléen.',
+
+            'created_by.exists' => 'L’utilisateur spécifié n’existe pas.',
+            'category_id.exists' => 'La catégorie spécifiée n’existe pas.',
         ];
     }
 }

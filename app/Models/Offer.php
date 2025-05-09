@@ -17,4 +17,16 @@ class Offer extends Model
         'created_by',
         'category_id',
     ];
+
+    // Relation : L'utilisateur qui a créé l'offre
+    public function creator() 
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    // Relation : La catégorie associée à l'offre
+    public function category() 
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
 }

@@ -11,6 +11,7 @@ class CommitteeOffer extends Model
 
     // Laravel vas gérer assigned_at comme une vrai date
     protected $dates = ['assigned_at'];
+    
     // Pour pas que Laravel essaye de les insérers automatiquement.
     public $timestamps = false;
 }
