@@ -40,11 +40,15 @@ export default function AddCategory({ onAddCategory }) {
               <span className="label-text">Nom de la catégorie</span>
             </label>
             <Textbox
-              id="nameCategory"
-              name="nameCategory"
-              type="text"
+              attributesInput={{
+                id: "nameCategory",
+                name: "nameCategory",
+                type: "text",
+                className: "input input-bordered w-full",
+                placeholder: "Nom de la catégorie"
+              }}
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(value) => setName(value)}
               onBlur={(e) => {
                 if (!e.target.value.trim()) {
                   return setErrorName('Le Nom ne peut pas être vide !')
@@ -56,9 +60,6 @@ export default function AddCategory({ onAddCategory }) {
                   return setErrorName('Le Nom doit être une chaine de caractères !')
                 }
               }}
-
-              className="input input-bordered w-full"
-              placeholder="Nom de la catégorie"
             />
             {errorName && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorName}</p></div>}
           </div>
@@ -68,11 +69,15 @@ export default function AddCategory({ onAddCategory }) {
               <span className="label-text">Description de la catégorie</span>
             </label>
             <Textbox
-              id="descriptionCategory"
-              name="descriptionCategory"
-              type="text"
+              attributesInput={{
+                id: "descriptionCategory",
+                name: "descriptionCategory",
+                type: "text",
+                className: "input input-bordered w-full",
+                placeholder: "Description de la catégorie"
+              }}
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={(value) => setDescription(value)}
               onBlur={(e) => {
                 if (!e.target.value.trim()) {
                   return setErrorDesc('La Description ne peut pas être vide !')
@@ -84,9 +89,6 @@ export default function AddCategory({ onAddCategory }) {
                   return setErrorDesc('La Description doit être une chaine de caractères !')
                 }
               }}
-
-              className="input input-bordered w-full"
-              placeholder="Nom de la catégorie"
             />
             {errorDesc && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorDesc}</p></div>}
           </div>

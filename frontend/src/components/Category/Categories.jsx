@@ -27,7 +27,7 @@ export default function Categories() {
         }); //! Fonction pour modifier une catégorie - UPDATE
     };
 
-    const handleStatus = (index) => {
+    const handleStatus = (index) => { //!Fonction pour modifier le statut de chaque catégorie (toggle)
         setCategories(prev => {
             const copy = [...prev];
 
