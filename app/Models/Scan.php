@@ -22,14 +22,12 @@ class Scan extends Model
     ];
 
     // Le membre du staff qui a scanné.
-    public function scannedBy(): BelongsTo
-    {
+    public function scannedBy(): BelongsTo {
         return $this->belongsTo(User::class, 'scanned_by');
     }
 
     // Le membre CSE qui s'est fait scanner.
-    public function scannedUser(): BelongsTo
-    {
+    public function scannedUser(): BelongsTo {
         return $this->belongsTo(User::class, 'user_id');
     }
 }

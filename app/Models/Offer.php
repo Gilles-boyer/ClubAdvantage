@@ -19,22 +19,18 @@ class Offer extends Model
     ];
 
     // Relation : L'utilisateur qui a créé l'offre
-    public function creator() 
-    {
+    public function creator() {
         return $this->belongsTo(User::class, 'created_by');
     }
 
     // Relation : La catégorie associée à l'offre
-    public function category() 
-    {
+    public function category() {
         return $this->belongsTo(Category::class, 'category_id');
     }
 
     // Relation : Les comités liés à cette offre
-    public function committees()
-    {
+    public function committees() {
         return $this->belongsToMany(Committee::class, 'committee_offers')
                     ->withPivot('assigned_at'); // Pour inclure la date d'affectation dans les résultats
     }
 }
-

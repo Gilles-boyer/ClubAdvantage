@@ -6,13 +6,10 @@ use App\Models\Category;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class CategorySeeder extends Seeder
-{
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
-    {
+class CategorySeeder extends Seeder {
+
+    public function run(): void {
+
         // Génération de 5 category aléatoires
         // Category::factory()->count(5)->create();
         
@@ -26,10 +23,10 @@ class CategorySeeder extends Seeder
         // $names est un tableau de plusieurs noms et foreach parcoure chaque nom et l'enregistre individuellement
         Foreach ($names as $name) {
             Category::create([
-                'name' => $name,
+                'name'        => $name,
                 'description' => fake()->sentence(),
                 // Le % du Seeder Prend le dessus sur celui de Factory
-                'is_active' => fake()->boolean(70),
+                'is_active'   => fake()->boolean(70),
             ]);
         }
     }

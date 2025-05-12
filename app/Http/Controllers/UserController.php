@@ -37,8 +37,7 @@ class UserController extends Controller
         return response()->json(['data' => $usersData]);
     }
 
-    public function show(User $user)
-    {
+    public function show(User $user) {
         $user->load(['role', 'committee', 'createdCommittees', 'committeeMembers']);
     
         $message = null;
@@ -100,8 +99,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function destroy(User $user)
-    {
+    public function destroy(User $user) {
         if ($user->id === 1 || strtolower($user->name) === 'admin') {
             return response()->json(['message' => 'Cet utilisateur ne peut pas être supprimé.'], 403);
         }

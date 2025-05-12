@@ -17,22 +17,22 @@ class CategoryRequest extends FormRequest
         $categoryId = $this->route('category')?->id;
 
         return [
-            'name' => 'required|string|max:255|unique:categories,name,' . $categoryId,
+            'name'        => 'required|string|max:255|unique:categories,name,' . $categoryId,
             'description' => 'nullable|string|max:1000',
-            'is_active' => 'boolean',
+            'is_active'   => 'boolean',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'name.required' => 'Le nom est obligatoire.',
-            'name.string' => 'Le nom doit être une chaîne de caractères.',
-            'name.max' => 'Le nom ne doit pas dépasser 255 caractères.',
-            'name.unique' => 'Ce nom de catégorie est déjà utilisé.',
+            'name.required'      => 'Le nom est obligatoire.',
+            'name.string'        => 'Le nom doit être une chaîne de caractères.',
+            'name.max'           => 'Le nom ne doit pas dépasser 255 caractères.',
+            'name.unique'        => 'Ce nom de catégorie est déjà utilisé.',
             'description.string' => 'La description doit être une chaîne de caractères.',
-            'description.max' => 'La description ne doit pas dépasser 1000 caractères.',
-            'is_active.boolean' => 'Le statut actif doit être vrai ou faux.',
+            'description.max'    => 'La description ne doit pas dépasser 1000 caractères.',
+            'is_active.boolean'  => 'Le statut actif doit être vrai ou faux.',
         ];
     }
 }

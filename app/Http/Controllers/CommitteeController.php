@@ -7,8 +7,7 @@ use App\Http\Requests\CommitteeRequest;
 use App\Http\Resources\CommitteeResource;
 use Illuminate\Http\Request;
 
-class CommitteeController extends Controller
-{
+class CommitteeController extends Controller {
     public function index() {
         return CommitteeResource::collection(Committee::all());
     }

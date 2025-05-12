@@ -8,13 +8,9 @@ use App\Models\Committee;
 use App\Models\Offer;
 use Illuminate\Database\Seeder;
 
-class CommitteeOfferSeeder extends Seeder
-{
-    /**
-     * Run the database seeds.
-    */
-  public function run(): void 
-    {
+class CommitteeOfferSeeder extends Seeder {
+
+  public function run(): void {
         $committees = Committee::all();
         $offers = Offer::all();
 

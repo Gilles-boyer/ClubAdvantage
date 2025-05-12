@@ -6,8 +6,7 @@ use App\Models\CommitteeOffer;
 use App\Http\Requests\CommitteeOfferRequest;
 use App\Http\Resources\CommitteeOfferResource;
 
-class CommitteeOfferController extends Controller
-{
+class CommitteeOfferController extends Controller {
     public function index() {
         return CommitteeOfferResource::collection(CommitteeOffer::all());
     }

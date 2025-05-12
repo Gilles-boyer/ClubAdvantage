@@ -19,8 +19,7 @@ class Committee extends Model
     ];
     
     // Récupére tous les utilisateurs (membres ou CSE) liés à ce comité
-    public function users() 
-    {
+    public function users() {
         return $this->hasMany(User::class);
     }
 }

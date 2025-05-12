@@ -15,8 +15,8 @@ class CommitteeOfferRequest extends FormRequest
     {
         return [
             'committee_id' => 'required|exists:committees,id',
-            'offer_id' => 'required|exists:offers,id',
-            'assigned_at' => 'nullable|date',
+            'offer_id'     => 'required|exists:offers,id',
+            'assigned_at'  => 'nullable|date',
         ];
     }
 
@@ -24,12 +24,12 @@ class CommitteeOfferRequest extends FormRequest
     {
         return [
             'committee_id.required' => 'Le comité est obligatoire.',
-            'committee_id.exists' => 'Ce comité n’existe pas.',
+            'committee_id.exists'   => 'Ce comité n’existe pas.',
 
-            'offer_id.required' => 'L’offre est obligatoire.',
-            'offer_id.exists' => 'Cette offre n’existe pas.',
+            'offer_id.required'     => 'L’offre est obligatoire.',
+            'offer_id.exists'       => 'Cette offre n’existe pas.',
             
-            'assigned_at.date' => 'La date d’assignation doit être une date valide.',
+            'assigned_at.date'      => 'La date d’assignation doit être une date valide.',
         ];
     }
 }

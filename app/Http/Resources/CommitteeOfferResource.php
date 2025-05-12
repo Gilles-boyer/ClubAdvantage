@@ -10,8 +10,8 @@ class CommitteeOfferResource extends JsonResource
     {
         return [
             'committee_id' => $this->committee_id,
-            'offer_id' => $this->offer_id,
-            'assigned_at' => $this->assigned_at?->format('Y-m-d H:i'),
+            'offer_id'     => $this->offer_id,
+            'assigned_at'  => $this->assigned_at?->format('Y-m-d H:i'),
         ];
     }
 }

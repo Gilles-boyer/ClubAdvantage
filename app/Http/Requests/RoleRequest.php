@@ -24,9 +24,9 @@ class RoleRequest extends FormRequest
     {
         return [
             'name.required' => 'Le nom du rôle est obligatoire.',
-            'name.string' => 'Le nom doit être une chaîne de caractères.',
-            'name.max' => 'Le nom ne doit pas dépasser 100 caractères.',
-            'name.unique' => 'Ce nom de rôle existe déjà.',
+            'name.string'   => 'Le nom doit être une chaîne de caractères.',
+            'name.max'      => 'Le nom ne doit pas dépasser 100 caractères.',
+            'name.unique'   => 'Ce nom de rôle existe déjà.',
         ];
     }
 }

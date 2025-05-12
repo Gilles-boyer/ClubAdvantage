@@ -6,23 +6,19 @@ use App\Models\Committee;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
-class UserSeeder extends Seeder
-{
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
-    {
+class UserSeeder extends Seeder {
+
+    public function run(): void {
         // Crée un seul admin 
         User::factory()->create([
-            'role_id' => 1,
+            'role_id'      => 1,
             'committee_id' => null,
-            'email' => 'admin@example.com', // Pour test ou login (Plus-tard)
+            'email'        => 'admin@example.com', // Pour test ou login (Plus-tard)
         ]);
 
         // Crée 3 staffs 
         User::factory(3)->create([
-            'role_id' => 2,
+            'role_id'      => 2,
             'committee_id' => null,
         ]);
 
@@ -38,6 +34,7 @@ class UserSeeder extends Seeder
             
     }
 }
+
 /**-----------------Des éventuelle ESSAIS----------------
  * 
  //     // === Affectation des committees ===
