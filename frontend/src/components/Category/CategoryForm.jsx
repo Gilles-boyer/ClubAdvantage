@@ -10,8 +10,6 @@ export default function AddCategory({ onAddCategory, onEditUpCat }) {
   const [errorDesc, setErrorDesc] = useState("")
 
   useEffect(() => {
-    console.log(onEditUpCat);
-    
     if (onEditUpCat) {
       setName(onEditUpCat.name);
       setDescription(onEditUpCat.description);
@@ -25,11 +23,12 @@ const handleSubmit = (e) => {
     name,
     description,
     is_active: false,
+    created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   };
 
-  if (onEditUpCat?.index !== undefined) {
-    newCategory.index = onEditUpCat.index;
+  if (onEditUpCat?.id !== undefined) {
+    newCategory.id = onEditUpCat.id;
   } else {
     newCategory.created_at = new Date().toISOString();
   }
@@ -80,7 +79,7 @@ const handleSubmit = (e) => {
           </div>
 
           <div className="form-control mb-4">
-            <label htmlFor="nameCategory" className="label">
+            <label htmlFor="descriptionCategory" className="label">
               <span className="label-text">Description de la catégorie</span>
             </label>
             <Textbox

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { displayCategories } from "../../services/categoryService";
 import AddCategory from "./CategoryForm";
 import DeleteButton from "../DeleteButton";
 import UpdateButton from "../UpdateButton";
+import { createCategory, updateCategory, deleteCategory, displayCategories	 } from "../../services/categoryService";
 
 export default function Categories() {
     const [categories, setCategories] = useState([]);
@@ -10,52 +10,55 @@ export default function Categories() {
 
     useEffect(() => {
         displayCategories()
-            .then(res => setCategories(res.data))
+            .then(res => setCategories(res.data.data))
             .catch(err => console.error("Erreur GET :", err));
-    }, []); //!Récupère les données dans la BDD - READ
+    }, []);
 
-    const handleAddCategory = (newCategory) => {
-        if (newCategory.index !== undefined) {
-            setCategories((prev) => {
-                const copy = [...prev];
-                copy[newCategory.index] = {
-                    ...copy[newCategory.index],
-                    name: newCategory.name,
-                    description: newCategory.description,
-                    is_active: false,
-                    updated_at: new Date().toISOString(),
-                };
-                return copy;
-            });
+    const handleAddCategory = async (newCategory) => {
+        try {
+            if (newCategory.id) {
+                const res = await updateCategory(newCategory.id, newCategory);
+                setCategories((prev) =>
+                    prev.map((cat) => (cat.id === newCategory.id ? res.data.data : cat))
+                );
+            } else {
+                const res = await createCategory(newCategory);
+                setCategories((prev) => [...prev, res.data.data]);
+            }
             setToUpCategory(null);
-        } else {
-            setCategories((prev) => [...prev, newCategory]);
+        } catch (err) {
+            console.error("Erreur CREATE/UPDATE :", err);
         }
     };
-    //! Fonction pour ajouter une catégorie, créer un nouveau tableau avec l'ajout de l'objet newCategory - CREATE
+
     const handleToUpCat = (categoryToEdit) => {
         setToUpCategory(categoryToEdit)
     }
 
-    const handleStatus = (index) => { //! Fonction pour modifier le statut de chaque catégorie (toggle)
-        setCategories(prev => {
-            const copy = [...prev];
+    const handleStatus = async (id) => {
+        const category = categories.find(cat => cat.id === id);
+        if (!category) return;
 
-            copy[index] = {
-                ...copy[index],
-                is_active: !copy[index].is_active,
-            };
-            return copy;
-        });
+        try {
+            const updated = { ...category, is_active: !category.is_active };
+            const res = await updateCategory(id, updated);
+            setCategories((prev) =>
+                prev.map((category) => (category.id === id ? res.data.data : category))
+            );
+        } catch (err) {
+            console.error("Erreur toggle statut :", err);
+        }
     };
 
-    const handleDeleteCategory = (index) => {
-        setCategories((prev) => {
-            const copy = [...prev];
-            copy.splice(index, 1);
-            return copy;
-        });
-    }; //! Fonction pour supprimer une catégorie - DELETE
+
+    const handleDeleteCategory = async (id) => {
+        try {
+            await deleteCategory(id);
+            setCategories((prev) => prev.filter((cat) => cat.id !== id));
+        } catch (err) {
+            console.error("Erreur on DELETE :", err);
+        }
+    };
 
     return (
         <>
@@ -73,15 +76,15 @@ export default function Categories() {
                             </tr>
                         </thead>
                         <tbody>
-                            {categories.map((category, index) => (
-                                <tr key={index} className="border-b border-dark text-black">
+                            {categories.map((category) => (
+                                <tr key={category.id} className="border-b border-dark text-black">
                                     <th className="px-6 py-4 font-medium text-dark whitespace-nowrap bg-primary">
                                         {category.name}
                                     </th>
                                     <td className="px-6 py-4">{category.description}</td>
                                     <td className="px-6 py-4">
                                         <button
-                                            onClick={() => handleStatus(index)}
+                                            onClick={() => handleStatus(category.id)}
                                             className={`py-1 px-3 rounded text-white w-20 ${category.is_active ? "bg-green-600" : "bg-red-600"
                                                 }`}
                                         >
@@ -89,11 +92,9 @@ export default function Categories() {
                                         </button>
                                     </td>
                                     <td className="px-6 py-4 bg-primary">
-                                        <UpdateButton index={index} onUpdate={handleToUpCat}
-                                            currentName={category.name}
-                                            currentDesc={category.description} />
+                                        <UpdateButton item={category} onUpdate={handleToUpCat}/>
 
-                                        <DeleteButton index={index} onDelete={handleDeleteCategory} />
+                                        <DeleteButton id={category.id} onDelete={handleDeleteCategory} />
                                     </td>
                                 </tr>
                             ))}

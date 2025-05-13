@@ -1,17 +1,10 @@
 import Icon from "@mdi/react";
 import { mdilPencil } from '@mdi/light-js';
 
-export default function UpdateButton({ index, onUpdate, currentName='', currentDesc='' }) {
+export default function UpdateButton({ item, onUpdate }) {
   const handleClick = () => {
-    const categoryToEdit = {
-      index,
-      name: currentName,
-      description: currentDesc
-    }
-
-    onUpdate(categoryToEdit)
-    console.log('Valeurs par défaut :', currentName, currentDesc);
     
+    onUpdate(item);
   };
 
   return (
