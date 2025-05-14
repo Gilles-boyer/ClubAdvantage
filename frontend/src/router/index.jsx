@@ -6,7 +6,7 @@ import Layout from '../components/Layout';
 import { ErrorBoundary } from '../components/ErrorBoundary';
 import Offer from '../views/Offer';
 import Scan from '../views/Scan';
-import Committees from '../views/Committee';
+import Committee from '../views/Committee';
 
 const router = createBrowserRouter([
   {
@@ -18,7 +18,7 @@ const router = createBrowserRouter([
       { path: '/profil', element: <Profil /> },
       { path: '/login', element: <Login /> },
       { path: '/offers', element: <Offer /> },
-      { path: '/committees', element: <Committees /> },
+      { path: '/committees', element: <Committee /> },
       { path: '/scan', element: <Scan /> },
     ]
   }

@@ -106,6 +106,7 @@ export default function AddOffers({ onAddOffer, onEditOffer }) {
             />
             {errorTitle && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorTitle}</p></div>}
           </div>
+          
           <div className="form-control mb-4">
             <label htmlFor="descriptionOffer" className="label">
               <span className="label-text">Description de l'offre</span>
