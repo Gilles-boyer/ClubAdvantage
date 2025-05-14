@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Icon from '@mdi/react';
 import { mdilAlert } from '@mdi/light-js';
-import { Textbox } from "react-inputs-validation";
+import { Textarea, Textbox } from "react-inputs-validation";
 
 export default function AddCategory({ onAddCategory, onEditUpCat }) {
   const [name, setName] = useState("")
@@ -82,7 +82,7 @@ const handleSubmit = (e) => {
             <label htmlFor="descriptionCategory" className="label">
               <span className="label-text">Description de la catégorie</span>
             </label>
-            <Textbox
+            <Textarea
               attributesInput={{
                 id: "descriptionCategory",
                 name: "descriptionCategory",

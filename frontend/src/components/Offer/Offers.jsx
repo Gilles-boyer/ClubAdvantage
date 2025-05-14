@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { displayOffers } from "../../services/offersService";
+import { displayOffers, createOffer, updateOffer, deleteOffer, } from "../../services/offersService";
 import DeleteButton from "../DeleteButton";
 import AddOffers from "./OffersForm";
 import UpdateOfferBtn from "./UpdateButtonOffer";
+import UpdateButton from "../UpdateButton";
 
 export default function Offers() {
     const [offers, setOffers] = useState([]);
@@ -10,87 +11,98 @@ export default function Offers() {
 
     useEffect(() => {
         displayOffers()
-            .then(res => setOffers(res.data))
+            .then(res => setOffers(res.data.data))
             .catch(err => console.error("Erreur GET :", err));
     }, []);
 
-    const handleAddOffer = (newOffer) => {
-               if (newOffer.index !== undefined) {
-            setOffers((prev) => {
-                const copy = [...prev];
-                
-                copy[newOffer.index] = {
-                    ...copy[newOffer.index],
-                    name: newOffer.name,
-                    description: newOffer.description,
-                    is_active: false,
-                    updated_at: new Date().toISOString(),
-                };
-                return copy;
-            });
-            setToUpOffer(null);
-        } else {
-            setOffers((prev) => [...prev, newOffer]);
-        }
-    }
-
-    const handleStatus = (index) => {
-        setOffers(prev => {
-            const copy = [...prev];
-            copy[index] = {
-                ...copy[index],
-                is_active: !copy[index].is_active,
-
+    const handleAddOffer = async (newOffer) => {
+        try {
+            if (newOffer.id) {
+                const res = await updateOffer(newOffer.id, newOffer);
+                setOffers((prev) =>
+                    prev.map((cat) => (cat.id === newOffer.id ? res.data.data : cat))
+                );
+            } else {
+                const res = await createOffer(newOffer);
+                setOffers((prev) => [...prev, res.data.data]);
             }
-            return copy;
-        });
+            setToUpOffer(null);
+        } catch (err) {
+            console.error("Erreur CREATE/UPDATE Category:", err);
+        }
     };
+
+    const handleStatus = async (id) => {
+        const offer = offers.find(of => of.id === id);
+        if (!offer) return;
+
+        try {
+            const updated = { ...offer, is_active: !offer.is_active };
+            const res = await updateOffer(id, updated);
+            setOffers((prev) =>
+                prev.map((offer) => (offer.id === id ? res.data.data : offer))
+            );
+        } catch (err) {
+            console.error("Erreur toggle statut :", err);
+        }
+    };
+
+
     const handleToUpOffer = (offerToEdit) => {
         setToUpOffer(offerToEdit)
     }
 
-    const handleDelete = (index) => {
-        setOffers((prev) => {
-            const copy = [...prev];
-            copy.splice(index, 1);
-            return copy;
-        });
+    const handleDelete = async (id) => {
+        try {
+            await deleteOffer(id);
+            setOffers((prev) => prev.filter((offer) => offer.id !== id));
+        } catch (err) {
+            console.error("Erreur on DELETE :", err);
+        }
     };
     return (
         <>
-            <AddOffers onAddOffer={handleAddOffer} onEditOffer={toUpOffer}/>
-            <section className="relative overflow-x-auto pt-10 mx-auto">
-                <div className='w-fit mx-auto'>
-                    <table className="text-sm text-left rtl:text-right">
-                        <thead className="text-xs uppercase bg-secondary">
+            <AddOffers onAddOffer={handleAddOffer} onEditOffer={toUpOffer} />
+
+            <h1 className="text-center text-2xl font-semibold mt-8 font-poppins">
+                Offres Existantes
+            </h1>
+            <section className="pt-10 max-w-5xl mx-auto">
+                <div className="overflow-x-auto border rounded-xl bg-white">
+                    <table className="min-w-full text-left text-sm text-gray-700">
+                        <thead className="bg-primary text-gray-700 uppercase tracking-wider">
                             <tr>
-                                <th className="px-6 py-3">Titre</th>
-                                <th className="px-6 py-3">Description</th>
-                                <th className="px-6 py-3">Statut</th>
-                                <th className="px-6 py-3">Action</th>
+                                <th className="px-4 py-2">Titre</th>
+                                <th className="px-4 py-2">Catégorie</th>
+                                <th className="px-4 py-2">Description</th>
+                                <th className="px-4 py-2">Statut</th>
+                                <th className="px-4 py-2">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {offers.map((offer, index) => (
-                                <tr key={index} className="border-b border-dark text-black">
-                                    <th className="px-6 py-4 font-medium text-dark whitespace-nowrap bg-primary">
-                                        {offer.title}
-                                    </th>
-                                    <td className="px-6 py-4">{offer.description}</td>
-                                    <td className="px-6 py-4">
+                            {offers.map((offer) => (
+                                <tr
+                                    key={offer.id}
+                                    className="border-t hover:bg-gray-50 transition-colors"
+                                >
+                                    <td className="px-4 py-2 font-medium bg-accent">{offer.title}</td>
+                                    <td className="px-4 py-2">{offer.category_name}</td>
+                                    <td className="px-4 py-2">{offer.description}</td>
+                                    <td className="px-4 py-2">
                                         <button
-                                            onClick={() => handleStatus(index)}
-                                            className={`py-1 px-3 rounded text-white w-20 ${offer.is_active ? "bg-green-600" : "bg-red-600"
+                                            onClick={() => handleStatus(offer.id)}
+                                            className={`text-white rounded px-3 py-1 text-sm ${offer.is_active ? "bg-green-500" : "bg-red-500"
                                                 }`}
                                         >
                                             {offer.is_active ? "Actif" : "Inactif"}
                                         </button>
                                     </td>
-                                    <td className="px-6 py-4 bg-primary">
-                                        <UpdateOfferBtn index={index} onUpdate={handleToUpOffer}
-                                            currentTitle={offer.title}
-                                            currentDesc={offer.description} />
-                                        <DeleteButton index={index} onDelete={handleDelete} />
+                                    <td className="px-4 py-2 space-x-2 bg-accent">
+                                        <UpdateButton
+                                            item={offer}
+                                            onUpdate={handleToUpOffer}
+                                        />
+                                        <DeleteButton id={offer.id} onDelete={handleDelete} />
                                     </td>
                                 </tr>
                             ))}
@@ -99,5 +111,6 @@ export default function Offers() {
                 </div>
             </section>
         </>
+
     );
 }
