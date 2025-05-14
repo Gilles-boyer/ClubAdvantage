@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { displayOffers, createOffer, updateOffer, deleteOffer, } from "../../services/offersService";
 import DeleteButton from "../DeleteButton";
 import AddOffers from "./OffersForm";
-import UpdateOfferBtn from "./UpdateButtonOffer";
 import UpdateButton from "../UpdateButton";
 
 export default function Offers() {

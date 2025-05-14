@@ -47,7 +47,7 @@ export default function AddOffers({ onAddOffer, onEditOffer }) {
       description,
       is_active: false,
       category_id: selectedCat,
-      category_name: categoryObject.name,
+      category_name: categoryObject?.name || '',
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString()
     };
