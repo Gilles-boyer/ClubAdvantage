@@ -15,6 +15,7 @@ class OfferFactory extends Factory {
             'is_active' => fake()->boolean(),
             'created_by' => Category::inRandomOrder()->first(), 
             'category_id' => \App\Models\Category::inRandomOrder()->first()?->id,
+            // 'category_name' => \App\Models\Category::inRandomOrder()->first()?->name,
         ];
     }
 }

@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->boolean('is_active');
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('category_id')->nullable();
+            // $table->string('category_name')->nullable();
             $table->timestamps();
             $table->softDeletes();
             

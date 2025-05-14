@@ -16,6 +16,7 @@ class Offer extends Model
         'is_active',
         'created_by',
         'category_id',
+        // 'category_name',
     ];
 
     // Relation : L'utilisateur qui a créé l'offre
