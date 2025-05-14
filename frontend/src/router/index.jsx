@@ -7,6 +7,7 @@ import { ErrorBoundary } from '../components/ErrorBoundary';
 import Offer from '../views/Offer';
 import Scan from '../views/Scan';
 import Committees from '../views/Committee';
+import Roles from '../views/Roles';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,7 @@ const router = createBrowserRouter([
       { path: '/offers', element: <Offer /> },
       { path: '/committees', element: <Committees /> },
       { path: '/scan', element: <Scan /> },
+      { path: '/roles', element: <Roles />},
     ]
   }
 ]);
