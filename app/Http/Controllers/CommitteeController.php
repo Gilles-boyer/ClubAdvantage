@@ -16,8 +16,16 @@ class CommitteeController extends Controller {
         return new CommitteeResource($committee);
     }
 
-    public function store(CommitteeRequest $request) {
-        $committee = Committee::create($request->validated());
+    public function store(CommitteeRequest $request)
+    {
+        $data = $request->validated();
+            // Si l'utilisateur n'a pas rempli la date de fin de contrat,
+            // on la génère automatiquement en fin d'année à partir de la date de début.
+        if (empty($data['agreement_end_date']) && !empty($data['agreement_start_date'])) {
+            $start = \Carbon\Carbon::parse($data['agreement_start_date']);
+            $data['agreement_end_date'] = $start->copy()->endOfYear();
+        }
+        $committee = Committee::create($data);
         return new CommitteeResource($committee);
     }
 
