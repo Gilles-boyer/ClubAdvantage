@@ -43,20 +43,6 @@ export default function Roles() {
         setToUpdateRole(roleToEdit);
     };
 
-    // Active/désactive le rôle (changement de statut)
-    const handleStatus = async (id) => {
-        const role = roles.find((r) => r.id === id);
-        if (!role) return;
-        const updated = { ...role, is_active: !role.is_active }; // .... 
-        try {
-            const res = await updateRole(id, updated);
-            setRoles((prev) =>
-                prev.map((r) => (r.id === id ? res.data.data : r))
-            );
-        } catch (err) {
-        console.error("Erreur statut :", err);
-        }
-    };
 
     // Supprime un rôle
     const handleDelete = async (id) => {
@@ -74,11 +60,10 @@ export default function Roles() {
 
             <h1 className="text-center text-2xl font-semibold my-4">Liste des rôles</h1>
             <section className="overflow-x-auto">
-                <table className="table w-full text-left shadow-md">
+                <table className="table w-150 rounded shadow-md">
                     <thead>
                         <tr className="bg-primary text-white uppercase">
                             <th className="px-4 py-2">Nom</th>
-                            <th className="px-4 py-2">Statut</th>
                             <th className="px-4 py-2">Actions</th>
                         </tr>
                     </thead>
@@ -86,16 +71,6 @@ export default function Roles() {
                         {roles.map((role) => (
                         <tr key={role.id} className="hover:bg-gray-100">
                             <td className="px-4 py-2">{role.name}</td>
-                            <td className="px-4 py-2">
-                                <button
-                                    onClick={() => handleStatus(role.id)}
-                                    className={`text-white px-3 py-1 text-sm ${
-                                    role.is_active ? "bg-green-500" : "bg-red-500"
-                                    }`}
-                                >
-                                    {role.is_active ? "Actif" : "Inactif"}
-                                </button>
-                            </td>
                             <td className="px-4 py-2 flex gap-2">
                             <UpdateButton item={role} onUpdate={handleToUpdate} />
                             <DeleteButton id={role.id} onDelete={handleDelete} />

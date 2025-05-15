@@ -36,7 +36,6 @@ export default function RolesForm({ onAddRole, onEditRole }) {
 
         const newRole = {
             name: roleName,
-            is_active: true,
         };
 
         if (onEditRole?.id !== undefined) {

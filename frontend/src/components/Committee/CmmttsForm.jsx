@@ -5,10 +5,9 @@ import { Textbox } from "react-inputs-validation";
 
 export default function AddCommittee({ onAddCommittee, onEditUpCmmtt }) {
     const [name, setName] = useState("")
-    const [autoRenew, setAutoRenew] = useState()
-    const [errorName, setErrorName] = useState(false)
+    const [autoRenew, setAutoRenew] = useState(null)
+    const [errorName, setErrorName] = useState(null)
     // const [errorRenew, setErrorRenew] = useState("")
-    const [selectedValue, setSelectedValue] = useState("")
 
     useEffect(() => {
         if (onEditUpCmmtt) {
@@ -19,11 +18,18 @@ export default function AddCommittee({ onAddCommittee, onEditUpCmmtt }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // console.log('valeur de selectedCmmtt :', selectedCmmtt);
+        console.log('valeur de auto_renew :', autoRenew);
+
+        const startDate = new Date();
+        const year = startDate.getFullYear();
+        const endDate = new Date(`${year}-12-31`);
 
         const newCommittee = {
             name: name,
             auto_renew: autoRenew,
+            agreement_start_date: startDate.toISOString().slice(0, 10),
+            agreement_end_date: endDate.toISOString().slice(0, 10),
+            created_by: 1,
         };
 
         if (onEditUpCmmtt?.id !== undefined) {
@@ -39,7 +45,7 @@ export default function AddCommittee({ onAddCommittee, onEditUpCmmtt }) {
 
     const reset = () => {
         setName('')
-        setAutoRenew(false)
+        setAutoRenew(null)
     };
 
     return (
@@ -81,16 +87,16 @@ export default function AddCommittee({ onAddCommittee, onEditUpCmmtt }) {
                             <span className="label-text">Renouvellement automatique du CSE</span>
                         </label>
                         <select
-                            value={selectedValue}
+                            value={autoRenew === null ? "" : String(autoRenew)}
                             onChange={(e) => {
-                                const value = e.target.value === "true";
-                                setAutoRenew(value);
-                                setSelectedValue(e.target.value);
+                                setAutoRenew(parseInt(e.target.value, 10))
+
                             }}
+                            className="select w-full"
                         >
-                            <option value="">Choisir une valeur</option>
-                            <option value="true">OUI</option>
-                            <option value="false">NON</option>
+                            <option>Choisir une valeur</option>
+                            <option value="1">OUI</option>
+                            <option value="0">NON</option>
                         </select>
                         {/* {errorRenew && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorRenew}</p></div>} */}
                     </div>
