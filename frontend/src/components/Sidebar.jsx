@@ -11,6 +11,7 @@ const Sidebar = () => {
             <NavLinkButton to="/committees" label="CSE" />
             <NavLinkButton to="/offers" label="Offres" />
             <NavLinkButton to="/scan" label="Scan" />
+            <NavLinkButton to="/roles" label="Roles" />
         </ul>
       </nav>
     </>

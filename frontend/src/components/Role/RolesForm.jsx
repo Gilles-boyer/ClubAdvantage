@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Icon from "@mdi/react";
-import { mdiAlert } from "@mdi/js";
+import { mdilAlert } from "@mdi/light-js";
 import { Textbox } from "react-inputs-validation";
 
 export default function RolesForm({ onAddRole, onEditRole }) {
@@ -78,7 +78,7 @@ export default function RolesForm({ onAddRole, onEditRole }) {
                 />
                 {error && (
                 <div className="text-red-700 flex justify-center mt-2">
-                    <Icon path={mdiAlert} size={1} />
+                    <Icon path={mdilAlert} size={1} />
                     <p className="ps-2 text-sm">{error}</p>
                 </div>
                 )}
