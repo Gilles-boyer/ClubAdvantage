@@ -11,8 +11,7 @@ export default function Users() {
     useEffect(() => {
         displayUsers()
             .then(res => setUsers(res.data.data))
-            .catch(err => console.log('Error CREATE/UPDATE :', err)
-            )
+            .catch(err => console.log('Error CREATE/UPDATE :', err))
     })
 
 
@@ -55,7 +54,7 @@ export default function Users() {
     };
     return (
         <>
-            <UsersForm onAddUser={handleAdd} onEditUser={updtUser}/>
+            <UsersForm onAddUser={handleAdd} onEditUser={updtUser} />
             <h1 className="text-center text-2xl font-semibold mt-8 font-poppins">
                 Utilisateurs Existants
             </h1>
@@ -66,9 +65,7 @@ export default function Users() {
                             <tr>
                                 <th className="px-4 py-2">Nom</th>
                                 <th className="px-4 py-2">Prénom</th>
-                                <th className="px-4 py-2">CSE</th>
                                 <th className="px-4 py-2">Email</th>
-                                <th className="px-4 py-2">Mot de passe</th>
                                 <th className="px-4 py-2">Statut</th>
                                 <th className="px-4 py-2">Action</th>
                             </tr>
@@ -81,9 +78,7 @@ export default function Users() {
                                 >
                                     <td className="px-4 py-2 font-medium bg-accent">{user.last_name}</td>
                                     <td className="px-4 py-2">{user.first_name}</td>
-                                    <td className="px-4 py-2">{user.committee_name}</td>
                                     <td className="px-4 py-2">{user.email}</td>
-                                    <td className="px-4 py-2">{user.password}</td>
                                     <td className="px-4 py-2">{user.status}</td>
                                     <td className="px-4 py-2 space-x-2 bg-accent">
                                         <UpdateButton
