@@ -29,6 +29,7 @@ export default function AddCommittee({ onAddCommittee, onEditUpCmmtt }) {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        console.log('La date de début est de type :', typeof(startDate));
         const currentStartDate = onEditUpCmmtt //? En mode édition, si une date existe elle est récupérée, sinon elle est créer à la date du jour
             ? startDate.toISOString().slice(0, 10)
             : new Date().toISOString().slice(0, 10);
@@ -37,7 +38,7 @@ export default function AddCommittee({ onAddCommittee, onEditUpCmmtt }) {
             ? endDate.toISOString().slice(0, 10)
             : `${new Date().getFullYear()}-12-31`;
 
-
+        
         const newCommittee = {
             name,
             auto_renew: autoRenew,
