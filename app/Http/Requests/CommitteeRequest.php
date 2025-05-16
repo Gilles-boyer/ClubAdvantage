@@ -14,8 +14,6 @@ class CommitteeRequest extends FormRequest
         return [
             'name'                 => 'required|string|max:255',
             'auto_renew'           => 'required|boolean',
-            'agreement_start_date' => 'date',
-            'agreement_end_date'   => 'required|date|after_or_equal:agreement_start_date',
             'created_by'           => 'nullable|exists:users,id',
         ];
     }
