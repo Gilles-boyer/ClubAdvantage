@@ -65,7 +65,7 @@ export default function AddCommittee({ onAddCommittee, onEditUpCmmtt }) {
         setStartDateErr('');
         setEndDateErr('');
     };
-    const [toggle, setToggle] = useState(true)
+    const [toggle, setToggle] = useState(false)
     return (
         <>
             <div className='flex w-fit'>
