@@ -14,17 +14,25 @@ class UserController extends Controller
         $query = User::with(['role', 'committee', 'createdCommittees', 'committeeMembers']);
     
         if ($request->has('role')) {
-            $query->where('role_id', $request->role);
+            $query->where('role_name', $request->role);
         }
     
-        $users = $query->get();
+        $users = $query->orderBy('last_name')->orderBy('first_name')->pagination(15);
     
+        return UserResource::collection($users)->additional([
+            'meta' => [
+                'total' => $users->total(),
+                'current_page' => $users->currentPage(),
+                'last_page' => $users->lastPage(),
+            ]
+            ]);
+            
         // Ajout de notices
         $usersData = $users->map(function ($user) {
             $userResource = new UserResource($user);
     
             $notice = null;
-            if (in_array($user->role_id, [3, 4]) && empty($user->committee_id)) {
+            if (in_array($user->role_name, ['cse_member', 'cse_admin']) && empty($user->committee_id)) {
                 $notice = 'Ce membre ou CSE n’est pas rattaché à un comité.';
             }
     
@@ -41,7 +49,7 @@ class UserController extends Controller
         $user->load(['role', 'committee', 'createdCommittees', 'committeeMembers']);
     
         $message = null;
-        if (in_array($user->role_id, [3, 4]) && empty($user->committee_id)) {
+        if (in_array($user->role_name, ['cse_member', 'cse_admin']) && empty($user->committee_id)) {
             $message = 'Attention : ce membre ou CSE n’est pas rattaché à un comité.';
         }
     
@@ -55,12 +63,9 @@ class UserController extends Controller
         $data = $request->validated();
         $data['password'] = Hash::make($data['password']);
         $user = User::create($data);
-        $message = null;
 
-        if (
-            in_array($data['role_id'], [3, 4]) &&
-            empty($data['committee_id'])
-        ) {
+        $message = null;
+        if ( in_array($data['role_name'], ['cse_member', 'cse_admin']) && empty($data['committee_id'])) {
             $message = 'Attention : ce rôle nécessite un comité. Veuillez l’ajouter plus tard.';
         }
 
@@ -71,7 +76,7 @@ class UserController extends Controller
     }
 
     public function update(UserRequest $request, User $user) {
-        if ($user->id === 1 || strtolower($user->name) === 'admin') {
+        if ($user->role_name === 'super_admin') {
             return response()->json(['message' => 'Cet utilisateur ne peut pas être modifié.'], 403);
         }
 
@@ -86,10 +91,10 @@ class UserController extends Controller
         $user->update($data);
 
         $message = null;
-        $roleId = $data['role_id'] ?? $user->role_id;
+        $roleName = $data['role_name'] ?? $user->role_name;
         $committeeId = $data['committee_id'] ?? $user->committee_id;
 
-        if (in_array($roleId, [3, 4]) && empty($committeeId)) {
+        if (in_array($roleName, ['cse_member', 'cse_admin']) && empty($committeeId)) {
             $message = 'Attention : ce rôle nécessite uncomité. Veuillez l’ajouter plus tard.';
         }
 
@@ -100,7 +105,7 @@ class UserController extends Controller
     }
 
     public function destroy(User $user) {
-        if ($user->id === 1 || strtolower($user->name) === 'admin') {
+        if ($user->role_name === 'super_admin') {
             return response()->json(['message' => 'Cet utilisateur ne peut pas être supprimé.'], 403);
         }
 

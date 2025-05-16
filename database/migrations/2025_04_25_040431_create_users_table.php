@@ -18,14 +18,13 @@ return new class extends Migration {
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('terms_accepted_at')->nullable();
             $table->enum('status', ['active', 'inactive', 'expired']);
-            $table->unsignedBigInteger('role_id');
+            $table->string('role_name');
             $table->unsignedBigInteger('committee_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('committee_id')->references('id')->on('committees');
-            $table->foreign('role_id')->references('id')->on('roles');
-
+            $table->foreign('role_name')->references('name')->on('roles')->onDelete('restrict');
         });
     }
 

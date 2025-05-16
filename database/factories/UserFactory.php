@@ -15,7 +15,7 @@ class UserFactory extends Factory {
         static $adminCreated = false;
 
         // Crée un seul super admin et plusieur role entre 2 et 4 
-        $roleId = $adminCreated ? fake()->numberBetween(2, 4) : 1;
+        $roleName = $adminCreated ? 'super_admin' : fake()->randomElement(['staff', 'cse_admin', 'cse_member']);
         $adminCreated = true;
 
         // crée aléatoirement des dates sur les deux derniers années
@@ -30,10 +30,10 @@ class UserFactory extends Factory {
             'remember_token'    => Str::random(10),
             'terms_accepted_at' => now(),
             'status'            => fake()->randomElement(['active','inactive','expired']),
-            'role_id'           => $roleId,
+            'role_name'           => $roleName,
 
-            // Associe un comiité uniquement aux rôle 3(membre) et 4(CSE)
-            'committee_id' => in_array($roleId, [3, 4]) ? \App\Models\Committee::inRandomOrder()->first()?->id : null,
+            // Associe un comité uniquement aux rôle 3(membre) et 4(CSE)
+            'committee_id' => in_array($roleName, ['cse_admin', 'cse_member']) ? \App\Models\Committee::inRandomOrder()->first()?->id : null,
             'created_at'   => $createdAt,
 
             // Met à jour la date de fin de l'année d'inscription 

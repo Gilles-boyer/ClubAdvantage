@@ -11,27 +11,26 @@ class UserSeeder extends Seeder {
     public function run(): void {
         // Crée un seul admin 
         User::factory()->create([
-            'role_id'      => 1,
+            'role_name'    => 'super_admin',
             'committee_id' => null,
             'email'        => 'admin@example.com', // Pour test ou login (Plus-tard)
         ]);
 
         // Crée 3 staffs 
         User::factory(3)->create([
-            'role_id'      => 2,
+            'role_name'    => 'staff',
             'committee_id' => null,
-        ]);
-
-        // Crée 10 membres
-        User::factory(10)->create([
-            'role_id' => 3,
         ]);
 
         // Crée 5 CSE
         User::factory(5)->create([
-            'role_id' => 4,
+            'role_name' => 'cse_member',
         ]);
             
+        // Crée 10 membres
+        User::factory(10)->create([
+            'role_name'  => 'cse_admin',
+        ]);
     }
 }
 

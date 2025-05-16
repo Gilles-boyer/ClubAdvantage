@@ -16,10 +16,10 @@ class UserRequest extends FormRequest
         $userId = $this->route('user')?->id;
 
         return [
-            'name'         => 'required|string|max:255',
+            'full_name'    => 'required|string|max:255',
             'email'        => 'required|email|unique:users,email,' . $userId,
             'password'     => $this->isMethod('post') ? 'required|string|min:6' : 'nullable|string|min:6',
-            'role_id'      => 'required|exists:roles,id',
+            'role_name'    => 'required|exists:roles,name',
             'committee_id' => 'nullable|exists:committees,id',
         ];
     }
@@ -36,10 +36,18 @@ class UserRequest extends FormRequest
 
             'password.min'        => 'Le mot de passe doit contenir au moins 6 caractères.',
 
-            'role_id.required'    => 'Un rôle doit être sélectionné.',
-            'role_id.exists'      => 'Le rôle sélectionné n’existe pas.',
+            'role_name.required'    => 'Un rôle doit être sélectionné.',
+            'role_name.exists'      => 'Le rôle sélectionné n’existe pas.',
 
             'committee_id.exists' => 'Le comité sélectionné est invalide.',
         ];
     }
 }
+
+// use Illuminate\Validation\Rule;
+
+// 'email' => [
+//     'required',
+//     'email',
+//     Rule::unique('users')->ignore($userId),
+// ],

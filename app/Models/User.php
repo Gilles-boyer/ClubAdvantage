@@ -19,7 +19,7 @@ class User extends Model
         'email_verified_at',
         'terms_accepted_at',
         'status',
-        'role_id',
+        'role_name',
         'committee_id',
         'remember_token',
     ];
@@ -33,7 +33,7 @@ class User extends Model
 
     // Relation : récupère le rôle associé à cet utilisateur (admin, staff, membre, CSE)
     public function role() {
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(Role::class, 'role_name', 'name');
     }
 
     // Relation : récupère le comité auquel cet utilisateur est rattaché (membre ou CSE)
