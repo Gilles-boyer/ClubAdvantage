@@ -47,13 +47,13 @@ export default function Committees() {
 
     return (
         <>
-            <AddCommittee onAddCommittee={handleAddCmmtt} onEditUpCmmtt={toUpCmmtts} />
 
             <h1 className="text-center text-2xl font-semibold mt-8 mb-4 font-poppins">
                 CSE existants
             </h1>
 
-            <section className="pt-6 max-w-5xl mx-auto">
+            <section className=" max-w-5xl mx-auto">
+                <AddCommittee onAddCommittee={handleAddCmmtt} onEditUpCmmtt={toUpCmmtts} />
                 <div className="overflow-x-auto border rounded-xl bg-white shadow-sm">
                     <table className="min-w-full text-left text-sm text-gray-700">
                         <thead className="bg-primary text-gray-700 uppercase tracking-wider">
@@ -74,7 +74,7 @@ export default function Committees() {
                                     <td className="px-4 py-2 font-medium bg-accent">{committee.name}</td>
                                     <td className="px-4 py-2 font-medium text-center">
                                         <span className={`text-white rounded px-3 py-1 text-sm ${committee.auto_renew ? "bg-green-500" : "bg-red-500"
-                                                }`}
+                                            }`}
                                         >
                                             {committee.auto_renew ? "Actif" : "Inactif"}{committee.auto_renew}</span></td>
                                     <td className="px-4 py-2 font-medium text-center">{committee.agreement_start_date}</td>
