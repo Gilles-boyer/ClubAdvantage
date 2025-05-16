@@ -88,13 +88,12 @@ export default function Offers() {
                                     <td className="px-4 py-2">{offer.category_name}</td>
                                     <td className="px-4 py-2">{offer.description}</td>
                                     <td className="px-4 py-2">
-                                        <button
-                                            onClick={() => handleStatus(offer.id)}
-                                            className={`text-white rounded px-3 py-1 text-sm ${offer.is_active ? "bg-green-500" : "bg-red-500"
-                                                }`}
-                                        >
-                                            {offer.is_active ? "Actif" : "Inactif"}
-                                        </button>
+                                        <input
+                                            type="checkbox"
+                                            checked={offer.is_active}
+                                            onChange={() => handleStatus(offer.id)}
+                                            className="toggle border-orange-500 bg-orange-400 checked:border-blue-600 checked:bg-blue-500"
+                                        />
                                     </td>
                                     <td className="px-4 py-2 space-x-2 bg-accent">
                                         <UpdateButton

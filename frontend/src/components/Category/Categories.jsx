@@ -88,13 +88,14 @@ export default function Categories() {
                                     <td className="px-4 py-2 font-medium bg-accent">{category.name}</td>
                                     <td className="px-4 py-2">{category.description}</td>
                                     <td className="px-4 py-2">
-                                        <button
-                                            onClick={() => handleStatus(category.id)}
-                                            className={`text-white rounded px-3 py-1 text-sm ${category.is_active ? "bg-green-500" : "bg-red-500"
-                                                }`}
-                                        >
-                                            {category.is_active ? "Actif" : "Inactif"}
-                                        </button>
+                                        <input
+                                            type="checkbox"
+                                            checked={category.is_active}
+                                            onChange={() => handleStatus(category.id)}
+                                            className="toggle border-orange-500 bg-orange-400 checked:border-blue-600 checked:bg-blue-500"
+                                        />
+
+
                                     </td>
                                     <td className="px-4 py-2 space-x-2 bg-accent">
                                         <UpdateButton item={category} onUpdate={handleToUpCat} />
