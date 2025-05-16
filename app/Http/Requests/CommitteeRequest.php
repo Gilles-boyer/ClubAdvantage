@@ -13,8 +13,6 @@ class CommitteeRequest extends FormRequest
     public function rules(): array {
         return [
             'name'                 => 'required|string|max:255',
-            'agreement_start_date' => 'date',
-            'agreement_end_date'   => 'required|date|after_or_equal:agreement_start_date',
             'auto_renew'           => 'required|boolean',
             'created_by'           => 'nullable|exists:users,id',
         ];
