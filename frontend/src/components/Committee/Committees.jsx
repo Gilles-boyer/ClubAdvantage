@@ -73,10 +73,11 @@ export default function Committees() {
                                 >
                                     <td className="px-4 py-2 font-medium bg-accent">{committee.name}</td>
                                     <td className="px-4 py-2 font-medium text-center">
-                                        <span className={`text-white rounded px-3 py-1 text-sm ${committee.auto_renew ? "bg-green-500" : "bg-red-500"
-                                            }`}
-                                        >
-                                            {committee.auto_renew ? "Actif" : "Inactif"}{committee.auto_renew}</span></td>
+                                        <input type="checkbox"
+                                            checked={committee.auto_renew}
+                                            readOnly
+                                            className="toggle border-orange-500 bg-orange-400 checked:border-indigo-600 checked:bg-indigo-500"
+                                        /></td>
                                     <td className="px-4 py-2 font-medium text-center">{committee.agreement_start_date}</td>
                                     <td className="px-4 py-2 font-medium text-center">{committee.agreement_end_date}</td>
                                     <td className="px-4 py-2 space-x-2 bg-accent">
