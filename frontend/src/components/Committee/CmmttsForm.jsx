@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import Icon from '@mdi/react';
 import { mdilAlert } from '@mdi/light-js';
 import { Textbox } from "react-inputs-validation";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css"
 
 export default function AddCommittee({ onAddCommittee, onEditUpCmmtt }) {
     const [name, setName] = useState("");
@@ -10,14 +12,15 @@ export default function AddCommittee({ onAddCommittee, onEditUpCmmtt }) {
     const [startDate, setStartDate] = useState(""); // édition uniquement
     const [endDate, setEndDate] = useState("");     // édition uniquement
     const [startDateErr, setStartDateErr] = useState("")
-    const [endDateErr, setEndDateErr] = useState("")
+    const [endDateErr, setEndDateErr] = useState()
+    // const [newDate, setNewDate ]= useState(new Date().toISOString().slice(0, 10))
 
     useEffect(() => {
         if (onEditUpCmmtt) {
             setName(onEditUpCmmtt.name || "");
             setAutoRenew(onEditUpCmmtt.auto_renew);
             setStartDate(onEditUpCmmtt.agreement_start_date?.slice(0, 10) || "");
-            setEndDate(onEditUpCmmtt.agreement_end_date?.slice(0, 10) || "");
+            setEndDate(onEditUpCmmtt.agreement_end_date || "");
         } else {
             reset();
         }
@@ -27,12 +30,13 @@ export default function AddCommittee({ onAddCommittee, onEditUpCmmtt }) {
         e.preventDefault();
 
         const currentStartDate = onEditUpCmmtt //? En mode édition, si une date existe elle est récupérée, sinon elle est créer à la date du jour
-            ? startDate
+            ? startDate.toISOString().slice(0, 10)
             : new Date().toISOString().slice(0, 10);
 
         const currentEndDate = onEditUpCmmtt //? En mode édition, si une date existe elle est récupérée, sinon elle est créer à la date du 31/12 de l'année en cours
-            ? endDate
+            ? endDate.toISOString().slice(0, 10)
             : `${new Date().getFullYear()}-12-31`;
+
 
         const newCommittee = {
             name,
@@ -59,8 +63,9 @@ export default function AddCommittee({ onAddCommittee, onEditUpCmmtt }) {
         setStartDate('');
         setEndDate('');
         setStartDateErr('');
+        setEndDateErr('');
     };
-    const [toggle, setToggle] = useState(false)
+    const [toggle, setToggle] = useState(true)
     return (
         <>
             <div className='flex w-fit'>
@@ -122,56 +127,35 @@ export default function AddCommittee({ onAddCommittee, onEditUpCmmtt }) {
 
                             {onEditUpCmmtt && (
                                 <>
-                                    <div className="form-control mb-4">
+                                    <div className="form-control mb-4 flex flex-col">
                                         <label className="label">
-                                            <span className="label-text">Date de début de l'accord</span>
+                                            <span className="label-text text-center w-full">Date de début de l'accord</span>
                                         </label>
-                                        <Textbox
-                                            attributesInput={{
-                                                id: "startDate",
-                                                name: "startDate",
-                                                type: "text",
-                                                placeholder: "AAAA-MM-JJ",
-                                                className: "input input-bordered w-full"
-                                            }}
-                                            value={startDate}
-                                            onChange={(value) => setStartDate(value)}
+
+                                        <DatePicker
+                                            selected={startDate}
+                                            onChange={(date) => setStartDate(date)}
+                                            className="input w-100 text-center"
                                             onBlur={(e) => {
-                                                const regexDate = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
-                                                if (!regexDate.test(e.target.value)) {
-                                                    return setStartDateErr("le format de date est invalide !");
-                                                } else {
-                                                    return setStartDateErr("")
-                                                }
-                                            }}
-                                        />
-                                        {startDateErr && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{startDateErr}</p></div>}
+                                                if (new Date(e.target.value) > new Date(endDate)) return setStartDateErr('La date de début ne peut pas être supérieure à la date de fin !');
+                                            }} />
+
+                                        {startDateErr && <div className="flex w-100 mx-auto justify-center text-red-700 mt-3"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{startDateErr}</p></div>}
                                     </div>
 
-                                    <div className="form-control mb-4">
+                                    <div className="form-control mb-4 flex flex-col">
                                         <label className="label">
-                                            <span className="label-text">Date de fin de l'accord</span>
+                                            <span className="label-text text-center w-full me-6">Date de fin de l'accord</span>
                                         </label>
-                                        <Textbox
-                                            attributesInput={{
-                                                id: "endDate",
-                                                name: "endDate",
-                                                type: "text",
-                                                placeholder: "AAAA-MM-JJ",
-                                                className: "input input-bordered w-full"
-                                            }}
-                                            value={endDate}
-                                            onChange={(value) => setEndDate(value)}
+
+                                        <DatePicker
+                                            selected={endDate}
+                                            onChange={(date) => setEndDate(date)}
+                                            className="input w-100 text-center" 
                                             onBlur={(e) => {
-                                                const regexDate = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
-                                                if (!regexDate.test(e.target.value)) {
-                                                    return setEndDateErr("le format de date est invalide !");
-                                                } else {
-                                                    return setEndDateErr("")
-                                                }
-                                            }}
-                                        />
-                                        {endDateErr && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{endDateErr}</p></div>}
+                                                if (new Date(e.target.value) < new Date(startDate)) return setEndDateErr('La date de fin ne peut pas être inférieur à la date de début !');
+                                            }} />
+                                        {endDateErr && <div className="flex w-100 mx-auto justify-center text-red-700 mt-3"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{endDateErr}</p></div>}
                                     </div>
                                 </>
                             )}
