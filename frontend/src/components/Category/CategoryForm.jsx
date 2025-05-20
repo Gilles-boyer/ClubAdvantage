@@ -16,32 +16,35 @@ export default function AddCategory({ onAddCategory, onEditUpCat }) {
     }
   }, [onEditUpCat]);
 
-const handleSubmit = (e) => {
-  e.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('formuaire envoyé');
+    
 
-  const newCategory = {
-    name,
-    description,
-    is_active: false,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
+    const newCategory = {
+      name,
+      description,
+      is_active: false,
+      updated_at: new Date().toISOString(),
+    };
+
+    if (onEditUpCat?.id !== undefined) {
+      newCategory.id = onEditUpCat.id;
+    } else {
+      newCategory.created_at = new Date().toISOString();
+    }
+    console.log({name, description});
+    
+    onAddCategory(newCategory);
+    reset();
+
   };
-
-  if (onEditUpCat?.id !== undefined) {
-    newCategory.id = onEditUpCat.id;
-  } else {
-    newCategory.created_at = new Date().toISOString();
-  }
-
-  onAddCategory(newCategory);
-  reset();
-  setErrorName('');
-  setErrorDesc('');
-};
 
   const reset = () => {
     setName('')
     setDescription('')
+    setErrorName('');
+    setErrorDesc('');
   };
 
   return (
