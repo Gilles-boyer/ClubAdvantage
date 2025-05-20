@@ -7,6 +7,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ScanController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,3 +34,19 @@ Route::apiResource('scans', ScanController::class);
 
 Route::apiResource('committee-offers', CommitteeOfferController::class);
 
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/me', [UserController::class, 'me']);
+});
+
+
+Route::post('/login', function (Request $request) {
+    $credentials = $request->only('email', 'password');
+
+    if (!Auth::attempt($credentials)) {
+        return response()->json(['message' => 'Identifiants invalides'], 401);
+    }
+
+    // $request->session()->regenerate();
+
+    return response()->json(['message' => 'Connecté avec succès']);
+});

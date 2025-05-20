@@ -8,8 +8,8 @@ use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
-{
+class UserController extends Controller {
+
     public function index(Request $request) {
         $query = User::with(['role', 'committee', 'createdCommittees', 'committeeMembers']);
     
@@ -17,7 +17,7 @@ class UserController extends Controller
             $query->where('role_name', $request->role);
         }
     
-        $users = $query->orderBy('last_name')->orderBy('first_name')->pagination(15);
+        $users = $query->orderBy('last_name')->orderBy('first_name')->paginate(15);
     
         return UserResource::collection($users)->additional([
             'meta' => [
@@ -25,7 +25,7 @@ class UserController extends Controller
                 'current_page' => $users->currentPage(),
                 'last_page' => $users->lastPage(),
             ]
-            ]);
+        ]);
             
         // Ajout de notices
         $usersData = $users->map(function ($user) {
@@ -95,7 +95,7 @@ class UserController extends Controller
         $committeeId = $data['committee_id'] ?? $user->committee_id;
 
         if (in_array($roleName, ['cse_member', 'cse_admin']) && empty($committeeId)) {
-            $message = 'Attention : ce rôle nécessite uncomité. Veuillez l’ajouter plus tard.';
+            $message = 'Attention : ce rôle nécessite un comité. Veuillez l’ajouter plus tard.';
         }
 
         return response()->json([
@@ -112,4 +112,12 @@ class UserController extends Controller
         $user->delete();
         return response()->json(['message' => 'Utilisateur supprimé avec succès.']);
     }
+                
+    //Profil
+    public function me(Request $request) {
+        return response()->json([
+            'data' => new UserResource($request->user())
+        ]);
+    }
+
 }
