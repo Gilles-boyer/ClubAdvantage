@@ -18,9 +18,7 @@ export default function AddCategory({ onAddCategory, onEditUpCat }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('formuaire envoyé');
     
-
     const newCategory = {
       name,
       description,

@@ -20,15 +20,14 @@ export const fetchCategories = createAsyncThunk(
   }
 );
 
-export const addCategory = createAsyncThunk(
+export const addCategoryThunk = createAsyncThunk(
   'categories/addCategory',
   async (categoryData, thunkAPI) => {
-    console.log('Données envoyées', categoryData);
     try {
       const response = await createCategory(categoryData);
       return response.data.data;
     } catch (err) {
-      console.error("❌ Axios Error:", err.response?.data || err.message);
+      console.error("Axios Error:", err.response?.data || err.message);
       return thunkAPI.rejectWithValue(err.response?.data || err.message);
 
     }
@@ -80,7 +79,7 @@ export const categorySlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      .addCase(addCategory.fulfilled, (state, action) => {
+      .addCase(addCategoryThunk.fulfilled, (state, action) => {
         state.list.push(action.payload);
       })
       .addCase(updateCategoryThunk.fulfilled, (state, action) => {
