@@ -16,6 +16,8 @@ export default function AddCategory({ onAddCategory, onEditUpCat }) {
     }
   }, [onEditUpCat]);
 
+  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     

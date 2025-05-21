@@ -2,7 +2,11 @@ import { useState, useEffect } from "react";
 import Icon from '@mdi/react';
 import { mdilAlert } from '@mdi/light-js';
 import { Textarea, Textbox } from "react-inputs-validation";
-import { displayCategories } from "../../services/categoryService";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    fetchCategories, listOfCategories,
+} from "../../store/slices/categorySlice.jsx";
+
 
 
 export default function AddOffers({ onAddOffer, onEditOffer }) {
@@ -10,8 +14,9 @@ export default function AddOffers({ onAddOffer, onEditOffer }) {
   const [errorTitle, setErrorTitle] = useState('')
   const [description, setDescription] = useState("")
   const [errorDesc, setErrorDesc] = useState("")
-  const [categories, setCategories] = useState([])
+  const categories = useSelector(listOfCategories)
   const [selectedCat, setSelectedCat] = useState('')
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (onEditOffer) {
@@ -21,21 +26,9 @@ export default function AddOffers({ onAddOffer, onEditOffer }) {
     }
   }, [onEditOffer]);
 
-
-  useEffect(() => {
-    displayCategories()
-      .then(res => {
-        const listCat = res.data.data
-        const ArrayCat = listCat.map((cat) => ({
-          id: cat.id,
-          name: cat.name
-        }))
-        console.log('reponse api :', res)
-        setCategories(ArrayCat)
-      })
-      .catch(err => console.error("Erreur GET :", err));
-  }, []);
-
+      useEffect(() => {
+        dispatch(fetchCategories());
+    }, [dispatch]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
