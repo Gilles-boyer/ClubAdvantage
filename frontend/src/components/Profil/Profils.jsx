@@ -12,35 +12,16 @@ export default function Profils() {
 
     // Récupération de l'utilisateur connecté via /api/me
     useEffect(() => {
-    //     axios.get("/api/me")
-    //         .then((res) => {
-    //             // Si res.data contient l'utilisateur directement :
-    //             const user = res.data.data;
-    //             if (user?.id) {
-    //                 setProfil(user);
-    //             } else {
-    //                 console.warn("Structure inattendue de /api/me :", res.data);
-    //             }
-    //         })
-    //         .catch((err) => {
-    //             console.error("Erreur chargement profil :", err);
-    //             if (err.response?.status === 401) navigate("/login");
-    //         });
+        // Simulation d’un profil utilisateur fictif
+        const fakeUser = {
+            id: 1,
+            first_name: "Jean",
+            last_name: "Testeur",
+            email: "jean.testeur@example.com"
+        };
 
-axios.get("/api/me")
-  .then((res) => {
-    const user = res.data.data;
-    if (user?.id) setProfil(user);
-    else console.warn("Données utilisateur absentes");
-  })
-  .catch((err) => {
-    if (err.response) {
-      console.error("Erreur API : ", err.response.status, err.response.data);
-    } else {
-      console.error("Erreur inconnue : ", err);
-    }
-  });
-
+        console.log("💡 Utilisateur fictif injecté :", fakeUser);
+        setProfil(fakeUser);
     }, []);
 
     // Mise à jour des informations de profil
