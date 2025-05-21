@@ -47,12 +47,12 @@ export default function Offers() {
     };
     return (
         <>
-            <AddOffers onAddOffer={handleAddOffer} onEditOffer={toUpOffer} />
 
             <h1 className="text-center text-2xl font-semibold mt-8 font-poppins">
                 Offres Existantes
             </h1>
             <section className="pt-10 max-w-5xl mx-auto">
+            <AddOffers onAddOffer={handleAddOffer} onEditOffer={toUpOffer} />
                 <div className="overflow-x-auto border rounded-xl bg-white">
                     <table className="min-w-full text-left text-sm text-gray-700">
                         <thead className="bg-primary text-gray-700 uppercase tracking-wider">

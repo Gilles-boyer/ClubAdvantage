@@ -43,11 +43,11 @@ export default function Categories() {
 
     return (
         <>
-            <AddCategory onAddCategory={handleAddCategory} onEditUpCat={toUpCategory} />
             <h1 className="text-center text-2xl font-semibold mt-8 mb-4 font-poppins">
                 Catégories existantes
             </h1>
             <section className="pt-6 max-w-5xl mx-auto">
+                <AddCategory onAddCategory={handleAddCategory} onEditUpCat={toUpCategory} />
                 <div className="overflow-x-auto border rounded-xl bg-white shadow-sm">
                     <table className="min-w-full text-left text-sm text-gray-700">
                         <thead className="bg-primary text-gray-700 uppercase tracking-wider">
