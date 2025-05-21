@@ -1,29 +1,28 @@
 import { useState, useEffect } from "react";
-import { displayOffers, createOffer, updateOffer, deleteOffer, } from "../../services/offersService";
+import { useDispatch, useSelector } from "react-redux";
 import DeleteButton from "../DeleteButton";
 import AddOffers from "./OffersForm";
 import UpdateButton from "../UpdateButton";
+import {
+    fetchOffers, updateOfferThunk, deleteOfferThunk, listOfOffers,
+    addOfferThunk,
+} from "../../store/slices/offerSlice.jsx";
 
 export default function Offers() {
-    const [offers, setOffers] = useState([]);
+    const dispatch = useDispatch()
+    const offers = useSelector(listOfOffers);
     const [toUpOffer, setToUpOffer] = useState(null);
 
     useEffect(() => {
-        displayOffers()
-            .then(res => setOffers(res.data.data))
-            .catch(err => console.error("Erreur GET :", err));
-    }, []);
+        dispatch(fetchOffers());
+    }, [dispatch]);
 
     const handleAddOffer = async (newOffer) => {
         try {
             if (newOffer.id) {
-                const res = await updateOffer(newOffer.id, newOffer);
-                setOffers((prev) =>
-                    prev.map((cat) => (cat.id === newOffer.id ? res.data.data : cat))
-                );
+                dispatch(updateOfferThunk({ id: newOffer.id, data: newOffer }));
             } else {
-                const res = await createOffer(newOffer);
-                setOffers((prev) => [...prev, res.data.data]);
+                dispatch(addOfferThunk(newOffer))
             }
             setToUpOffer(null);
         } catch (err) {
@@ -32,18 +31,10 @@ export default function Offers() {
     };
 
     const handleStatus = async (id) => {
-        const offer = offers.find(of => of.id === id);
+        const offer = offers.find(off => off.id === id);
         if (!offer) return;
-
-        try {
-            const updated = { ...offer, is_active: !offer.is_active };
-            const res = await updateOffer(id, updated);
-            setOffers((prev) =>
-                prev.map((offer) => (offer.id === id ? res.data.data : offer))
-            );
-        } catch (err) {
-            console.error("Erreur toggle statut :", err);
-        }
+        const updated = { ...offer, is_active: !offer.is_active };
+        dispatch(updateOfferThunk({ id, data: updated }));
     };
 
 
@@ -52,12 +43,7 @@ export default function Offers() {
     }
 
     const handleDelete = async (id) => {
-        try {
-            await deleteOffer(id);
-            setOffers((prev) => prev.filter((offer) => offer.id !== id));
-        } catch (err) {
-            console.error("Erreur on DELETE :", err);
-        }
+        dispatch(deleteOfferThunk(id))
     };
     return (
         <>
