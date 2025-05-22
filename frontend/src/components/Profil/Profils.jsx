@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ProfilsForm from "./ProfilsForm";
 import PasswordForm from "./PasswordForm";
-import DeleteButton from "../DeleteButton";
+import DeleteAccountButton from "../DeleteAccountButton";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -84,7 +84,7 @@ export default function Profils() {
 
             {/* Suppression du compte */}
             <div className="mt-6 text-center">
-                <DeleteButton onDelete={handleDelete} />
+                <DeleteAccountButton onDelete={handleDelete} />
             </div>
         </div>
     );

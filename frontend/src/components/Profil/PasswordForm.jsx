@@ -1,92 +1,122 @@
 import { useState } from "react";
-import Icon from "@mdi/react";
-import { mdilAlert } from "@mdi/light-js";
-import { Textbox } from "react-inputs-validation";
-import "react-inputs-validation/lib/react-inputs-validation.min.css";
 
+/**
+ * Formulaire de changement de mot de passe
+ * Reçoit une fonction onUpdatePassword pour envoyer les données
+*/
 export default function PasswordForm({ onUpdatePassword }) {
-  const [form, setForm] = useState({
-    current_password: "",
-    new_password: "",
-    confirm_password: "",
-  });
+    
+    // États pour afficher / masquer les mots de passe
+    const [showCurrent, setShowCurrent] = useState(false);
+    const [showNew, setShowNew] = useState(false);
+    const [showConfirm, setShowConfirm] = useState(false);
 
-  const [error, setError] = useState("");
+    // États pour les champs
+    const [form, setForm] = useState({
+        current_password: "",
+        new_password: "",
+        confirm_password: "",
+    });
 
-  const handleChange = (name, value) => {
-    setForm({ ...form, [name]: value });
-  };
+    // États pour les erreurs
+    const [errors, setErrors] = useState({});
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+    // Validation + envoi
+    const handleSubmit = (e) => {
+        e.preventDefault();
+                    
+        const newErrors = {};
+        if (!form.current_password) newErrors.current_password = "Mot de passe actuel requis.";
+        if (!form.new_password) newErrors.new_password = "Nouveau mot de passe requis.";
+        if (form.new_password.length < 8) newErrors.new_password = "Le mot de passe doit contenir au moins 8 caractères.";
+        if (form.new_password !== form.confirm_password) newErrors.confirm_password = "Les mots de passe ne correspondent pas.";
 
-    if (!form.current_password || !form.new_password || !form.confirm_password) {
-      return setError("Tous les champs sont obligatoires.");
-    }
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            return;
+        }
 
-    if (form.new_password !== form.confirm_password) {
-      return setError("Les mots de passe ne correspondent pas.");
-    }
+        setErrors({});
+        onUpdatePassword(form); // Envoie les données validées
+    };
 
-    if (form.new_password.length < 8) {
-      return setError("Le mot de passe doit contenir au moins 8 caractères.");
-    }
+    return (
+        <form onSubmit={handleSubmit} className="space-y-4 mt-4 p-4 border rounded bg-white">
+            <h3 className="text-lg font-bold text-center"> Changer le mot de passe </h3>
 
-    setError("");
-    onUpdatePassword(form);
-  };
+            {/* Champ : mot de passe actuel */}
+            <div className="relative">
+                <input
+                    type={showCurrent ? "text" : "password"}
+                    name="current_password"
+                    value={form.current_password}
+                    onChange={(e) => setForm({ ...form, current_password: e.target.value })}
+                    placeholder="Mot de passe actuel"
+                    className="input input-bordered w-full pr-10"
+                />
+                <button
+                    type="button"
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 text-xl"
+                    onClick={() => setShowCurrent(!showCurrent)}
+                    title="Afficher / masquer"
+                >
+                    {showCurrent ? "🙈" : "👁️"}
+                </button>
+                {errors.current_password && (
+                    <p className="text-red-500 text-sm mt-1">{errors.current_password}</p>
+                )}
+            </div>
 
-  return (
-    <form onSubmit={handleSubmit} className="border p-4 rounded mt-6 bg-white shadow">
-      <h3 className="text-lg font-bold mb-4 text-center">Changer le mot de passe</h3>
+            {/* Champ : nouveau mot de passe */}
+            <div className="relative">
+                <input
+                    type={showNew ? "text" : "password"}
+                    name="new_password"
+                    value={form.new_password}
+                    onChange={(e) => setForm({ ...form, new_password: e.target.value })}
+                    placeholder="Nouveau mot de passe"
+                    className="input input-bordered w-full pr-10"
+                />
+                <button
+                    type="button"
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 text-xl"
+                    onClick={() => setShowNew(!showNew)}
+                    title="Afficher / masquer"
+                >
+                    {showNew ? "🙈" : "👁️"}
+                </button>
+                {errors.new_password && (
+                    <p className="text-red-500 text-sm mt-1">{errors.new_password}</p>
+                )}
+            </div>
 
-      {/* Mot de passe actuel */}
-      <Textbox
-        type="password"
-        value={form.current_password}
-        placeholder="Mot de passe actuel"
-        onChange={(val) => handleChange("current_password", val)}
-        attributesInput={{
-          name: "current_password",
-          className: "input input-bordered w-full mb-3",
-        }}
-      />
-
-      {/* Nouveau mot de passe */}
-      <Textbox
-        type="password"
-        value={form.new_password}
-        placeholder="Nouveau mot de passe"
-        onChange={(val) => handleChange("new_password", val)}
-        attributesInput={{
-          name: "new_password",
-          className: "input input-bordered w-full mb-3",
-        }}
-        />
-
-      {/* Confirmation */}
-      <Textbox
-        type="password"
-        value={form.confirm_password}
-        placeholder="Confirmer le mot de passe"
-        onChange={(val) => handleChange("confirm_password", val)}
-        attributesInput={{
-          name: "confirm_password",
-          className: "input input-bordered w-full mb-3",
-        }}
-      />
-
-      {/* Erreur affichée */}
-      {error && (
-        <div className="text-red-700 flex justify-center items-center mt-2">
-          <Icon path={mdilAlert} size={1} />
-          <p className="ps-2 text-sm">{error}</p>
-        </div>
-      )}
-
-      <button type="submit" className="btn btn-neutral w-full mt-4">
-        Valider
-      </button>
-    </form>
-  );
+            {/* Champ : confirmation */}
+            <div className="relative">
+                <input
+                    type={showConfirm ? "text" : "password"}
+                    name="confirm_password"
+                    value={form.confirm_password}
+                    onChange={(e) => setForm({ ...form, confirm_password: e.target.value })}
+                    placeholder="Confirmer le mot de passe"
+                    className="input input-bordered w-full pr-10"
+                />
+                <button
+                    type="button"
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 text-xl"
+                    onClick={() => setShowConfirm(!showConfirm)}
+                    title="Afficher / masquer"
+                >
+                    {showConfirm ? "🙈" : "👁️"}
+                </button>
+                {errors.confirm_password && (
+                    <p className="text-red-500 text-sm mt-1">{errors.confirm_password}</p>
+                )}
+            </div>
+                
+            {/* Bouton de validation */}
+            <button type="submit" className="btn btn-neutral w-full">
+                Valider
+            </button>
+        </form>
+    );
 }
