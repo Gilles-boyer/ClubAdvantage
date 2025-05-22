@@ -7,31 +7,52 @@ import {
     fetchCategories, updateCategoryThunk, deleteCategoryThunk, listOfCategories,
     addCategoryThunk,
 } from "../../store/slices/categorySlice.jsx";
+import ToastAlert from "../ToastAlert.jsx";
 
 export default function Categories() {
     const dispatch = useDispatch();
     const categories = useSelector(listOfCategories);
     const [toUpCategory, setToUpCategory] = useState(null);
+    const [toast, setToast] = useState({ show: false, message: '', type: 'success' })
 
     useEffect(() => {
         dispatch(fetchCategories());
     }, [dispatch]);
 
-    const handleAddCategory = (newCategory) => {
-        if (newCategory.id) {
-            dispatch(updateCategoryThunk({ id: newCategory.id, data: newCategory }));
-        } else {
-            dispatch(addCategoryThunk(newCategory));
+    const handleAddCategory = async (newCategory) => {
+        try {
+            if (newCategory.id) {
+                await dispatch(updateCategoryThunk({ id: newCategory.id, data: newCategory })).unwrap();
+            } else {
+                await dispatch(addCategoryThunk(newCategory)).unwrap();
+            }
+            setToUpCategory(null);
+            setToast({ show: true, message: "Catégorie enregistrée avec succès", type: "success" });
+        } catch (err) {
+            console.error("Erreur on ADD/UPDATE :", err);
+            setToast({ show: true, message: "Erreur lors de l'ajout", type: "error" });
         }
-        setToUpCategory(null);
     };
 
-    const handleToUpCat = (categoryToEdit) => {
-        setToUpCategory(categoryToEdit);
+
+    const handleToUpCat = async (categoryToEdit) => {
+        try {
+            await dispatch(updateCategoryThunk({ id: categoryToEdit.id, data: categoryToEdit })).unwrap();
+            setToast({ show: true, message: "Catégorie modifiée avec succès", type: "success" });
+        } catch (err) {
+            console.error("Erreur on UPDATE :", err);
+            setToast({ show: true, message: "Erreur lors de la modification", type: "error" });
+        }
     };
 
-    const handleDeleteCategory = (id) => {
-        dispatch(deleteCategoryThunk(id));
+    const handleDeleteCategory = async (id) => {
+        try {
+            await dispatch(deleteCategoryThunk(id)).unwrap();
+            setToast({ show: true, message: "Catégorie supprimée avec succès", type: "success" });
+        } catch (err) {
+            console.error("Erreur on ADD/UPDATE :", err);
+            setToast({ show: true, message: "Erreur lors de la suppression", type: "error" });
+        }
     };
 
     const handleStatus = (id) => {
@@ -81,6 +102,7 @@ export default function Categories() {
                         </tbody>
                     </table>
                 </div>
+                <ToastAlert toast={toast} setToast={setToast} />
             </section>
         </>
     );

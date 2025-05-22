@@ -48,7 +48,7 @@ export default function AddCategory({ onAddCategory, onEditUpCat }) {
   };
   const [toggle, setToggle] = useState(false)
   return (
-      <>
+    <>
       <div className='flex w-fit'>
         <button onClick={() => setToggle(!toggle)} className='btn btn-secondary uppercase font-medium text-xs hover:bg-primary hover:text-white'>Ajouter une catégorie</button>
       </div>
