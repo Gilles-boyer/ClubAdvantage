@@ -9,7 +9,7 @@ import {
 
 
 
-export default function AddOffers({ onAddOffer, onEditOffer }) {
+export default function OfferForm({ onAddOffer, onEditOffer }) {
   const [title, setTitle] = useState("");
   const [errorTitle, setErrorTitle] = useState('')
   const [description, setDescription] = useState("")

@@ -3,7 +3,7 @@ import Icon from '@mdi/react';
 import { mdilAlert } from '@mdi/light-js';
 import { Textarea, Textbox } from "react-inputs-validation";
 
-export default function AddCategory({ onAddCategory, onEditUpCat }) {
+export default function CategoryForm({ onAddCategory, onEditUpCat }) {
   const [name, setName] = useState("")
   const [errorName, setErrorName] = useState("")
   const [description, setDescription] = useState("")
