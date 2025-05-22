@@ -7,6 +7,7 @@ use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller {
 
@@ -113,11 +114,62 @@ class UserController extends Controller {
         return response()->json(['message' => 'Utilisateur supprimé avec succès.']);
     }
                 
-    //Profil
+    // Retourne les informations du compte connecté (utilisé pour afficher le profil)
     public function me(Request $request) {
         return response()->json([
-            'data' => new UserResource($request->user())
+            'data' => new UserResource($request->user()) // renvoie les données du user connecté via Sanctum
         ]);
     }
 
+    // Met à jour les informations de base du profil utilisateur connecté
+    public function updateProfile(Request $request)
+    {
+        $user = $request->user(); // récupère l'utilisateur actuellement connecté
+
+        // Valide les champs envoyés
+        $validated = $request->validate([
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name'  => ['required', 'string', 'max:255'],
+            'email'      => ['required', 'email', 'max:255'],
+        ]);
+
+        $user->update($validated); // applique les changements en base
+
+        return response()->json([
+            'message' => 'Profil mis à jour.',
+            'data'    => new UserResource($user), // renvoie les infos mises à jour
+        ]);
+    }
+
+    // Met à jour le mot de passe de l'utilisateur connecté
+    public function updatePassword(Request $request)
+    {
+        $user = $request->user(); // utilisateur connecté
+
+        // Valide les champs nécessaires
+        $validated = $request->validate([
+            'current_password' => ['required'], // champ obligatoire
+            'new_password'     => ['required', 'min:8', 'confirmed'], // confirmé = doit avoir un champ `new_password_confirmation`
+        ]);
+
+        // Vérifie que le mot de passe actuel est correct
+        if (!Hash::check($validated['current_password'], $user->password)) {
+            return response()->json(['message' => 'Mot de passe actuel incorrect.'], 422);
+        }
+
+        // Si tout est ok, met à jour le mot de passe après hashage
+        $user->update(['password' => Hash::make($validated['new_password'])]);
+
+        return response()->json(['message' => 'Mot de passe modifié avec succès.']);
+    }
+
+    // Supprime (désactive) le compte de l'utilisateur connecté via soft delete
+    public function deleteAccount(Request $request)
+    {
+        $user = $request->user(); // utilisateur connecté
+
+        $user->delete(); // soft delete : l'utilisateur n'est pas supprimé physiquement
+
+        return response()->json(['message' => 'Compte désactivé.']);
+    }
 }

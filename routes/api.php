@@ -36,6 +36,9 @@ Route::apiResource('committee-offers', CommitteeOfferController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [UserController::class, 'me']);
+    Route::put('/profile', [UserController::class, 'updateProfile']);
+    Route::put('/password', [UserController::class, 'updatePassword']);
+    Route::delete('/me', [UserController::class, 'deleteAccount']);
 });
 
 
