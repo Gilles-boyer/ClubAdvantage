@@ -7,8 +7,8 @@ export default function CmmttsTable({ committees, onUpdate, onDelete}) {
     const [currentPage, setCurrentPage] = useState(1)
     const itemsPerPage = 6
 
-    const filtered = committees.filter(cat =>
-        cat.name.toLowerCase().includes(search.toLowerCase())
+    const filtered = committees.filter(com =>
+        com.name.toLowerCase().includes(search.toLowerCase())
     );
 
     const totalPages = Math.ceil(filtered.length / itemsPerPage);
