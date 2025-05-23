@@ -9,7 +9,7 @@ import {
 
 
 
-export default function AddOffers({ onAddOffer, onEditOffer }) {
+export default function OfferForm({ onAddOffer, onEditOffer }) {
   const [title, setTitle] = useState("");
   const [errorTitle, setErrorTitle] = useState('')
   const [description, setDescription] = useState("")
@@ -145,9 +145,10 @@ export default function AddOffers({ onAddOffer, onEditOffer }) {
               </select>
             </div>
             <div className="flex justify-center">
-              <button type="submit" className="btn btn-neutral">
+              <button type="submit" className="btn btn-neutral me-2">
                 Valider
               </button>
+              <button onClick={reset} className='btn btn-error'>Annuler</button>
             </div>
           </form>
         </div >

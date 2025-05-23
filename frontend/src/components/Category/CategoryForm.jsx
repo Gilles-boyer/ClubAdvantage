@@ -3,7 +3,7 @@ import Icon from '@mdi/react';
 import { mdilAlert } from '@mdi/light-js';
 import { Textarea, Textbox } from "react-inputs-validation";
 
-export default function AddCategory({ onAddCategory, onEditUpCat }) {
+export default function CategoryForm({ onAddCategory, onEditUpCat }) {
   const [name, setName] = useState("")
   const [errorName, setErrorName] = useState("")
   const [description, setDescription] = useState("")
@@ -118,6 +118,7 @@ export default function AddCategory({ onAddCategory, onEditUpCat }) {
               <button type="submit" className="btn btn-neutral">
                 Valider
               </button>
+              <button onClick={reset} className='btn btn-error'>Annuler</button>
             </form>
           </div>
         </div>)}
