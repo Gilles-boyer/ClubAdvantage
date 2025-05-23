@@ -2,7 +2,7 @@ import { useState } from "react";
 import DeleteButton from "../DeleteButton";
 import UpdateButton from "../UpdateButton";
 
-export default function CmmttsTable({ committees, onUpdate, onDelete }) {
+export default function CmmttsTable({ committees, onUpdate, onDelete}) {
     const [search, setSearch] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
     const itemsPerPage = 6
@@ -30,7 +30,7 @@ export default function CmmttsTable({ committees, onUpdate, onDelete }) {
                 <input
                     type="text"
                     placeholder="Rechercher..."
-                    className="input input-bordered mb-4 w-full max-w-md"
+                    className="input input-bordered my-2 w-full max-w-md"
                     value={search}
                     onChange={(e) => {
                         setSearch(e.target.value);
@@ -75,8 +75,7 @@ export default function CmmttsTable({ committees, onUpdate, onDelete }) {
                 </div>
                 <div className="flex justify-evenly items-center mt-4">
                     <button
-                        className="btn btn-sm"
-                        style={{ backgroundColor: '#a48663', color: '#fff' }}
+                        className="btn btn-secondary"
                         onClick={handlePrevious}
                         disabled={currentPage === 1}
                     >
@@ -86,8 +85,7 @@ export default function CmmttsTable({ committees, onUpdate, onDelete }) {
                         Page {currentPage} sur {totalPages}
                     </span>
                     <button
-                        className="btn btn-sm"
-                        style={{ backgroundColor: '#a48663', color: '#fff' }}
+                        className="btn btn-secondary"
                         onClick={handleNext}
                         disabled={currentPage === totalPages}
                     >
