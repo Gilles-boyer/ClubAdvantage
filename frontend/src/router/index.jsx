@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { BrowserRouter, createBrowserRouter } from 'react-router-dom';
 import Home from '../views/Home';
 import Profil from '../views/Profil';
 import Login from '../views/Login';
@@ -11,19 +11,22 @@ import Role from '../views/Role';
 
 const router = createBrowserRouter([
   {
+    path: '/login',
+    element: <Login />, // ← Login indépendant du Layout
+    errorElement: <ErrorBoundary />
+  },
+  {
     path: '/',
     element: <Layout />,
     errorElement: <ErrorBoundary />,
     children: [
       { path: '', element: <Home /> },
-      { path: '/profil', element: <Profil /> },
-      { path: '/login', element: <Login /> },
-      { path: '/offers', element: <Offer /> },
-      { path: '/committees', element: <Committee /> },
-      { path: '/scan', element: <Scan /> },
-      { path: '/roles', element: <Role />},
+      { path: 'profil', element: <Profil /> },
+      { path: 'offers', element: <Offer /> },
+      { path: 'committees', element: <Committee /> },
+      { path: 'scan', element: <Scan /> },
+      { path: 'roles', element: <Role /> }
     ]
   }
 ]);
-
-export default router;
+export default router

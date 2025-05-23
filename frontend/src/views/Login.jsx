@@ -1,5 +1,15 @@
+import LoginForm from "../components/Login/loginForm";
+import logo from "/logo.png";
+
 export default function Login() {
-    return <>
-        <h2 className="text-center font-medium bg-accent py-4 w-full">Page Profil</h2>
-    </>
+    return (
+        <>
+            <div className="flex justify-center items-center min-h-[calc(100vh-64px)]">
+                <div className="flex gap-8 items-center">
+                    <img src={logo} alt="Logo ClubAdvantage" className="h-auto" />
+                    <LoginForm />
+                </div>
+            </div>
+        </>
+    );
 }
