@@ -12,7 +12,16 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        // Active le middleware de session + cookies
+        $middleware->web();
+
+        // Active le groupe de middleware API
+        $middleware->api();
+
+        // Active Sanctum pour les SPA (auth cookie)
+        $middleware->alias([
+            'auth:sanctum' => \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
