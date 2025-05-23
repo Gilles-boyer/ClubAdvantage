@@ -10,22 +10,19 @@ export default function Profils() {
     const [editMode, setEditMode] = useState(false);
     const navigate = useNavigate();
 
-
     // Récupération de l'utilisateur connecté via /api/me
     useEffect(() => {
-        console.log("useEffect exécuté");
+        // Simulation d’un profil utilisateur fictif
+        const fakeUser = {
+            id: 1,
+            first_name: "Jean",
+            last_name: "Testeur",
+            email: "jean.testeur@example.com"
+        };
 
-        axios.get("/users/2")
-            .then((res) => {
-                console.log("Réponse directe axios :", res.data);
-                setProfil(res.data.data);
-            })
-            .catch((err) => {
-                console.error("Erreur axios :", err);
-            });
+        console.log("💡 Utilisateur fictif injecté :", fakeUser);
+        setProfil(fakeUser);
     }, []);
-
-
 
     // Mise à jour des informations de profil
     const handleUpdate = (data) => {
