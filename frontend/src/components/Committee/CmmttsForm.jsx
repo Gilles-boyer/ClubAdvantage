@@ -19,8 +19,9 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt }) {
         if (onEditUpCmmtt) {
             setName(onEditUpCmmtt.name || "");
             setAutoRenew(onEditUpCmmtt.auto_renew);
-            setStartDate(onEditUpCmmtt.agreement_start_date?.slice(0, 10) || "");
-            setEndDate(onEditUpCmmtt.agreement_end_date || "");
+            setStartDate(onEditUpCmmtt.agreement_start_date ? new Date(onEditUpCmmtt.agreement_start_date) : null);
+            setEndDate(onEditUpCmmtt.agreement_end_date ? new Date(onEditUpCmmtt.agreement_end_date) : null);
+
         } else {
             reset();
         }
@@ -29,16 +30,17 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt }) {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const currentStartDate = onEditUpCmmtt //? En mode édition, si une date existe elle est récupérée, sinon elle est créer à la date du jour
-        ? startDate
-        : new Date().toISOString().slice(0, 10);
-        
-        const currentEndDate = onEditUpCmmtt //? En mode édition, si une date existe elle est récupérée, sinon elle est créer à la date du 31/12 de l'année en cours
-        ? endDate
-        : `${new Date().getFullYear()}-12-31`;
-        
-        console.log('La date de début est de type :', typeof(startDate));
-        
+        const currentStartDate = startDate
+            ? startDate.toISOString().slice(0, 10)
+            : new Date().toISOString().slice(0, 10);
+
+        const currentEndDate = endDate
+            ? endDate.toISOString().slice(0, 10)
+            : `${new Date().getFullYear()}-12-31`;
+
+
+        console.log('La date de début est de type :', typeof (startDate));
+
         const newCommittee = {
             name,
             auto_renew: autoRenew,
@@ -46,6 +48,7 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt }) {
             agreement_end_date: currentEndDate,
             created_by: 1,
         };
+
 
         if (onEditUpCmmtt?.id !== undefined) {
             newCommittee.id = onEditUpCmmtt.id;
@@ -61,8 +64,8 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt }) {
     const reset = () => {
         setName('');
         setAutoRenew(null);
-        setStartDate('');
-        setEndDate('');
+        setStartDate(null);
+        setEndDate(null);
         setStartDateErr('');
         setEndDateErr('');
     };
@@ -152,7 +155,7 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt }) {
                                         <DatePicker
                                             selected={endDate}
                                             onChange={(date) => setEndDate(date)}
-                                            className="input w-100 text-center" 
+                                            className="input w-100 text-center"
                                             onBlur={(e) => {
                                                 if (new Date(e.target.value) < new Date(startDate)) return setEndDateErr('La date de fin ne peut pas être inférieur à la date de début !');
                                             }} />
