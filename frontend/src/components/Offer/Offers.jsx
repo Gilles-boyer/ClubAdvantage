@@ -22,15 +22,14 @@ export default function Offers() {
         try {
             if (newOffer.id) {
                 await dispatch(updateOfferThunk({ id: newOffer.id, data: newOffer })).unwrap();
-                setToast({ show: true, message: 'Offre modifiée avec succès', type: 'success' })
             } else {
                 await dispatch(addOfferThunk(newOffer)).unwrap();
-                setToast({ show: true, message: 'Offre ajoutée avec succès', type: 'success' })
             }
             setToUpOffer(null);
+            setToast({ show: true, message: 'Offre enregistrée avec succès', type: 'success' })
         } catch (err) {
             console.error("Erreur CREATE/UPDATE Offer:", err);
-            setToast({ show: true, message: "Erreur lors de la suppression de l'offre", type: "error" })
+            setToast({ show: true, message: "Erreur lors de l'opération !", type: "error" })
         }
     };
 
@@ -50,13 +49,7 @@ export default function Offers() {
 
 
     const handleToUpOffer = async (offerToEdit) => {
-        try {
-            await setToUpOffer(offerToEdit).unwrap()
-            setToast({ show: true, message: "Offre modifiée avec succès", type: 'success' })
-        } catch (err) {
-            console.log('Error on update :', err);
-            setToast({ show: true, message: "Erreur lors de la modification de l'offre", type: 'error' })
-        }
+        setToUpOffer(offerToEdit);
     }
 
     const handleDelete = async (id) => {

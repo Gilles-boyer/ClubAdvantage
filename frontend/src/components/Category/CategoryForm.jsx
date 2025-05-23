@@ -118,6 +118,7 @@ export default function CategoryForm({ onAddCategory, onEditUpCat }) {
               <button type="submit" className="btn btn-neutral">
                 Valider
               </button>
+              <button onClick={reset} className='btn btn-error'>Annuler</button>
             </form>
           </div>
         </div>)}

@@ -28,8 +28,8 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                                 </button>
                             </td>
                             <td className="px-4 py-2 space-x-2 bg-accent">
-                                <UpdateButton item={category} onUpdate={() => onUpdate(category)} />
-                                <DeleteButton id={category.id} onDelete={() => onDelete(category.id)} />
+                                <UpdateButton onUpdate={() => onUpdate(category)} />
+                                <DeleteButton onDelete={() => onDelete(category.id)} />
                             </td>
                         </tr>
                     ))}

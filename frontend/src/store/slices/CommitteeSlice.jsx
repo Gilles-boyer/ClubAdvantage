@@ -9,7 +9,7 @@ const initialState = {
 };
 
 export const fetchCmmtts = createAsyncThunk(
-  'categories/fetchCmmtts',
+  'committees/fetchCmmtts',
   async (_, thunkAPI) => {
     try {
       const response = await displayCommittees();
@@ -21,10 +21,10 @@ export const fetchCmmtts = createAsyncThunk(
 );
 
 export const addCmmttThunk = createAsyncThunk(
-  'categories/addCmmtt',
-  async (categoryData, thunkAPI) => {
+  'committees/addCmmtt',
+  async (committeeData, thunkAPI) => {
     try {
-      const response = await createCommittee(categoryData);
+      const response = await createCommittee(committeeData);
       return response.data.data;
     } catch (err) {
       console.error("Axios Error:", err.response?.data || err.message);
@@ -35,7 +35,7 @@ export const addCmmttThunk = createAsyncThunk(
 );
 
 export const updateCmmttThunk = createAsyncThunk(
-  'categories/updateCmmtt',
+  'committees/updateCmmtt',
   async ({ id, data }, thunkAPI) => {
     try {
       const response = await updateCommittee(id, data);
@@ -47,7 +47,7 @@ export const updateCmmttThunk = createAsyncThunk(
 );
 
 export const deleteCmmttThunk = createAsyncThunk(
-  'categories/deleteCmmtt',
+  'committees/deleteCmmtt',
   async (id, thunkAPI) => {
     try {
       await deleteCommittee(id);
@@ -84,15 +84,15 @@ export const committeeSlice = createSlice({
       })
       .addCase(updateCmmttThunk.fulfilled, (state, action) => {
         const updated = action.payload;
-        state.list = state.list.map(cat =>
-          cat.id === updated.id ? updated : cat);
+        state.list = state.list.map(com =>
+          com.id === updated.id ? updated : com);
       })
       .addCase(deleteCmmttThunk.fulfilled, (state, action) => {
-        state.list = state.list.filter((cat) => cat.id !== action.payload);
+        state.list = state.list.filter((com) => com.id !== action.payload);
       })
 
   },
 });
 
-export const listOfCommittees = (state) => state.category.list
+export const listOfCommittees = (state) => state.committee.list
 export default committeeSlice.reducer

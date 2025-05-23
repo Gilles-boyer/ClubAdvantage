@@ -5,7 +5,7 @@ import { Textbox } from "react-inputs-validation";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"
 
-export default function AddCommittee({ onAddCommittee, onEditUpCmmtt }) {
+export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt }) {
     const [name, setName] = useState("");
     const [autoRenew, setAutoRenew] = useState(null);
     const [errorName, setErrorName] = useState(null);
@@ -29,15 +29,15 @@ export default function AddCommittee({ onAddCommittee, onEditUpCmmtt }) {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        console.log('La date de début est de type :', typeof(startDate));
         const currentStartDate = onEditUpCmmtt //? En mode édition, si une date existe elle est récupérée, sinon elle est créer à la date du jour
-            ? startDate.toISOString().slice(0, 10)
-            : new Date().toISOString().slice(0, 10);
-
+        ? startDate
+        : new Date().toISOString().slice(0, 10);
+        
         const currentEndDate = onEditUpCmmtt //? En mode édition, si une date existe elle est récupérée, sinon elle est créer à la date du 31/12 de l'année en cours
-            ? endDate.toISOString().slice(0, 10)
-            : `${new Date().getFullYear()}-12-31`;
-
+        ? endDate
+        : `${new Date().getFullYear()}-12-31`;
+        
+        console.log('La date de début est de type :', typeof(startDate));
         
         const newCommittee = {
             name,
@@ -50,7 +50,7 @@ export default function AddCommittee({ onAddCommittee, onEditUpCmmtt }) {
         if (onEditUpCmmtt?.id !== undefined) {
             newCommittee.id = onEditUpCmmtt.id;
         } else {
-            newCommittee.created_at = new Date().toISOString();
+            newCommittee
         }
 
         onAddCommittee(newCommittee);
@@ -70,7 +70,7 @@ export default function AddCommittee({ onAddCommittee, onEditUpCmmtt }) {
     return (
         <>
             <div className='flex w-fit'>
-                <button onClick={() => setToggle(!toggle)} className='btn btn-secondary uppercase font-medium text-xs hover:bg-primary hover:text-white'>Ajouter un adhérent</button>
+                <button onClick={() => setToggle(!toggle)} className='btn btn-secondary uppercase font-medium text-xs hover:bg-primary hover:text-white'>Ajouter un CSE</button>
             </div>
             {toggle && (
                 <div className="w-150 border rounded mx-auto mt-5">

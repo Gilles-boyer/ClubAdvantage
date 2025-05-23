@@ -1,46 +1,49 @@
 import { useState, useEffect } from "react";
-import AddCommittee from "./CmmttsForm";
-import { createCommittee, displayCommittees, updateCommittee, deleteCommittee } from "../../services/committeeService";
+import { useDispatch, useSelector } from "react-redux";
+import CommitteeForm from "./CmmttsForm";
 import CmmttsTable from "./CmmttsTable";
+import { fetchCmmtts, updateCmmttThunk, deleteCmmttThunk, addCmmttThunk, listOfCommittees } from "../../store/slices/CommitteeSlice";
+import ToastAlert from "../ToastAlert";
 
 
 export default function Committees() {
-    const [committees, setCommittees] = useState([]);
+    const dispatch = useDispatch()
+    const committees = useSelector(listOfCommittees)
     const [toUpCmmtts, setToUpCmmtts] = useState(null);
+    const [toast, setToast] = useState('')
 
     useEffect(() => {
-        displayCommittees()
-            .then(res => setCommittees(res.data.data))
-            .catch(err => console.error("Erreur GET :", err));
-    }, []);
-
+        dispatch(fetchCmmtts())
+        
+    }, [dispatch]);
+    
+    console.log('Les CSE :',committees);
     const handleAddCmmtt = async (newCommittee) => {
         try {
             if (newCommittee.id) {
-                const res = await updateCommittee(newCommittee.id, newCommittee);
-                setCommittees((prev) =>
-                    prev.map((com) => (com.id === newCommittee.id ? res.data.data : com))
-                );
+                await dispatch(updateCmmttThunk({id: newCommittee.id, data: newCommittee})).unwrap()
             } else {
-                const res = await createCommittee(newCommittee);
-                setCommittees((prev) => [...prev, res.data.data]);
+                await dispatch(addCmmttThunk(newCommittee)).unwrap()
             }
             setToUpCmmtts(null);
+            setToast({show: true, message: "CSE enregistré avec succès !", type: 'success'})
         } catch (err) {
             console.error("Erreur CREATE/UPDATE Category:", err);
+            setToast({show: true, message: "Erreur lors de l'eregistrement du CSE !", type: 'error'})
         }
     };
 
     const handleUpdate = (cmmttToEdit) => {
-        setToUpCmmtts(cmmttToEdit)
+        setToUpCmmtts(cmmttToEdit);
     }
 
     const handleDelete = async (id) => {
         try {
-            await deleteCommittee(id);
-            setCommittees((prev) => prev.filter((com) => com.id !== id));
+            await dispatch(deleteCmmttThunk(id)).unwrap()
+            setToast({show: true, message: "CSE supprimé avec succès !", type: 'success'})
         } catch (err) {
             console.error("Erreur on DELETE :", err);
+            setToast({show: true, message: "Erreur lors de la suppression du CSE !", type: 'error'})
         }
     };
 
@@ -52,13 +55,14 @@ export default function Committees() {
             </h1>
 
             <section className=" max-w-5xl mx-auto">
-                <AddCommittee onAddCommittee={handleAddCmmtt} onEditUpCmmtt={toUpCmmtts} />
-                < CmmttsTable 
-                committees={committees}
-                onUpdate={handleUpdate}
-                onDelete={handleDelete}
+                <CommitteeForm onAddCommittee={handleAddCmmtt} onEditUpCmmtt={toUpCmmtts} />
+                < CmmttsTable
+                    committees={committees}
+                    onUpdate={handleUpdate}
+                    onDelete={handleDelete}
                 />
             </section>
+            <ToastAlert toast={toast} setToast={setToast}/>
         </>
 
     )

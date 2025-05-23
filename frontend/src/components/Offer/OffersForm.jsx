@@ -145,9 +145,10 @@ export default function OfferForm({ onAddOffer, onEditOffer }) {
               </select>
             </div>
             <div className="flex justify-center">
-              <button type="submit" className="btn btn-neutral">
+              <button type="submit" className="btn btn-neutral me-2">
                 Valider
               </button>
+              <button onClick={reset} className='btn btn-error'>Annuler</button>
             </div>
           </form>
         </div >

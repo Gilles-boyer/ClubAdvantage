@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import AddCategory from "./CategoryForm";
+import CategoryForm from "./CategoryForm";
 import CategoryTable from "./CategoryTable.jsx";
 import {
     fetchCategories, updateCategoryThunk, deleteCategoryThunk, listOfCategories,
     addCategoryThunk,
 } from "../../store/slices/categorySlice.jsx";
 import ToastAlert from "../ToastAlert.jsx";
-import CategoryForm from "./CategoryForm";
 
 export default function Categories() {
     const dispatch = useDispatch();
@@ -26,8 +25,8 @@ export default function Categories() {
             } else {
                 await dispatch(addCategoryThunk(newCategory)).unwrap();
             }
-            setToUpCategory(null);
             setToast({ show: true, message: "Catégorie enregistrée avec succès", type: "success" });
+            setToUpCategory(null);
         } catch (err) {
             console.error("Erreur on ADD/UPDATE :", err);
             setToast({ show: true, message: "Erreur lors de l'ajout", type: "error" });
@@ -35,14 +34,8 @@ export default function Categories() {
     };
 
 
-    const handleToUpCat = async (categoryToEdit) => {
-        try {
-            await dispatch(updateCategoryThunk({ id: categoryToEdit.id, data: categoryToEdit })).unwrap();
-            setToast({ show: true, message: "Catégorie modifiée avec succès", type: "success" });
-        } catch (err) {
-            console.error("Erreur on UPDATE :", err);
-            setToast({ show: true, message: "Erreur lors de la modification", type: "error" });
-        }
+    const handleToUpCat = (categoryToEdit) => {
+            setToUpCategory(categoryToEdit);
     };
 
     const handleDeleteCategory = async (id) => {

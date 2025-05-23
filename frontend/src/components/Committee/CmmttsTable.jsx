@@ -31,8 +31,8 @@ export default function CmmttsTable({committees, onUpdate, onDelete}) {
                             <td className="px-4 py-2 font-medium text-center">{committee.agreement_start_date}</td>
                             <td className="px-4 py-2 font-medium text-center">{committee.agreement_end_date}</td>
                             <td className="px-4 py-2 space-x-2 bg-accent">
-                                <UpdateButton item={committee} onUpdate={onUpdate(committee)} />
-                                <DeleteButton id={committee.id} onDelete={onDelete(committee.id)} />
+                                <UpdateButton onUpdate={() => onUpdate(committee)} />
+                                <DeleteButton onDelete={() => onDelete(committee.id)} />
                             </td>
                         </tr>
                     ))}
