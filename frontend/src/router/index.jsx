@@ -12,7 +12,7 @@ import Role from '../views/Role';
 const router = createBrowserRouter([
   {
     path: '/login',
-    element: <Login />, // ← Login indépendant du Layout
+    element: <Login />, 
     errorElement: <ErrorBoundary />
   },
   {
