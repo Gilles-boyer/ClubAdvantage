@@ -1,38 +1,27 @@
 import { useEffect, useState } from "react";
-import { displayCommittees } from "../../services/committeeService";
 import { Textbox } from "react-inputs-validation";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCmmtts, listOfCommittees } from "../../store/slices/CommitteeSlice";
 
 export default function UsersForm({ onAddUser, onEditUser }) {
-    const [lName, setLName] = useState('');
-    const [fName, setFName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [last_name, setLast_Name] = useState('');
+    const [first_name, setFirst_Name] = useState('');
     const [status, setStatus] = useState(null);
-    const [cmmtts, setCmmtts] = useState([]); //? Pour récupérer les propriétés
+    const cmmtts = useSelector(listOfCommittees)
     const [selectedCom, setSelectedCom] = useState(null) //? Pour afficher les valeurs lors de l'update
+    const dispatch = useDispatch()
 
     useEffect(() => {
         if (onEditUser) {
-            setLName(onEditUser.last_name);
-            setFName(onEditUser.first_name);
-            setEmail(onEditUser.email);
+            setLast_Name(onEditUser.last_name);
+            setFirst_Name(onEditUser.first_name);
             setStatus(onEditUser.status);
         }
     }, [onEditUser]);
 
     useEffect(() => {
-        displayCommittees()
-            .then(res => {
-                const listCom = res.data.data
-                const ArrayCom = listCom.map((com) => ({
-                    id: com.id,
-                    name: com.name
-                }))
-                console.log('reponse api :', res)
-                setCmmtts(ArrayCom)
-            })
-            .catch(err => console.error("Erreur GET :", err));
-    }, []);
+        dispatch(fetchCmmtts())
+    }, [dispatch]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -42,13 +31,9 @@ export default function UsersForm({ onAddUser, onEditUser }) {
         const newUser = {
             last_name,
             first_name,
-            email,
-            password,
             status: "inactive",
             committee_id: selectedCom,
             committee_name: comObject?.name || '',
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString()
         };
 
         if (onEditUser?.id !== undefined) {
@@ -62,7 +47,8 @@ export default function UsersForm({ onAddUser, onEditUser }) {
     }
 
     const reset = () => {
-
+        setFirst_Name('')
+        setLast_Name('')
     };
 
 
@@ -84,8 +70,8 @@ export default function UsersForm({ onAddUser, onEditUser }) {
                                     className: "input input-bordered w-full",
                                     placeholder: "Nom"
                                 }}
-                                value={lName}
-                                onChange={(value) => setLName(value)}
+                                value={last_name}
+                                onChange={(value) => setLast_Name(value)}
                                 onBlur={() => {
 
                                 }}
@@ -105,50 +91,8 @@ export default function UsersForm({ onAddUser, onEditUser }) {
                                     className: "input input-bordered w-full",
                                     placeholder: "Prénom"
                                 }}
-                                value={fName}
-                                onChange={(value) => setFName(value)}
-                                onBlur={() => {
-
-                                }}
-                            />
-                            {/* {errorDesc && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorDesc}</p></div>} */}
-                        </div>
-
-                        <div className="form-control mb-4">
-                            <label htmlFor="email" className="label">
-                                <span className="label-text">Email</span>
-                            </label>
-                            <Textbox
-                                attributesInput={{
-                                    id: "email",
-                                    name: "email",
-                                    type: "email",
-                                    className: "input input-bordered w-full",
-                                    placeholder: "Email"
-                                }}
-                                value={email}
-                                onChange={(value) => setEmail(value)}
-                                onBlur={() => {
-
-                                }}
-                            />
-                            {/* {errorDesc && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorDesc}</p></div>} */}
-                        </div>
-
-                        <div className="form-control mb-4">
-                            <label htmlFor="password" className="label">
-                                <span className="label-text">Mot de Passe</span>
-                            </label>
-                            <Textbox
-                                attributesInput={{
-                                    id: "password",
-                                    name: "password",
-                                    type: "text",
-                                    className: "input input-bordered w-full",
-                                    placeholder: "Mot de passe"
-                                }}
-                                value={password}
-                                onChange={(value) => setPassword(value)}
+                                value={first_name}
+                                onChange={(value) => setFirst_Name(value)}
                                 onBlur={() => {
 
                                 }}
