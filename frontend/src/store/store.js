@@ -3,6 +3,7 @@ import categoryReducer from './slices/categorySlice';
 import offerReducer from './slices/offerSlice';
 import committeeReducer from './slices/CommitteeSlice';
 import userReducer from './slices/userSlice'
+import roleReducer from './slices/rolesSlice'
 
 export const store = configureStore({
   reducer: {
@@ -10,5 +11,6 @@ export const store = configureStore({
     offer: offerReducer,
     committee : committeeReducer,
     user: userReducer,
+    role: roleReducer,
   },
 });

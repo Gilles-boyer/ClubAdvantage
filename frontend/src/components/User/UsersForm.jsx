@@ -2,13 +2,18 @@ import { useEffect, useState } from "react";
 import { Textbox } from "react-inputs-validation";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCmmtts, listOfCommittees } from "../../store/slices/CommitteeSlice";
+import { fetchRoles, listOfRoles } from "../../store/slices/rolesSlice";
 
 export default function UsersForm({ onAddUser, onEditUser }) {
     const [last_name, setLast_Name] = useState('');
     const [first_name, setFirst_Name] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [status, setStatus] = useState(null);
     const cmmtts = useSelector(listOfCommittees)
     const [selectedCom, setSelectedCom] = useState(null) //? Pour afficher les valeurs lors de l'update
+    const roles = useSelector(listOfRoles)
+    const [role_name, setRole_Name] = useState(null)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -16,11 +21,16 @@ export default function UsersForm({ onAddUser, onEditUser }) {
             setLast_Name(onEditUser.last_name);
             setFirst_Name(onEditUser.first_name);
             setStatus(onEditUser.status);
+            setSelectedCom(onEditUser.committee_name)
         }
     }, [onEditUser]);
 
     useEffect(() => {
         dispatch(fetchCmmtts())
+    }, [dispatch]);
+
+    useEffect(() => {
+        dispatch(fetchRoles())
     }, [dispatch]);
 
     const handleSubmit = (e) => {
@@ -31,7 +41,10 @@ export default function UsersForm({ onAddUser, onEditUser }) {
         const newUser = {
             last_name,
             first_name,
-            status: "inactive",
+            email,
+            password,
+            status,
+            role_name,
             committee_id: selectedCom,
             committee_name: comObject?.name || '',
         };
@@ -49,6 +62,7 @@ export default function UsersForm({ onAddUser, onEditUser }) {
     const reset = () => {
         setFirst_Name('')
         setLast_Name('')
+        setStatus('')
     };
 
 
@@ -99,6 +113,46 @@ export default function UsersForm({ onAddUser, onEditUser }) {
                             />
                             {/* {errorDesc && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorDesc}</p></div>} */}
                         </div>
+                        <div className="form-control mb-4">
+                            <label htmlFor="firstName" className="label">
+                                <span className="label-text">Email</span>
+                            </label>
+                            <Textbox
+                                attributesInput={{
+                                    id: "email",
+                                    name: "email",
+                                    type: "text",
+                                    className: "input input-bordered w-full",
+                                    placeholder: "Email"
+                                }}
+                                value={email}
+                                onChange={(value) => setEmail(value)}
+                                onBlur={() => {
+
+                                }}
+                            />
+                            {/* {errorDesc && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorDesc}</p></div>} */}
+                        </div>
+                        <div className="form-control mb-4">
+                            <label htmlFor="firstName" className="label">
+                                <span className="label-text">Mot De Passe</span>
+                            </label>
+                            <Textbox
+                                attributesInput={{
+                                    id: "password",
+                                    name: "password",
+                                    type: "text",
+                                    className: "input input-bordered w-full",
+                                    placeholder: "Mot De Passe"
+                                }}
+                                value={password}
+                                onChange={(value) => setPassword(value)}
+                                onBlur={() => {
+
+                                }}
+                            />
+                            {/* {errorDesc && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorDesc}</p></div>} */}
+                        </div>
 
                         <div className="form-control mb-4">
                             <label htmlFor="status" className="label">
@@ -118,6 +172,15 @@ export default function UsersForm({ onAddUser, onEditUser }) {
                                 <option disabled value="">Choisir un CSE</option>
                                 {cmmtts.map((com) => (
                                     <option key={com.id} value={String(com.id)}>{com.name}</option>
+                                ))}
+                            </select>
+                            <label htmlFor="role" className="label">
+                                <span className="label-text">Définir le Role</span>
+                            </label>
+                            <select className="select w-full" value={role_name} onChange={(e) => setRole_Name(e.target.value)}>
+                                <option disabled value="">Choisir un Role</option>
+                                {roles.map((r) => (
+                                    <option key={r.name} value={r.name}>{r.name}</option>
                                 ))}
                             </select>
                         </div>
