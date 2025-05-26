@@ -4,6 +4,7 @@ import PasswordForm from "./PasswordForm";
 import DeleteAccountButton from "../DeleteAccountButton";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { fetchCurrentUser } from "../../services/usersService";
 
 export default function Profils() {
     const [profil, setProfil] = useState(null);
@@ -13,15 +14,7 @@ export default function Profils() {
     // Récupération de l'utilisateur connecté via /api/me
     useEffect(() => {
         // Simulation d’un profil utilisateur fictif
-        const fakeUser = {
-            id: 1,
-            first_name: "Jean",
-            last_name: "Testeur",
-            email: "jean.testeur@example.com"
-        };
-
-        console.log("💡 Utilisateur fictif injecté :", fakeUser);
-        setProfil(fakeUser);
+        fetchCurrentUser().then( res => setProfil(res.data.data))
     }, []);
 
     // Mise à jour des informations de profil
