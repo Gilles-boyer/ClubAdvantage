@@ -2,7 +2,7 @@ import DeleteButton from "../DeleteButton";
 import UpdateButton from "../UpdateButton";
 import { useState } from "react";
 
-export default function CategoryTable({ categories, onDelete, onUpdate, onUpStatus }) {
+export default function CategoryTable({ categories, onDelete, onUpdate, onUpStatus, setToggle }) {
     const [search, setSearch] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
     const itemsPerPage = 6
@@ -61,7 +61,9 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                                     </button>
                                 </td>
                                 <td className="px-4 py-2 space-x-2 bg-accent">
-                                    <UpdateButton onUpdate={() => onUpdate(category)} />
+                                    <UpdateButton onUpdate={() => {
+                                        setToggle(true)
+                                        onUpdate(category)}} />
                                     <DeleteButton onDelete={() => onDelete(category.id)} />
                                 </td>
                             </tr>

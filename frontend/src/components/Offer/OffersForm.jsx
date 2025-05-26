@@ -62,17 +62,10 @@ export default function OfferForm({ onAddOffer, onEditOffer }) {
     setTitle("");
     setDescription("");
   };
-  console.log('catégories :', categories);
-  console.log('catégorie sélectionée', selectedCat);
-  const [toggle, setToggle] = useState(false)
 
   return (
     <>
-      <div className='flex w-fit'>
-        <button onClick={() => setToggle(!toggle)} className='btn btn-secondary uppercase font-medium text-xs hover:bg-primary hover:text-white'>Ajouter une offre</button>
-      </div>
-
-      {toggle && (<div className="w-150 border rounded mx-auto mt-10">
+      <div className="w-150 border rounded mx-auto mt-10">
         <h3 className="font-poppins text-center py-1 text-lg font-medium bg-primary">Ajouter une Offre</h3>
         <div className="p-5 mx-auto rounded">
           <form onSubmit={handleSubmit} className="spacetext-center">
@@ -152,6 +145,6 @@ export default function OfferForm({ onAddOffer, onEditOffer }) {
             </div>
           </form>
         </div >
-      </div >)}
+      </div >
     </>)
 }

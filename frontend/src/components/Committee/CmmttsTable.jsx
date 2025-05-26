@@ -2,7 +2,7 @@ import { useState } from "react";
 import DeleteButton from "../DeleteButton";
 import UpdateButton from "../UpdateButton";
 
-export default function CmmttsTable({ committees, onUpdate, onDelete}) {
+export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle}) {
     const [search, setSearch] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
     const itemsPerPage = 6
@@ -65,7 +65,9 @@ export default function CmmttsTable({ committees, onUpdate, onDelete}) {
                                     <td className="px-4 py-2 font-medium text-center">{committee.agreement_start_date}</td>
                                     <td className="px-4 py-2 font-medium text-center">{committee.agreement_end_date}</td>
                                     <td className="px-4 py-2 space-x-2 bg-accent">
-                                        <UpdateButton onUpdate={() => onUpdate(committee)} />
+                                        <UpdateButton onUpdate={() => {
+                                            setToggle(true);
+                                            onUpdate(committee);}} />
                                         <DeleteButton onDelete={() => onDelete(committee.id)} />
                                     </td>
                                 </tr>

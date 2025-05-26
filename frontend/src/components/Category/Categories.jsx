@@ -13,6 +13,7 @@ export default function Categories() {
     const categories = useSelector(listOfCategories);
     const [toUpCategory, setToUpCategory] = useState(null);
     const [toast, setToast] = useState({ show: false, message: '', type: 'success' })
+    const [toggle, setToggle] = useState(false)
 
     useEffect(() => {
         dispatch(fetchCategories());
@@ -27,6 +28,7 @@ export default function Categories() {
             }
             setToast({ show: true, message: "Catégorie enregistrée avec succès", type: "success" });
             setToUpCategory(null);
+            setToggle(false)
         } catch (err) {
             console.error("Erreur on ADD/UPDATE :", err);
             setToast({ show: true, message: "Erreur lors de l'ajout", type: "error" });
@@ -68,12 +70,18 @@ export default function Categories() {
                 Catégories existantes
             </h1>
             <section className="pt-6 max-w-5xl mx-auto">
-                <CategoryForm onAddCategory={handleAddCategory} onEditUpCat={toUpCategory} />
+                      <div className='flex w-fit'>
+        <button onClick={() => setToggle(!toggle)} className='btn btn-secondary uppercase font-medium text-xs hover:bg-primary hover:text-white'>Ajouter une catégorie</button>
+      </div>
+
+      {toggle && (
+                <CategoryForm onAddCategory={handleAddCategory} onEditUpCat={toUpCategory} />)}
                 <CategoryTable
                     categories={categories}
                     onDelete={handleDeleteCategory}
                     onUpdate={handleToUpCat}
-                    onUpStatus={handleStatus} />
+                    onUpStatus={handleStatus} 
+                    setToggle={setToggle}/>
                 <ToastAlert toast={toast} setToast={setToast} />
             </section>
         </>

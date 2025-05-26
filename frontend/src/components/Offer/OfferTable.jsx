@@ -2,7 +2,7 @@ import UpdateButton from "../UpdateButton"
 import DeleteButton from "../DeleteButton"
 import { useState } from "react"
 
-export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus }) {
+export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, setToggle}) {
     const [search, setSearch] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
     const itemsPerPage = 6
@@ -68,7 +68,9 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus }) {
                                 <td className="px-4 py-2 space-x-2 bg-accent">
                                     <UpdateButton
                                         item={offer}
-                                        onUpdate={() => onUpdate(offer)}
+                                        onUpdate={() => {
+                                            setToggle(true);
+                                            onUpdate(offer);}}
                                     />
                                     <DeleteButton id={offer.id} onDelete={() => onDelete(offer.id)} />
                                 </td>
