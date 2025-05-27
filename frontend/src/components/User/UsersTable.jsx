@@ -8,7 +8,7 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle }) {
     const itemsPerPage = 6
 
     const filtered = users.filter(us =>
-        us.last_name.toLowerCase().includes(search.toLowerCase())
+        us?.last_name.toLowerCase().includes(search.toLowerCase())
     );
 
     const totalPages = Math.ceil(filtered.length / itemsPerPage);
@@ -44,6 +44,8 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle }) {
                                 <th className="px-4 py-2">Nom</th>
                                 <th className="px-4 py-2">Prénom</th>
                                 <th className="px-4 py-2">Email</th>
+                                <th className="px-4 py-2">CSE</th>
+                                <th className="px-4 py-2">Role</th>
                                 <th className="px-4 py-2">Statut</th>
                                 <th className="px-4 py-2">Action</th>
                             </tr>
@@ -57,6 +59,8 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle }) {
                                     <td className="px-4 py-2 font-medium bg-accent">{user.last_name}</td>
                                     <td className="px-4 py-2">{user.first_name}</td>
                                     <td className="px-4 py-2">{user.email}</td>
+                                    <td className="px-4 py-2">{user.committee_id}</td>
+                                    <td className="px-4 py-2">{user.role_name}</td>
                                     <td className="px-4 py-2">{user.status}</td>
                                     <td className="px-4 py-2 space-x-2 bg-accent">
                                         <UpdateButton

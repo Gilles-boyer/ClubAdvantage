@@ -66,8 +66,8 @@ export default function UsersForm({ onAddUser, onEditUser }) {
     }
 
     const reset = () => {
-        setFirst_Name('')
         setLast_Name('')
+        setFirst_Name('')
         setEmail('')
         setSelectedCom('')
         setSelectedRole('')
