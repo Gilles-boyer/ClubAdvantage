@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RoleRequest;
 use App\Http\Resources\RoleResource;
 use App\Models\Role;
-use Illuminate\Http\Request;
 
 class RoleController extends Controller {
     public function index() {
@@ -23,9 +22,9 @@ class RoleController extends Controller {
 
     public function update(RoleRequest $request, Role $role) {
         // strtolower => transforme une chaine de caractères en minuscules
-        if (strtolower($role->name) === 'admin') {
+        if (strtolower($role->name) === 'super_admin') {
             return response()->json([
-                'message' => 'Le rôle admin ne peut pas être modifié.'
+                'message' => 'Le rôle super_admin ne peut pas être modifié.'
             ], 403);
         }
 
@@ -36,7 +35,7 @@ class RoleController extends Controller {
     public function destroy(Role $role) {
         if ($role->id === 1) {
             return response()->json([
-                'message' => 'Le rôle admin ne peut pas être supprimé.'
+                'message' => 'Le rôle super_admin ne peut pas être supprimé.'
             ], 403);
         }
 

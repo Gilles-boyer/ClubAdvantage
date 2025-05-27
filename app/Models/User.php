@@ -20,6 +20,7 @@ class User extends Authenticatable
         'email_verified_at',
         'terms_accepted_at',
         'status',
+        'role_id',
         'role_name',
         'committee_id',
         'remember_token',
@@ -33,9 +34,13 @@ class User extends Authenticatable
     ];
 
     // Relation : récupère le rôle associé à cet utilisateur (admin, staff, membre, CSE)
-    public function role() {
+    public function roleByName() {
         return $this->belongsTo(Role::class, 'role_name', 'name');
     }
+    public function role() {
+        return $this->belongsTo(Role::class, 'role_id');
+    }
+
 
     // Relation : récupère le comité auquel cet utilisateur est rattaché (membre ou CSE)
     public function committee() {

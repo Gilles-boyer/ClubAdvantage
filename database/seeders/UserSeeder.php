@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Committee;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -13,6 +14,7 @@ class UserSeeder extends Seeder {
         // Crée un seul admin 
         User::factory()->create([
             'role_name'    => 'super_admin',
+            'role_id'      => Role::where('name', 'super_admin')->first()?->id,
             'committee_id' => null,
             'email'        => 'admin@example.com',
             'password'     => Hash::make('manger'), // <- Hachage important ici !
@@ -21,17 +23,20 @@ class UserSeeder extends Seeder {
         // Crée 3 staffs 
         User::factory(3)->create([
             'role_name'    => 'staff',
+            'role_id'      => Role::where('name', 'staff')->first()?->id,
             'committee_id' => null,
         ]);
 
         // Crée 5 CSE
         User::factory(5)->create([
             'role_name' => 'cse_member',
+            'role_id'   => Role::where('name', 'cse_member')->first()?->id,
         ]);
         
         // Crée 10 membres
         User::factory(10)->create([
             'role_name'  => 'cse_admin',
+            'role_id'      => Role::where('name', 'cse_admin')->first()?->id,
         ]);
     }
 }

@@ -28,14 +28,17 @@ Route::apiResource('offers', OfferController::class);
 
 Route::apiResource('users', UserController::class);
 
+Route::get('/users/{id}', [UserController::class, 'show']);
+
 Route::apiResource('committees', CommitteeController::class);
 
 Route::apiResource('scans', ScanController::class);
 
 Route::apiResource('committee-offers', CommitteeOfferController::class);
 
+Route::get('user/me', [UserController::class, 'me']);
+
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/me', [UserController::class, 'me']);
     Route::put('/profile', [UserController::class, 'updateProfile']);
     Route::put('/password', [UserController::class, 'updatePassword']);
     Route::delete('/me', [UserController::class, 'deleteAccount']);
@@ -48,8 +51,6 @@ Route::post('/login', function (Request $request) {
     if (!Auth::attempt($credentials)) {
         return response()->json(['message' => 'Identifiants invalides'], 401);
     }
-
     // $request->session()->regenerate();
-
     return response()->json(['message' => 'Connecté avec succès']);
 });
