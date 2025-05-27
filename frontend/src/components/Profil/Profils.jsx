@@ -4,11 +4,8 @@ import PasswordForm from "./PasswordForm";
 import DeleteAccountButton from "../DeleteAccountButton";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-<<<<<<< HEAD
 import QRCode from "react-qr-code"; // ← Import du générateur de QR code
-=======
 import { fetchCurrentUser } from "../../services/usersService";
->>>>>>> 51eb4f42e0887974da4c0d9c58f5787ee99ea97e
 
 export default function Profils() {
     const [profil, setProfil] = useState(null);
