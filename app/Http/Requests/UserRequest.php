@@ -16,8 +16,9 @@ class UserRequest extends FormRequest
 
         return [
             // 'full_name'    => 'required|string|max:255',
-            'first_name'   => 'required', 'string', 'max:255',
-            'last_name'    => 'required', 'string', 'max:255',
+            'first_name'   => ['required', 'string', 'max:255'],
+            'last_name'    => ['required', 'string', 'max:255'],
+
 
             // Email obligatoire en POST, facultatif en PUT, mais toujours vérifié s’il est présent
             'email'        => $this->isMethod('post') ? 
@@ -27,7 +28,8 @@ class UserRequest extends FormRequest
             // Password obligatoire en POST, facultatif en PUT/PATCH
             'password'     => $this->isMethod('post') ? 'required|string|min:6' : 'nullable|string|min:6',
 
-            'role_name'    => 'required', Rule::exists('roles', 'name'),
+            'role_id'   => ['required', 'integer', Rule::exists('roles', 'id')],
+            'role_name' => ['nullable', 'string'], // <-- totalement optionnel, pas validé côté front
             'committee_id' => 'nullable', Rule::exists('committees', 'id'),
         ];
     }
@@ -43,8 +45,8 @@ class UserRequest extends FormRequest
             'first_name.required' => 'Le prénom est obligatoire.',
             'last_name.required'  => 'Le nom est obligatoire.',
 
-            'role_name.required'  => 'Un rôle doit être sélectionné.',
-            'role_name.exists'    => 'Le rôle sélectionné est invalide.',
+            'role_id.required_without'   => 'Un rôle doit être sélectionné.',
+            'role_id.exists'             => 'Le rôle sélectionné est invalide.',
 
             'committee_id.exists' => 'Le comité sélectionné est invalide.',
         ];

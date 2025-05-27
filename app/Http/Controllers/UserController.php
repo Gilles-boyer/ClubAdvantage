@@ -7,6 +7,7 @@ use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use App\Models\Role;
 
 class UserController extends Controller {
 
@@ -34,13 +35,11 @@ class UserController extends Controller {
             if (in_array($user->role_name, ['cse_member', 'cse_admin']) && empty($user->committee_id)) {
                 $notice = 'Ce membre ou CSE n’est pas rattaché à un comité.';
             }
-    
             return [
                 'user' => $userResource,
                 'notice' => $notice,
             ];
         });
-    
         return response()->json(['data' => $usersData]);
     }
 
@@ -56,21 +55,26 @@ class UserController extends Controller {
             'user' => new UserResource($user),
             'notice' => $message,
         ]);
-        
     }
 
     public function store(UserRequest $request) {
         $data = $request->validated();
+
+        // 🔄 Remplit automatiquement role_name à partir du role_id
+        if (isset($data['role_id'])) {
+            $data['role_name'] = \App\Models\Role::find($data['role_id'])?->name;
+        }
+
         $data['password'] = Hash::make($data['password']);
         $user = User::create($data);
 
         $message = null;
-        if ( in_array($data['role_name'], ['cse_member', 'cse_admin']) && empty($data['committee_id'])) {
+        if (in_array($data['role_name'], ['cse_member', 'cse_admin']) && empty($data['committee_id'])) {
             $message = 'Attention : ce rôle nécessite un comité. Veuillez l’ajouter plus tard.';
         }
 
         return response()->json([
-            'user' => new UserResource($user),
+            'user'   => new UserResource($user),
             'notice' => $message,
         ], 201);
     }
@@ -82,6 +86,12 @@ class UserController extends Controller {
 
         $data = $request->validated();
 
+        // 🔄 Met à jour automatiquement role_name si role_id changé
+        if (isset($data['role_id'])) {
+            $data['role_name'] = \App\Models\Role::find($data['role_id'])?->name;
+        }
+
+        // Hachage du mot de passe si modifié
         if (isset($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         } else {
@@ -99,7 +109,7 @@ class UserController extends Controller {
         }
 
         return response()->json([
-            'user' => new UserResource($user),
+            'user'   => new UserResource($user),
             'notice' => $message,
         ]);
     }
