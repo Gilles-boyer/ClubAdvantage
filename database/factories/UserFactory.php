@@ -14,11 +14,14 @@ class UserFactory extends Factory {
     public function definition(): array {
         static $adminCreated = false;
 
-        // Crée un seul super admin et plusieur role entre 2 et 4 
-        $roleName = $adminCreated ? 'super_admin' : fake()->randomElement(['staff', 'cse_admin', 'cse_member']);
+        // Crée un seul super admin puis des rôles entre staff, cse_admin et cse_member
+        $roleName = $adminCreated ? fake()->randomElement(['staff', 'cse_admin', 'cse_member']) : 'super_admin';
         $adminCreated = true;
 
-        // crée aléatoirement des dates sur les deux derniers années
+        // 🔁 On récupère l'objet Role correspondant
+        $role = \App\Models\Role::where('name', $roleName)->first();
+
+        // Dates de création et de mise à jour
         $createdAt = fake()->dateTimeBetween('-2 years', 'now');
 
         return [
@@ -26,11 +29,12 @@ class UserFactory extends Factory {
             'last_name'         => fake()->lastName(),
             'email'             => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password'          => static::$password ??= Hash::make('password'), // réutilise le mdp à chaque fois
+            'password'          => static::$password ??= Hash::make('password'),
             'remember_token'    => Str::random(10),
             'terms_accepted_at' => now(),
             'status'            => fake()->randomElement(['active','inactive','expired']),
-            'role_name'           => $roleName,
+            'role_name'         => $roleName,
+            'role_id'           => $role?->id, 
 
             // Associe un comité uniquement aux rôle 3(membre) et 4(CSE)
             'committee_id' => in_array($roleName, ['cse_admin', 'cse_member']) ? \App\Models\Committee::inRandomOrder()->first()?->id : null,

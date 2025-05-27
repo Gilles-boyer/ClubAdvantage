@@ -17,13 +17,18 @@ class UserResource extends JsonResource
             'last_name'  => $this->last_name,
             'full_name'  => trim($this->first_name . ' ' . $this->last_name),
         
-            // Relations simples
-            'role'      => $this->role->name ?? null,        // Rôle de l'utilisateur (admin, staff, CSE, membre)
-            'committee' => $this->committee->name ?? null,   // Nom du comité auquel il est rattaché (si applicable)
-            'status'    => $this->status,
+            // Rôle
+            'role_id'    => $this->role_id ?? null,
+            'role_name'  => $this->role_name ?? null,
+
+            // Comité
+            'committee_id'=> $this->committee_id ?? null,
+            'committee'   => $this->committee->name ?? null,
+
+            'status'      => $this->status,
         
-            // Relations complexes
-            'committees_created' => CommitteeResource::collection($this->whenLoaded('createdCommittees')), // Comités créés si user = staff
+            // Relations supplémentaires
+            'committees_created' => CommitteeResource::collection($this->whenLoaded('createdCommittees')),  // Comités créés si user = staff
             'committee_members'  => UserResource::collection($this->whenLoaded('committeeMembers')),        // Membres du comité si user = CSE
         
             // Dates si besoin
