@@ -12,6 +12,7 @@ export default function Offers() {
     const dispatch = useDispatch()
     const offers = useSelector(listOfOffers);
     const [toUpOffer, setToUpOffer] = useState(null);
+    const [toggle, setToggle] = useState(false)
     const [toast, setToast] = useState({ show: false, message: '', type: 'success' })
 
     useEffect(() => {
@@ -26,6 +27,7 @@ export default function Offers() {
                 await dispatch(addOfferThunk(newOffer)).unwrap();
             }
             setToUpOffer(null);
+            setToggle(false)
             setToast({ show: true, message: 'Offre enregistrée avec succès', type: 'success' })
         } catch (err) {
             console.error("Erreur CREATE/UPDATE Offer:", err);
@@ -47,7 +49,9 @@ export default function Offers() {
 
     };
 
-
+    // const handleToggle = (toggle) => {
+    //     setToggle(!toggle)
+    // }
     const handleToUpOffer = async (offerToEdit) => {
         setToUpOffer(offerToEdit);
     }
@@ -68,12 +72,16 @@ export default function Offers() {
                 Offres Existantes
             </h1>
             <section className="pt-10 max-w-5xl mx-auto">
-                <OfferForm onAddOffer={handleAddOffer} onEditOffer={toUpOffer} />
+                <div className='flex w-fit'>
+                    <button onClick={() => setToggle(!toggle)} className='btn btn-secondary uppercase font-medium text-xs hover:bg-primary hover:text-white'>Ajouter une offre</button>
+                </div>
+                {toggle && (<OfferForm onAddOffer={handleAddOffer} onEditOffer={toUpOffer} />)}
                 < OfferTable
-                offers={offers}
-                onUpdate={handleToUpOffer}
-                onDelete={handleDelete}
-                onUpStatus={handleStatus}
+                    offers={offers}
+                    onUpdate={handleToUpOffer}
+                    onDelete={handleDelete}
+                    onUpStatus={handleStatus}
+                    setToggle={setToggle}
                 />
                 <ToastAlert toast={toast} setToast={setToast} />
             </section>

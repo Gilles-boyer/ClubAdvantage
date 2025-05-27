@@ -4,7 +4,11 @@ import PasswordForm from "./PasswordForm";
 import DeleteAccountButton from "../DeleteAccountButton";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+<<<<<<< HEAD
 import QRCode from "react-qr-code"; // ← Import du générateur de QR code
+=======
+import { fetchCurrentUser } from "../../services/usersService";
+>>>>>>> 51eb4f42e0887974da4c0d9c58f5787ee99ea97e
 
 export default function Profils() {
     const [profil, setProfil] = useState(null);
@@ -14,15 +18,7 @@ export default function Profils() {
     // Récupération de l'utilisateur connecté via /api/me
     useEffect(() => {
         // Simulation d’un profil utilisateur fictif
-        const fakeUser = {
-            id: 1,
-            first_name: "Jean",
-            last_name: "Testeur",
-            email: "jean.testeur@example.com"
-        };
-
-        console.log("💡 Utilisateur fictif injecté :", fakeUser);
-        setProfil(fakeUser);
+        fetchCurrentUser().then( res => setProfil(res.data.data))
     }, []);
     
 {!editMode && (

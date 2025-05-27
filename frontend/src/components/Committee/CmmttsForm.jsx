@@ -5,7 +5,7 @@ import { Textbox } from "react-inputs-validation";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"
 
-export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt }) {
+export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt}) {
     const [name, setName] = useState("");
     const [autoRenew, setAutoRenew] = useState(null);
     const [errorName, setErrorName] = useState(null);
@@ -69,13 +69,10 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt }) {
         setStartDateErr('');
         setEndDateErr('');
     };
-    const [toggle, setToggle] = useState(false)
+
     return (
         <>
-            <div className='flex w-fit'>
-                <button onClick={() => setToggle(!toggle)} className='btn btn-secondary uppercase font-medium text-xs hover:bg-primary hover:text-white'>Ajouter un CSE</button>
-            </div>
-            {toggle && (
+
                 <div className="w-150 border rounded mx-auto mt-5">
                     <h3 className="font-poppins text-center py-1 text-lg font-medium bg-primary">
                         {onEditUpCmmtt ? 'Modifier un CSE' : 'Ajouter un CSE'}
@@ -171,6 +168,5 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt }) {
                         </form>
                     </div>
                 </div>
-            )}
         </>);
 }

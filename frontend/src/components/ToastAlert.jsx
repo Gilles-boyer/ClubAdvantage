@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export default function ToastAlert({ toast, setToast }) {
+export default function ToastAlert({ toast, setToast, }) {
   useEffect(() => {
     if (toast.show) {
       const timer = setTimeout(() => setToast({ ...toast, show: false }), 3000);

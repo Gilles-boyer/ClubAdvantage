@@ -46,14 +46,9 @@ export default function CategoryForm({ onAddCategory, onEditUpCat }) {
     setErrorName('');
     setErrorDesc('');
   };
-  const [toggle, setToggle] = useState(false)
   return (
     <>
-      <div className='flex w-fit'>
-        <button onClick={() => setToggle(!toggle)} className='btn btn-secondary uppercase font-medium text-xs hover:bg-primary hover:text-white'>Ajouter une catégorie</button>
-      </div>
 
-      {toggle && (
         <div className="w-150 border rounded mx-auto mt-5">
           <h3 className="font-poppins text-center py-1 text-lg font-medium bg-primary">Ajouter une catégorie</h3>
           <div className="p-5 mx-auto rounded">
@@ -121,6 +116,6 @@ export default function CategoryForm({ onAddCategory, onEditUpCat }) {
               <button onClick={reset} className='btn btn-error'>Annuler</button>
             </form>
           </div>
-        </div>)}
+        </div>
     </>)
 }

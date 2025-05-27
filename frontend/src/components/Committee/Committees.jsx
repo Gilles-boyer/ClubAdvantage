@@ -11,6 +11,7 @@ export default function Committees() {
     const committees = useSelector(listOfCommittees)
     const [toUpCmmtts, setToUpCmmtts] = useState(null);
     const [toast, setToast] = useState('')
+    const [toggle, setToggle] = useState(false)
 
     useEffect(() => {
         dispatch(fetchCmmtts())
@@ -27,6 +28,7 @@ export default function Committees() {
             }
             setToUpCmmtts(null);
             setToast({show: true, message: "CSE enregistré avec succès !", type: 'success'})
+            setToggle(false)
         } catch (err) {
             console.error("Erreur CREATE/UPDATE Category:", err);
             setToast({show: true, message: "Erreur lors de l'eregistrement du CSE !", type: 'error'})
@@ -55,11 +57,16 @@ export default function Committees() {
             </h1>
 
             <section className=" max-w-5xl mx-auto">
-                <CommitteeForm onAddCommittee={handleAddCmmtt} onEditUpCmmtt={toUpCmmtts} />
+                            <div className='flex w-fit'>
+                <button onClick={() => setToggle(!toggle)} className='btn btn-secondary uppercase font-medium text-xs hover:bg-primary hover:text-white'>Ajouter un CSE</button>
+            </div>
+            {toggle && (
+                <CommitteeForm onAddCommittee={handleAddCmmtt} onEditUpCmmtt={toUpCmmtts} />)}
                 < CmmttsTable
                     committees={committees}
                     onUpdate={handleUpdate}
                     onDelete={handleDelete}
+                    setToggle={setToggle}
                 />
             </section>
             <ToastAlert toast={toast} setToast={setToast}/>
