@@ -4,6 +4,7 @@ import PasswordForm from "./PasswordForm";
 import DeleteAccountButton from "../DeleteAccountButton";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Html5QrcodeScanner } from "html5-qrcode";
 import QRCode from "react-qr-code"; // ← Import du générateur de QR code
 import { fetchCurrentUser } from "../../services/usersService";
 

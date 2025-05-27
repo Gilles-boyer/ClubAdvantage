@@ -8,6 +8,7 @@ export default function Users() {
     const dispatch = useDispatch();
     const users = useSelector(listOfUsers)
     const [updtUser, setUpdtUser] = useState(null)
+    const [toggle, setToggle] = useState(false)
 
 
     useEffect(() => {
@@ -30,11 +31,6 @@ export default function Users() {
         }
     };
 
-    // const handleStatus = async () => {
-
-    // };
-
-
     const handleToUpdate = async (userToEdit) => {
          setUpdtUser(userToEdit)
     }
@@ -52,8 +48,12 @@ export default function Users() {
                 Utilisateurs Existants
             </h1>
             <section className="pt-10 max-w-5xl mx-auto">
-                <UsersForm onAddUser={handleAdd} onEditUser={updtUser} />
-                <UsersTable users={users} onUpdate={handleToUpdate} onDelete={handleDelete} />
+                <div className='flex w-fit'>
+                    <button onClick={() => setToggle(!toggle)} className='btn btn-secondary uppercase font-medium text-xs hover:bg-primary hover:text-white'>Ajouter un utilisateur</button>
+                </div>
+                {toggle && (
+                <UsersForm onAddUser={handleAdd} onEditUser={updtUser}/>)}
+                <UsersTable users={users} onUpdate={handleToUpdate} onDelete={handleDelete} setToggle={setToggle}/>
             </section>
         </>
 

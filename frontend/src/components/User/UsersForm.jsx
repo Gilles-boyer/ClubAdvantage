@@ -5,16 +5,16 @@ import { fetchCmmtts, listOfCommittees } from "../../store/slices/CommitteeSlice
 import { fetchRoles, listOfRoles } from "../../store/slices/rolesSlice";
 
 export default function UsersForm({ onAddUser, onEditUser }) {
+    const dispatch = useDispatch()
+    const cmmtts = useSelector(listOfCommittees)
+    const roles = useSelector(listOfRoles)
     const [last_name, setLast_Name] = useState('');
     const [first_name, setFirst_Name] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [status, setStatus] = useState(null);
-    const cmmtts = useSelector(listOfCommittees)
     const [selectedCom, setSelectedCom] = useState(null) //? Pour afficher les valeurs lors de l'update
-    const roles = useSelector(listOfRoles)
-    const [role_name, setRole_Name] = useState(null)
-    const dispatch = useDispatch()
+    const [selectedRole, setSelectedRole] = useState(null)
 
     useEffect(() => {
         if (onEditUser) {
@@ -22,8 +22,8 @@ export default function UsersForm({ onAddUser, onEditUser }) {
             setFirst_Name(onEditUser.first_name);
             setEmail(onEditUser.email);
             setStatus(onEditUser.status);
-            setSelectedCom(onEditUser.committee_name);
-            setRole_Name(String(onEditUser.role_id))
+            setSelectedCom(onEditUser.committee_id);
+            setSelectedRole(onEditUser.role_id)
         } else {
             reset()
         }
@@ -41,17 +41,18 @@ export default function UsersForm({ onAddUser, onEditUser }) {
         e.preventDefault();
 
         const comObject = cmmtts.find((com) => com.id === selectedCom)
-        const roleObject = roles.find((role) => role.name === role_name)
+        const roleObject = roles.find((role) => role.id === selectedRole)
 
         const newUser = {
             last_name,
             first_name,
             email,
             password,
-            role_name: roleObject?.name,
+            role_id: selectedRole,
+            role_name: roleObject?.name || '',
             status,
             committee_id: selectedCom,
-            committee_name: comObject?.name,
+            committee_name: comObject?.name || '',
         };
 
         if (onEditUser?.id !== undefined) {
@@ -68,7 +69,8 @@ export default function UsersForm({ onAddUser, onEditUser }) {
         setFirst_Name('')
         setLast_Name('')
         setEmail('')
-        setRole_Name('')
+        setSelectedCom('')
+        setSelectedRole('')
         setStatus('')
     };
 
@@ -76,7 +78,7 @@ export default function UsersForm({ onAddUser, onEditUser }) {
     return (
         <>
             <div className="w-150 border rounded mx-auto mt-10">
-                <h3 className="font-poppins text-center py-1 text-lg font-medium bg-primary">Ajouter une Offre</h3>
+                <h3 className="font-poppins text-center py-1 text-lg font-medium bg-primary">Ajouter un Membre</h3>
                 <div className="p-5 mx-auto rounded">
                     <form onSubmit={handleSubmit} className="spacetext-center">
                         <div className="form-control mb-4">
@@ -184,10 +186,10 @@ export default function UsersForm({ onAddUser, onEditUser }) {
                             <label htmlFor="role" className="label">
                                 <span className="label-text">Définir le Role</span>
                             </label>
-                            <select className="select w-full" value={role_name} onChange={(e) => setRole_Name(e.target.value)}>
+                            <select className="select w-full" value={selectedRole} onChange={(e) => setSelectedRole(e.target.value)}>
                                 <option disabled value="">Choisir un Role</option>
                                 {roles.map((r) => (
-                                    <option key={r.name} value={String(r.name)}>{r.name}</option>
+                                    <option key={r.id} value={String(r.id)}>{r.name}</option>
                                 ))}
                             </select>
                         </div>
