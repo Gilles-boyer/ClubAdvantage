@@ -20,8 +20,12 @@ export default function UsersForm({ onAddUser, onEditUser }) {
         if (onEditUser) {
             setLast_Name(onEditUser.last_name);
             setFirst_Name(onEditUser.first_name);
+            setEmail(onEditUser.email);
             setStatus(onEditUser.status);
-            setSelectedCom(onEditUser.committee_name)
+            setSelectedCom(onEditUser.committee_name);
+            setRole_Name(String(onEditUser.role_id))
+        } else {
+            reset()
         }
     }, [onEditUser]);
 
@@ -37,16 +41,17 @@ export default function UsersForm({ onAddUser, onEditUser }) {
         e.preventDefault();
 
         const comObject = cmmtts.find((com) => com.id === selectedCom)
+        const roleObject = roles.find((role) => role.name === role_name)
 
         const newUser = {
             last_name,
             first_name,
             email,
             password,
+            role_name: roleObject?.name,
             status,
-            role_name,
             committee_id: selectedCom,
-            committee_name: comObject?.name || '',
+            committee_name: comObject?.name,
         };
 
         if (onEditUser?.id !== undefined) {
@@ -62,6 +67,8 @@ export default function UsersForm({ onAddUser, onEditUser }) {
     const reset = () => {
         setFirst_Name('')
         setLast_Name('')
+        setEmail('')
+        setRole_Name('')
         setStatus('')
     };
 
@@ -180,7 +187,7 @@ export default function UsersForm({ onAddUser, onEditUser }) {
                             <select className="select w-full" value={role_name} onChange={(e) => setRole_Name(e.target.value)}>
                                 <option disabled value="">Choisir un Role</option>
                                 {roles.map((r) => (
-                                    <option key={r.name} value={r.name}>{r.name}</option>
+                                    <option key={r.name} value={String(r.name)}>{r.name}</option>
                                 ))}
                             </select>
                         </div>
