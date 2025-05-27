@@ -7,7 +7,6 @@ use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller {
 
@@ -18,7 +17,7 @@ class UserController extends Controller {
             $query->where('role_name', $request->role);
         }
     
-        $users = $query->orderBy('last_name')->orderBy('first_name')->paginate(15);
+        $users = $query->orderBy('last_name')->orderBy('first_name')->paginate(30);
     
         return UserResource::collection($users)->additional([
             'meta' => [
@@ -28,7 +27,6 @@ class UserController extends Controller {
             ]
         ]);
             
-        // Ajout de notices
         $usersData = $users->map(function ($user) {
             $userResource = new UserResource($user);
     
@@ -58,6 +56,7 @@ class UserController extends Controller {
             'user' => new UserResource($user),
             'notice' => $message,
         ]);
+        
     }
 
     public function store(UserRequest $request) {
@@ -115,9 +114,9 @@ class UserController extends Controller {
     }
                 
     // Retourne les informations du compte connecté (utilisé pour afficher le profil)
-    public function me(Request $request) {
+    public function me() {
         return response()->json([
-            'data' => new UserResource($request->user()) // renvoie les données du user connecté via Sanctum
+            'data' => new  UserResource(User::first())
         ]);
     }
 
@@ -133,23 +132,23 @@ class UserController extends Controller {
             'email'      => ['required', 'email', 'max:255'],
         ]);
 
-        $user->update($validated); // applique les changements en base
+        $user->update($validated);
 
         return response()->json([
             'message' => 'Profil mis à jour.',
-            'data'    => new UserResource($user), // renvoie les infos mises à jour
+            'data'    => new UserResource($user),
         ]);
     }
 
     // Met à jour le mot de passe de l'utilisateur connecté
     public function updatePassword(Request $request)
     {
-        $user = $request->user(); // utilisateur connecté
+        $user = $request->user(); 
 
         // Valide les champs nécessaires
         $validated = $request->validate([
-            'current_password' => ['required'], // champ obligatoire
-            'new_password'     => ['required', 'min:8', 'confirmed'], // confirmé = doit avoir un champ `new_password_confirmation`
+            'current_password' => ['required'], 
+            'new_password'     => ['required', 'min:8', 'confirmed'], 
         ]);
 
         // Vérifie que le mot de passe actuel est correct
@@ -166,7 +165,7 @@ class UserController extends Controller {
     // Supprime (désactive) le compte de l'utilisateur connecté via soft delete
     public function deleteAccount(Request $request)
     {
-        $user = $request->user(); // utilisateur connecté
+        $user = $request->user(); 
 
         $user->delete(); // soft delete : l'utilisateur n'est pas supprimé physiquement
 
