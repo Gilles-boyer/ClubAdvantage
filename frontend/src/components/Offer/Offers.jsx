@@ -7,6 +7,8 @@ import {
     fetchOffers, updateOfferThunk, deleteOfferThunk, listOfOffers,
     addOfferThunk,
 } from "../../store/slices/offerSlice.jsx";
+import { useLocation } from "react-router-dom";
+
 
 export default function Offers() {
     const dispatch = useDispatch()
@@ -14,11 +16,11 @@ export default function Offers() {
     const [toUpOffer, setToUpOffer] = useState(null);
     const [toggle, setToggle] = useState(false)
     const [toast, setToast] = useState({ show: false, message: '', type: 'success' })
+    const location = useLocation();
 
     useEffect(() => {
         dispatch(fetchOffers());
     }, [dispatch]);
-
     const handleAddOffer = async (newOffer) => {
         try {
             if (newOffer.id) {
@@ -65,7 +67,21 @@ export default function Offers() {
             setToast({ show: true, message: "Erreur lors de la suppression de l'offre", type: 'error' })
         }
     };
-    return (
+    if (location.pathname === '/') return (
+        <>
+            <section className="pt-10 max-w-5xl mx-auto">
+                < OfferTable
+                    offers={offers}
+                    onUpdate={handleToUpOffer}
+                    onDelete={handleDelete}
+                    onUpStatus={handleStatus}
+                    setToggle={setToggle}
+                />
+            </section>
+        </>
+
+    );
+    if (location.pathname === '/offers') return (
         <>
 
             <h1 className="text-center text-2xl font-semibold mt-8 font-poppins">
