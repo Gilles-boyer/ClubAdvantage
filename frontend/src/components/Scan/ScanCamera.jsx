@@ -1,70 +1,85 @@
-import { useContext, useEffect, useRef } from "react";
-import { Html5Qrcode } from "html5-qrcode";
-import { UserContext } from "../User/UserContext"; // Contexte pour récupérer l’utilisateur connecté (staff)
+import { useContext, useEffect, useRef, useState } from "react";
+import { Html5Qrcode, Html5QrcodeScannerState } from "html5-qrcode";
+import { UserContext } from "../User/UserContext";
 
 export default function ScanCamera({ onSuccess }) {
-    const html5QrCodeRef = useRef(null); // Référence pour garder l'objet scanner
-    const timeoutRef = useRef(null);     // Pour gérer le redémarrage après un scan
-    const { user } = useContext(UserContext); // Utilisateur connecté = le staff qui scanne
+    const html5QrCodeRef = useRef(null);       // Instance Html5Qrcode
+    const timeoutRef = useRef(null);           // Pour gérer relance du scan
+    const lastScanRef = useRef("");            // 🔁 Empêche double scan immédiat
+    const { user } = useContext(UserContext);
+
+    const [isReady, setIsReady] = useState(false); // Affichage de la caméra
 
     useEffect(() => {
-        // Fonction principale qui lance le scanner
         const startScanner = async () => {
-            const html5QrCode = new Html5Qrcode("reader");
-            html5QrCodeRef.current = html5QrCode;
+            const readerDiv = document.getElementById("reader");
+            if (!readerDiv) return;
 
-            // Récupère les caméras disponibles (webcam ou mobile)
-            const devices = await Html5Qrcode.getCameras();
-            if (devices.length === 0) {
-                console.warn("Aucune caméra détectée.");
+            // Ne relance pas si déjà actif
+            if (html5QrCodeRef.current?.getState?.() === Html5QrcodeScannerState.SCANNING) {
+                console.log("⚠️ Scanner déjà actif.");
                 return;
             }
 
-            const cameraId = devices[0].id; // Utilise la première caméra détectée
+            const scanner = new Html5Qrcode("reader");
+            html5QrCodeRef.current = scanner;
 
-            html5QrCode.start(
+            const cameras = await Html5Qrcode.getCameras();
+            if (!cameras.length) return console.warn("Aucune caméra détectée.");
+
+            const cameraId = cameras[0].id;
+
+            scanner.start(
                 cameraId,
                 { fps: 10, qrbox: 250 },
                 async (decodedText) => {
-                    console.log("📷 QR détecté :", decodedText);
+                    // ✅ Ignore les scans répétitifs du même QR code
+                    if (decodedText === lastScanRef.current) return;
+                    lastScanRef.current = decodedText;
 
-                    const scannedUserId = parseInt(decodedText); // Le QR contient l'ID de l'utilisateur
-                    const staffId = user?.id; // Celui qui scanne
+                    const scannedUserId = parseInt(decodedText);
+                    const staffId = user?.id;
 
                     if (scannedUserId && staffId) {
                         await onSuccess(scannedUserId, staffId);
 
-                        // Stop le scanner après succès
-                        await html5QrCode.stop();
-                        html5QrCode.clear();
-
-                        // Redémarre le scanner après 5 secondes pour une nouvelle personne
-                        timeoutRef.current = setTimeout(() => {
-                            startScanner();
-                        }, 5000);
+                        // 💤 Stoppe le scanner et redémarre après délai
+                        scanner.stop().then(() => {
+                            scanner.clear();
+                            timeoutRef.current = setTimeout(() => {
+                                lastScanRef.current = ""; // 🔄 Réinitialise protection anti-scan
+                                startScanner();
+                            }, 3000); // <- délai de relance après scan
+                        });
                     }
                 },
-                // (err) => {
-                //     // Silencieux volontairement : évite le spam console
+                // (errorMsg) => {
+                //     // Silencieux
                 // }
-            ).catch((err) => console.error("Erreur démarrage caméra :", err));
+            ).then(() => {
+                setIsReady(true);
+            }).catch(err => {
+                console.error("Erreur lancement caméra :", err);
+            });
         };
 
         startScanner();
 
-        // Nettoyage si on quitte la page
         return () => {
             clearTimeout(timeoutRef.current);
-            html5QrCodeRef.current?.stop().then(() => {
-                html5QrCodeRef.current.clear();
-            });
+            const scanner = html5QrCodeRef.current;
+            if (scanner?.getState?.() === Html5QrcodeScannerState.SCANNING) {
+                scanner.stop().then(() => scanner.clear());
+            }
         };
     }, [onSuccess, user]);
 
     return (
         <div className="flex flex-col items-center my-6">
             <div id="reader" className="w-72 h-72 border rounded-lg shadow bg-white"></div>
-            <p className="mt-4 text-gray-600 text-sm">Scannez un QR code d'utilisateur. Reprise automatique après chaque scan.</p>
+            <p className="mt-4 text-gray-600 text-sm">
+                {isReady ? "Scannez un QR code d'utilisateur" : "Initialisation de la caméra..."}
+            </p>
         </div>
     );
 }
