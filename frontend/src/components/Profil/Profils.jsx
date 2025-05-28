@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { Html5QrcodeScanner } from "html5-qrcode";
 import QRCode from "react-qr-code"; // ← Import du générateur de QR code
 import { fetchCurrentUser } from "../../services/usersService";
+import { updateProfil } from "../../services/profilService";
 
 export default function Profils() {
     const [profil, setProfil] = useState(null);
@@ -19,17 +20,17 @@ export default function Profils() {
         fetchCurrentUser().then( res => setProfil(res.data.data))
     }, []);
     
-{!editMode && (
-    <div className="mt-6 text-center">
-        <p className="font-medium mb-2">🎟️ Mon QR Code personnel</p>
-        <QRCode value={String(profil.id)} size={180} />
-        <p className="text-xs mt-2 text-gray-500">Présentez ce QR code au staff pour être scanné.</p>
-    </div>
-)}
+// {!editMode && (
+//     <div className="mt-6 text-center">
+//         <p className="font-medium mb-2">🎟️ Mon QR Code personnel</p>
+//         <QRCode value={String(profil.id)} size={180} />
+//         <p className="text-xs mt-2 text-gray-500">Présentez ce QR code au staff pour être scanné.</p>
+//     </div>
+// )}
 
     // Mise à jour des informations de profil
     const handleUpdate = (data) => {
-        axios.put("/api/profile", data)
+        updateProfil(data)
             .then((res) => {
                 const updatedUser = res.data.data;
                 setProfil(updatedUser);
