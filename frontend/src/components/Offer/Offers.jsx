@@ -21,6 +21,8 @@ export default function Offers() {
     useEffect(() => {
         dispatch(fetchOffers());
     }, [dispatch]);
+
+    
     const handleAddOffer = async (newOffer) => {
         try {
             if (newOffer.id) {

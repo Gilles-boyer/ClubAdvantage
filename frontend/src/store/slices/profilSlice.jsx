@@ -13,7 +13,8 @@ export const fetchProfil = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             const response = await displayProfil()
-            return response.data.data;
+            const user = await response.json()
+            return user;
         } catch (error) {
             return thunkAPI.rejectWithValue(error.message);
         }
@@ -55,8 +56,7 @@ export const profilSlice = createSlice({
             .addCase(fetchProfil.fulfilled, (state, action) => {
                 state.status = "succeeded";
                 state.loading = false;
-                console.log('Datas :',action.payload);
-                state.profil= action.payload;
+                state.profil = action.payload
 
             })
             .addCase(updateProfilThunk.fulfilled, (state, action) => {

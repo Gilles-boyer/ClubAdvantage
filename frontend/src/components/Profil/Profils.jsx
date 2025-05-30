@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { currentProfil, fetchProfil, updateProfilThunk } from "../../store/slices/profilSlice";
 
 export default function Profils() {
-    const { profil } = useSelector(currentProfil);
+    const profil= useSelector(currentProfil);
     const [editMode, setEditMode] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
