@@ -39,8 +39,6 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt}) {
             : `${new Date().getFullYear()}-12-31`;
 
 
-        console.log('La date de début est de type :', typeof (startDate));
-
         const newCommittee = {
             name,
             auto_renew: autoRenew,

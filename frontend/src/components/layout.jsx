@@ -10,14 +10,14 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
-      <header className="bg-secondary flex items-center text-white p-4 w-full">
+      <header className="bg-secondary flex items-center text-white w-full">
         <Header menu={{ isOpen, setIsOpen }} />
       </header>
 
       {/* Conteneur principal avec navigation et contenu */}
       <div className="flex flex-grow w-full">
         {/* Navigation Drawer */}
-        <aside className={`bg-accent text-white w-64 p-4 transition-transform h-screen ${isOpen ? "block" : "hidden"} flex-shrink-0`}>
+        <aside className={`bg-accent text-white p-4 transition-transform h-screen ${isOpen ? "block" : "hidden"} flex-shrink-0`}>
           <Sidebar />
         </aside>
 

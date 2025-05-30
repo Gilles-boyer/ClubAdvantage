@@ -18,7 +18,6 @@ export default function Committees() {
         
     }, [dispatch]);
     
-    console.log('Les CSE :',committees);
     const handleAddCmmtt = async (newCommittee) => {
         try {
             if (newCommittee.id) {
