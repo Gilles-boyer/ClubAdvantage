@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+import { StrictMode } from 'react' // beug multiple de camera
 import { createRoot } from 'react-dom/client'
 import './style/tailwind.css'
 import App from './App.jsx'
