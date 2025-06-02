@@ -15,23 +15,22 @@ export default function Committees() {
 
     useEffect(() => {
         dispatch(fetchCmmtts())
-        
+
     }, [dispatch]);
-    
-    console.log('Les CSE :',committees);
+
     const handleAddCmmtt = async (newCommittee) => {
         try {
             if (newCommittee.id) {
-                await dispatch(updateCmmttThunk({id: newCommittee.id, data: newCommittee})).unwrap()
+                await dispatch(updateCmmttThunk({ id: newCommittee.id, data: newCommittee })).unwrap()
             } else {
                 await dispatch(addCmmttThunk(newCommittee)).unwrap()
             }
             setToUpCmmtts(null);
-            setToast({show: true, message: "CSE enregistré avec succès !", type: 'success'})
+            setToast({ show: true, message: "CSE enregistré avec succès !", type: 'success' })
             setToggle(false)
         } catch (err) {
             console.error("Erreur CREATE/UPDATE Category:", err);
-            setToast({show: true, message: "Erreur lors de l'eregistrement du CSE !", type: 'error'})
+            setToast({ show: true, message: "Erreur lors de l'eregistrement du CSE !", type: 'error' })
         }
     };
 
@@ -42,26 +41,26 @@ export default function Committees() {
     const handleDelete = async (id) => {
         try {
             await dispatch(deleteCmmttThunk(id)).unwrap()
-            setToast({show: true, message: "CSE supprimé avec succès !", type: 'success'})
+            setToast({ show: true, message: "CSE supprimé avec succès !", type: 'success' })
         } catch (err) {
             console.error("Erreur on DELETE :", err);
-            setToast({show: true, message: "Erreur lors de la suppression du CSE !", type: 'error'})
+            setToast({ show: true, message: "Erreur lors de la suppression du CSE !", type: 'error' })
         }
     };
 
     return (
-        <>
+        <div className="shadow-lg pb-5">
 
-            <h1 className="text-center text-2xl font-semibold mt-8 mb-4 font-poppins">
-                CSE existants
+            <h1 className="text-center text-2xl font-semibold mt-8 font-poppins bg-accent py-3 w-full mx-auto">
+                CSE
             </h1>
 
-            <section className=" max-w-5xl mx-auto">
-                            <div className='flex w-fit'>
-                <button onClick={() => setToggle(!toggle)} className='btn btn-secondary uppercase font-medium text-xs hover:bg-primary hover:text-white'>Ajouter un CSE</button>
-            </div>
-            {toggle && (
-                <CommitteeForm onAddCommittee={handleAddCmmtt} onEditUpCmmtt={toUpCmmtts} />)}
+            <section className="pt-10 max-w-5xl mx-auto">
+                <div className='flex w-fit'>
+                    <button onClick={() => setToggle(!toggle)} className='btn btn-secondary uppercase font-medium text-xs hover:bg-primary hover:text-white'>Ajouter un CSE</button>
+                </div>
+                {toggle && (
+                    <CommitteeForm onAddCommittee={handleAddCmmtt} onEditUpCmmtt={toUpCmmtts} />)}
                 < CmmttsTable
                     committees={committees}
                     onUpdate={handleUpdate}
@@ -69,8 +68,8 @@ export default function Committees() {
                     setToggle={setToggle}
                 />
             </section>
-            <ToastAlert toast={toast} setToast={setToast}/>
-        </>
+            <ToastAlert toast={toast} setToast={setToast} />
+        </div>
 
     )
 }

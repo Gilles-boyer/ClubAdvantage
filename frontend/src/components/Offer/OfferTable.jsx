@@ -1,16 +1,19 @@
 import UpdateButton from "../UpdateButton"
 import DeleteButton from "../DeleteButton"
 import { useState } from "react"
+import { useLocation } from "react-router-dom"
 
-export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, setToggle}) {
+
+export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, setToggle }) {
     const [search, setSearch] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
     const itemsPerPage = 6
+    const location = useLocation()
 
     const filtered = offers.filter(off =>
-        off.title.toLowerCase().includes(search.toLowerCase())
+        (off.title + " " + off.description + " " + off.category_name).toLowerCase().includes(search.toLowerCase())
     );
-
+    const isStaffPage = location.pathname === '/offers'
     const totalPages = Math.ceil(filtered.length / itemsPerPage);
     const paginated = filtered.slice(
         (currentPage - 1) * itemsPerPage,
@@ -43,8 +46,10 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                             <th className="px-4 py-2">Titre</th>
                             <th className="px-4 py-2">Catégorie</th>
                             <th className="px-4 py-2">Description</th>
-                            <th className="px-4 py-2">Statut</th>
-                            <th className="px-4 py-2">Action</th>
+                            {isStaffPage && <>
+                                <th className="px-4 py-2">Statut</th>
+                                <th className="px-4 py-2">Action</th>
+                            </>}
                         </tr>
                     </thead>
                     <tbody>
@@ -56,7 +61,8 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                                 <td className="px-4 py-2 font-medium bg-accent">{offer.title}</td>
                                 <td className="px-4 py-2">{offer.category_name}</td>
                                 <td className="px-4 py-2">{offer.description}</td>
-                                <td className="px-4 py-2">
+
+                                {isStaffPage && <><td className="px-4 py-2">
                                     <button
                                         onClick={() => onUpStatus(offer.id)}
                                         className={`py-1 px-3 rounded text-white w-20 hover:cursor-pointer ${offer.is_active ? "bg-indigo-800" : "bg-orange-400"
@@ -65,15 +71,16 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                                         {offer.is_active ? "Actif" : "Inactif"}
                                     </button>
                                 </td>
-                                <td className="px-4 py-2 space-x-2 bg-accent">
-                                    <UpdateButton
-                                        item={offer}
-                                        onUpdate={() => {
-                                            setToggle(true);
-                                            onUpdate(offer);}}
-                                    />
-                                    <DeleteButton id={offer.id} onDelete={() => onDelete(offer.id)} />
-                                </td>
+                                    <td className="px-4 py-2 space-x-2 bg-accent">
+                                        <UpdateButton
+                                            item={offer}
+                                            onUpdate={() => {
+                                                setToggle(true);
+                                                onUpdate(offer);
+                                            }}
+                                        />
+                                        <DeleteButton id={offer.id} onDelete={() => onDelete(offer.id)} />
+                                    </td></>}
                             </tr>
                         ))}
                     </tbody>
@@ -87,7 +94,7 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                 >
                     Précédent
                 </button>
-                <span className="text-sm text-gray-600">
+                <span className="text-sm text-gray-600 font-medium">
                     Page {currentPage} sur {totalPages}
                 </span>
                 <button
@@ -98,6 +105,6 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                     Suivant
                 </button>
             </div>
-        </div>
+        </div >
     )
 }
