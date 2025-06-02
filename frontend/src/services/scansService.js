@@ -11,3 +11,6 @@ export const createScan = (data) => client.post('/scans', data);
 
 // (Optionnel) Supprimer un scan
 export const deleteScan = (id) => client.delete(`/scans/${id}`);
+
+// Valider et enregistrer un scan via l'API /scans/validate
+export const validateScan = (data) => client.post('/scans/validate', data);

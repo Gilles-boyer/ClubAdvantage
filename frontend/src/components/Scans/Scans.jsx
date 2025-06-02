@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { displayScans, createScan } from "../../services/scansService"; // API pour GET & POST /scans
+import { displayScans, validateScan } from "../../services/scansService"; // API pour GET & POST /scans
 import ScansCamera from "./ScansCamera"; // Caméra HTML5
 import ScansResult from "./ScansResult"; // Affiche les données d’un scan réussi
 
@@ -32,21 +32,24 @@ export default function Scans() {
 
     // ✅ Fonction exécutée à chaque scan réussi (via le composant ScanCamera)
     const handleScanSuccess = async (scannedUserId, scannerId) => {
-        const payload = {
-            scanned_at: new Date().toISOString(), // Date/heure du scan
-            scanned_by: scannerId,                // ID du staff qui scanne
-            user_id: scannedUserId                // ID du membre scanné
-        };
-
         try {
-            const res = await createScan(payload);
-            setScans((prev) => [...prev, res.data.data]); // On ajoute le nouveau scan
-            setScanSuccess(res.data.data);                // On met à jour le scan affiché
+            const res = await validateScan("/api/scans/validate", {
+                user_id: scannedUserId,
+                scanned_by: scannerId,
+            });
 
+            // Ajout dans la liste + affichage en haut
+            setScans((prev) => [...prev, res.data.data]);
+            setScanSuccess(res.data.data);
         } catch (err) {
-            console.error("Erreur lors du scan :", err);
+            if (err.response?.data?.message) {
+                alert(`⛔ ${err.response.data.message}`);
+            } else {
+                alert("❌ Erreur lors de la validation du scan.");
+            }
         }
     };
+
 
     // 🔁 Pagination des scans
     const paginatedScans = scans.slice(
@@ -63,7 +66,20 @@ export default function Scans() {
             <ScansCamera onSuccess={handleScanSuccess} /> 
 
             {/* 👁️ Affichage du dernier scan détaillé */}
-            {scanSuccess && <ScansResult data={scanSuccess} />}
+            {scanSuccess && (
+            <>
+                <ScansResult data={scanSuccess} />
+                <div className="text-center mt-4">
+                <button
+                    onClick={() => setScanSuccess(null)}
+                    className="btn btn-outline btn-sm"
+                >
+                    🔁 Nouveau scan
+                </button>
+                </div>
+            </>
+            )}
+
 
             {/* 🧾 Tableau de tous les scans paginés */}
             <section className="pt-10 max-w-4xl mx-auto">
