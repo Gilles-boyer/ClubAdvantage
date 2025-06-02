@@ -58,6 +58,13 @@ class CommitteeController extends Controller {
         // Retourne le comité mis à jour via une ressource propre
         return new CommitteeResource($committee);
     }
+
+    // DELETE /api/Committees/{committee}
+    public function destroy(Committee $committee) {
+        $committee->delete();
+
+        return response()->json(['message' => 'Committées supprimée avec succès.']);
+    }
 }
 
 
