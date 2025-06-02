@@ -70,7 +70,7 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle }) {
                                                 onUpdate(user)
                                             }}
                                         />
-                                        <DeleteButton id={user.id} onDelete={() => onDelete(user.id)} />
+                                        <DeleteButton onDelete={() => onDelete(user.id)} />
                                     </td>
                                 </tr>
                             ))}
