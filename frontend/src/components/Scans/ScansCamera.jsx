@@ -1,6 +1,10 @@
-import { useContext, useEffect, useRef, useState, useCallback, useSelector } from "react";
+import { useContext, useEffect, useRef, useState, useCallback } from "react";
 import { Html5Qrcode, Html5QrcodeScannerState } from "html5-qrcode";
 import { UserContext } from "../User/UserContext";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUsers, listOfUsers } from "../../store/slices/userSlice";
+import { fetchUserById } from "../../services/usersService";
+import { fetchCmmtts, listOfCommittees } from "../../store/slices/CommitteeSlice";
 
 export default function ScansCamera({ onSuccess }) {
     const html5QrCodeRef = useRef(null);                 // 🔁 Référence du scanner actif
@@ -8,6 +12,15 @@ export default function ScansCamera({ onSuccess }) {
     const [isReady, setIsReady] = useState(false);       // 🎥 Caméra prête ou non
     const [snapshot, setSnapshot] = useState(null);      // 🖼️ Image capturée
     const [hasScanned, setHasScanned] = useState(false); // 🔒 Verrou pour éviter les scans répétés
+    const [dataOfUser, setDataOfUser] = useState(null) //datas de l'utilisateur scanné si existant en BDD
+    const dataBaseUsers = useSelector(listOfUsers) //liste des users dans la BDD
+    const commttsList = useSelector(listOfCommittees)
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchUsers()),
+            dispatch(fetchCmmtts())
+    }, [dispatch])
 
     // 📦 Fonction de lancement du scanner encapsulée dans useCallback pour ne pas être recréée inutilement
     const startScanner = useCallback(async () => {
@@ -36,6 +49,23 @@ export default function ScansCamera({ onSuccess }) {
 
                     const scannedUserId = parseInt(decodedText);
                     const staffId = user?.id;
+                    try {
+                        console.log('Structure de la BDD :', dataBaseUsers);
+                        console.log("Id de l'utilisateur scanné :", scannedUserId);
+
+
+                        const findedById = dataBaseUsers.find((us) => us.id === scannedUserId)
+                        if (findedById) {
+                            fetchUserById(scannedUserId)
+                                .then((res) => setDataOfUser(res.data))
+
+                        } else {
+                            console.log('Utilisateur non trouvé en BDD');
+
+                        }
+                    } catch (err) {
+                        console.error('ERROR ON FINDING USER', err)
+                    }
 
                     // 🖼️ Capture un snapshot du flux vidéo
                     const video = document.querySelector("video");
@@ -68,7 +98,7 @@ export default function ScansCamera({ onSuccess }) {
         } catch (err) {
             console.error("🚫 Erreur démarrage scanner :", err);
         }
-    }, [onSuccess, user, hasScanned]);
+    }, [onSuccess, user, hasScanned, dataBaseUsers]);
 
     // 🎬 Lance le scanner à l’ouverture du composant
     useEffect(() => {
@@ -119,6 +149,21 @@ export default function ScansCamera({ onSuccess }) {
                     ? "Scannez un QR code d'utilisateur"
                     : "Initialisation de la caméra..."}
             </p>
-        </div>
+            {commttsList && dataOfUser && (
+                <section className="bg-accent px-6 pb-5 rounded font-medium">
+                    <h3 className="text-center my-4">Informations Membre</h3>
+                    <div className="flex space-x-5">
+                        <div className="space-y-5">
+                            <p className="bg-white p-2 rounded-xl">Nom : {dataOfUser.user.last_name}</p>
+                            <p className="bg-white p-2 rounded-xl">Prénom : {dataOfUser.user.first_name}</p>
+                        </div>
+                        <div className="space-y-5">
+                            <p className="bg-white p-2 rounded-xl">CSE : {commttsList.find((com) => com.id === dataOfUser.user.committee_id)?.name}</p>
+                            <p className="bg-white p-2 rounded-xl">Status : {dataOfUser.user.status}</p>
+                        </div>
+                    </div>
+                </section>
+            )}
+        </div >
     );
 }
