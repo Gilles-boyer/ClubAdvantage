@@ -1,14 +1,15 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState, useCallback } from "react";
 import { Html5Qrcode, Html5QrcodeScannerState } from "html5-qrcode";
 import { UserContext } from "../User/UserContext";
 
-export default function ScansCamera({ onSuccess}) {
+export default function ScansCamera({onSuccess}) {
     const html5QrCodeRef = useRef(null);       // Instance Html5Qrcode
     const { user } = useContext(UserContext);
     const [isReady, setIsReady] = useState(false); // Affichage de la caméra
+    const [snapshot, setSnapshot] = useState(null);
 
-    useEffect(() => {
-        const startScanner = async () => {
+    // useEffect(() => {
+        const startScanner = useCallback( async () => {
             const readerDiv = document.getElementById("reader"); 
             if (!readerDiv) return console.error("❌ #reader introuvable");
 
@@ -26,11 +27,24 @@ export default function ScansCamera({ onSuccess}) {
 
                 await scanner.start(
                     cameraId,
-                    { fps: 4, qrbox: 250 },
+                    { fps: 5, qrbox: 250 },
                     async (decodedText) => {
                         console.log("✅ QR détecté :", decodedText);
                         const scannedUserId = parseInt(decodedText);
                         const staffId = user?.id;
+
+                        // 🖼️ Capture de l’image de la caméra
+                        const video = document.querySelector("video");
+                        if (video) {
+                            const canvas = document.createElement("canvas");
+                            canvas.width = video.videoWidth;
+                            canvas.height = video.videoHeight;
+                            const ctx = canvas.getContext("2d");
+                            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                            const image = canvas.toDataURL("image/png");
+                            setSnapshot(image);
+                        }
+
 
                         if (scannedUserId && staffId) {
                             await onSuccess(scannedUserId, staffId);
@@ -50,8 +64,9 @@ export default function ScansCamera({ onSuccess}) {
             } catch (err) {
                 console.error("🚫 Erreur démarrage scanner :", err);
             }
-        };
+        }, [onSuccess, user]);
 
+    useEffect(() => {
         startScanner();
 
         return () => {
@@ -61,13 +76,41 @@ export default function ScansCamera({ onSuccess}) {
                 scanner.stop().then(() => scanner.clear());
             }
         };
-    }, [onSuccess, user]);
+    }, [startScanner]);
 
     return (
         <div className="flex flex-col items-center my-6">
-            <div id="reader" className="w-100 h-80 border rounded-lg shadow bg-white"></div>
+            {snapshot ? (
+                <>
+                    <img
+                        src={snapshot}
+                        alt="Capture scan"
+                        className="w-100 h-80 object-cover border rounded-lg shadow"
+                    />
+                    <button
+                        className="mt-2 btn btn-outline btn-sm"
+                        onClick={() => {
+                            setSnapshot(null);
+                            setIsReady(false);
+                            setTimeout(() => {
+                                startScanner();
+                            }, 2);
+                        }}
+                    >
+                        🔁 Reprendre le scan
+                    </button>
+                </>
+            ) : (
+                <div
+                    id="reader"
+                    className="w-100 h-75 border shadow bg-white"
+                ></div>
+            )}
             <p className="mt-4 text-gray-600 text-sm">
-                {isReady ? "Scannez un QR code d'utilisateur" : "Initialisation de la caméra..."}
+                {isReady 
+                    ? "Scannez un QR code d'utilisateur" 
+                    : "Initialisation de la caméra..."
+                }
             </p>
         </div>
     );
