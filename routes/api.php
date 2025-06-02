@@ -34,6 +34,8 @@ Route::apiResource('committees', CommitteeController::class);
 
 Route::apiResource('scans', ScanController::class);
 
+Route::post('/scans/validate', [ScanController::class, 'validateStore']);
+
 Route::apiResource('committee-offers', CommitteeOfferController::class);
 
 Route::get('user/me', [UserController::class, 'me']);
