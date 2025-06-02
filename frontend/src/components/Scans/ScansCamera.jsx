@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState, useCallback } from "react";
+import { useContext, useEffect, useRef, useState, useCallback, useSelector } from "react";
 import { Html5Qrcode, Html5QrcodeScannerState } from "html5-qrcode";
 import { UserContext } from "../User/UserContext";
 
@@ -7,7 +7,6 @@ export default function ScansCamera({onSuccess}) {
     const { user } = useContext(UserContext);
     const [isReady, setIsReady] = useState(false); // Affichage de la caméra
     const [snapshot, setSnapshot] = useState(null);
-    const dataBaseUsers = useSelector(listOfUsers)
 
 
 
