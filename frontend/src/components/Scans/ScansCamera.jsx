@@ -1,12 +1,15 @@
 import { useContext, useEffect, useRef, useState, useCallback } from "react";
 import { Html5Qrcode, Html5QrcodeScannerState } from "html5-qrcode";
 import { UserContext } from "../User/UserContext";
+import { useSelector } from "react-redux";
+import { listOfUsers } from "../../store/slices/userSlice";
 
 export default function ScansCamera({onSuccess}) {
     const html5QrCodeRef = useRef(null);       // Instance Html5Qrcode
     const { user } = useContext(UserContext);
     const [isReady, setIsReady] = useState(false); // Affichage de la caméra
     const [snapshot, setSnapshot] = useState(null);
+    const scannedUser = useSelector(listOfUsers)
 
     // useEffect(() => {
         const startScanner = useCallback( async () => {
@@ -30,8 +33,10 @@ export default function ScansCamera({onSuccess}) {
                     { fps: 5, qrbox: 250 },
                     async (decodedText) => {
                         console.log("✅ QR détecté :", decodedText);
-                        const scannedUserId = parseInt(decodedText);
+                        const scannedUserId = JSON.parse(decodedText);
                         const staffId = user?.id;
+                        console.log("Valeur de l'identifiant utilisateur :", staffId);
+                        
 
                         // 🖼️ Capture de l’image de la caméra
                         const video = document.querySelector("video");
