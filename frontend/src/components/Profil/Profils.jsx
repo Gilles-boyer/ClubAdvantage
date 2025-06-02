@@ -10,17 +10,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { currentProfil, fetchProfil, updateProfilThunk } from "../../store/slices/profilSlice";
 
 export default function Profils() {
-    const profil= useSelector(currentProfil);
+    const profil = useSelector(currentProfil);
     const [editMode, setEditMode] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     // Récupération de l'utilisateur connecté via /api/me
     useEffect(() => {
-        // Simulation d’un profil utilisateur fictif
-        console.log('Le profil est en cours de téléchargement...');
-
-        dispatch(fetchProfil())
+        dispatch(fetchProfil()).unwrap().catch(err => {
+            console.error("Erreur chargement profil:", err);
+        });
     }, [dispatch]);
 
     // {!editMode && (
@@ -58,7 +57,7 @@ export default function Profils() {
     };
 
 
-    if (!profil || !profil.first_name) {
+    if (!profil || profil.data) {
         return <>
             <p className="text-center mt-10 text-gray-500">Chargement du profil...</p>
             <pre>{JSON.stringify(profil, null, 2)}</pre>
@@ -77,9 +76,9 @@ export default function Profils() {
                 <>
                     <div className="card">
                         <div className="card-body p-5 bg-white rounded border">
-                            <p className="uppercase">Nom : <span>{profil.last_name}</span></p>
-                            <p className="uppercase">Prénom : <span className="capitalize">{profil.first_name}</span></p>
-                            <p className="uppercase">Email : <span className="lowercase">{profil.email}</span></p>
+                            <p className="uppercase">Nom : <span>{profil.data.last_name}</span></p>
+                            <p className="uppercase">Prénom : <span className="capitalize">{profil.data.first_name}</span></p>
+                            <p className="uppercase">Email : <span className="lowercase">{profil.data.email}</span></p>
                         </div>
                     </div>
 

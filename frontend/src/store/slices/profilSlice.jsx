@@ -13,20 +13,19 @@ export const fetchProfil = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             const response = await displayProfil()
-            const user = await response.json()
-            return user;
-        } catch (error) {
-            return thunkAPI.rejectWithValue(error.message);
+            return response.data.data
+        } catch (err) {
+            return thunkAPI.rejectWithValue(err.response?.data?.message || err.message);
         }
     }
 );
 
 export const updateProfilThunk = createAsyncThunk(
     'profil/updateProfil',
-    async ({ data }, thunkAPI) => {
+    async (data, thunkAPI) => {
         try {
             const response = await updateProfil(data);
-            return response.data.data;
+            return response.data;
         } catch (err) {
             return thunkAPI.rejectWithValue(err.message);
         }
@@ -69,5 +68,5 @@ export const profilSlice = createSlice({
     },
 });
 
-export const currentProfil = (state) => state.profil
+export const currentProfil = (state) => state.profil?.data || null;
 export default profilSlice.reducer

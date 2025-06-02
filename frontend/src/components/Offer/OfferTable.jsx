@@ -3,6 +3,7 @@ import DeleteButton from "../DeleteButton"
 import { useState } from "react"
 import { useLocation } from "react-router-dom"
 
+
 export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, setToggle }) {
     const [search, setSearch] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
@@ -93,7 +94,7 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                 >
                     Précédent
                 </button>
-                <span className="text-sm text-gray-600">
+                <span className="text-sm text-gray-600 font-medium">
                     Page {currentPage} sur {totalPages}
                 </span>
                 <button
