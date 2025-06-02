@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
 
-export default function ScanManualForm({ onManualScan }) {
+export default function ScansManualForm({ onManualScans }) {
     const [manualId, setManualId] = useState("");
     const { user } = useContext(UserContext);
 
@@ -14,7 +14,7 @@ export default function ScanManualForm({ onManualScan }) {
         const staffId = user?.id;
 
         if (scannedUserId && staffId) {
-            onManualScan(scannedUserId, staffId); // On appelle la même logique que le scan caméra
+            onManualScans(scannedUserId, staffId); // On appelle la même logique que le scan caméra
             setManualId("");
         }
     };

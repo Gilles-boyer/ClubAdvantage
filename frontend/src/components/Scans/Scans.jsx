@@ -1,0 +1,110 @@
+import { useEffect, useState } from "react";
+import { displayScans, createScan } from "../../services/scansService"; // API pour GET & POST /scans
+import ScansCamera from "./ScansCamera"; // Caméra HTML5
+import ScansResult from "./ScansResult"; // Affiche les données d’un scan réussi
+
+export default function Scans() {
+    // 🧠 État pour stocker tous les scans depuis l’API
+    const [scans, setScans] = useState([]);
+
+    // 🧠 État pour stocker le dernier scan effectué
+    const [scanSuccess, setScanSuccess] = useState(null);
+
+    // 🔁 Pagination client pour limiter l’affichage
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 4;
+    const totalPages = Math.ceil(scans.length / itemsPerPage);
+
+    // 🔁 Charger les scans au chargement initial du composant
+    useEffect(() => {
+        fetchScans();
+    }, []);
+
+    // 🔧 Fonction qui appelle l’API pour récupérer tous les scans
+    const fetchScans = async () => {
+        try {
+            const res = await displayScans();
+            setScans(res.data.data);
+        } catch (err) {
+            console.error("Erreur GET scans :", err);
+        }
+    };
+
+    // ✅ Fonction exécutée à chaque scan réussi (via le composant ScanCamera)
+    const handleScanSuccess = async (scannedUserId, scannerId) => {
+        const payload = {
+            scanned_at: new Date().toISOString(), // Date/heure du scan
+            scanned_by: scannerId,                // ID du staff qui scanne
+            user_id: scannedUserId                // ID du membre scanné
+        };
+
+        try {
+            const res = await createScan(payload);
+            setScans((prev) => [...prev, res.data.data]); // On ajoute le nouveau scan
+            setScanSuccess(res.data.data);                // On met à jour le scan affiché
+
+        } catch (err) {
+            console.error("Erreur lors du scan :", err);
+        }
+    };
+
+    // 🔁 Pagination des scans
+    const paginatedScans = scans.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+    );
+
+    return (
+        <>
+            {/* 🏷️ Titre principal */}
+            <h1 className="text-2xl font-semibold text-center my-4">Scans enregistrés</h1>
+
+            {/* 📸 Caméra QR Code */}
+            <ScansCamera onSuccess={handleScanSuccess} /> 
+
+            {/* 👁️ Affichage du dernier scan détaillé */}
+            {scanSuccess && <ScansResult data={scanSuccess} />}
+
+            {/* 🧾 Tableau de tous les scans paginés */}
+            <section className="pt-10 max-w-4xl mx-auto">
+                <table className="table w-full">
+                    <thead>
+                        <tr className="bg-primary text-white">
+                            <th>Date</th>
+                            <th>Scanné par</th>
+                            <th>Utilisateur scanné</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {paginatedScans.map((scan) => (
+                            <tr key={scan.id}>
+                                <td>{scan.scanned_at}</td>
+                                <td>{scan.scanned_by_name}</td>
+                                <td>{scan.scanned_user_name}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+
+                {/* 🔁 Contrôles de pagination */}
+                <div className="flex justify-center items-center mt-4 space-x-4">
+                    <button
+                        className="btn btn-sm btn-secondary"
+                        onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                        disabled={currentPage === 1}
+                    >
+                        ◀ Précédent
+                    </button>
+                    <span className="text-sm">Page {currentPage} / {totalPages}</span>
+                    <button
+                        className="btn btn-sm btn-secondary"
+                        onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                        disabled={currentPage === totalPages}
+                    >
+                        Suivant ▶
+                    </button>
+                </div>
+            </section>
+        </>
+    );
+}
