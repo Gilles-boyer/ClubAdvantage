@@ -24,11 +24,12 @@ export default function ScansCamera({ onScanning }) {
         if (dataOfUser?.user && !hasScanned) {
             const newScan = {
                 user_id: dataOfUser.user.id,
-                scanned_by: 9,
+                scanned_by: 2,
                 scanned_user_name: `${dataOfUser.user.first_name} ${dataOfUser.user.last_name}`,
                 scanned_at: new Date().toISOString(),
             };
             onScanning(newScan);
+            setHasScanned(true)
         }
     }, [dataOfUser, onScanning, hasScanned]);
     // 📦 Fonction de lancement du scanner encapsulée dans useCallback pour ne pas être recréée inutilement
@@ -65,6 +66,7 @@ export default function ScansCamera({ onScanning }) {
 
                             setDataOfUser(userData); // Mise à jour de l'état
 
+
                         } else {
                             console.log('Utilisateur non trouvé');
                         }
@@ -86,7 +88,6 @@ export default function ScansCamera({ onScanning }) {
 
                     // ✅ Si tout est OK, déclenche la validation du scan
                     if (scannedUserId) {
-
                         const state = scanner.getState?.();
                         if (
                             state === Html5QrcodeScannerState.SCANNING ||
@@ -98,6 +99,7 @@ export default function ScansCamera({ onScanning }) {
                     }
                 }
             );
+
             setIsReady(true);
         } catch (err) {
             console.error("🚫 Erreur démarrage scanner :", err);
