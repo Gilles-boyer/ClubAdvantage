@@ -23,7 +23,7 @@ export default function Scans() {
     // ✅ Fonction exécutée à chaque scan réussi (via le composant ScanCamera)
     const handleAddScan = async (newScan) => {
         try {
-            await dispatch(addScanThunk({newScan})).unwrap();
+            await dispatch(addScanThunk(newScan)).unwrap();
         } catch (err) {
             console.error("Erreur CREATE/UPDATE Offer:", err);
         }

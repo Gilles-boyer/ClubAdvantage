@@ -21,7 +21,7 @@ export default function ScansCamera({ onScanning }) {
     }, [dispatch])
 
     useEffect(() => {
-        if (dataOfUser?.user) {
+        if (dataOfUser?.user && !hasScanned) {
             const newScan = {
                 user_id: dataOfUser.user.id,
                 scanned_user_name: `${dataOfUser.user.first_name} ${dataOfUser.user.last_name}`,
@@ -29,7 +29,7 @@ export default function ScansCamera({ onScanning }) {
             };
             onScanning(newScan);
         }
-    }, [dataOfUser, onScanning]);
+    }, [dataOfUser, onScanning, hasScanned]);
     // 📦 Fonction de lancement du scanner encapsulée dans useCallback pour ne pas être recréée inutilement
     const startScanner = useCallback(async () => {
         const readerDiv = document.getElementById("reader");
@@ -64,14 +64,6 @@ export default function ScansCamera({ onScanning }) {
 
                             setDataOfUser(userData); // Mise à jour de l'état
 
-                            // Création de newScan avec les données fraîchement reçues
-                            const newScan = {
-                                user_id: userData.user.id,
-                                scanned_user_name: `${userData.user.first_name} ${userData.user.last_name}`,
-                                scanned_at: new Date().toISOString(),
-                            };
-
-                            onScanning(newScan); // Transmission des données
                         } else {
                             console.log('Utilisateur non trouvé');
                         }
@@ -109,7 +101,7 @@ export default function ScansCamera({ onScanning }) {
         } catch (err) {
             console.error("🚫 Erreur démarrage scanner :", err);
         }
-    }, [onScanning, hasScanned, dataBaseUsers]);
+    }, [hasScanned, dataBaseUsers]);
 
     // 🎬 Lance le scanner à l’ouverture du composant
     useEffect(() => {
