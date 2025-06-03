@@ -24,6 +24,7 @@ export default function ScansCamera({ onScanning }) {
         if (dataOfUser?.user && !hasScanned) {
             const newScan = {
                 user_id: dataOfUser.user.id,
+                scanned_by: 9,
                 scanned_user_name: `${dataOfUser.user.first_name} ${dataOfUser.user.last_name}`,
                 scanned_at: new Date().toISOString(),
             };
