@@ -4,6 +4,7 @@ import offerReducer from './slices/offerSlice';
 import committeeReducer from './slices/CommitteeSlice';
 import userReducer from './slices/userSlice'
 import roleReducer from './slices/rolesSlice'
+import scanReducer from './slices/scanSlice'
 
 export const store = configureStore({
   reducer: {
@@ -12,5 +13,6 @@ export const store = configureStore({
     committee : committeeReducer,
     user: userReducer,
     role: roleReducer,
+    scan: scanReducer,
   },
 });

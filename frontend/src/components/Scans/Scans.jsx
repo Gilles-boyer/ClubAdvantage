@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 export default function Scans() {
     // 🧠 État pour stocker tous les scans depuis l’API
-    const scans = useSelector(listOfScans);
     const dispatch = useDispatch();
+    const scans = useSelector(listOfScans);
     // 🧠 État pour stocker le dernier scan effectué
     const [scanSuccess, setScanSuccess] = useState(null);
 
@@ -23,7 +23,7 @@ export default function Scans() {
     // ✅ Fonction exécutée à chaque scan réussi (via le composant ScanCamera)
     const handleAddScan = async (newScan) => {
         try {
-            await dispatch(addScanThunk(newScan)).unwrap();
+            await dispatch(addScanThunk({newScan})).unwrap();
         } catch (err) {
             console.error("Erreur CREATE/UPDATE Offer:", err);
         }
@@ -36,7 +36,7 @@ export default function Scans() {
             <h1 className="text-2xl font-semibold text-center my-4">Scans enregistrés</h1>
 
             {/* 📸 Caméra QR Code */}
-            <ScansCamera onSuccess={handleAddScan} />
+            <ScansCamera onScanning={handleAddScan} />
 
             {/* 👁️ Affichage du dernier scan détaillé */}
             {scanSuccess && (
@@ -54,7 +54,7 @@ export default function Scans() {
 
 
             {/* 🧾 Tableau de tous les scans paginés */}
-            <ScansTable scan={scans} />
+            <ScansTable scans={scans} />
 
         </>
     );

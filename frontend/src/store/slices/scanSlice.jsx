@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { displayScans, createScan, deleteScan } from "../../services/scansService";
+import { displayScans, deleteScan, createScan } from "../../services/scansService";
 
 const initialState = {
   list: [],

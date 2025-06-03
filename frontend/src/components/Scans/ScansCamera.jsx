@@ -1,14 +1,12 @@
-import { useContext, useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { Html5Qrcode, Html5QrcodeScannerState } from "html5-qrcode";
-import { UserContext } from "../User/UserContext";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUsers, listOfUsers } from "../../store/slices/userSlice";
 import { fetchUserById } from "../../services/usersService";
 import { fetchCmmtts, listOfCommittees } from "../../store/slices/CommitteeSlice";
 
-export default function ScansCamera({ onSuccess }) {
+export default function ScansCamera({ onScanning }) {
     const html5QrCodeRef = useRef(null);                 // 🔁 Référence du scanner actif
-    const { user } = useContext(UserContext);            // 👤 Utilisateur connecté (staff)
     const [isReady, setIsReady] = useState(false);       // 🎥 Caméra prête ou non
     const [snapshot, setSnapshot] = useState(null);      // 🖼️ Image capturée
     const [hasScanned, setHasScanned] = useState(false); // 🔒 Verrou pour éviter les scans répétés
@@ -22,6 +20,16 @@ export default function ScansCamera({ onSuccess }) {
             dispatch(fetchCmmtts())
     }, [dispatch])
 
+    useEffect(() => {
+        if (dataOfUser?.user) {
+            const newScan = {
+                user_id: dataOfUser.user.id,
+                scanned_user_name: `${dataOfUser.user.first_name} ${dataOfUser.user.last_name}`,
+                scanned_at: new Date().toISOString(),
+            };
+            onScanning(newScan);
+        }
+    }, [dataOfUser, onScanning]);
     // 📦 Fonction de lancement du scanner encapsulée dans useCallback pour ne pas être recréée inutilement
     const startScanner = useCallback(async () => {
         const readerDiv = document.getElementById("reader");
@@ -43,28 +51,32 @@ export default function ScansCamera({ onSuccess }) {
                 cameraId,
                 { fps: 5, qrbox: 250 },
                 async (decodedText) => {
-                    if (hasScanned) return; // 🔒 Ignore si déjà scanné
-                    setHasScanned(true);   // 🔐 Verrouille les scans suivants
-                    console.log("✅ QR détecté :", decodedText);
+                    if (hasScanned) return;
+                    setHasScanned(true);
 
                     const scannedUserId = parseInt(decodedText);
-                    const staffId = user?.id;
                     try {
-                        console.log('Structure de la BDD :', dataBaseUsers);
-                        console.log("Id de l'utilisateur scanné :", scannedUserId);
+                        const userInDB = dataBaseUsers.find(us => us.id === scannedUserId);
 
+                        if (userInDB) {
+                            const response = await fetchUserById(scannedUserId); // ⚠️ Attend la réponse
+                            const userData = response.data; // Extraction des données
 
-                        const findedById = dataBaseUsers.find((us) => us.id === scannedUserId)
-                        if (findedById) {
-                            fetchUserById(scannedUserId)
-                                .then((res) => setDataOfUser(res.data))
+                            setDataOfUser(userData); // Mise à jour de l'état
 
+                            // Création de newScan avec les données fraîchement reçues
+                            const newScan = {
+                                user_id: userData.user.id,
+                                scanned_user_name: `${userData.user.first_name} ${userData.user.last_name}`,
+                                scanned_at: new Date().toISOString(),
+                            };
+
+                            onScanning(newScan); // Transmission des données
                         } else {
-                            console.log('Utilisateur non trouvé en BDD');
-
+                            console.log('Utilisateur non trouvé');
                         }
                     } catch (err) {
-                        console.error('ERROR ON FINDING USER', err)
+                        console.error('Erreur:', err);
                     }
 
                     // 🖼️ Capture un snapshot du flux vidéo
@@ -80,8 +92,7 @@ export default function ScansCamera({ onSuccess }) {
                     }
 
                     // ✅ Si tout est OK, déclenche la validation du scan
-                    if (scannedUserId && staffId) {
-                        await onSuccess(scannedUserId, staffId);
+                    if (scannedUserId) {
 
                         const state = scanner.getState?.();
                         if (
@@ -98,7 +109,7 @@ export default function ScansCamera({ onSuccess }) {
         } catch (err) {
             console.error("🚫 Erreur démarrage scanner :", err);
         }
-    }, [onSuccess, user, hasScanned, dataBaseUsers]);
+    }, [onScanning, hasScanned, dataBaseUsers]);
 
     // 🎬 Lance le scanner à l’ouverture du composant
     useEffect(() => {

@@ -3,10 +3,10 @@ import { useState } from "react";
 export default function ScanTable({ scans }) {
     const [search, setSearch] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
-    const itemsPerPage = 6
+    const itemsPerPage = 5
 
-    const filtered = scans.filter(us =>
-        (us?.last_name + ' ' + us?.first_name + ' ' + us.email).toLowerCase().includes(search.toLowerCase())
+    const filtered = scans.filter(scn =>
+        scn?.scanned_user_name.toLowerCase().includes(search.toLowerCase())
     );
 
     const totalPages = Math.ceil(filtered.length / itemsPerPage);
@@ -24,17 +24,17 @@ export default function ScanTable({ scans }) {
     };
     return (
         <div className="overflow-x-auto">
-            <input
-                type="text"
-                placeholder="Rechercher..."
-                className="input input-bordered my-2 w-full max-w-md"
-                value={search}
-                onChange={(e) => {
-                    setSearch(e.target.value);
-                    setCurrentPage(1);
-                }}
+            <section className="pt-10 max-w-4xl mx-auto">
+                <input
+                    type="text"
+                    placeholder="Rechercher..."
+                    className="input input-bordered my-2 w-full max-w-md"
+                    value={search}
+                    onChange={(e) => {
+                        setSearch(e.target.value);
+                        setCurrentPage(1);
+                    }}
                 />
-                <section className="pt-10 max-w-4xl mx-auto">
                 <table className="table w-full">
                     <thead>
                         <tr className="bg-primary text-white">
