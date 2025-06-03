@@ -13,7 +13,7 @@ const Sidebar = () => {
             <NavLinkButton to="/profil" label="Profil" icon={<Icon path={mdilAccount} size={0.90} className="ms-5"/>}/>
             <NavLinkButton to="/committees" label="CSE" icon={<Icon path={mdilFactory} size={0.85} className="ms-5"/>}/>
             <NavLinkButton to="/offers" label="Offres" icon={<Icon path={mdilGift} size={0.80} className="ms-5"/>}/>
-            <NavLinkButton to="/scan" label="Scan" icon={<Icon path={mdilCropFree} size={0.85} className="ms-5"/>}/>
+            <NavLinkButton to="/scans" label="Scans" icon={<Icon path={mdilCropFree} size={0.85} className="ms-5"/>}/>
             <NavLinkButton to="/roles" label="Roles" icon={<Icon path={mdilDiamondStone} size={0.85} className="ms-5"/>}/>
         </ul>
       </nav>

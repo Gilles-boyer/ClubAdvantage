@@ -24,7 +24,7 @@ const router = createBrowserRouter([
       { path: 'profil', element: <Profil /> },
       { path: 'offers', element: <Offer /> },
       { path: 'committees', element: <Committee /> },
-      { path: 'scan', element: <Scan /> },
+      { path: 'scans', element: <Scan /> },
       { path: 'roles', element: <Role /> }
     ]
   }
