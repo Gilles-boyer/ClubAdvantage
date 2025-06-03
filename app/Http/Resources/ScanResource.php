@@ -4,10 +4,8 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ScanResource extends JsonResource
-{
-    public function toArray($request): array
-    {
+class ScanResource extends JsonResource {
+    public function toArray($request): array {
         return [
             'id'         => $this->id,
             'scanned_at' => $this->scanned_at,
@@ -17,9 +15,14 @@ class ScanResource extends JsonResource
             'scanned_by_name'   => $this->scannedBy?->first_name . ' ' . $this->scannedBy?->last_name,
             'scanned_user_name' => $this->scannedUser?->first_name . ' ' . $this->scannedUser?->last_name,
 
-            // Dates de création et de modification
-            // 'created_at' => $this->created_at->format('Y-m-d'),
-            // 'updated_at' => $this->updated_at->format('Y-m-d'),
+            // 👇 Infos supplémentaires à afficher dans le front
+            'scanned_user_status'    => $this->scannedUser?->status,
+            'scanned_user_role'      => $this->scannedUser?->role_name,
+            'scanned_user_committee' => $this->scannedUser?->committee?->name,
         ];
     }
 }
+
+// Dates de création et de modification
+// 'created_at' => $this->created_at->format('Y-m-d'),
+// 'updated_at' => $this->updated_at->format('Y-m-d'),
