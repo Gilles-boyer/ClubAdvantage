@@ -150,16 +150,16 @@ export default function ScansCamera({ onSuccess }) {
                     : "Initialisation de la caméra..."}
             </p>
             {commttsList && dataOfUser && (
-                <section className="bg-accent px-6 pb-5 rounded font-medium">
-                    <h3 className="text-center my-4">Informations Membre</h3>
-                    <div className="flex space-x-5">
-                        <div className="space-y-5">
-                            <p className="bg-white p-2 rounded-xl">Nom : {dataOfUser.user.last_name}</p>
-                            <p className="bg-white p-2 rounded-xl">Prénom : {dataOfUser.user.first_name}</p>
+                <section className="card bg-accent px-6 pb-1 rounded font-medium">
+                    <h3 className="card-title w-full bg-primary py-1 justify-center rounded my-4">Informations Membre</h3>
+                    <div className="card-body">
+                        <div className="space-y-2">
+                            <p className="bg-primary p-2 rounded">Nom : {dataOfUser.user.last_name}</p>
+                            <p className="bg-primary p-2 rounded">Prénom : {dataOfUser.user.first_name}</p>
                         </div>
-                        <div className="space-y-5">
-                            <p className="bg-white p-2 rounded-xl">CSE : {commttsList.find((com) => com.id === dataOfUser.user.committee_id)?.name}</p>
-                            <p className="bg-white p-2 rounded-xl">Status : {dataOfUser.user.status}</p>
+                        <div className="space-y-2">
+                            <p className="bg-primary p-2 rounded">CSE : {commttsList.find((com) => com.id === dataOfUser.user.committee_id)?.name}</p>
+                            <p className="bg-primary p-2 rounded">Status : {dataOfUser.user.status}</p>
                         </div>
                     </div>
                 </section>
