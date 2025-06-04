@@ -17,7 +17,7 @@ export default function ScansCamera({ onScanning }) {
 
     useEffect(() => {
         dispatch(fetchUsers()),
-            dispatch(fetchCmmtts())
+        dispatch(fetchCmmtts())
     }, [dispatch])
 
     useEffect(() => {
@@ -29,7 +29,7 @@ export default function ScansCamera({ onScanning }) {
                 scanned_at: new Date().toISOString(),
             };
             onScanning(newScan);
-            setHasScanned(true)
+            setHasScanned(true);
         }
     }, [dataOfUser, onScanning, hasScanned]);
     // 📦 Fonction de lancement du scanner encapsulée dans useCallback pour ne pas être recréée inutilement
@@ -118,6 +118,7 @@ export default function ScansCamera({ onScanning }) {
             }
         };
     }, [startScanner]);
+    
 
     return (
         <div className="flex flex-col items-center my-6">
