@@ -11,13 +11,13 @@ export default function ScansCamera({ onScanning }) {
     const [snapshot, setSnapshot] = useState(null);      // 🖼️ Image capturée
     const [hasScanned, setHasScanned] = useState(false); // 🔒 Verrou pour éviter les scans répétés
     const [dataOfUser, setDataOfUser] = useState(null) //datas de l'utilisateur scanné si existant en BDD
-    const dataBaseUsers = useSelector(listOfUsers) //liste des users dans la BDD
+    const dataBaseUsers = useSelector(listOfUsers) //liste des scans dans la BDD
     const commttsList = useSelector(listOfCommittees)
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(fetchUsers()),
-        dispatch(fetchCmmtts())
+            dispatch(fetchCmmtts())
     }, [dispatch])
 
     useEffect(() => {
@@ -111,14 +111,15 @@ export default function ScansCamera({ onScanning }) {
         startScanner();
 
         // 🧹 Nettoie correctement à la fermeture du composant
-        return () => {
+        return async () => {
             const scanner = html5QrCodeRef.current;
             if (scanner?.getState?.() === Html5QrcodeScannerState.SCANNING) {
-                scanner.stop().then(() => scanner.clear());
+                await scanner.stop()
+                await scanner.clear();
             }
         };
     }, [startScanner]);
-    
+
 
     return (
         <div className="flex flex-col items-center my-6">
@@ -137,8 +138,9 @@ export default function ScansCamera({ onScanning }) {
                             setIsReady(false);
                             setHasScanned(false); // 🔓 Déverrouille un nouveau scan
                             setTimeout(() => {
-                                startScanner();
-                            }, 10); // Petit délai pour éviter les conflits avec le DOM
+                                setDataOfUser(null);
+                            }, 100)
+
                         }}
                     >
                         🔁 Reprendre le scan
