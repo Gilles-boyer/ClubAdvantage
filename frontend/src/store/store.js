@@ -5,6 +5,7 @@ import committeeReducer from './slices/CommitteeSlice';
 import userReducer from './slices/userSlice'
 import roleReducer from './slices/rolesSlice'
 import scanReducer from './slices/scanSlice'
+import profilReducer from './slices/profilSlice'
 
 export const store = configureStore({
   reducer: {
@@ -14,5 +15,6 @@ export const store = configureStore({
     user: userReducer,
     role: roleReducer,
     scan: scanReducer,
+    profil: profilReducer
   },
 });

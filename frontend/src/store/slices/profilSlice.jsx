@@ -68,5 +68,5 @@ export const profilSlice = createSlice({
     },
 });
 
-export const currentProfil = (state) => state.profil?.data || null;
+export const currentProfil = (state) => state.profil.profil;
 export default profilSlice.reducer

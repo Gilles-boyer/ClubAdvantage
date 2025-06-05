@@ -17,9 +17,7 @@ export default function Profils() {
 
     // Récupération de l'utilisateur connecté via /api/me
     useEffect(() => {
-        dispatch(fetchProfil()).unwrap().catch(err => {
-            console.error("Erreur chargement profil:", err);
-        });
+        dispatch(fetchProfil());
     }, [dispatch]);
 
     // {!editMode && (
@@ -76,9 +74,9 @@ export default function Profils() {
                 <>
                     <div className="card">
                         <div className="card-body p-5 bg-white rounded border">
-                            <p className="uppercase">Nom : <span>{profil.data.last_name}</span></p>
-                            <p className="uppercase">Prénom : <span className="capitalize">{profil.data.first_name}</span></p>
-                            <p className="uppercase">Email : <span className="lowercase">{profil.data.email}</span></p>
+                            <p className="uppercase">Nom : <span>{profil.last_name}</span></p>
+                            <p className="uppercase">Prénom : <span className="capitalize">{profil.first_name}</span></p>
+                            <p className="uppercase">Email : <span className="lowercase">{profil.email}</span></p>
                         </div>
                     </div>
 
