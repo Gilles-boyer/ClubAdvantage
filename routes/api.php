@@ -34,8 +34,6 @@ Route::apiResource('committees', CommitteeController::class);
 
 Route::apiResource('scans', ScanController::class);
 
-Route::post('/scans/validate', [ScanController::class, 'validateStore']);
-
 Route::apiResource('committee-offers', CommitteeOfferController::class);
 
 Route::get('user/me', [UserController::class, 'me']);
@@ -46,7 +44,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/me', [UserController::class, 'deleteAccount']);
 });
 
-
 Route::post('/login', function (Request $request) {
     $credentials = $request->only('email', 'password');
 
@@ -56,3 +53,5 @@ Route::post('/login', function (Request $request) {
     // $request->session()->regenerate();
     return response()->json(['message' => 'Connecté avec succès']);
 });
+
+Route::get('/api/scan/uuid/{uuid}', [ScanController::class, 'handleUuidScan']);
