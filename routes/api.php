@@ -37,6 +37,7 @@ Route::apiResource('scans', ScanController::class);
 Route::apiResource('committee-offers', CommitteeOfferController::class);
 
 Route::get('user/me', [UserController::class, 'me']);
+Route::put('user/me', [UserController::class, 'updateProfil']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::put('/profile', [UserController::class, 'updateProfile']);

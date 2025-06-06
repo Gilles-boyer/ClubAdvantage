@@ -1,13 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\User;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\Role;
+use Mockery\Undefined;
 
 class UserController extends Controller {
 
@@ -83,7 +83,6 @@ class UserController extends Controller {
         if ($user->role_name === 'super_admin') {
             return response()->json(['message' => 'Cet utilisateur ne peut pas être modifié.'], 403);
         }
-
         $data = $request->validated();
 
         // 🔄 Met à jour automatiquement role_name si role_id changé
@@ -131,7 +130,7 @@ class UserController extends Controller {
     }
 
     // Met à jour les informations de base du profil utilisateur connecté
-    public function updateProfile(Request $request)
+    public function updateProfil(Request $request)
     {
         $user = $request->user(); // récupère l'utilisateur actuellement connecté
 
@@ -139,7 +138,7 @@ class UserController extends Controller {
         $validated = $request->validate([
             'first_name' => ['required', 'string', 'max:255'],
             'last_name'  => ['required', 'string', 'max:255'],
-            'email'      => ['required', 'email', 'max:255'],
+            'email'      => ['required', 'string', 'max:1000'],
         ]);
 
         $user->update($validated);
