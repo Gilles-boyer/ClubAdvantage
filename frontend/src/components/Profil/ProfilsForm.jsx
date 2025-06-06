@@ -44,7 +44,6 @@ export default function ProfilsForm({ profil, onSubmit, setEditMode }) {
         const newErrors = {};
         if (!form.first_name.trim()) newErrors.first_name = "Le prénom est obligatoire.";
         if (!form.last_name.trim()) newErrors.last_name = "Le nom est obligatoire.";
-        if (!form.email.trim()) newErrors.email = "L'email est obligatoire";
 
         // S'il y a des erreurs, on les affiche et on arrête la soumission
         if (Object.keys(newErrors).length > 0) {

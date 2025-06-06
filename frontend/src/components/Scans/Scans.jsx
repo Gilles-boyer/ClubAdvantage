@@ -68,11 +68,7 @@ export default function Scans() {
 
     return (
         <>
-            {/* 🏷️ Titre principal */}
             <h1 className="text-2xl font-semibold text-center my-4">Scans enregistrés</h1>
-
-            {/* 📸 Caméra QR Code */}
-            {/* <ScansCamera onScanning={handleAddScan} /> */}
             <div>
                 <Html5QrcodePlugin
                     fps={10}
@@ -81,7 +77,7 @@ export default function Scans() {
                     qrCodeSuccessCallback={onNewScanResult}
                 />
             </div>
-            {commttsList && dataOfUser && (
+            {commttsList && dataOfUser && ( //!Informations de l'utilisateurs scanné
                 <section className="card bg-accent px-6 pb-1 rounded font-medium">
                     <h3 className="card-title w-full bg-primary py-1 justify-center rounded my-4">Informations Membre</h3>
                     <div className="card-body">
@@ -97,8 +93,6 @@ export default function Scans() {
                 </section>
             )}
 
-
-            {/* 👁️ Affichage du dernier scan détaillé */}
             {scanSuccess && (
                 <>
                     <div className="text-center mt-4">
@@ -120,9 +114,7 @@ export default function Scans() {
                 </>
             )}
 
-
-            {/* 🧾 Tableau de tous les scans paginés */}
-            <ScansTable scans={scans} />
+            <ScansTable scans={scans} /> //! Table historique des scans
 
             <ToastAlert toast={toast} setToast={setToast} />
         </>
