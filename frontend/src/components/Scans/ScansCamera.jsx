@@ -23,7 +23,7 @@ export default function ScansCamera({ onScanning }) {
     useEffect(() => {
         if (dataOfUser?.user && !hasScanned) {
             const newScan = {
-                user_id: dataOfUser.user.id,
+                user_id: dataOfUser.id,
                 scanned_by: 2,
                 scanned_user_name: `${dataOfUser.user.first_name} ${dataOfUser.user.last_name}`,
                 scanned_at: new Date().toISOString(),

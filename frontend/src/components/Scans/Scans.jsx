@@ -1,23 +1,59 @@
 import { useEffect, useState } from "react";
 import { fetchScans, listOfScans, addScanThunk } from "../../store/slices/scanSlice";
-import ScansCamera from "./ScansCamera"; // Caméra HTML5
+import { fetchUsers, listOfUsers } from "../../store/slices/userSlice";
+import { fetchUserById } from "../../services/usersService";
+// import ScansCamera from "./ScansCamera"; // Caméra HTML5
 import ScansTable from "./ScansTable"; // Affiche les données d’un scan réussi
 import { useDispatch, useSelector } from "react-redux";
+import Html5QrcodePlugin from "./QrScannerPlugin";
+import { fetchCmmtts, listOfCommittees } from "../../store/slices/CommitteeSlice";
+import ToastAlert from "../ToastAlert";
+
 
 export default function Scans() {
-    // 🧠 État pour stocker tous les scans depuis l’API
     const dispatch = useDispatch();
     const scans = useSelector(listOfScans);
-    // 🧠 État pour stocker le dernier scan effectué
+    const dataBaseUsers = useSelector(listOfUsers)
+    const commttsList = useSelector(listOfCommittees)
+    const [dataOfUser, setDataOfUser] = useState(null)
     const [scanSuccess, setScanSuccess] = useState(null);
+    const [toast, setToast] = useState('')
 
-
-    // 🔁 Charger les scans au chargement initial du composant
     useEffect(() => {
         dispatch(fetchScans())
+        dispatch(fetchUsers())
+        dispatch(fetchCmmtts())
+
     }, [dispatch]);
 
-    // 🔧 Fonction qui appelle l’API pour récupérer tous les scans
+    const onNewScanResult = async (decodedText) => {
+        const scannedUserId = parseInt(decodedText);
+        if (scannedUserId) {
+            setTimeout(() => {
+                setToast({ show: true, message: "Scan effectué avec succès !", type: 'success' })
+                setScanSuccess(true)
+            }, 1000)
+
+        }
+
+        try {
+            const userInDB = dataBaseUsers.find(us => us.id === scannedUserId); //!Vérification de l'existance du user en BDD
+            console.log('Utilsateur trouvé en BDD :', userInDB);
+
+
+            if (userInDB) { //! condition si user existe
+                const response = await fetchUserById(scannedUserId); //!récupèration des informations par l'ID
+                const userData = response.data.user;
+
+                setDataOfUser(userData); //!MAJ de l'état
+            } else {
+                setToast({ show: true, message: "Utilisateur non trouvé", type: 'error' })
+            }
+        } catch (err) {
+            console.error('Erreur:', err);
+        }
+    }
+
 
 
     // ✅ Fonction exécutée à chaque scan réussi (via le composant ScanCamera)
@@ -36,14 +72,46 @@ export default function Scans() {
             <h1 className="text-2xl font-semibold text-center my-4">Scans enregistrés</h1>
 
             {/* 📸 Caméra QR Code */}
-            <ScansCamera onScanning={handleAddScan} />
+            {/* <ScansCamera onScanning={handleAddScan} /> */}
+            <div>
+                <Html5QrcodePlugin
+                    fps={10}
+                    qrbox={250}
+                    disableFlip={false}
+                    qrCodeSuccessCallback={onNewScanResult}
+                />
+            </div>
+            {commttsList && dataOfUser && (
+                <section className="card bg-accent px-6 pb-1 rounded font-medium">
+                    <h3 className="card-title w-full bg-primary py-1 justify-center rounded my-4">Informations Membre</h3>
+                    <div className="card-body">
+                        <div className="space-y-2">
+                            <p className="bg-primary p-2 rounded">Nom : {dataOfUser.last_name}</p>
+                            <p className="bg-primary p-2 rounded">Prénom : {dataOfUser.first_name}</p>
+                        </div>
+                        <div className="space-y-2">
+                            <p className="bg-primary p-2 rounded">CSE : {commttsList.find((com) => com.id === dataOfUser.committee_id)?.name}</p>
+                            <p className="bg-primary p-2 rounded">Status : {dataOfUser.status}</p>
+                        </div>
+                    </div>
+                </section>
+            )}
+
 
             {/* 👁️ Affichage du dernier scan détaillé */}
             {scanSuccess && (
                 <>
                     <div className="text-center mt-4">
                         <button
-                            onClick={() => setScanSuccess(null)}
+                            onClick={() => {
+                                setScanSuccess(null)
+                                handleAddScan({
+                                    user_id: dataOfUser.id,
+                                    scanned_by: 2,
+                                    scanned_user_name: `${dataOfUser.first_name} ${dataOfUser.last_name}`,
+                                    scanned_at: new Date().toISOString(),
+                                })
+                            }}
                             className="btn btn-outline btn-sm"
                         >
                             🔁 Nouveau scan
@@ -56,6 +124,7 @@ export default function Scans() {
             {/* 🧾 Tableau de tous les scans paginés */}
             <ScansTable scans={scans} />
 
+            <ToastAlert toast={toast} setToast={setToast} />
         </>
     );
 }
