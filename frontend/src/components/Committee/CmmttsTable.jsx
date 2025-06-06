@@ -39,7 +39,7 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle}
                 />
                 <div className="overflow-x-auto border rounded-xl bg-white shadow-sm">
                     <table className="min-w-full text-left text-sm text-gray-700">
-                        <thead className="bg-primary text-gray-700 uppercase tracking-wider">
+                        <thead className="bg-secondary text-white uppercase tracking-wider">
                             <tr>
                                 <th className="px-4 py-2">Nom</th>
                                 <th className="px-4 py-2">Renouvellement Auto</th>
@@ -77,7 +77,7 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle}
                 </div>
                 <div className="flex justify-evenly items-center mt-4">
                     <button
-                        className="btn btn-secondary"
+                        className="btn btn-neutral"
                         onClick={handlePrevious}
                         disabled={currentPage === 1}
                     >
@@ -87,7 +87,7 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle}
                         Page {currentPage} sur {totalPages}
                     </span>
                     <button
-                        className="btn btn-secondary"
+                        className="btn btn-neutral"
                         onClick={handleNext}
                         disabled={currentPage === totalPages}
                     >

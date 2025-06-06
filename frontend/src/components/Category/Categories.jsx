@@ -71,7 +71,7 @@ export default function Categories() {
             </h1>
             <section className="pt-6 max-w-5xl mx-auto">
                       <div className='flex w-fit'>
-        <button onClick={() => setToggle(!toggle)} className='btn btn-secondary uppercase font-medium text-xs hover:bg-primary hover:text-white'>Ajouter une catégorie</button>
+        <button onClick={() => setToggle(!toggle)} className='btn btn-neutral text-white uppercase font-medium text-xs hover:bg-accent hover:text-neutral'>Ajouter une catégorie</button>
       </div>
 
       {toggle && (

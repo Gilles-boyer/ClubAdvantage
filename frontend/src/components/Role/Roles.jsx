@@ -59,7 +59,7 @@ export default function Roles() {
             <RolesForm onAddRole={handleAddRole} onEditRole={toUpdateRole} />
 
             <h1 className="text-center text-2xl font-semibold my-4">Liste des rôles</h1>
-            <section className="overflow-x-auto">
+            <section className="overflow-x-auto mx-auto w-175 rounded-2xl">
                 <table className="table w-150 rounded shadow-md">
                     <thead>
                         <tr className="bg-primary text-white uppercase">

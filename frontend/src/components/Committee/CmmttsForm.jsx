@@ -72,7 +72,7 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt}) {
         <>
 
                 <div className="w-150 border rounded mx-auto mt-5">
-                    <h3 className="font-poppins text-center py-1 text-lg font-medium bg-primary">
+                    <h3 className="font-poppins text-center py-1 text-lg font-medium text-white bg-primary">
                         {onEditUpCmmtt ? 'Modifier un CSE' : 'Ajouter un CSE'}
                     </h3>
                     <div className="p-5 mx-auto rounded">

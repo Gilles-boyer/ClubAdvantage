@@ -38,7 +38,7 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
             />
             <div className="overflow-x-auto border rounded-xl bg-white shadow-sm">
                 <table className="min-w-full text-left text-sm text-gray-700">
-                    <thead className="bg-primary text-gray-700 uppercase tracking-wider">
+                    <thead className="bg-secondary tneutral uppercase tracking-wider">
                         <tr>
                             <th className="px-4 py-2">Nom</th>
                             <th className="px-4 py-2">Description</th>
@@ -73,7 +73,7 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
             </div>
             <div className="flex justify-evenly items-center mt-4">
                 <button
-                    className="btn btn-secondary"
+                    className="btn btn-neutral"
                     onClick={handlePrevious}
                     disabled={currentPage === 1}
                 >
@@ -83,7 +83,7 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                     Page {currentPage} sur {totalPages}
                 </span>
                 <button
-                    className="btn btn-secondary"
+                    className="btn btn-neutral"
                     onClick={handleNext}
                     disabled={currentPage === totalPages}
                 >

@@ -10,7 +10,7 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
-      <header className="bg-secondary flex items-center text-white w-full">
+      <header className="bg-neutral flex items-center text-white w-full">
         <Header menu={{ isOpen, setIsOpen }} />
       </header>
 
@@ -30,7 +30,7 @@ export default function App() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-secondary text-white p-4 w-full">
+      <footer className="bg-neutral text-white p-4 w-full">
         <Footer />
       </footer>
     </div>

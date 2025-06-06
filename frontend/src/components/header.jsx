@@ -7,11 +7,11 @@ const Header = ({ menu }) => {
         onClick={() => menu.setIsOpen(!menu.isOpen)}
         src={logo}
         alt="Logo ClubAdvantage"
-        className="h-15 hover:pointer"
+        className="h-17 hover:pointer"
       />
       <div className="text-2xl font-bold">Dashboard</div>
       <button
-        className="bg-neutral font-poppins font-medium text-xs px-3 py-2 rounded text-white hover:bg-primary uppercase"
+        className="bg-accent font-poppins font-medium text-xs px-3 py-2 rounded text-black hover:bg-secondary uppercase"
         type="button"
       >
         Déconnexion

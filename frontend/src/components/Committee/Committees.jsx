@@ -57,7 +57,7 @@ export default function Committees() {
 
             <section className="pt-10 max-w-5xl mx-auto">
                 <div className='flex w-fit'>
-                    <button onClick={() => setToggle(!toggle)} className='btn btn-secondary uppercase font-medium text-xs hover:bg-primary hover:text-white'>Ajouter un CSE</button>
+                    <button onClick={() => setToggle(!toggle)} className='btn btn-neutral uppercase font-medium text-xs hover:bg-accent hover:text-neutral'>Ajouter un CSE</button>
                 </div>
                 {toggle && (
                     <CommitteeForm onAddCommittee={handleAddCmmtt} onEditUpCmmtt={toUpCmmtts} />)}
