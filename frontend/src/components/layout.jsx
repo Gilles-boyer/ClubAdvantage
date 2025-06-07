@@ -9,19 +9,19 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Header */}
+
       <header className="bg-secondary flex items-center text-white w-full">
         <Header menu={{ isOpen, setIsOpen }} />
       </header>
 
-      {/* Conteneur principal avec navigation et contenu */}
+
       <div className="flex flex-grow w-full">
-        {/* Navigation Drawer */}
+
         <aside className={`bg-accent text-white p-4 transition-transform h-screen ${isOpen ? "block" : "hidden"} flex-shrink-0`}>
           <Sidebar />
         </aside>
 
-        {/* Main Content */}
+
         <main className="flex-grow p-4 min-w-0 overflow-x-auto">
           <div className="max-w-screen-xl mx-auto w-full">
             < Outlet />
@@ -29,7 +29,7 @@ export default function App() {
         </main>
       </div>
 
-      {/* Footer */}
+
       <footer className="bg-secondary text-white p-4 w-full">
         <Footer />
       </footer>
