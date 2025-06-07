@@ -57,7 +57,7 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle}
                                     <td className="px-4 py-2 font-medium bg-accent">{committee.name}</td>
                                     <td className="px-4 py-2 font-medium text-center">
                                         <button
-                                            className={`py-1 px-3 rounded text-white w-20 hover:cursor-pointer ${committee.auto_renew ? "bg-indigo-800" : "bg-orange-400"
+                                            className={`badge badge-lg w-20 text-white ${committee.auto_renew ? "badge-info" : "badge-warning"
                                                 }`}
                                         >
                                             {committee.auto_renew ? "Actif" : "Inactif"}

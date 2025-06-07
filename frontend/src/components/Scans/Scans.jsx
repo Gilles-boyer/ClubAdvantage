@@ -77,7 +77,7 @@ export default function Scans() {
                     qrCodeSuccessCallback={onNewScanResult}
                 />
             </div>
-            {commttsList && dataOfUser && ( //!Informations de l'utilisateurs scanné
+            {commttsList && dataOfUser && ( 
                 <section className="card bg-accent px-6 pb-1 rounded font-medium">
                     <h3 className="card-title w-full bg-primary py-1 justify-center rounded my-4">Informations Membre</h3>
                     <div className="card-body">
@@ -114,7 +114,7 @@ export default function Scans() {
                 </>
             )}
 
-            <ScansTable scans={scans} /> //! Table historique des scans
+            <ScansTable scans={scans} />
 
             <ToastAlert toast={toast} setToast={setToast} />
         </>

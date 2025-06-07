@@ -3,12 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import UsersForm from "./UsersForm";
 import UsersTable from "./UsersTable";
 import { addUserThunk, fetchUsers, listOfUsers, updateUserThunk, deleteUserThunk } from "../../store/slices/userSlice";
+import ToastAlert from './../ToastAlert'
 
 export default function Users() {
     const dispatch = useDispatch();
     const users = useSelector(listOfUsers)
     const [updtUser, setUpdtUser] = useState(null)
     const [toggle, setToggle] = useState(false)
+    const [toast, setToast] = useState('')
 
 
     useEffect(() => {
@@ -21,13 +23,15 @@ export default function Users() {
         try {
             if (newUser.id) {
                 await dispatch(updateUserThunk({ id: newUser.id, data: newUser })).unwrap()
+                setToast({show: true, message: "Utilisateur mis à jour avec succès", type: 'success'})
             } else {
                 await dispatch(addUserThunk(newUser)).unwrap()
+                setToast({show: true, message: "Utilisateur ajouté avec succès", type: 'success'})
             }
-
             setUpdtUser(null);
         } catch (err) {
             console.error("Erreur CREATE/UPDATE role :", err);
+            setToast({show: true, message: "Erreur lors de l'opération", type: 'error'})
         }
     };
 
@@ -38,8 +42,10 @@ export default function Users() {
     const handleDelete = async (id) => {
         try {
             await dispatch(deleteUserThunk(id)).unwrap()
+            setToast({show: true, message: "Utilisateur supprimé avec succès", type: 'success'})
         } catch (err) {
             console.error("Erreur on DELETE :", err);
+            setToast({show: true, message: "Erreur lors de la supression de l'utilisateur", type: 'error'})
         }
     };
     return (
@@ -55,6 +61,7 @@ export default function Users() {
                 <UsersForm onAddUser={handleAdd} onEditUser={updtUser}/>)}
                 <UsersTable users={users} onUpdate={handleToUpdate} onDelete={handleDelete} setToggle={setToggle}/>
             </section>
+            <ToastAlert toast={toast} setToast={setToast}/>
         </div>
 
     );

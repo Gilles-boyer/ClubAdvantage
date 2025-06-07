@@ -8,7 +8,7 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle }) {
     const itemsPerPage = 6
 
     const filtered = users.filter(us =>
-        (us?.last_name + ' ' + us?.first_name + ' ' + us.email).toLowerCase().includes(search.toLowerCase())
+        (us?.last_name + ' ' + us?.first_name + ' ' + us?.email).toLowerCase().includes(search.toLowerCase())
     );
 
     const totalPages = Math.ceil(filtered.length / itemsPerPage);
