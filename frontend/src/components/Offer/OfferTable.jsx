@@ -107,8 +107,8 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                     </button>
                 </div>
             </div >
-            
-            //! Cards pour les téléphones
+
+            {/* Cards pour les téléphones */}
             <article className="block md:hidden space-y-5">
                 {offers.map((offer) => (
                     <div key={offer.id} className="card bg-accent w-80vw card-xs shadow-xl">
@@ -130,7 +130,7 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                                 <span className="font-medium underline">Description :</span>
                                 <br />{offer.description}</p>
 
-                            <div className="card-action flex space-x-2 mt-2">
+                           {isStaffPage && <> <div className="card-action flex space-x-2 mt-2">
                                 <div className="flex mt-0 md:mt-2 space-x-2">
                                     <UpdateButton
                                         onUpdate={() => {
@@ -141,6 +141,7 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                                     <DeleteButton onDelete={() => onDelete(offer.id)} />
                                 </div>
                             </div>
+                            </>}
 
 
                         </div>
