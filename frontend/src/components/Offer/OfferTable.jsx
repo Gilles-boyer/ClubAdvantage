@@ -109,14 +109,14 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
             </div >
             <article className="block md:hidden space-y-5">
                 {offers.map((offer) => (
-                    <div key={offer.id} className="card bg-accent w-80vw card-xs shadow-lg">
+                    <div key={offer.id} className="card bg-accent w-80vw card-xs shadow-xl">
                         <div className="flex bg-secondary items-center justify-between py-1 rounded-md">
                             <h3 className="card-title font-medium py-1 text-base rounded ps-2">{offer.title}</h3>
                             <div className="space-x-2">
                                 <div className="badge badge-white font-medium text-black">{offer.category_name}</div>
                                 <button
                                     onClick={() => onUpStatus(offer.id)}
-                                    className={`badge badge-md me-2 hover:cursor-pointer ${offer.is_active ? "badge-info" : "badge-warning"
+                                    className={`badge badge-md me-2 font-medium ${offer.is_active ? "badge-info" : "badge-warning"
                                         }`}
                                 >
                                     {offer.is_active ? "Actif" : "Inactif"}

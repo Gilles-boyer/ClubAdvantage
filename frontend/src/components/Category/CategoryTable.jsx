@@ -95,7 +95,7 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
             </div >
             <article className="block md:hidden space-y-5">
                 {categories.map((category) => (
-                    <div key={category.id} className="card bg-accent w-80vw card-xs shadow-lg">
+                    <div key={category.id} className="card bg-accent w-80vw card-xs shadow-xl">
                         <div className="flex bg-secondary items-center justify-between py-1 rounded-md">
                         <h3 className="card-title font-medium py-1 text-base rounded ps-2">{category.name}</h3>
                             <button

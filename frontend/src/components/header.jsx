@@ -23,7 +23,7 @@ const Header = ({ menu }) => {
       </button>
             <button
         className="bg-neutral text-xs px-1 py-1 
-        rounded-full text-white hover:bg-accent uppercase block md:hidden"
+        rounded-full text-white hover:bg-accent hover:text-neutral uppercase block md:hidden"
         type="button"
       >
       <Icon path={mdilPower} size={1} />
