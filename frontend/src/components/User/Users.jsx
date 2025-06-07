@@ -49,7 +49,8 @@ export default function Users() {
             </h1>
             <section className="pt-10 max-w-5xl mx-auto">
                 <div className='flex w-fit'>
-                    <button onClick={() => setToggle(!toggle)} className='btn btn-neutral text-white uppercase font-medium text-xs hover:bg-accent hover:text-neutral'>Ajouter un utilisateur</button>
+                    <button onClick={() => setToggle(!toggle)} className='btn btn-neutral text-white uppercase font-medium text-xs hover:bg-accent 
+                    hover:text-neutral hover:scale-105 hover:-translate-y-1 transition-transform'>Ajouter un utilisateur</button>
                 </div>
                 {toggle && (
                 <UsersForm onAddUser={handleAdd} onEditUser={updtUser}/>)}
