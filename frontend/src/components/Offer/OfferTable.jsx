@@ -107,6 +107,8 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                     </button>
                 </div>
             </div >
+            
+            //! Cards pour les téléphones
             <article className="block md:hidden space-y-5">
                 {offers.map((offer) => (
                     <div key={offer.id} className="card bg-accent w-80vw card-xs shadow-xl">
