@@ -47,7 +47,7 @@ export default function RolesForm({ onAddRole, onEditRole }) {
     };
 
     return (
-        <form className="w-full border rounded-md p-4 mx-auto bg-white shadow-md" onSubmit={handleSubmit}>
+        <form className="w-full border rounded-md p-4 mx-auto bg-white shadow-md my-5" onSubmit={handleSubmit}>
             <h3 className="font-poppins text-lg font-medium bg-primary py-1 text-center text-white rounded mb-4">
                 {onEditRole ? "Modifier un rôle" : "Ajouter un rôle"}
             </h3>
