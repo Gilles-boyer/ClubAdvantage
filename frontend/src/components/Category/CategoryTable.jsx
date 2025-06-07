@@ -97,7 +97,7 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                 {categories.map((category) => (
                     <div key={category.id} className="card bg-accent w-80vw card-xs shadow-lg">
                         <div className="flex bg-secondary items-center justify-between py-1 rounded-md">
-                        <h3 className="card-title font-medium py-1 rounded ps-2">{category.name}</h3>
+                        <h3 className="card-title font-medium py-1 text-base rounded ps-2">{category.name}</h3>
                             <button
                                 onClick={() => onUpStatus(category.id)}
                                 className={`badge badge-md me-2 hover:cursor-pointer ${category.is_active ? "badge-info" : "badge-warning"
@@ -107,9 +107,11 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                             </button>
                         </div>
                         <div className="card-body">
-                            <p className="text-sm">{category.description}</p>
+                            <p className="text-sm">
+                                <span className="font-medium underline">Description :</span>
+                                <br/>{category.description}</p>
 
-                            <div className="card-action mx-auto flex space-x-2">
+                            <div className="card-action flex space-x-2 mt-2">
                                 <div className="flex mt-0 md:mt-2 space-x-2">
                                     <UpdateButton
                                         onUpdate={() => {
