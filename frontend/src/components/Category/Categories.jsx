@@ -7,6 +7,8 @@ import {
     addCategoryThunk,
 } from "../../store/slices/categorySlice.jsx";
 import ToastAlert from "../ToastAlert.jsx";
+import Icon from '@mdi/react';
+import { mdilPlusCircle } from '@mdi/light-js';
 
 export default function Categories() {
     const dispatch = useDispatch();
@@ -71,7 +73,8 @@ export default function Categories() {
             </h1>
             <section className="pt-6 max-w-5xl mx-auto">
                       <div className='flex w-fit'>
-        <button onClick={() => setToggle(!toggle)} className='btn btn-secondary uppercase font-medium text-xs hover:bg-primary hover:text-white'>Ajouter une catégorie</button>
+        <button onClick={() => setToggle(!toggle)} className='btn btn-secondary uppercase font-medium text-xs hover:bg-primary hover:text-white hidden md:block'>Ajouter une catégorie</button>
+        <button onClick={() => setToggle(!toggle)} className='btn btn-secondary p-2 hover:bg-primary hover:text-white block md:hidden'><Icon path={mdilPlusCircle} size={1} /></button>
       </div>
 
       {toggle && (
