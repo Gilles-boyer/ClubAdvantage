@@ -5,8 +5,5 @@ export default function Role() {
     return <>
         <h2 className="text-center font-medium bg-accent py-4 w-full">Roles</h2>
         <Roles />
-        <Button type={'update'} action={'UPDT'} onAction={() => ('')}/>
-        <Button type={'delete'} action={'DLT'} onAction={() => ('')}/>
-        <Button action={'Obtenir'} onAction={() => ('')} className={'btn-primary'}/>
     </>
 }

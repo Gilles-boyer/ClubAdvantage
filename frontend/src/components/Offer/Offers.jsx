@@ -8,6 +8,7 @@ import {
     addOfferThunk,
 } from "../../store/slices/offerSlice.jsx";
 import { useLocation } from "react-router-dom";
+import Button from "../Button.jsx";
 
 
 export default function Offers() {
@@ -91,7 +92,7 @@ export default function Offers() {
             </h1>
             <section className="pt-10 max-w-5xl mx-auto">
                 <div className='flex w-fit'>
-                    <button onClick={() => setToggle(!toggle)} className='btn btn-secondary uppercase font-medium text-xs hover:bg-primary hover:text-white'>Ajouter une offre</button>
+                    <Button action={'Ajouter une Offre'} onAction={() => setToggle(true)} className={'btn-secondary hover:btn-primary uppercase text-xs'} />
                 </div>
                 {toggle && (<OfferForm onAddOffer={handleAddOffer} onEditOffer={toUpOffer} />)}
                 < OfferTable

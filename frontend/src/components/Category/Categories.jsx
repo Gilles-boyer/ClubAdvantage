@@ -7,6 +7,7 @@ import {
     addCategoryThunk,
 } from "../../store/slices/categorySlice.jsx";
 import ToastAlert from "../ToastAlert.jsx";
+import Button from "../Button.jsx";
 
 export default function Categories() {
     const dispatch = useDispatch();
@@ -71,7 +72,9 @@ export default function Categories() {
             </h1>
             <section className="pt-6 max-w-5xl mx-auto">
                       <div className='flex w-fit'>
-        <button onClick={() => setToggle(!toggle)} className='btn btn-secondary uppercase font-medium text-xs hover:bg-primary hover:text-white'>Ajouter une catégorie</button>
+        <Button action={'Ajouter une Catégorie'} 
+        onAction={() => setToggle(true)} 
+        className={'btn-secondary uppercase text-xs hover:btn-primary'}/>
       </div>
 
       {toggle && (

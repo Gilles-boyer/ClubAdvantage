@@ -4,6 +4,7 @@ import UsersForm from "./UsersForm";
 import UsersTable from "./UsersTable";
 import { addUserThunk, fetchUsers, listOfUsers, updateUserThunk, deleteUserThunk } from "../../store/slices/userSlice";
 import ToastAlert from './../ToastAlert'
+import Button from "../Button";
 
 export default function Users() {
     const dispatch = useDispatch();
@@ -55,7 +56,11 @@ export default function Users() {
             </h1>
             <section className="pt-10 max-w-5xl mx-auto">
                 <div className='flex w-fit'>
-                    <button onClick={() => setToggle(!toggle)} className='btn btn-secondary uppercase font-medium text-xs hover:bg-primary hover:text-white'>Ajouter un utilisateur</button>
+                    <Button 
+                    action={'Ajouter un Utilisateur'} 
+                    onAction={() => setToggle(true)}
+                    className={'btn-secondary uppercase text-xs hover:btn-primary'}
+                    />
                 </div>
                 {toggle && (
                 <UsersForm onAddUser={handleAdd} onEditUser={updtUser}/>)}

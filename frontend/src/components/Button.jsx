@@ -4,25 +4,31 @@ import { mdilPencil, mdilDelete } from '@mdi/light-js';
 
 
 export default function Button({ type, action, onAction, className = '' }) {
+  //! Si on spécifie le type, alors l'icone apparaitra (soit 'update' soit 'delete')
   const ICN = (type) => {
     if (type === 'update') {
       return (
         <Icon path={mdilPencil}
-          size={0.90} />
+          size={0.70} />
       )
     }
     if (type === 'delete') {
       return (
         <Icon path={mdilDelete}
-          size={0.90} />
+          size={0.70} />
       )
     }
   }
   return (
     <button
       onClick={onAction}
-      className={clsx(['btn', type === 'update' && 'mask mask-squircle hover:text-white hover:bg-blue-700', type === 'delete' && 'mask mask-squircle hover:text-white hover:bg-red-700', className])}
-    >{type ? ICN(type) : action}
+      className={clsx(['btn', 
+        type === 'update' && 'mask mask-squircle hover:text-white hover:bg-blue-700 p-1.5', 
+        type === 'delete' && 'mask mask-squircle hover:text-white hover:bg-red-700 p-1.5', 
+        className])}
+    >
+      {/* Si le type est spécifié alors l'icône apparaitra, sinon c'est la valeur inscrite dans 'action' qui apparaitra */}
+      {type ? ICN(type) : action}
     </button>
   );
 }
