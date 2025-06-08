@@ -7,5 +7,6 @@ export default function Role() {
         <Roles />
         <Button type={'update'} action={'UPDT'} onAction={() => ('')}/>
         <Button type={'delete'} action={'DLT'} onAction={() => ('')}/>
+        <Button action={'Obtenir'} onAction={() => ('')} className={'btn-primary'}/>
     </>
 }

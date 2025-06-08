@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import RolesForm from "./RolesForm";
 import { } from "../../services/rolesService";
 import RoleTable from "./RoleTable";
+import Button from "../Button";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchRoles, listOfRoles, updateRoleThunk, deleteRoleThunk, addRoleThunk } from "../../store/slices/rolesSlice";
 
@@ -47,7 +48,7 @@ export default function Roles() {
         <>
             <h1 className="text-center text-2xl font-semibold my-4">Liste des rôles</h1>
             <div className='flex w-fit'>
-                <button onClick={() => setToggle(!toggle)} className='btn btn-secondary uppercase font-medium text-xs hover:bg-primary hover:text-white'>Ajouter une offre</button>
+                <Button action={'Ajouter un Role'} onAction={() => setToggle(!toggle)} className={'btn-secondary uppercase btn-md text-xs'}/>
             </div>
             {toggle && (<RolesForm onAddRole={handleAddRole} onEditRole={toUpdateRole} /> )}
 

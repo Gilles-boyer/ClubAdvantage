@@ -1,28 +1,30 @@
 import clsx from "clsx";
 import Icon from "@mdi/react";
 import { mdilPencil, mdilDelete } from '@mdi/light-js';
+import { useNavigation } from "react-router-dom";
 
 
-export default function Button({ type, action, onAction }) {
+export default function Button({path, type, action, onAction, className = '' }) {
+  const navigation = useNavigation()
   const ICN = (type) => {
-    if(type === 'update'){
+    if (type === 'update') {
       return (
-            <Icon path={mdilPencil} 
-            size={1.2}/>
+        <Icon path={mdilPencil}
+          size={0.90} />
       )
     }
-    if(type === 'delete'){
+    if (type === 'delete') {
       return (
-            <Icon path={mdilDelete} 
-            size={1.2}/>
+        <Icon path={mdilDelete}
+          size={0.90} />
       )
     }
   }
   return (
     <button
-      onClick={onAction}
-      className={clsx(['btn',type==='update' && 'btn-success p-1', type==='delete' && 'btn-error p-1'])}
-    >{ICN(type)}{action}
+      {path ? onclick{navigation(path)}: onClick={onAction} }
+      className={clsx(['btn', type === 'update' && 'mask mask-squircle hover:text-white hover:bg-blue-700', type === 'delete' && 'mask mask-squircle hover:text-white hover:bg-red-700', className])}
+    >{type ? ICN(type) : action}
     </button>
   );
 }
