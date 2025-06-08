@@ -1,13 +1,17 @@
-import { useNavigate } from "react-router-dom";
-export default function Button( {path, className = "", action }) {
-    const navigate = useNavigate();
-    return (
-      <button
-        onClick={() => navigate(path)}
-        className={`${className}`}
-      >
-        {action}
-      </button>
-    );
+import clsx from "clsx";
+import Icon from "@mdi/react";
+import { mdilPencil } from '@mdi/light-js';
+
+export default function Button({ className = "", type, action, onAction }) {
+  const Icn = (type) => {
+    if(type === )
   }
-  
+  return (
+    <button
+      onClick={() => onAction}
+      className={clsx(['btn'], className)}
+    >{action}
+    </button>
+  );
+}
+
