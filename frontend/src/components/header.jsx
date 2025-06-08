@@ -1,4 +1,3 @@
-import Button from "./Button";
 import logo from "/logo.png";
 
 const Header = ({ menu }) => {
@@ -11,7 +10,12 @@ const Header = ({ menu }) => {
         className="h-15 hover:pointer"
       />
       <div className="text-2xl font-bold">Dashboard</div>
-      <Button path={'/login'} action={'Déconnexion'}className={'btn-secondary uppercase text-xs'}/>
+      <button
+        className="bg-neutral font-poppins font-medium text-xs px-3 py-2 rounded text-white hover:bg-primary uppercase"
+        type="button"
+      >
+        Déconnexion
+      </button>
     </div>
   );
 };
