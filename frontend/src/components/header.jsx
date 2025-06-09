@@ -1,12 +1,6 @@
-<<<<<<< HEAD
 import logo from "/logo_test.png";
-=======
-import logo from "/logo.png";
 import Icon from '@mdi/react';
 import { mdilPower } from '@mdi/light-js';
-
-
->>>>>>> responsive
 
 const Header = ({ menu }) => {
   return (
@@ -19,12 +13,7 @@ const Header = ({ menu }) => {
       />
       <div className="text-2xl font-bold">Dashboard</div>
       <button
-<<<<<<< HEAD
         className="bg-accent font-poppins font-medium text-xs px-3 py-2 rounded text-black hover:bg-secondary uppercase"
-=======
-        className="bg-neutral font-poppins font-medium text-xs px-3 py-2 
-        rounded text-white hover:bg-primary uppercase hidden md:block"
->>>>>>> responsive
         type="button"
       >
         Déconnexion

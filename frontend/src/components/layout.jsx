@@ -9,13 +9,8 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col">
-<<<<<<< HEAD
       {/* Header */}
       <header className="bg-neutral flex items-center text-white w-full">
-=======
-
-      <header className="bg-secondary flex items-center text-white w-full">
->>>>>>> responsive
         <Header menu={{ isOpen, setIsOpen }} />
       </header>
 
@@ -34,13 +29,8 @@ export default function App() {
         </main>
       </div>
 
-<<<<<<< HEAD
       {/* Footer */}
       <footer className="bg-neutral text-white p-4 w-full">
-=======
-
-      <footer className="bg-secondary text-white p-4 w-full">
->>>>>>> responsive
         <Footer />
       </footer>
     </div>
