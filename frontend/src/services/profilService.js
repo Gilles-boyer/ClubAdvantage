@@ -4,7 +4,8 @@ import client from "../api/axiosInstance";
 export const displayProfil = () => client.get("/user/me");
 
 // PUT pour mettre à jour prénom/nom
-export const updateProfil = (data) => client.put("/user/me", data);
+// export const updateProfil = (data) => client.put("/user/me", data);
+export const updateProfil = (data) => client.patch("/user/me", data, {withCredentials: true});
 
 // PUT pour changer le mot de passe
 export const updatePassword = (data) => client.put("/password", {
