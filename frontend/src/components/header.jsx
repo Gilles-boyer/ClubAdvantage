@@ -12,7 +12,7 @@ const Header = ({ menu }) => {
         alt="Logo ClubAdvantage"
         className="h-12 md:h-17 hover:pointer"
       />
-      <div className="text-2xl text-center font-bold me-4 md:me-0">Dashboard</div>
+      <div className="text-2xl text-center font-bold me-3 md:me-0">Dashboard</div>
       <Button action={'Déconnexion'}
         className={'btn-accent text-neutral hover:btn-secondary hover:text-white hidden md:block'} />
       <button
