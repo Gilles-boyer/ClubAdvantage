@@ -92,12 +92,7 @@ export default function Offers() {
             </h1>
             <section className="pt-10 max-w-5xl mx-auto">
                 <div className='flex w-fit'>
-<<<<<<< HEAD
                     <Button action={'Ajouter une Offre'} onAction={() => setToggle(true)} className={'btn-secondary hover:btn-primary uppercase text-xs'} />
-=======
-                    <button onClick={() => setToggle(!toggle)} className='btn btn-neutral uppercase font-medium text-xs 
-                    hover:bg-accent hover:text-neutral hover:scale-105 hover:-translate-y-1 transition-transform'>Ajouter une offre</button>
->>>>>>> DESIGN
                 </div>
                 {toggle && (<OfferForm onAddOffer={handleAddOffer} onEditOffer={toUpOffer} />)}
                 < OfferTable

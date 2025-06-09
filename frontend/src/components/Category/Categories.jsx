@@ -71,18 +71,11 @@ export default function Categories() {
                 Catégories existantes
             </h1>
             <section className="pt-6 max-w-5xl mx-auto">
-<<<<<<< HEAD
                       <div className='flex w-fit'>
         <Button action={'Ajouter une Catégorie'} 
         onAction={() => setToggle(true)} 
         className={'btn-secondary uppercase text-xs hover:btn-primary'}/>
       </div>
-=======
-                <div className='flex w-fit'>
-                    <button onClick={() => setToggle(!toggle)} className='btn btn-neutral text-white uppercase font-medium text-xs 
-                    hover:bg-accent hover:text-neutral hover:scale-105 hover:-translate-y-1 transition-transform'>Ajouter une catégorie</button>
-                </div>
->>>>>>> DESIGN
 
                 {toggle && (
                     <CategoryForm onAddCategory={handleAddCategory} onEditUpCat={toUpCategory} />)}
