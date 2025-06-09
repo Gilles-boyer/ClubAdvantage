@@ -1,5 +1,4 @@
-import DeleteButton from "../DeleteButton";
-import UpdateButton from "../UpdateButton";
+import Button from "../Button";
 import { useState } from "react";
 
 export default function CategoryTable({ categories, onDelete, onUpdate, onUpStatus, setToggle }) {
@@ -62,11 +61,10 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                                         </button>
                                     </td>
                                     <td className="px-4 py-2 space-x-2 bg-accent">
-                                        <UpdateButton onUpdate={() => {
-                                            setToggle(true)
-                                            onUpdate(category)
-                                        }} />
-                                        <DeleteButton onDelete={() => onDelete(category.id)} />
+                                        <Button type={'update'} onAction={() => {
+                                        setToggle(true),
+                                        onUpdate(category)}} />
+                                    <Button type={'delete'} onAction={() => {onDelete(category.id)}} />
                                     </td>
                                 </tr>
                             ))}
@@ -113,13 +111,10 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
 
                             <div className="card-action flex space-x-2 mt-2">
                                 <div className="flex mt-0 md:mt-2 space-x-2">
-                                    <UpdateButton
-                                        onUpdate={() => {
-                                            setToggle(true);
-                                            onUpdate(category);
-                                        }}
-                                    />
-                                    <DeleteButton onDelete={() => onDelete(category.id)} />
+                                    <Button type={'update'} onAction={() => {
+                                        setToggle(true),
+                                        onUpdate(category)}} />
+                                    <Button type={'delete'} onAction={() => {onDelete(category.id)}} />
                                 </div>
                             </div>
 

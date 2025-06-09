@@ -1,5 +1,4 @@
-import UpdateButton from "../UpdateButton"
-import DeleteButton from "../DeleteButton"
+import Button from "../Button"
 import { useState } from "react"
 
 export default function UsersTable({ users, onUpdate, onDelete, setToggle }) {
@@ -63,14 +62,10 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle }) {
                                     <td className="px-4 py-2">{user.role_name}</td>
                                     <td className="px-4 py-2">{user.status}</td>
                                     <td className="px-4 py-2 space-x-2 bg-accent">
-                                        <UpdateButton
-                                            item={user}
-                                            onUpdate={() => {
-                                                setToggle(true)
-                                                onUpdate(user)
-                                            }}
-                                        />
-                                        <DeleteButton onDelete={() => onDelete(user.id)} />
+                                        <Button type={'update'} onAction={() => {
+                                        setToggle(true),
+                                        onUpdate(user)}} />
+                                    <Button type={'delete'} onAction={() => {onDelete(user.id)}} />
                                     </td>
                                 </tr>
                             ))}
@@ -122,13 +117,10 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle }) {
                             </div>
                             <div className="card-action flex space-x-2 mt-2">
                                 <div className="flex mt-0 md:mt-2 space-x-2">
-                                    <UpdateButton
-                                        onUpdate={() => {
-                                            setToggle(true);
-                                            onUpdate(user);
-                                        }}
-                                    />
-                                    <DeleteButton onDelete={() => onDelete(user.id)} />
+                                    <Button type={'update'} onAction={() => {
+                                        setToggle(true),
+                                        onUpdate(user)}} />
+                                    <Button type={'delete'} onAction={() => {onDelete(user.id)}} />
                                 </div>
                             </div>
 

@@ -1,6 +1,5 @@
 import { useState } from "react";
-import DeleteButton from "../DeleteButton";
-import UpdateButton from "../UpdateButton";
+import Button from "../Button";
 
 export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle }) {
     const [search, setSearch] = useState('')
@@ -65,11 +64,10 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle 
                                     <td className="px-4 py-2 font-medium text-center">{committee.agreement_start_date}</td>
                                     <td className="px-4 py-2 font-medium text-center">{committee.agreement_end_date}</td>
                                     <td className="px-4 py-2 space-x-2 bg-accent">
-                                        <UpdateButton onUpdate={() => {
-                                            setToggle(true);
-                                            onUpdate(committee);
-                                        }} />
-                                        <DeleteButton onDelete={() => onDelete(committee.id)} />
+                                        <Button type={'update'} onAction={() => {
+                                        setToggle(true),
+                                        onUpdate(committee)}} />
+                                    <Button type={'delete'} onAction={() => {onDelete(committee.id)}} />
                                     </td>
                                 </tr>
                             ))}
@@ -122,13 +120,10 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle 
 
                             <div className="card-action flex space-x-2 mt-2">
                                 <div className="flex mt-0 md:mt-2 space-x-2">
-                                    <UpdateButton
-                                        onUpdate={() => {
-                                            setToggle(true);
-                                            onUpdate(committee);
-                                        }}
-                                    />
-                                    <DeleteButton onDelete={() => onDelete(committee.id)} />
+                                    <Button type={'update'} onAction={() => {
+                                        setToggle(true),
+                                        onUpdate(committee)}} />
+                                    <Button type={'delete'} onAction={() => {onDelete(committee.id)}} />
                                 </div>
                             </div>
 
