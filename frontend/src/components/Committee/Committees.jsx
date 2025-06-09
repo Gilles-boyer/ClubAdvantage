@@ -49,8 +49,7 @@ export default function Committees() {
     };
 
     return (
-        <div className="shadow-lg pb-5">
-
+        <>
             <h1 className="text-center text-2xl font-semibold mt-8 font-poppins bg-accent py-3 w-full mx-auto">
                 CSE
             </h1>
@@ -72,7 +71,7 @@ export default function Committees() {
                 />
             </section>
             <ToastAlert toast={toast} setToast={setToast} />
-        </div>
 
+        </>
     )
 }

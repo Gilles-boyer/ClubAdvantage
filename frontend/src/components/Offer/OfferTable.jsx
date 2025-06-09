@@ -28,83 +28,126 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
         if (currentPage < totalPages) setCurrentPage(currentPage + 1);
     };
     return (
-        <div className="overflow-x-auto">
-            <input
-                type="text"
-                placeholder="Rechercher..."
-                className="input input-bordered my-2 w-full max-w-md"
-                value={search}
-                onChange={(e) => {
-                    setSearch(e.target.value);
-                    setCurrentPage(1);
-                }}
-            />
-            <div className="overflow-x-auto border rounded-xl bg-white">
-                <table className="min-w-full text-left text-sm text-gray-700">
-                    <thead className="bg-secondary text-gray-700 uppercase tracking-wider">
-                        <tr>
-                            <th className="px-4 py-2">Titre</th>
-                            <th className="px-4 py-2">Catégorie</th>
-                            <th className="px-4 py-2">Description</th>
-                            {isStaffPage && <>
-                                <th className="px-4 py-2">Statut</th>
-                                <th className="px-4 py-2">Action</th>
-                            </>}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {paginated.map((offer) => (
-                            <tr
-                                key={offer.id}
-                                className="border-t hover:bg-gray-50 transition-colors"
-                            >
-                                <td className="px-4 py-2 font-medium bg-accent">{offer.title}</td>
-                                <td className="px-4 py-2">{offer.category_name}</td>
-                                <td className="px-4 py-2">{offer.description}</td>
-
-                                {isStaffPage && <><td className="px-4 py-2">
-                                    <button
-                                        onClick={() => onUpStatus(offer.id)}
-                                        className={`py-1 px-3 rounded text-white w-20 hover:cursor-pointer ${offer.is_active ? "bg-indigo-800" : "bg-orange-400"
-                                            }`}
-                                    >
-                                        {offer.is_active ? "Actif" : "Inactif"}
-                                    </button>
-                                </td>
-                                    <td className="px-4 py-2 space-x-2 bg-accent">
-                                        <UpdateButton
-                                            item={offer}
-                                            onUpdate={() => {
-                                                setToggle(true);
-                                                onUpdate(offer);
-                                            }}
-                                        />
-                                        <DeleteButton id={offer.id} onDelete={() => onDelete(offer.id)} />
-                                    </td></>}
+        <>
+            <div className="overflow-x-auto hidden md:block">
+                <input
+                    type="text"
+                    placeholder="Rechercher..."
+                    className="input input-bordered my-2 w-full max-w-md"
+                    value={search}
+                    onChange={(e) => {
+                        setSearch(e.target.value);
+                        setCurrentPage(1);
+                    }}
+                />
+                <div className="overflow-x-auto border rounded-xl bg-white">
+                    <table className="min-w-full text-left text-sm text-gray-700">
+                        <thead className="bg-primary text-gray-700 uppercase tracking-wider">
+                            <tr>
+                                <th className="px-4 py-2">Titre</th>
+                                <th className="px-4 py-2">Catégorie</th>
+                                <th className="px-4 py-2">Description</th>
+                                {isStaffPage && <>
+                                    <th className="px-4 py-2">Statut</th>
+                                    <th className="px-4 py-2">Action</th>
+                                </>}
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-            <div className="flex justify-evenly items-center mt-4">
-                <button
-                    className="btn btn-primary"
-                    onClick={handlePrevious}
-                    disabled={currentPage === 1}
-                >
-                    Précédent
-                </button>
-                <span className="text-sm text-gray-600 font-medium">
-                    Page {currentPage} sur {totalPages}
-                </span>
-                <button
-                    className="btn btn-primary"
-                    onClick={handleNext}
-                    disabled={currentPage === totalPages}
-                >
-                    Suivant
-                </button>
-            </div>
-        </div >
+                        </thead>
+                        <tbody>
+                            {paginated.map((offer) => (
+                                <tr
+                                    key={offer.id}
+                                    className="border-t hover:bg-gray-50 transition-colors"
+                                >
+                                    <td className="px-4 py-2 font-medium bg-accent">{offer.title}</td>
+                                    <td className="px-4 py-2">{offer.category_name}</td>
+                                    <td className="px-4 py-2">{offer.description}</td>
+
+                                    {isStaffPage && <><td className="px-4 py-2">
+                                        <button
+                                            onClick={() => onUpStatus(offer.id)}
+                                            className={`py-1 px-3 rounded text-white w-20 hover:cursor-pointer ${offer.is_active ? "bg-indigo-800" : "bg-orange-400"
+                                                }`}
+                                        >
+                                            {offer.is_active ? "Actif" : "Inactif"}
+                                        </button>
+                                    </td>
+                                        <td className="px-4 py-2 space-x-2 bg-accent">
+                                            <UpdateButton
+                                                item={offer}
+                                                onUpdate={() => {
+                                                    setToggle(true);
+                                                    onUpdate(offer);
+                                                }}
+                                            />
+                                            <DeleteButton id={offer.id} onDelete={() => onDelete(offer.id)} />
+                                        </td></>}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+                <div className="flex justify-evenly items-center mt-4">
+                    <button
+                        className="btn btn-secondary"
+                        onClick={handlePrevious}
+                        disabled={currentPage === 1}
+                    >
+                        Précédent
+                    </button>
+                    <span className="text-sm text-gray-600 font-medium">
+                        Page {currentPage} sur {totalPages}
+                    </span>
+                    <button
+                        className="btn btn-secondary"
+                        onClick={handleNext}
+                        disabled={currentPage === totalPages}
+                    >
+                        Suivant
+                    </button>
+                </div>
+            </div >
+
+            {/* Cards pour les téléphones */}
+            <article className="block md:hidden space-y-5">
+                {offers.map((offer) => (
+                    <div key={offer.id} className="card bg-accent w-80vw card-xs shadow-xl">
+                        <div className="flex bg-secondary items-center justify-between py-1 rounded-md">
+                            <h3 className="card-title font-medium py-1 text-base rounded ps-2">{offer.title}</h3>
+                            <div className="space-x-2">
+                                <div className="badge badge-white font-medium text-black me-2">{offer.category_name}</div>
+                                {isStaffPage && <button
+                                    onClick={() => onUpStatus(offer.id)}
+                                    className={`badge badge-md me-2 font-medium ${offer.is_active ? "badge-info" : "badge-warning"
+                                        }`}
+                                >
+                                    {offer.is_active ? "Actif" : "Inactif"}
+                                </button>}
+                            </div>
+                        </div>
+                        <div className="card-body">
+                            <p className="text-sm">
+                                <span className="font-medium underline">Description :</span>
+                                <br />{offer.description}</p>
+
+                            {isStaffPage && <> <div className="card-action flex space-x-2 mt-2">
+                                <div className="flex mt-0 md:mt-2 space-x-2">
+                                    <UpdateButton
+                                        onUpdate={() => {
+                                            setToggle(true);
+                                            onUpdate(offer);
+                                        }}
+                                    />
+                                    <DeleteButton onDelete={() => onDelete(offer.id)} />
+                                </div>
+                            </div>
+                            </>}
+
+
+                        </div>
+                    </div>
+                ))}
+            </article>
+        </>
     )
 }
