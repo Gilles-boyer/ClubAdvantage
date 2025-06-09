@@ -6,6 +6,6 @@ export default function DeleteButton({ onDelete }) {
     <Icon path={mdilDelete} 
     size={1.2} 
     onClick={onDelete} 
-    className='p-1 text-red-700 mask mask-squircle hover:text-white hover:bg-red-700 me-2' />
+    className='p-1 text-white bg-primary mask mask-squircle hover:bg-red-700 me-2' />
   );
 }

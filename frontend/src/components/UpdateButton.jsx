@@ -7,6 +7,6 @@ export default function UpdateButton({ onUpdate }) {
     <Icon path={mdilPencil} 
     size={1.2}
     onClick={onUpdate}
-    className='p-1 text-blue-700 mask mask-squircle hover:text-white hover:bg-blue-700 me-2' />
+    className='p-1 bg-neutral text-white mask mask-squircle hover:bg-blue-700 me-2' />
   );
 }

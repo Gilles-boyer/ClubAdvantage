@@ -78,7 +78,7 @@ export default function UsersForm({ onAddUser, onEditUser }) {
     return (
         <>
             <div className="w-150 border rounded mx-auto mt-10">
-                <h3 className="font-poppins text-center py-1 text-lg font-medium bg-primary">Ajouter un Membre</h3>
+                <h3 className="font-poppins text-center py-1 text-lg text-white font-medium bg-primary">Ajouter un Membre</h3>
                 <div className="p-5 mx-auto rounded">
                     <form onSubmit={handleSubmit} className="spacetext-center">
                         <div className="form-control mb-4">

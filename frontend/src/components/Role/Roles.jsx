@@ -47,6 +47,7 @@ export default function Roles() {
     return (
         <>
             <h1 className="text-center text-2xl font-semibold my-4">Liste des rôles</h1>
+<<<<<<< HEAD
             <div className='flex w-fit'>
                 <Button action={'Ajouter un Role'} onAction={() => setToggle(!toggle)} className={'btn-secondary uppercase btn-md text-xs hover:btn-primary'}/>
             </div>
@@ -54,6 +55,28 @@ export default function Roles() {
 
             <section className="overflow-x-auto">
                 <RoleTable roles={roles} onUpdate={handleUpdate} onDelete={handleDelete} setToggle={setToggle}/>
+=======
+            <section className="overflow-x-auto mx-auto w-175 rounded-2xl">
+                <table className="table w-150 rounded shadow-md">
+                    <thead>
+                        <tr className="bg-primary text-white uppercase">
+                            <th className="px-4 py-2">Nom</th>
+                            <th className="px-4 py-2">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {roles.map((role) => (
+                        <tr key={role.id} className="hover:bg-gray-100">
+                            <td className="px-4 py-2">{role.name}</td>
+                            <td className="px-4 py-2 flex gap-2">
+                            <UpdateButton item={role} onUpdate={handleToUpdate} />
+                            <DeleteButton id={role.id} onDelete={handleDelete} />
+                            </td>
+                        </tr>
+                        ))}
+                    </tbody>
+                </table>
+>>>>>>> DESIGN
             </section>
         </>
     );
