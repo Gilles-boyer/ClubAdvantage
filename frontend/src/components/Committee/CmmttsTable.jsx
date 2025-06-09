@@ -75,7 +75,8 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle 
                             ))}
                         </tbody>
                     </table>
-                    <div className="flex justify-evenly items-center mt-4">
+                </div>
+                <div className="flex justify-evenly items-center mt-4">
                         <button
                             className="btn btn-secondary"
                             onClick={handlePrevious}
@@ -94,7 +95,6 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle 
                             Suivant
                         </button>
                     </div>
-                </div>
             </div>
             <article className="block md:hidden space-y-5">
                 {committees.map((committee) => (
