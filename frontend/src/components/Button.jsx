@@ -24,7 +24,8 @@ export default function Button({ type, action, onAction, className = '' }) {
       onClick={onAction}
       className={clsx(['btn', 
         type === 'update' && 'mask mask-squircle hover:text-white hover:bg-blue-700 p-1.5', 
-        type === 'delete' && 'mask mask-squircle hover:text-white hover:bg-red-700 p-1.5', 
+        type === 'delete' && 'mask mask-squircle hover:text-white hover:bg-red-700 p-1.5',
+        action && 'uppercase text-xs hover:scale-105 hover:-translate-y-1 transition-transform',
         className])}
     >
       {/* Si le type est spécifié alors l'icône apparaitra, sinon c'est la valeur inscrite dans 'action' qui apparaitra */}

@@ -73,8 +73,8 @@ export default function Categories() {
             <section className="pt-6 max-w-5xl mx-auto">
                       <div className='flex w-fit'>
         <Button action={'Ajouter une Catégorie'} 
-        onAction={() => setToggle(true)} 
-        className={'btn-secondary uppercase text-xs hover:btn-primary'}/>
+        onAction={() => setToggle(!toggle)} 
+        className={'btn-neutral  hover:btn-accent hover:text-neutral'}/>
       </div>
 
                 {toggle && (

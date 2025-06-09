@@ -1,6 +1,7 @@
 import logo from "/logo_test.png";
 import Icon from '@mdi/react';
 import { mdilPower } from '@mdi/light-js';
+import Button from "./Button";
 
 const Header = ({ menu }) => {
   return (
@@ -12,12 +13,8 @@ const Header = ({ menu }) => {
         className="h-17 hover:pointer"
       />
       <div className="text-2xl font-bold">Dashboard</div>
-      <button
-        className="bg-accent font-poppins font-medium text-xs px-3 py-2 rounded text-black hover:bg-secondary uppercase"
-        type="button"
-      >
-        Déconnexion
-      </button>
+      <Button action={'Déconnexion'}
+                          className={'btn-accent text-neutral hover:btn-secondary hover:text-white'} />
             <button
         className="bg-neutral text-xs px-1 py-1 
         rounded-full text-white hover:bg-accent hover:text-neutral uppercase block md:hidden"

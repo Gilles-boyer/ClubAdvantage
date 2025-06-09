@@ -24,29 +24,29 @@ export default function Users() {
         try {
             if (newUser.id) {
                 await dispatch(updateUserThunk({ id: newUser.id, data: newUser })).unwrap()
-                setToast({show: true, message: "Utilisateur mis à jour avec succès", type: 'success'})
+                setToast({ show: true, message: "Utilisateur mis à jour avec succès", type: 'success' })
             } else {
                 await dispatch(addUserThunk(newUser)).unwrap()
-                setToast({show: true, message: "Utilisateur ajouté avec succès", type: 'success'})
+                setToast({ show: true, message: "Utilisateur ajouté avec succès", type: 'success' })
             }
             setUpdtUser(null);
         } catch (err) {
             console.error("Erreur CREATE/UPDATE role :", err);
-            setToast({show: true, message: "Erreur lors de l'opération", type: 'error'})
+            setToast({ show: true, message: "Erreur lors de l'opération", type: 'error' })
         }
     };
 
     const handleToUpdate = async (userToEdit) => {
-         setUpdtUser(userToEdit)
+        setUpdtUser(userToEdit)
     }
 
     const handleDelete = async (id) => {
         try {
             await dispatch(deleteUserThunk(id)).unwrap()
-            setToast({show: true, message: "Utilisateur supprimé avec succès", type: 'success'})
+            setToast({ show: true, message: "Utilisateur supprimé avec succès", type: 'success' })
         } catch (err) {
             console.error("Erreur on DELETE :", err);
-            setToast({show: true, message: "Erreur lors de la supression de l'utilisateur", type: 'error'})
+            setToast({ show: true, message: "Erreur lors de la supression de l'utilisateur", type: 'error' })
         }
     };
     return (
@@ -56,14 +56,14 @@ export default function Users() {
             </h1>
             <section className="pt-10 max-w-5xl mx-auto">
                 <div className='flex w-fit'>
-                    <button onClick={() => setToggle(!toggle)} className='btn btn-neutral text-white uppercase font-medium text-xs hover:bg-accent 
-                    hover:text-neutral hover:scale-105 hover:-translate-y-1 transition-transform'>Ajouter un utilisateur</button>
+                    <Button action={'Ajouter un Utilisateur'} onAction={() => setToggle(!toggle)}
+                        className={'btn-neutral hover:btn-accent hover:text-neutral'} />
                 </div>
                 {toggle && (
-                <UsersForm onAddUser={handleAdd} onEditUser={updtUser}/>)}
-                <UsersTable users={users} onUpdate={handleToUpdate} onDelete={handleDelete} setToggle={setToggle}/>
+                    <UsersForm onAddUser={handleAdd} onEditUser={updtUser} />)}
+                <UsersTable users={users} onUpdate={handleToUpdate} onDelete={handleDelete} setToggle={setToggle} />
             </section>
-            <ToastAlert toast={toast} setToast={setToast}/>
+            <ToastAlert toast={toast} setToast={setToast} />
         </div>
 
     );

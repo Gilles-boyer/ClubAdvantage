@@ -42,7 +42,7 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                 />
                 <div className="overflow-x-auto border rounded-xl bg-white">
                     <table className="min-w-full text-left text-sm text-gray-700">
-                        <thead className="bg-primary text-gray-700 uppercase tracking-wider">
+                        <thead className="bg-secondary text-gray-700 uppercase tracking-wider">
                             <tr>
                                 <th className="px-4 py-2">Titre</th>
                                 <th className="px-4 py-2">Catégorie</th>
@@ -89,7 +89,7 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                 </div>
                 <div className="flex justify-evenly items-center mt-4">
                     <button
-                        className="btn btn-secondary"
+                        className="btn btn-neutral"
                         onClick={handlePrevious}
                         disabled={currentPage === 1}
                     >
@@ -99,7 +99,7 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                         Page {currentPage} sur {totalPages}
                     </span>
                     <button
-                        className="btn btn-secondary"
+                        className="btn btn-neutral"
                         onClick={handleNext}
                         disabled={currentPage === totalPages}
                     >

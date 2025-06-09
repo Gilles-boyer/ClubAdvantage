@@ -4,6 +4,7 @@ import CommitteeForm from "./CmmttsForm";
 import CmmttsTable from "./CmmttsTable";
 import { fetchCmmtts, updateCmmttThunk, deleteCmmttThunk, addCmmttThunk, listOfCommittees } from "../../store/slices/CommitteeSlice";
 import ToastAlert from "../ToastAlert";
+import Button from "../Button";
 
 
 export default function Committees() {
@@ -56,8 +57,9 @@ export default function Committees() {
 
             <section className="pt-10 max-w-5xl mx-auto">
                 <div className='flex w-fit'>
-                    <button onClick={() => setToggle(!toggle)} className='btn btn-neutral uppercase font-medium text-xs 
-                    hover:bg-accent hover:text-neutral hover:scale-105 hover:-translate-y-1 transition-transform'>Ajouter un CSE</button>
+                   <Button action={'Ajouter un CSE'} 
+                           onAction={() => setToggle(!toggle)} 
+                           className={'btn-neutral  hover:btn-accent hover:text-neutral '}/>
                 </div>
                 {toggle && (
                     <CommitteeForm onAddCommittee={handleAddCmmtt} onEditUpCmmtt={toUpCmmtts} />

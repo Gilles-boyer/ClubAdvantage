@@ -39,7 +39,7 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                 />
                 <div className="overflow-x-auto border rounded-xl bg-white shadow-sm">
                     <table className="min-w-full text-left text-sm text-gray-700">
-                        <thead className="bg-primary text-gray-700 uppercase tracking-wider">
+                        <thead className="bg-secondary text-gray-700 uppercase tracking-wider">
                             <tr>
                                 <th className="px-4 py-2">Nom</th>
                                 <th className="px-4 py-2">Description</th>
