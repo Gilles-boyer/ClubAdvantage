@@ -51,15 +51,17 @@ export default function Committees() {
 
     return (
         <>
-            <h1 className="text-center text-2xl font-semibold mt-8 font-poppins bg-accent py-3 w-full mx-auto">
-                CSE
-            </h1>
+            <div className="flex items-center gap-6 mt-5 mb-4">
+                <div className="flex-grow border-t border-neutral"></div>
+                <h2 className="text-2xl font-semibold text-gray-700">CSE</h2>
+                <div className="flex-grow border-t border-neutral"></div>
+            </div>
 
-            <section className="pt-10 max-w-5xl mx-auto">
+            <section className="pt-5 max-w-5xl mx-auto">
                 <div className='flex w-fit'>
                    <Button action={'Ajouter un CSE'} 
                            onAction={() => setToggle(!toggle)} 
-                           className={'btn-neutral  hover:btn-accent hover:text-neutral '}/>
+                           className={'btn-neutral  hover:btn-accent hover:text-neutral mb-2 md:mb-0'}/>
                 </div>
                 {toggle && (
                     <CommitteeForm onAddCommittee={handleAddCmmtt} onEditUpCmmtt={toUpCmmtts} />

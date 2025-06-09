@@ -63,9 +63,10 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle }) {
                                     <td className="px-4 py-2">{user.status}</td>
                                     <td className="px-4 py-2 space-x-2 bg-accent">
                                         <Button type={'update'} onAction={() => {
-                                        setToggle(true),
-                                        onUpdate(user)}} />
-                                    <Button type={'delete'} onAction={() => {onDelete(user.id)}} />
+                                            setToggle(true),
+                                                onUpdate(user)
+                                        }} />
+                                        <Button type={'delete'} onAction={() => { onDelete(user.id) }} />
                                     </td>
                                 </tr>
                             ))}
@@ -95,11 +96,9 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle }) {
             {/* Cards pour les écrans de téléphones */}
             <article className="block md:hidden space-y-5">
                 {users.map((user) => (
-                    <div key={user.id} className="card bg-accent w-80vw card-xs shadow-xl">
-                        <div className="flex bg-secondary items-center justify-between py-1 rounded-md">
-                            <h3 className="card-title font-medium py-1 text-base rounded ps-2">{user.last_name} {user.first_name}</h3>
-                            <div className="space-x-2">
-                                <div className="badge badge-white font-medium text-black">{user.role_name}</div>
+                    <div key={user.id} className="card bg-accent w-80vw card-xs shadow-xl p-3 border border-secondary">
+                            <div className="flex justify-between mb-3">
+                                <div className="badge badge-neutral font-medium text-white">{user.role_name}</div>
                                 <div
                                     className={`badge badge-md me-2 font-medium ${user.status ? "badge-info" : "badge-warning"
                                         }`}
@@ -107,9 +106,9 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle }) {
                                     {user.status ? "Actif" : "Inactif"}
                                 </div>
                             </div>
-                        </div>
-                        <div className="card-body">
-                            <div className="flex">
+                            <h3 className="card-title font-medium pb-1 text-lg rounded ps-0.5">{user.last_name} {user.first_name}</h3>
+                        <div className="card-body bg-white rounded-md">
+                            <div className="flex flex-col">
                                 <p className="text-sm">
                                     <span className="font-medium">Email : </span>{user.email}</p>
                                 <p className="text-sm">
@@ -119,8 +118,9 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle }) {
                                 <div className="flex mt-0 md:mt-2 space-x-2">
                                     <Button type={'update'} onAction={() => {
                                         setToggle(true),
-                                        onUpdate(user)}} />
-                                    <Button type={'delete'} onAction={() => {onDelete(user.id)}} />
+                                            onUpdate(user)
+                                    }} />
+                                    <Button type={'delete'} onAction={() => { onDelete(user.id) }} />
                                 </div>
                             </div>
 

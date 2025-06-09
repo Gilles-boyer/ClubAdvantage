@@ -50,7 +50,7 @@ export default function CategoryForm({ onAddCategory, onEditUpCat }) {
     <>
 
         <div className="w-80vw md:w-150 border rounded mx-auto my-5">
-          <h3 className="font-poppins text-center py-1 text-lg font-medium bg-primary">Ajouter une catégorie</h3>
+          <h3 className="font-poppins text-center text-white py-1 text-lg font-medium bg-primary">Ajouter une catégorie</h3>
           <div className="p-5 mx-auto rounded">
             <form onSubmit={handleSubmit} className="space-x-2 mt-4 text-center">
               <div className="form-control mb-4">

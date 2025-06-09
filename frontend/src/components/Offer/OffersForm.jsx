@@ -65,7 +65,7 @@ export default function OfferForm({ onAddOffer, onEditOffer }) {
 
   return (
     <>
-      <div className="w-150 border rounded mx-auto mt-10">
+      <div className="w-80vw border rounded mx-auto my-10">
         <h3 className="font-poppins text-center py-1 text-lg font-medium text-white bg-primary">Ajouter une Offre</h3>
         <div className="p-5 mx-auto rounded">
           <form onSubmit={handleSubmit} className="spacetext-center">

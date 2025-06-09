@@ -23,8 +23,8 @@ export default function Button({ type, action, onAction, className = '' }) {
     <button
       onClick={onAction}
       className={clsx(['btn', 
-        type === 'update' && 'mask mask-squircle hover:text-white hover:bg-blue-700 p-1.5', 
-        type === 'delete' && 'mask mask-squircle hover:text-white hover:bg-red-700 p-1.5',
+        type === 'update' && 'mask mask-squircle text-white bg-blue-700 p-1.5 hover:scale-105 hover:-translate-y-1 transition-transform', 
+        type === 'delete' && 'mask mask-squircle text-white bg-red-700 p-1.5 hover:scale-105 hover:-translate-y-1 transition-transform',
         action && 'uppercase text-xs hover:scale-105 hover:-translate-y-1 transition-transform',
         className])}
     >

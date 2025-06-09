@@ -5,22 +5,22 @@ import Button from "./Button";
 
 const Header = ({ menu }) => {
   return (
-    <div className="flex items-center justify-between w-full px-8">
+    <div className="flex items-center justify-between w-full py-2 md:py-0 px-2 md:px-8">
       <img
         onClick={() => menu.setIsOpen(!menu.isOpen)}
         src={logo}
         alt="Logo ClubAdvantage"
-        className="h-17 hover:pointer"
+        className="h-12 md:h-17 hover:pointer"
       />
-      <div className="text-2xl font-bold">Dashboard</div>
+      <div className="text-2xl text-center font-bold me-4 md:me-0">Dashboard</div>
       <Button action={'Déconnexion'}
-                          className={'btn-accent text-neutral hover:btn-secondary hover:text-white'} />
-            <button
-        className="bg-neutral text-xs px-1 py-1 
-        rounded-full text-white hover:bg-accent hover:text-neutral uppercase block md:hidden"
+        className={'btn-accent text-neutral hover:btn-secondary hover:text-white hidden md:block'} />
+      <button
+        className="bg-accent px-1 py-1 
+        rounded-full text-neutral hover:bg-accent hover:text-neutral uppercase block md:hidden"
         type="button"
       >
-      <Icon path={mdilPower} size={1} />
+        <Icon path={mdilPower} size={1} />
       </button>
     </div>
   );

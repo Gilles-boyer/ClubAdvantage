@@ -23,7 +23,7 @@ export default function Offers() {
         dispatch(fetchOffers());
     }, [dispatch]);
 
-    
+
     const handleAddOffer = async (newOffer) => {
         try {
             if (newOffer.id) {
@@ -87,13 +87,15 @@ export default function Offers() {
     if (location.pathname === '/offers') return (
         <>
 
-            <h1 className="text-center text-2xl font-semibold mt-8 font-poppins">
-                Offres Existantes
-            </h1>
+            <div className="flex items-center gap-6 mt-5 mb-4">
+                <div className="flex-grow border-t border-neutral"></div>
+                <h2 className="text-2xl font-semibold text-gray-700">Offres</h2>
+                <div className="flex-grow border-t border-neutral"></div>
+            </div>
             <section className="pt-10 max-w-5xl mx-auto">
                 <div className='flex w-fit'>
-                    <Button action={'Ajouter une Offre'} onAction={() => setToggle(!toggle)} 
-                    className={'btn-neutral hover:btn-accent hover:text-neutral'} />
+                    <Button action={'Ajouter une Offre'} onAction={() => setToggle(!toggle)}
+                        className={'btn-neutral hover:btn-accent hover:text-neutral mb-2 md:mb-0'} />
                 </div>
                 {toggle && (<OfferForm onAddOffer={handleAddOffer} onEditOffer={toUpOffer} />)}
                 < OfferTable

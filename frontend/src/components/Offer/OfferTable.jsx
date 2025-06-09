@@ -107,21 +107,21 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
             {/* Cards pour les téléphones */}
             <article className="block md:hidden space-y-5">
                 {offers.map((offer) => (
-                    <div key={offer.id} className="card bg-accent w-80vw card-xs shadow-xl">
-                        <div className="flex bg-secondary items-center justify-between py-1 rounded-md">
-                            <h3 className="card-title font-medium py-1 text-base rounded ps-2">{offer.title}</h3>
-                            <div className="space-x-2">
-                                <div className="badge badge-white font-medium text-black me-2">{offer.category_name}</div>
-                                {isStaffPage && <button
-                                    onClick={() => onUpStatus(offer.id)}
-                                    className={`badge badge-md me-2 font-medium ${offer.is_active ? "badge-info" : "badge-warning"
-                                        }`}
-                                >
-                                    {offer.is_active ? "Actif" : "Inactif"}
-                                </button>}
-                            </div>
+                    <div key={offer.id} className="card bg-accent w-80vw card-xs shadow-xl p-3 border border-secondary">
+                        <div className="flex justify-between mb-3">
+                            <div className="badge badge-neutral font-medium">{offer.category_name}</div>
+                            {isStaffPage && <button
+                                onClick={() => onUpStatus(offer.id)}
+                                className={`badge badge-md me-2 font-medium ${offer.is_active ? "badge-info" : "badge-warning"
+                                    }`}
+                            >
+                                {offer.is_active ? "Actif" : "Inactif"}
+                            </button>}
                         </div>
-                        <div className="card-body">
+                        <div className="pb-1">
+                            <h3 className="card-title font-medium text-lg rounded ps-0.5">{offer.title}</h3>
+                        </div>
+                        <div className="card-body bg-white rounded-md">
                             <p className="text-sm">
                                 <span className="font-medium underline">Description :</span>
                                 <br />{offer.description}</p>

@@ -50,21 +50,24 @@ export default function Users() {
         }
     };
     return (
-        <div className="shadow-lg pb-5 my-10">
-            <h1 className="text-center text-2xl font-semibold mt-8 font-poppins bg-accent py-3 w-full mx-auto">
-                Utilisateurs
-            </h1>
-            <section className="pt-10 max-w-5xl mx-auto">
+        <>
+            <div className="flex items-center gap-6 mt-20 mb-4">
+                <div className="flex-grow border-t border-neutral"></div>
+                <h2 className="text-2xl font-semibold text-gray-700">Utilisateurs</h2>
+                <div className="flex-grow border-t border-neutral"></div>
+            </div>
+
+            <section className="pt-5 max-w-5xl mx-auto">
                 <div className='flex w-fit'>
                     <Button action={'Ajouter un Utilisateur'} onAction={() => setToggle(!toggle)}
-                        className={'btn-neutral hover:btn-accent hover:text-neutral'} />
+                        className={'btn-neutral hover:btn-accent hover:text-neutral mb-2 md:mb-0'} />
                 </div>
                 {toggle && (
                     <UsersForm onAddUser={handleAdd} onEditUser={updtUser} />)}
                 <UsersTable users={users} onUpdate={handleToUpdate} onDelete={handleDelete} setToggle={setToggle} />
             </section>
             <ToastAlert toast={toast} setToast={setToast} />
-        </div>
+        </>
 
     );
 }

@@ -96,20 +96,20 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle 
             </div>
             <article className="block md:hidden space-y-5">
                 {committees.map((committee) => (
-                    <div key={committee.id} className="card bg-accent w-80vw card-xs shadow-xl">
-                        <div className="flex bg-secondary items-center justify-between py-1 rounded-md">
-                            <h3 className="card-title font-medium py-1 text-base rounded ps-2">{committee.name}</h3>
+                    <div key={committee.id} className="card bg-accent w-80vw card-xs shadow-xl p-3 border border-secondary">
+                        <div className="flex items-center justify-between py-1 rounded-md">
+                            <h3 className="card-title font-medium py-1 text-lg rounded ps-2">{committee.name}</h3>
                             <div className="space-x-2">
+                                </div>
                                 <button
                                     className={`badge badge-md me-2 ${committee.auto_renew ? "badge-info" : "badge-warning"
                                         }`}
                                 >
                                     {committee.auto_renew ? "Actif" : "Inactif"}
                                 </button>
-                            </div>
                         </div>
-                        <div className="card-body">
-                            <div className="flex">
+                        <div className="card-body bg-white rounded-md">
+                            <div className="flex flex-col">
                                 <p className="text-sm">
                                     <span className="font-medium">Date de début : </span>
                                     {committee.agreement_start_date}</p><p className="text-sm">

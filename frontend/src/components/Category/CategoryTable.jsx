@@ -62,9 +62,10 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                                     </td>
                                     <td className="px-4 py-2 space-x-2 bg-accent">
                                         <Button type={'update'} onAction={() => {
-                                        setToggle(true),
-                                        onUpdate(category)}} />
-                                    <Button type={'delete'} onAction={() => {onDelete(category.id)}} />
+                                            setToggle(true),
+                                                onUpdate(category)
+                                        }} />
+                                        <Button type={'delete'} onAction={() => { onDelete(category.id) }} />
                                     </td>
                                 </tr>
                             ))}
@@ -93,28 +94,29 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
             </div >
             <article className="block md:hidden space-y-5">
                 {categories.map((category) => (
-                    <div key={category.id} className="card bg-accent w-80vw card-xs shadow-xl">
-                        <div className="flex bg-secondary items-center justify-between py-1 rounded-md">
-                        <h3 className="card-title font-medium py-1 text-base rounded ps-2">{category.name}</h3>
+                    <div key={category.id} className="card bg-accent w-80vw card-xs p-3 shadow-xl border border-secondary">
+                        <div className="flex justify-between py-2">
+                            <h3 className="card-title font-medium text-lg rounded ps-0.5">{category.name}</h3>
                             <button
                                 onClick={() => onUpStatus(category.id)}
-                                className={`badge badge-md me-2 hover:cursor-pointer ${category.is_active ? "badge-info" : "badge-warning"
+                                className={`badge badge-md me-2 hover:cursor-pointer font-medium ${category.is_active ? "badge-info" : "badge-warning"
                                     }`}
                             >
                                 {category.is_active ? "Actif" : "Inactif"}
                             </button>
                         </div>
-                        <div className="card-body">
+                        <div className="card-body bg-white rounded-md">
                             <p className="text-sm">
                                 <span className="font-medium underline">Description :</span>
-                                <br/>{category.description}</p>
+                                <br />{category.description}</p>
 
                             <div className="card-action flex space-x-2 mt-2">
                                 <div className="flex mt-0 md:mt-2 space-x-2">
                                     <Button type={'update'} onAction={() => {
                                         setToggle(true),
-                                        onUpdate(category)}} />
-                                    <Button type={'delete'} onAction={() => {onDelete(category.id)}} />
+                                            onUpdate(category)
+                                    }} />
+                                    <Button type={'delete'} onAction={() => { onDelete(category.id) }} />
                                 </div>
                             </div>
 
