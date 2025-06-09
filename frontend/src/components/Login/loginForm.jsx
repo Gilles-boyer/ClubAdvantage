@@ -1,6 +1,8 @@
 import { Textbox } from "react-inputs-validation";
+import Icon from '@mdi/react';
+import { mdilAccount } from '@mdi/light-js';
 
-export default function LoginForm({setHidden}) {
+export default function LoginForm({ setHidden }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -8,7 +10,7 @@ export default function LoginForm({setHidden}) {
   return (
     <>
       <div className="p-5 mx-auto rounded-xl bg-accent w-120 py-10 ring-2 ring-secondary" onClick={() => setHidden(false)}>
-        <h2 className="text-center font-medium text-2xl uppercase mb-5">Bienvenue sur ClubAdvantage</h2>
+        <Icon path={mdilAccount} size={4}  className="text-accent bg-neutral rounded-full p-3 items-center mx-auto ring-1 ring-secondary"/>
         <form onSubmit={handleSubmit} className="space-x-2 mt-4 text-center">
           <div className="form-control mb-4">
             <label htmlFor="nameCategory" className="label">
@@ -40,7 +42,7 @@ export default function LoginForm({setHidden}) {
               onBlur={() => { }}
             />
           </div>
-          <button type="submit" className="btn btn-primary mt-5">
+          <button type="submit" className="btn btn-primary mt-5 uppercase text-xs">
             Se Connecter
           </button>
         </form>

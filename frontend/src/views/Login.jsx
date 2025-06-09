@@ -7,9 +7,12 @@ export default function Login() {
     return (
         <>
             <div className="flex justify-center items-center bg-neutral min-h-[calc(100vh-0px)]">
-                <div className="flex gap-8 items-center">
-                    <img src={logo} alt="Logo ClubAdvantage" className="h-150" onClick={() => setHidden(!hidden)}/>
-                    {hidden && (<LoginForm setHidden={hidden}/>)}
+                <div>
+                    <h2 className="text-center font-medium text-4xl uppercase text-accent">Bienvenue sur ClubAdvantage</h2>
+                    <div className="flex gap-8 items-center">
+                        <img src={logo} alt="Logo ClubAdvantage" className="h-150" onClick={() => setHidden(!hidden)} />
+                        {hidden && (<LoginForm setHidden={hidden} />)}
+                    </div>
                 </div>
             </div>
         </>
