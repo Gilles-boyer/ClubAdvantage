@@ -48,7 +48,7 @@ export default function Roles() {
         <>
             <h1 className="text-center text-2xl font-semibold my-4">Liste des rôles</h1>
             <div className='flex w-fit'>
-                <Button action={'Ajouter un Role'} onAction={() => setToggle(!toggle)} className={'btn-secondary uppercase btn-md text-xs hover:btn-primary'}/>
+                <Button action={'Ajouter un Role'} onAction={() => setToggle(!toggle)} className={'btn-neutral uppercase btn-md text-xs hover:btn-accent hover:text-neutral'}/>
             </div>
             {toggle && (<RolesForm onAddRole={handleAddRole} onEditRole={toUpdateRole} /> )}
 
