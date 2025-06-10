@@ -131,16 +131,18 @@ class UserController extends Controller {
     }
 
     // Met à jour les informations de base du profil utilisateur connecté
-    public function updateProfile(Request $request)
-    {
-        $user = $request->user(); // récupère l'utilisateur actuellement connecté
+    public function updateProfile(Request $request) {
+        $user = $request->user();   // utilisateur authentifié
 
-        // Valide les champs envoyés
         $validated = $request->validate([
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name'  => ['required', 'string', 'max:255'],
-            'email'      => ['required', 'email', 'max:255'],
+            'first_name' => ['sometimes', 'string', 'max:255'],
+            'last_name'  => ['sometimes', 'string', 'max:255'],
+            'email'      => ['sometimes', 'email', 'max:255','unique:users,email,' . $user->id],   // autorise son propre email
         ]);
+
+        if (empty($validated)) {        // rien à changer
+            return response()->json(['message' => 'Aucun champ fourni.'], 422);
+        }
 
         $user->update($validated);
 
@@ -149,6 +151,7 @@ class UserController extends Controller {
             'data'    => new UserResource($user),
         ]);
     }
+
 
     // Met à jour le mot de passe de l'utilisateur connecté
     public function updatePassword(Request $request)
