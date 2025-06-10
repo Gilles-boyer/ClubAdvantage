@@ -31,11 +31,9 @@ export default function UsersForm({ onAddUser, onEditUser }) {
 
     useEffect(() => {
         dispatch(fetchCmmtts())
-    }, [dispatch]);
-
-    useEffect(() => {
         dispatch(fetchRoles())
     }, [dispatch]);
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -69,6 +67,7 @@ export default function UsersForm({ onAddUser, onEditUser }) {
         setLast_Name('')
         setFirst_Name('')
         setEmail('')
+        setPassword('')
         setSelectedCom('')
         setSelectedRole('')
         setStatus('')

@@ -8,11 +8,13 @@ export default function CategoryForm({ onAddCategory, onEditUpCat }) {
   const [errorName, setErrorName] = useState("")
   const [description, setDescription] = useState("")
   const [errorDesc, setErrorDesc] = useState("")
+  const [status, setStatus] =useState(null)
 
   useEffect(() => {
     if (onEditUpCat) {
       setName(onEditUpCat.name);
       setDescription(onEditUpCat.description);
+      setStatus(onEditUpCat.is_active)
     }
   }, [onEditUpCat]);
 
@@ -24,7 +26,7 @@ export default function CategoryForm({ onAddCategory, onEditUpCat }) {
     const newCategory = {
       name,
       description,
-      is_active: false,
+      is_active: status,
       updated_at: new Date().toISOString(),
     };
 
