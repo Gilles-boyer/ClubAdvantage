@@ -12,17 +12,24 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        // Active le middleware de session + cookies
-        $middleware->web();
 
-        // Active le groupe de middleware API
-        $middleware->api();
+    // 1. Routes WEB
+    $middleware->web();
 
-        // Active Sanctum pour les SPA (auth cookie)
-        $middleware->alias([
-            'auth:sanctum' => \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-        ]);
-    })
+    // 2. Routes API
+    $middleware->api(prepend: [
+        \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+        \Illuminate\Session\Middleware\StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class // optionnel pour validations
+    ]);
+
+    // 3. Alias
+    $middleware->alias([
+        'auth:sanctum' => \Laravel\Sanctum\Http\Middleware\AuthenticateSession::class,
+        'abilities'    => \Laravel\Sanctum\Http\Middleware\CheckAbilities::class,
+        'ability'      => \Laravel\Sanctum\Http\Middleware\CheckForAnyAbility::class,
+    ]);
+})
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();
