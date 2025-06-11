@@ -17,7 +17,7 @@ class UserSeeder extends Seeder {
             'role_id'      => Role::where('name', 'super_admin')->first()?->id,
             'committee_id' => null,
             'email'        => 'admin@example.com',
-            'password'     => Hash::make('manger'), // <- Hachage important ici !
+            'password'     => Hash::make('manger12345'), // <- Hachage important ici !
         ]);
 
         // Crée 3 staffs 
