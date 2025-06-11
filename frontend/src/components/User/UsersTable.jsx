@@ -32,7 +32,7 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
                 <input
                     type="text"
                     placeholder="Rechercher..."
-                    className="input input-bordered my-2 w-full max-w-md"
+                    className="input input-bordered my-2 w-full max-w-md hover:border-secondary hover:ring-secondary hover:ring-1"
                     value={search}
                     onChange={(e) => {
                         setSearch(e.target.value);

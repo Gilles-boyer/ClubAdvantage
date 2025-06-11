@@ -62,7 +62,7 @@ export default function Committees() {
                 <div className='flex w-fit'>
                    <Button label={'Ajouter un CSE'} 
                            onAction={() => setToggle(!toggle)} 
-                           className={'btn-neutral  hover:btn-accent hover:text-neutral mb-2 md:mb-0'}/>
+                           className={'btn-neutral  hover:btn-secondary mb-2 md:mb-0'}/>
                 </div>
                 {toggle && (
                     <CommitteeForm onAddCommittee={handleAddCmmtt} onEditUpCmmtt={toUpCmmtts} setToggle={setToggle}/>
