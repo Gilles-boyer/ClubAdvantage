@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Icon from "@mdi/react";
 import { mdilAlert } from "@mdi/light-js";
 import { Textbox } from "react-inputs-validation";
+import Button from "../Button";
 
 export default function RolesForm({ onAddRole, onEditRole }) {
     // Champs du formulaire
@@ -11,7 +12,7 @@ export default function RolesForm({ onAddRole, onEditRole }) {
     // Préremplit le champ si on modifie un rôle
     useEffect(() => {
         if (onEditRole) {
-        setRoleName(onEditRole.name);
+            setRoleName(onEditRole.name);
         }
     }, [onEditRole]);
 
@@ -47,8 +48,8 @@ export default function RolesForm({ onAddRole, onEditRole }) {
     };
 
     return (
-        <form className="w-full border rounded-md p-4 mx-auto bg-white shadow-md my-5" onSubmit={handleSubmit}>
-            <h3 className="font-poppins text-lg font-medium bg-primary py-1 text-center text-white rounded mb-4">
+        <form className="border rounded-md p-4 mx-auto bg-white shadow-md my-5" onSubmit={handleSubmit}>
+            <h3 className="font-poppins text-lg font-medium bg-primary py-1 text-center text-white rounded mb-4 w-full">
                 {onEditRole ? "Modifier un rôle" : "Ajouter un rôle"}
             </h3>
 
@@ -57,11 +58,11 @@ export default function RolesForm({ onAddRole, onEditRole }) {
                     <span className="label-text">Nom du rôle</span>
                 </label>
                 <Textbox
-                    attributesInput={{ 
-                        id: "roleName", 
-                        name: "roleName", 
-                        placeholder: "Nom du rôle", 
-                        className: "input input-bordered w-full" 
+                    attributesInput={{
+                        id: "roleName",
+                        name: "roleName",
+                        placeholder: "Nom du rôle",
+                        className: "input input-bordered w-full"
                     }}
                     value={roleName}
                     onChange={(val) => setRoleName(val)}
@@ -76,16 +77,17 @@ export default function RolesForm({ onAddRole, onEditRole }) {
                     }}
                 />
                 {error && (
-                <div className="text-red-700 flex justify-center mt-2">
-                    <Icon path={mdilAlert} size={1} />
-                    <p className="ps-2 text-sm">{error}</p>
-                </div>
+                    <div className="text-red-700 flex justify-center mt-2">
+                        <Icon path={mdilAlert} size={1} />
+                        <p className="ps-2 text-sm">{error}</p>
+                    </div>
                 )}
             </div>
 
-            <button type="submit" className="btn btn-neutral w-full">
-                {onEditRole ? "Modifier" : "Valider"}
-            </button>
+            <div className="flex justify-center space-x-2">
+                <Button label={'valider'} type="submit" className={'btn-neutral'} />
+                <Button label={'annuler'} onAction={() => reset()} className={'btn-error'} />
+            </div>
         </form>
     );
 }

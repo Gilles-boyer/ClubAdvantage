@@ -123,7 +123,7 @@ export default function CategoryForm({ onAddCategory, onEditUpCat }) {
                   <option  value={"0"}>Inactif</option>
               </select>
             </div>
-            <Button label={'valider'} type="submit" className="btn-neutral" />
+            <Button label={'valider'} type="submit" className={"btn-neutral"} />
             <Button label={'annuler'} onAction={() => reset()} className={'btn-error'} />
           </form>
         </div>
