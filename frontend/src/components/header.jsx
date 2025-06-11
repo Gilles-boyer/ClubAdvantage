@@ -20,7 +20,7 @@ const Header = ({ menu }) => {
         className="h-12 md:h-17 hover:pointer"
       />
       <div className="text-2xl text-center font-bold me-3 md:me-0">Dashboard</div>
-      <Button action={'Déconnexion'}
+      <Button label={'Déconnexion'}
         className={'btn-accent text-neutral hover:btn-secondary hover:text-white hidden md:block'}
         onAction={handleLogout}/>
       <button
