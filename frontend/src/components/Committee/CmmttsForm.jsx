@@ -162,7 +162,7 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt, setToggle
 
                             {/* Bouton */}
                             <Button type="submit" label={'valider'} className={'btn-neutral'}/>
-                            <Button label={'annuler'} onAction={() => {reset,
+                            <Button label={'annuler'} onAction={() => {reset();
                                 setToggle(true)
                             }} className={'btn-error'}/>
                         </form>

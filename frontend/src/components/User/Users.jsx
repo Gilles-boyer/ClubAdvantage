@@ -12,6 +12,7 @@ export default function Users() {
     const [updtUser, setUpdtUser] = useState(null)
     const [toggle, setToggle] = useState(false)
     const [toast, setToast] = useState('')
+    const [editMode, setEditMode] = useState(false)
 
 
     useEffect(() => {
@@ -39,8 +40,10 @@ export default function Users() {
 
     const handleToUpdate = async (userToEdit) => {
         console.table(userToEdit);
-        
         setUpdtUser(userToEdit)
+    }
+    const handleCancelUpdate = () => {
+        setUpdtUser(null)
     }
 
     const handleDelete = async (id) => {
@@ -66,8 +69,16 @@ export default function Users() {
                         className={'btn-neutral hover:btn-accent hover:text-neutral mb-2 md:mb-0'} />
                 </div>
                 {toggle && (
-                    <UsersForm onAddUser={handleAdd} onEditUser={updtUser} />)}
-                <UsersTable users={users} onUpdate={handleToUpdate} onDelete={handleDelete} setToggle={setToggle} />
+                    <UsersForm onAddUser={handleAdd}
+                        onEditUser={updtUser}
+                        editMode={editMode}
+                        setEditMode={setEditMode}
+                        onCancel={handleCancelUpdate} />)}
+                <UsersTable users={users}
+                    onUpdate={handleToUpdate}
+                    onDelete={handleDelete}
+                    setToggle={setToggle}
+                    setEditMode={setEditMode} />
             </section>
             <ToastAlert toast={toast} setToast={setToast} />
         </>

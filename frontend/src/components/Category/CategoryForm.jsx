@@ -9,7 +9,7 @@ export default function CategoryForm({ onAddCategory, onEditUpCat }) {
   const [errorName, setErrorName] = useState("")
   const [description, setDescription] = useState("")
   const [errorDesc, setErrorDesc] = useState("")
-  const [status, setStatus] =useState(null)
+  const [status, setStatus] = useState(null)
 
   useEffect(() => {
     if (onEditUpCat) {
@@ -27,7 +27,7 @@ export default function CategoryForm({ onAddCategory, onEditUpCat }) {
     const newCategory = {
       name,
       description,
-      is_active: status,
+      is_active: false,
       updated_at: new Date().toISOString(),
     };
     console.table(onEditUpCat)
@@ -52,71 +52,81 @@ export default function CategoryForm({ onAddCategory, onEditUpCat }) {
   return (
     <>
 
-        <div className="w-80vw md:w-150 border rounded mx-auto my-5">
-          <h3 className="font-poppins text-center text-white py-1 text-lg font-medium bg-primary">Ajouter une catégorie</h3>
-          <div className="p-5 mx-auto rounded">
-            <form onSubmit={handleSubmit} className="space-x-2 mt-4 text-center">
-              <div className="form-control mb-4">
-                <label htmlFor="nameCategory" className="label">
-                  <span className="label-text">Nom de la catégorie</span>
-                </label>
-                <Textbox
-                  attributesInput={{
-                    id: "nameCategory",
-                    name: "nameCategory",
-                    type: "text",
-                    className: "input input-bordered w-full",
-                    placeholder: "Nom de la catégorie"
-                  }}
-                  value={name}
-                  onChange={(value) => setName(value)}
-                  onBlur={(e) => {
-                    if (!e.target.value.trim()) {
-                      return setErrorName('Le Nom ne peut pas être vide !')
-                    }
-                    if (e.target.value.length > 255) {
-                      return setErrorName('Le Nom ne doit pas dépasser 255 caractères !')
-                    }
-                    if (typeof (e.target.value) !== "string") {
-                      return setErrorName('Le Nom doit être une chaine de caractères !')
-                    }
-                  }}
-                />
-                {errorName && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorName}</p></div>}
-              </div>
+      <div className="w-80vw md:w-150 border rounded mx-auto my-5">
+        <h3 className="font-poppins text-center text-white py-1 text-lg font-medium bg-primary">Ajouter une catégorie</h3>
+        <div className="p-5 mx-auto rounded">
+          <form onSubmit={handleSubmit} className="space-x-2 mt-4 text-center">
+            <div className="form-control mb-4">
+              <label htmlFor="nameCategory" className="label">
+                <span className="label-text">Nom de la catégorie</span>
+              </label>
+              <Textbox
+                attributesInput={{
+                  id: "nameCategory",
+                  name: "nameCategory",
+                  type: "text",
+                  className: "input input-bordered w-full",
+                  placeholder: "Ajoutez le nom de la catégorie"
+                }}
+                value={name}
+                onChange={(value) => setName(value)}
+                onBlur={(e) => {
+                  if (!e.target.value.trim()) {
+                    return setErrorName('Le Nom ne peut pas être vide !')
+                  }
+                  if (e.target.value.length > 255) {
+                    return setErrorName('Le Nom ne doit pas dépasser 255 caractères !')
+                  }
+                  if (typeof (e.target.value) !== "string") {
+                    return setErrorName('Le Nom doit être une chaine de caractères !')
+                  }
+                }}
+              />
+              {errorName && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorName}</p></div>}
+            </div>
 
-              <div className="form-control mb-4">
-                <label htmlFor="descriptionCategory" className="label">
-                  <span className="label-text">Description de la catégorie</span>
-                </label>
-                <Textarea
-                  attributesInput={{
-                    id: "descriptionCategory",
-                    name: "descriptionCategory",
-                    type: "text",
-                    className: "input input-bordered w-full",
-                    placeholder: "Description de la catégorie"
-                  }}
-                  value={description}
-                  onChange={(value) => setDescription(value)}
-                  onBlur={(e) => {
-                    if (!e.target.value.trim()) {
-                      return setErrorDesc('La Description ne peut pas être vide !')
-                    }
-                    if (e.target.value.length > 1000) {
-                      return setErrorDesc('La Description ne doit pas dépasser 1000 caractères !')
-                    }
-                    if (typeof (e.target.value) !== "string") {
-                      return setErrorDesc('La Description doit être une chaine de caractères !')
-                    }
-                  }}
-                />
-                {errorDesc && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorDesc}</p></div>}
-              </div>
-              <Button label={'valider'} type="submit" className="btn-neutral"/>
-              <Button label={'annuler'}onAction={reset} className={'btn-error'}/>
-            </form>
-          </div>
+            <div className="form-control mb-4">
+              <label htmlFor="descriptionCategory" className="label">
+                <span className="label-text">Description de la catégorie</span>
+              </label>
+              <Textarea
+                attributesInput={{
+                  id: "descriptionCategory",
+                  name: "descriptionCategory",
+                  type: "text",
+                  className: "input input-bordered w-full",
+                  placeholder: "Entrez le description de la catégorie"
+                }}
+                value={description}
+                onChange={(value) => setDescription(value)}
+                onBlur={(e) => {
+                  if (!e.target.value.trim()) {
+                    return setErrorDesc('La Description ne peut pas être vide !')
+                  }
+                  if (e.target.value.length > 1000) {
+                    return setErrorDesc('La Description ne doit pas dépasser 1000 caractères !')
+                  }
+                  if (typeof (e.target.value) !== "string") {
+                    return setErrorDesc('La Description doit être une chaine de caractères !')
+                  }
+                }}
+              />
+              {errorDesc && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorDesc}</p></div>}
+            </div>
+            <div className="form-control mb-4">
+              <label htmlFor="descriptionOffer" className="label">
+                <span className="label-text">Sélectionnez un statut</span>
+              </label>
+              <select className="select w-full" value={status} onChange={(e) => setStatus(parseInt(e.target.value))}> //! Ajout des états selectedCat et setSelectedCat pour capturer le changement d'état
+                <option disabled value="">Choisir un statut</option>
+                  <option  value={"1"}>Actif</option>
+                  <option  value={"0"}>Inactif</option>
+              </select>
+            </div>
+            <Button label={'valider'} type="submit" className="btn-neutral" />
+            <Button label={'annuler'} onAction={() => reset()} className={'btn-error'} />
+          </form>
         </div>
+      </div>
     </>)
 }

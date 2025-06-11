@@ -1,7 +1,7 @@
 import Button from "../Button"
 import { useState } from "react"
 
-export default function UsersTable({ users, onUpdate, onDelete, setToggle }) {
+export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEditMode }) {
     const [search, setSearch] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
     const itemsPerPage = 6
@@ -100,10 +100,9 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle }) {
                             <div className="flex justify-between mb-3">
                                 <div className="badge badge-neutral font-medium text-white">{user.role_name}</div>
                                 <div
-                                    className={`badge badge-md me-2 font-medium ${user.status ? "badge-info" : "badge-warning"
-                                        }`}
+                                    className={`badge badge-md me-2 font-medium`}
                                 >
-                                    {user.status ? "Actif" : "Inactif"}
+                                    {user.status}
                                 </div>
                             </div>
                             <h3 className="card-title font-medium pb-1 text-lg rounded ps-0.5">{user.last_name} {user.first_name}</h3>
@@ -112,13 +111,14 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle }) {
                                 <p className="text-sm">
                                     <span className="font-medium">Email : </span>{user.email}</p>
                                 <p className="text-sm">
-                                    <span className="font-medium">CSE : </span>{user.committee_id}</p>
+                                    <span className="font-medium">CSE : </span>{user.committee_name}</p>
                             </div>
                             <div className="card-action flex space-x-2 mt-2">
                                 <div className="flex mt-0 md:mt-2 space-x-2">
                                     <Button action={'update'} onAction={() => {
-                                        setToggle(true),
-                                            onUpdate(user)
+                                        setToggle(true);
+                                            onUpdate(user);
+                                            setEditMode(true)
                                     }} />
                                     <Button action={'delete'} onAction={() => { onDelete(user.id) }} />
                                 </div>
