@@ -145,8 +145,10 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                     </div>
                 ))}
                 {visibleCards < offers.length && (
-
-                    <Button label={'voir plus'} onAction={() => setVisibleCards(vc => vc + 3 )} className={'btn-neutral'}/>
+                    <div className="space-x-3">
+                        <Button label={'voir plus'} onAction={() => setVisibleCards(vc => vc + 3)} className={'btn-neutral'} />
+                        <Button label={'voir moins'} onAction={() => setVisibleCards(3)} className={'btn-primary'} />
+                    </div>
                 )}
             </article>
         </>
