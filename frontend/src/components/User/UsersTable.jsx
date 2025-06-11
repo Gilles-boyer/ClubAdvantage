@@ -62,11 +62,11 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle }) {
                                     <td className="px-4 py-2">{user.role_name}</td>
                                     <td className="px-4 py-2">{user.status}</td>
                                     <td className="px-4 py-2 space-x-2 bg-accent">
-                                        <Button type={'update'} onAction={() => {
+                                        <Button action={'update'} onAction={() => {
                                             setToggle(true),
                                                 onUpdate(user)
                                         }} />
-                                        <Button type={'delete'} onAction={() => { onDelete(user.id) }} />
+                                        <Button action={'delete'} onAction={() => { onDelete(user.id) }} />
                                     </td>
                                 </tr>
                             ))}
@@ -116,11 +116,11 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle }) {
                             </div>
                             <div className="card-action flex space-x-2 mt-2">
                                 <div className="flex mt-0 md:mt-2 space-x-2">
-                                    <Button type={'update'} onAction={() => {
+                                    <Button action={'update'} onAction={() => {
                                         setToggle(true),
                                             onUpdate(user)
                                     }} />
-                                    <Button type={'delete'} onAction={() => { onDelete(user.id) }} />
+                                    <Button action={'delete'} onAction={() => { onDelete(user.id) }} />
                                 </div>
                             </div>
 

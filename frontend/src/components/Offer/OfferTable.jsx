@@ -72,11 +72,11 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                                         </button>
                                     </td>
                                         <td className="px-4 py-2 space-x-2 bg-accent">
-                                            <Button type={'update'} onAction={() => {
+                                            <Button action={'update'} onAction={() => {
                                                 setToggle(true),
                                                     onUpdate(offer)
                                             }} />
-                                            <Button type={'delete'} onAction={() => { onDelete(offer.id) }} />
+                                            <Button action={'delete'} onAction={() => { onDelete(offer.id) }} />
                                         </td></>}
                                 </tr>
                             ))}
@@ -128,11 +128,11 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
 
                             {isStaffPage && <> <div className="card-action flex space-x-2 mt-2">
                                 <div className="flex mt-0 md:mt-2 space-x-2">
-                                    <Button type={'update'} onAction={() => {
+                                    <Button action={'update'} onAction={() => {
                                         setToggle(true),
                                             onUpdate(offer)
                                     }} />
-                                    <Button type={'delete'} onAction={() => { onDelete(offer.id) }} />
+                                    <Button action={'delete'} onAction={() => { onDelete(offer.id) }} />
                                 </div>
                             </div>
                             </>}

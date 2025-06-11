@@ -4,8 +4,9 @@ import { mdilAlert } from '@mdi/light-js';
 import { Textbox } from "react-inputs-validation";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"
+import Button from "../Button";
 
-export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt}) {
+export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt, setToggle}) {
     const [name, setName] = useState("");
     const [autoRenew, setAutoRenew] = useState(null);
     const [errorName, setErrorName] = useState(null);
@@ -72,7 +73,7 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt}) {
         <>
 
                 <div className="w-80vw md:w-150 border rounded mx-auto my-5">
-                    <h3 className="font-poppins text-center py-1 text-lg font-medium bg-primary">
+                    <h3 className="font-poppins text-center text-white py-1 text-lg font-medium bg-primary">
                         {onEditUpCmmtt ? 'Modifier un CSE' : 'Ajouter un CSE'}
                     </h3>
                     <div className="p-5 mx-auto rounded">
@@ -134,7 +135,7 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt}) {
                                         <DatePicker
                                             selected={startDate}
                                             onChange={(date) => setStartDate(date)}
-                                            className="input w-100 text-center"
+                                            className="input w-full text-center"
                                             onBlur={(e) => {
                                                 if (new Date(e.target.value) > new Date(endDate)) return setStartDateErr('La date de début ne peut pas être supérieure à la date de fin !');
                                             }} />
@@ -150,7 +151,7 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt}) {
                                         <DatePicker
                                             selected={endDate}
                                             onChange={(date) => setEndDate(date)}
-                                            className="input w-100 text-center"
+                                            className="input w-full text-center"
                                             onBlur={(e) => {
                                                 if (new Date(e.target.value) < new Date(startDate)) return setEndDateErr('La date de fin ne peut pas être inférieur à la date de début !');
                                             }} />
@@ -160,9 +161,10 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt}) {
                             )}
 
                             {/* Bouton */}
-                            <button type="submit" className="btn btn-neutral">
-                                Valider
-                            </button>
+                            <Button type="submit" label={'valider'} className={'btn-neutral'}/>
+                            <Button label={'annuler'} onAction={() => {reset,
+                                setToggle(true)
+                            }} className={'btn-error'}/>
                         </form>
                     </div>
                 </div>

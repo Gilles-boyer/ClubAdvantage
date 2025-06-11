@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+axios.defaults.withCredentials = true;
+axios.defaults.withXSRFToken = true;
 
  let client = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
@@ -8,5 +10,7 @@ import axios from 'axios';
       "Content-Type": "application/json",
     },
   });
+
+
 
 export default client;

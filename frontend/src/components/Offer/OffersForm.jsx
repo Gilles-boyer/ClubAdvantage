@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   fetchCategories, listOfCategories,
 } from "../../store/slices/categorySlice.jsx";
+import Button from "../Button.jsx";
 
 
 
@@ -44,7 +45,7 @@ export default function OfferForm({ onAddOffer, onEditOffer }) {
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString()
     };
-
+    console.log(onEditOffer)
     if (onEditOffer?.id !== undefined) {
       newOffer.id = onEditOffer.id;
     } else {
@@ -53,12 +54,12 @@ export default function OfferForm({ onAddOffer, onEditOffer }) {
 
     onAddOffer(newOffer);
     reset();
-    setErrorTitle('')
-    setErrorDesc('')
-    setSelectedCat('')
   }
-
+  
   const reset = () => {
+    setErrorDesc('')
+    setErrorTitle('')
+    setSelectedCat('')
     setTitle("");
     setDescription("");
   };
@@ -137,11 +138,9 @@ export default function OfferForm({ onAddOffer, onEditOffer }) {
                 ))}
               </select>
             </div>
-            <div className="flex justify-center">
-              <button type="submit" className="btn btn-neutral me-2">
-                Valider
-              </button>
-              <button onClick={reset} className='btn btn-error'>Annuler</button>
+            <div className="flex justify-center space-x-2">
+              <Button label={'valider'} type="submit" className={'btn-neutral'}/>
+              <Button label={'annuler'}onAction={reset} className={'btn-error'}/>
             </div>
           </form>
         </div >

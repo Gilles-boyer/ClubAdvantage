@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Icon from '@mdi/react';
 import { mdilAlert } from '@mdi/light-js';
 import { Textarea, Textbox } from "react-inputs-validation";
+import Button from "../Button";
 
 export default function CategoryForm({ onAddCategory, onEditUpCat }) {
   const [name, setName] = useState("")
@@ -29,7 +30,7 @@ export default function CategoryForm({ onAddCategory, onEditUpCat }) {
       is_active: status,
       updated_at: new Date().toISOString(),
     };
-
+    console.table(onEditUpCat)
     if (onEditUpCat?.id !== undefined) {
       newCategory.id = onEditUpCat.id;
     } else {
@@ -112,10 +113,8 @@ export default function CategoryForm({ onAddCategory, onEditUpCat }) {
                 />
                 {errorDesc && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorDesc}</p></div>}
               </div>
-              <button type="submit" className="btn btn-neutral">
-                Valider
-              </button>
-              <button onClick={reset} className='btn btn-error'>Annuler</button>
+              <Button label={'valider'} type="submit" className="btn-neutral"/>
+              <Button label={'annuler'}onAction={reset} className={'btn-error'}/>
             </form>
           </div>
         </div>

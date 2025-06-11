@@ -78,16 +78,16 @@ export default function Scans() {
                 />
             </div>
             {commttsList && dataOfUser && ( 
-                <section className="card bg-accent px-6 pb-1 rounded font-medium">
-                    <h3 className="card-title w-full bg-primary py-1 justify-center rounded my-4">Informations Membre</h3>
-                    <div className="card-body">
-                        <div className="space-y-2">
-                            <p className="bg-primary p-2 rounded">Nom : {dataOfUser.last_name}</p>
-                            <p className="bg-primary p-2 rounded">Prénom : {dataOfUser.first_name}</p>
+                <section className="card bg-accent w-80vw md:w-100 mx-auto card-xs shadow-xl p-3 border border-secondary">
+                    <h3 className="card-title w-full justify-center rounded my-2">Informations Membre</h3>
+                    <div className="card-body bg-white rounded text-sm">
+                        <div className="space-y-2"> 
+                            <p>Nom : {dataOfUser.last_name}</p>
+                            <p>Prénom : {dataOfUser.first_name}</p>
                         </div>
                         <div className="space-y-2">
-                            <p className="bg-primary p-2 rounded">CSE : {commttsList.find((com) => com.id === dataOfUser.committee_id)?.name}</p>
-                            <p className="bg-primary p-2 rounded">Status : {dataOfUser.status}</p>
+                            <p>CSE : {commttsList.find((com) => com.id === dataOfUser.committee_id)?.name}</p>
+                            <p className="text-sm">Statut : <span className="badge badge-white">{dataOfUser.status}</span></p>
                         </div>
                     </div>
                 </section>

@@ -3,6 +3,7 @@ import { Textbox } from "react-inputs-validation";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCmmtts, listOfCommittees } from "../../store/slices/CommitteeSlice";
 import { fetchRoles, listOfRoles } from "../../store/slices/rolesSlice";
+import Button from "../Button";
 
 export default function UsersForm({ onAddUser, onEditUser }) {
     const dispatch = useDispatch()
@@ -24,8 +25,6 @@ export default function UsersForm({ onAddUser, onEditUser }) {
             setStatus(onEditUser.status);
             setSelectedCom(onEditUser.committee_id);
             setSelectedRole(onEditUser.role_id)
-        } else {
-            reset()
         }
     }, [onEditUser]);
 
@@ -58,7 +57,6 @@ export default function UsersForm({ onAddUser, onEditUser }) {
         } else {
             newUser.created_at = new Date().toISOString();
         }
-
         onAddUser(newUser);
         reset();
     }
@@ -192,10 +190,9 @@ export default function UsersForm({ onAddUser, onEditUser }) {
                                 ))}
                             </select>
                         </div>
-                        <div className="flex justify-center">
-                            <button type="submit" className="btn btn-neutral">
-                                Valider
-                            </button>
+                        <div className="flex justify-center space-x-2">
+                            <Button label={'valider'} type="submit" className={'btn-neutral'}/>
+                            <Button label={'annuler'} onAction={reset} className={'btn-error'}/>
                         </div>
                     </form>
                 </div >

@@ -61,11 +61,11 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                                         </button>
                                     </td>
                                     <td className="px-4 py-2 space-x-2 bg-accent">
-                                        <Button type={'update'} onAction={() => {
+                                        <Button action={'update'} onAction={() => {
                                             setToggle(true),
                                                 onUpdate(category)
                                         }} />
-                                        <Button type={'delete'} onAction={() => { onDelete(category.id) }} />
+                                        <Button action={'delete'} onAction={() => { onDelete(category.id) }} />
                                     </td>
                                 </tr>
                             ))}
@@ -112,11 +112,11 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
 
                             <div className="card-action flex space-x-2 mt-2">
                                 <div className="flex mt-0 md:mt-2 space-x-2">
-                                    <Button type={'update'} onAction={() => {
+                                    <Button action={'update'} onAction={() => {
                                         setToggle(true),
                                             onUpdate(category)
                                     }} />
-                                    <Button type={'delete'} onAction={() => { onDelete(category.id) }} />
+                                    <Button action={'delete'} onAction={() => { onDelete(category.id) }} />
                                 </div>
                             </div>
 
