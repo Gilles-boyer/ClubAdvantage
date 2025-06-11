@@ -31,7 +31,8 @@ export default function Committees() {
             setToggle(false)
         } catch (err) {
             console.error("Erreur CREATE/UPDATE Category:", err);
-            setToast({ show: true, message: "Erreur lors de l'eregistrement du CSE !", type: 'error' })
+           setToast({ show: true, message: "Erreur lors de l'enregistrement du CSE !", type: 'error' })
+            // setToast({ show: true, message: err.toString(), type: 'error' })
         }
     };
 
@@ -59,12 +60,12 @@ export default function Committees() {
 
             <section className="pt-5 max-w-5xl mx-auto">
                 <div className='flex w-fit'>
-                   <Button action={'Ajouter un CSE'} 
+                   <Button label={'Ajouter un CSE'} 
                            onAction={() => setToggle(!toggle)} 
                            className={'btn-neutral  hover:btn-accent hover:text-neutral mb-2 md:mb-0'}/>
                 </div>
                 {toggle && (
-                    <CommitteeForm onAddCommittee={handleAddCmmtt} onEditUpCmmtt={toUpCmmtts} />
+                    <CommitteeForm onAddCommittee={handleAddCmmtt} onEditUpCmmtt={toUpCmmtts} setToggle={setToggle}/>
 
                 )}
                 < CmmttsTable

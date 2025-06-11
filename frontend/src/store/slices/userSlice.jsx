@@ -25,7 +25,9 @@ export const addUserThunk = createAsyncThunk(
   async (userData, thunkAPI) => {
     try {
       const response = await createUser(userData);
-      return response.data.data;
+      console.log("Réponse à l'ajout", response.data.user);
+      
+      return response.data.user;
     } catch (err) {
       console.error("Axios Error:", err.response?.data || err.message);
       return thunkAPI.rejectWithValue(err.response?.data || err.message);
@@ -39,7 +41,7 @@ export const updateUserThunk = createAsyncThunk(
   async ({ id, data }, thunkAPI) => {
     try {
       const response = await updateUser(id, data);
-      return response.data.data;
+      return response.data.user;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.message);
     }

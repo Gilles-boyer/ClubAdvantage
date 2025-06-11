@@ -38,6 +38,7 @@ export default function Categories() {
 
 
     const handleToUpCat = (categoryToEdit) => {
+        console.table(categoryToEdit)
         setToUpCategory(categoryToEdit);
     };
 
@@ -74,7 +75,7 @@ export default function Categories() {
             </div>
             <section className="pt-6 max-w-5xl mx-auto">
                 <div className='flex w-fit'>
-                    <Button action={'Ajouter une Catégorie'}
+                    <Button label={'Ajouter une Catégorie'}
                         onAction={() => setToggle(!toggle)}
                         className={'btn-neutral  hover:btn-accent hover:text-neutral mb-2 md:mb-0'} />
                 </div>

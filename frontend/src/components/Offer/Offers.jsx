@@ -58,6 +58,7 @@ export default function Offers() {
     //     setToggle(!toggle)
     // }
     const handleToUpOffer = async (offerToEdit) => {
+        console.log(offerToEdit)
         setToUpOffer(offerToEdit);
     }
 
@@ -94,7 +95,7 @@ export default function Offers() {
             </div>
             <section className="pt-10 max-w-5xl mx-auto">
                 <div className='flex w-fit'>
-                    <Button action={'Ajouter une Offre'} onAction={() => setToggle(!toggle)}
+                    <Button label={'Ajouter une Offre'} onAction={() => setToggle(!toggle)}
                         className={'btn-neutral hover:btn-accent hover:text-neutral mb-2 md:mb-0'} />
                 </div>
                 {toggle && (<OfferForm onAddOffer={handleAddOffer} onEditOffer={toUpOffer} />)}

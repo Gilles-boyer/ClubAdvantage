@@ -1,9 +1,10 @@
 import Button from "../Button"
 import { useState } from "react"
 
-export default function UsersTable({ users, onUpdate, onDelete, setToggle }) {
+export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEditMode }) {
     const [search, setSearch] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
+    const [visibleCards, setVisibleCards] = useState(3)
     const itemsPerPage = 6
 
     const filtered = users.filter(us =>
@@ -23,6 +24,8 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle }) {
     const handleNext = () => {
         if (currentPage < totalPages) setCurrentPage(currentPage + 1);
     };
+
+    const mobileView = users.slice(0, visibleCards)
     return (
         <>
             <div className="overflow-x-auto hidden md:block">
@@ -62,11 +65,11 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle }) {
                                     <td className="px-4 py-2">{user.role_name}</td>
                                     <td className="px-4 py-2">{user.status}</td>
                                     <td className="px-4 py-2 space-x-2 bg-accent">
-                                        <Button type={'update'} onAction={() => {
+                                        <Button action={'update'} onAction={() => {
                                             setToggle(true),
                                                 onUpdate(user)
                                         }} />
-                                        <Button type={'delete'} onAction={() => { onDelete(user.id) }} />
+                                        <Button action={'delete'} onAction={() => { onDelete(user.id) }} />
                                     </td>
                                 </tr>
                             ))}
@@ -95,32 +98,32 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle }) {
             </div>
             {/* Cards pour les écrans de téléphones */}
             <article className="block md:hidden space-y-5">
-                {users.map((user) => (
+                {mobileView.map((user) => (
                     <div key={user.id} className="card bg-accent w-80vw card-xs shadow-xl p-3 border border-secondary">
-                            <div className="flex justify-between mb-3">
-                                <div className="badge badge-neutral font-medium text-white">{user.role_name}</div>
-                                <div
-                                    className={`badge badge-md me-2 font-medium ${user.status ? "badge-info" : "badge-warning"
-                                        }`}
-                                >
-                                    {user.status ? "Actif" : "Inactif"}
-                                </div>
+                        <div className="flex justify-between mb-3">
+                            <div className="badge badge-neutral font-medium text-white">{user.role_name}</div>
+                            <div
+                                className={`badge badge-md me-2 font-medium`}
+                            >
+                                {user.status}
                             </div>
-                            <h3 className="card-title font-medium pb-1 text-lg rounded ps-0.5">{user.last_name} {user.first_name}</h3>
+                        </div>
+                        <h3 className="card-title font-medium pb-1 text-lg rounded ps-0.5">{user.last_name} {user.first_name}</h3>
                         <div className="card-body bg-white rounded-md">
                             <div className="flex flex-col">
                                 <p className="text-sm">
                                     <span className="font-medium">Email : </span>{user.email}</p>
                                 <p className="text-sm">
-                                    <span className="font-medium">CSE : </span>{user.committee_id}</p>
+                                    <span className="font-medium">CSE : </span>{user.committee_name}</p>
                             </div>
                             <div className="card-action flex space-x-2 mt-2">
                                 <div className="flex mt-0 md:mt-2 space-x-2">
-                                    <Button type={'update'} onAction={() => {
-                                        setToggle(true),
-                                            onUpdate(user)
+                                    <Button action={'update'} onAction={() => {
+                                        setToggle(true);
+                                        onUpdate(user);
+                                        setEditMode(true)
                                     }} />
-                                    <Button type={'delete'} onAction={() => { onDelete(user.id) }} />
+                                    <Button action={'delete'} onAction={() => { onDelete(user.id) }} />
                                 </div>
                             </div>
 
@@ -128,6 +131,12 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle }) {
                         </div>
                     </div>
                 ))}
+                {visibleCards < users.length && (
+                    <div className="space-x-3">
+                        <Button label={'voir plus'} onAction={() => setVisibleCards(vc => vc + 3)} className={'btn-neutral'} />
+                        <Button label={'voir moins'} onAction={() => setVisibleCards(3)} className={'btn-primary'} />
+                    </div>
+                )}
             </article>
         </>
     )

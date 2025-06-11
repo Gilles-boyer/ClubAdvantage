@@ -4,6 +4,8 @@ import Button from "../Button";
 export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle }) {
     const [search, setSearch] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
+    const [visibleCards, setVisibleCards] = useState(3)
+
     const itemsPerPage = 6
 
     const filtered = committees.filter(com =>
@@ -23,6 +25,8 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle 
     const handleNext = () => {
         if (currentPage < totalPages) setCurrentPage(currentPage + 1);
     };
+
+    const mobileView = committees.slice(0, visibleCards)
     return (
         <>
             <div className="overflow-x-auto hidden md:block">
@@ -64,10 +68,11 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle 
                                     <td className="px-4 py-2 font-medium text-center">{committee.agreement_start_date}</td>
                                     <td className="px-4 py-2 font-medium text-center">{committee.agreement_end_date}</td>
                                     <td className="px-4 py-2 space-x-2 bg-accent">
-                                        <Button type={'update'} onAction={() => {
-                                        setToggle(true),
-                                        onUpdate(committee)}} />
-                                    <Button type={'delete'} onAction={() => {onDelete(committee.id)}} />
+                                        <Button action={'update'} onAction={() => {
+                                            setToggle(true),
+                                                onUpdate(committee)
+                                        }} />
+                                        <Button action={'delete'} onAction={() => { onDelete(committee.id) }} />
                                     </td>
                                 </tr>
                             ))}
@@ -75,38 +80,38 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle 
                     </table>
                 </div>
                 <div className="flex justify-evenly items-center mt-4">
-                        <button
-                            className="btn btn-neutral"
-                            onClick={handlePrevious}
-                            disabled={currentPage === 1}
-                        >
-                            Précédent
-                        </button>
-                        <span className="text-sm text-gray-600">
-                            Page {currentPage} sur {totalPages}
-                        </span>
-                        <button
-                            className="btn btn-neutral"
-                            onClick={handleNext}
-                            disabled={currentPage === totalPages}
-                        >
-                            Suivant
-                        </button>
-                    </div>
+                    <button
+                        className="btn btn-neutral"
+                        onClick={handlePrevious}
+                        disabled={currentPage === 1}
+                    >
+                        Précédent
+                    </button>
+                    <span className="text-sm text-gray-600">
+                        Page {currentPage} sur {totalPages}
+                    </span>
+                    <button
+                        className="btn btn-neutral"
+                        onClick={handleNext}
+                        disabled={currentPage === totalPages}
+                    >
+                        Suivant
+                    </button>
+                </div>
             </div>
             <article className="block md:hidden space-y-5">
-                {committees.map((committee) => (
+                {mobileView.map((committee) => (
                     <div key={committee.id} className="card bg-accent w-80vw card-xs shadow-xl p-3 border border-secondary">
                         <div className="flex items-center justify-between py-1 rounded-md">
                             <h3 className="card-title font-medium py-1 text-lg rounded ps-2">{committee.name}</h3>
                             <div className="space-x-2">
-                                </div>
-                                <button
-                                    className={`badge badge-md me-2 ${committee.auto_renew ? "badge-info" : "badge-warning"
-                                        }`}
-                                >
-                                    {committee.auto_renew ? "Actif" : "Inactif"}
-                                </button>
+                            </div>
+                            <button
+                                className={`badge badge-md me-2 ${committee.auto_renew ? "badge-info" : "badge-warning"
+                                    }`}
+                            >
+                                {committee.auto_renew ? "Actif" : "Inactif"}
+                            </button>
                         </div>
                         <div className="card-body bg-white rounded-md">
                             <div className="flex flex-col">
@@ -120,10 +125,11 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle 
 
                             <div className="card-action flex space-x-2 mt-2">
                                 <div className="flex mt-0 md:mt-2 space-x-2">
-                                    <Button type={'update'} onAction={() => {
+                                    <Button action={'update'} onAction={() => {
                                         setToggle(true),
-                                        onUpdate(committee)}} />
-                                    <Button type={'delete'} onAction={() => {onDelete(committee.id)}} />
+                                            onUpdate(committee)
+                                    }} />
+                                    <Button action={'delete'} onAction={() => { onDelete(committee.id) }} />
                                 </div>
                             </div>
 
@@ -131,6 +137,12 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle 
                         </div>
                     </div>
                 ))}
+                {visibleCards < committees.length && (
+                    <div className="space-x-3 mb-3">
+                        <Button label={'voir plus'} onAction={() => setVisibleCards(vc => vc + 3)} className={'btn-neutral'} />
+                        <Button label={'voir moins'} onAction={() => setVisibleCards(3)} className={'btn-primary'} />
+                    </div>
+                )}
             </article>
         </>
     )

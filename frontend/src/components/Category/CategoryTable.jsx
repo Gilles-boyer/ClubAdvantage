@@ -4,6 +4,8 @@ import { useState } from "react";
 export default function CategoryTable({ categories, onDelete, onUpdate, onUpStatus, setToggle }) {
     const [search, setSearch] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
+    const [visibleCards, setVisibleCards] = useState(3)
+
     const itemsPerPage = 6
 
     const filtered = categories.filter(cat =>
@@ -23,6 +25,8 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
     const handleNext = () => {
         if (currentPage < totalPages) setCurrentPage(currentPage + 1);
     };
+
+    const mobileView = categories.slice(0, visibleCards)
     return (
         <>
             <div className="overflow-x-auto hidden md:block">
@@ -61,11 +65,11 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                                         </button>
                                     </td>
                                     <td className="px-4 py-2 space-x-2 bg-accent">
-                                        <Button type={'update'} onAction={() => {
+                                        <Button action={'update'} onAction={() => {
                                             setToggle(true),
                                                 onUpdate(category)
                                         }} />
-                                        <Button type={'delete'} onAction={() => { onDelete(category.id) }} />
+                                        <Button action={'delete'} onAction={() => { onDelete(category.id) }} />
                                     </td>
                                 </tr>
                             ))}
@@ -93,7 +97,7 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                 </div>
             </div >
             <article className="block md:hidden space-y-5">
-                {categories.map((category) => (
+                {mobileView.map((category) => (
                     <div key={category.id} className="card bg-accent w-80vw card-xs p-3 shadow-xl border border-secondary">
                         <div className="flex justify-between py-2">
                             <h3 className="card-title font-medium text-lg rounded ps-0.5">{category.name}</h3>
@@ -112,11 +116,11 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
 
                             <div className="card-action flex space-x-2 mt-2">
                                 <div className="flex mt-0 md:mt-2 space-x-2">
-                                    <Button type={'update'} onAction={() => {
+                                    <Button action={'update'} onAction={() => {
                                         setToggle(true),
                                             onUpdate(category)
                                     }} />
-                                    <Button type={'delete'} onAction={() => { onDelete(category.id) }} />
+                                    <Button action={'delete'} onAction={() => { onDelete(category.id) }} />
                                 </div>
                             </div>
 
@@ -124,6 +128,12 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                         </div>
                     </div>
                 ))}
+                {visibleCards < categories.length && (
+                    <div className="space-x-3 mb-10">
+                        <Button label={'voir plus'} onAction={() => setVisibleCards(vc => vc + 3)} className={'btn-neutral'} />
+                        <Button label={'voir moins'} onAction={() => setVisibleCards(3)} className={'btn-primary'} />
+                    </div>
+                )}
             </article>
 
         </>

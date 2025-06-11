@@ -6,6 +6,7 @@ import { useLocation } from "react-router-dom"
 export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, setToggle }) {
     const [search, setSearch] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
+    const [visibleCards, setVisibleCards] = useState(3)
     const itemsPerPage = 6
     const location = useLocation()
 
@@ -26,6 +27,8 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
     const handleNext = () => {
         if (currentPage < totalPages) setCurrentPage(currentPage + 1);
     };
+
+    const mobileView = offers.slice(0, visibleCards)
     return (
         <>
             <div className="overflow-x-auto hidden md:block">
@@ -72,11 +75,11 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                                         </button>
                                     </td>
                                         <td className="px-4 py-2 space-x-2 bg-accent">
-                                            <Button type={'update'} onAction={() => {
+                                            <Button action={'update'} onAction={() => {
                                                 setToggle(true),
                                                     onUpdate(offer)
                                             }} />
-                                            <Button type={'delete'} onAction={() => { onDelete(offer.id) }} />
+                                            <Button action={'delete'} onAction={() => { onDelete(offer.id) }} />
                                         </td></>}
                                 </tr>
                             ))}
@@ -106,7 +109,7 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
 
             {/* Cards pour les téléphones */}
             <article className="block md:hidden space-y-5">
-                {offers.map((offer) => (
+                {mobileView.map((offer) => (
                     <div key={offer.id} className="card bg-accent w-80vw card-xs shadow-xl p-3 border border-secondary">
                         <div className="flex justify-between mb-3">
                             <div className="badge badge-neutral font-medium">{offer.category_name}</div>
@@ -128,11 +131,11 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
 
                             {isStaffPage && <> <div className="card-action flex space-x-2 mt-2">
                                 <div className="flex mt-0 md:mt-2 space-x-2">
-                                    <Button type={'update'} onAction={() => {
+                                    <Button action={'update'} onAction={() => {
                                         setToggle(true),
                                             onUpdate(offer)
                                     }} />
-                                    <Button type={'delete'} onAction={() => { onDelete(offer.id) }} />
+                                    <Button action={'delete'} onAction={() => { onDelete(offer.id) }} />
                                 </div>
                             </div>
                             </>}
@@ -141,6 +144,12 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                         </div>
                     </div>
                 ))}
+                {visibleCards < offers.length && (
+                    <div className="space-x-3">
+                        <Button label={'voir plus'} onAction={() => setVisibleCards(vc => vc + 3)} className={'btn-neutral'} />
+                        <Button label={'voir moins'} onAction={() => setVisibleCards(3)} className={'btn-primary'} />
+                    </div>
+                )}
             </article>
         </>
     )

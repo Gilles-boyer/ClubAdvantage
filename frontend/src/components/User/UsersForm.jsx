@@ -3,6 +3,7 @@ import { Textbox } from "react-inputs-validation";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCmmtts, listOfCommittees } from "../../store/slices/CommitteeSlice";
 import { fetchRoles, listOfRoles } from "../../store/slices/rolesSlice";
+import Button from "../Button";
 
 export default function UsersForm({ onAddUser, onEditUser }) {
     const dispatch = useDispatch()
@@ -24,25 +25,21 @@ export default function UsersForm({ onAddUser, onEditUser }) {
             setStatus(onEditUser.status);
             setSelectedCom(onEditUser.committee_id);
             setSelectedRole(onEditUser.role_id)
-        } else {
-            reset()
         }
     }, [onEditUser]);
 
     useEffect(() => {
         dispatch(fetchCmmtts())
-    }, [dispatch]);
-
-    useEffect(() => {
         dispatch(fetchRoles())
     }, [dispatch]);
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
         const comObject = cmmtts.find((com) => com.id === selectedCom)
         const roleObject = roles.find((role) => role.id === selectedRole)
-
+        
         const newUser = {
             last_name,
             first_name,
@@ -57,11 +54,13 @@ export default function UsersForm({ onAddUser, onEditUser }) {
 
         if (onEditUser?.id !== undefined) {
             newUser.id = onEditUser.id;
+            
         } else {
             newUser.created_at = new Date().toISOString();
         }
-
+        
         onAddUser(newUser);
+        
         reset();
     }
 
@@ -69,6 +68,7 @@ export default function UsersForm({ onAddUser, onEditUser }) {
         setLast_Name('')
         setFirst_Name('')
         setEmail('')
+        setPassword('')
         setSelectedCom('')
         setSelectedRole('')
         setStatus('')
@@ -122,7 +122,7 @@ export default function UsersForm({ onAddUser, onEditUser }) {
                             />
                             {/* {errorDesc && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorDesc}</p></div>} */}
                         </div>
-                        <div className="form-control mb-4">
+                       <div className="form-control mb-4">
                             <label htmlFor="firstName" className="label">
                                 <span className="label-text">Email</span>
                             </label>
@@ -167,7 +167,11 @@ export default function UsersForm({ onAddUser, onEditUser }) {
                             <label htmlFor="status" className="label">
                                 <span className="label-text">Définir le statut</span>
                             </label>
-                            <select className="select w-full" value={status} onChange={(e) => setStatus(e.target.value)}>
+                            <select className="select w-full" value={status} onChange={(e) => {
+                                console.log(typeof(e.target.value));
+                                
+                                setStatus(String(e.target.value))
+                            }}>
                                 <option disabled value="">Choisir un statut</option>
                                 <option value='active'>Actif</option>
                                 <option value='inactive'>Inactif</option>
@@ -177,26 +181,25 @@ export default function UsersForm({ onAddUser, onEditUser }) {
                             <label htmlFor="committee" className="label">
                                 <span className="label-text">Définir le CSE</span>
                             </label>
-                            <select className="select w-full" value={selectedCom} onChange={(e) => setSelectedCom(e.target.value)}>
-                                <option disabled value="">Choisir un CSE</option>
-                                {cmmtts.map((com) => (
-                                    <option key={com.id} value={String(com.id)}>{com.name}</option>
-                                ))}
-                            </select>
+                                <select className="select w-full" value={selectedCom} onChange={(e) => setSelectedCom(e.target.value)}>
+                                    <option disabled value="">Choisir un CSE</option>
+                                    {cmmtts.map((com) => (
+                                        <option key={com.id} value={com.id}>{com.name}</option>
+                                    ))}
+                                </select>
                             <label htmlFor="role" className="label">
                                 <span className="label-text">Définir le Role</span>
                             </label>
-                            <select className="select w-full" value={selectedRole} onChange={(e) => setSelectedRole(e.target.value)}>
-                                <option disabled value="">Choisir un Role</option>
-                                {roles.map((r) => (
-                                    <option key={r.id} value={String(r.id)}>{r.name}</option>
-                                ))}
-                            </select>
+                                <select className="select w-full" value={selectedRole} onChange={(e) => setSelectedRole(e.target.value)}>
+                                    <option disabled value="">Choisir un Role</option>
+                                    {roles.map((r) => (
+                                        <option key={r.id} value={r.id}>{r.name}</option>
+                                    ))}
+                                </select>
                         </div>
-                        <div className="flex justify-center">
-                            <button type="submit" className="btn btn-neutral">
-                                Valider
-                            </button>
+                        <div className="flex justify-center space-x-2">
+                            <Button label={'valider'} type="submit" className={'btn-neutral'} />
+                            <Button label={'annuler'} onAction={() => reset() } className={'btn-error'} />
                         </div>
                     </form>
                 </div >

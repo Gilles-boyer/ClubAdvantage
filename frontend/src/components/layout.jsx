@@ -5,7 +5,7 @@ import Footer from "./Footer";
 import { Outlet } from "react-router-dom";
 
 export default function App() {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="min-h-screen flex flex-col">

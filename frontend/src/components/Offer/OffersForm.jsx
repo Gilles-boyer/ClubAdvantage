@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   fetchCategories, listOfCategories,
 } from "../../store/slices/categorySlice.jsx";
+import Button from "../Button.jsx";
 
 
 
@@ -16,14 +17,15 @@ export default function OfferForm({ onAddOffer, onEditOffer }) {
   const [errorDesc, setErrorDesc] = useState("")
   const categories = useSelector(listOfCategories)
   const [selectedCat, setSelectedCat] = useState('')
+  const [status, setStatus] = useState(null)
   const dispatch = useDispatch()
 
   useEffect(() => {
     if (onEditOffer) {
       setTitle(onEditOffer.title);
       setDescription(onEditOffer.description);
-      setSelectedCat(onEditOffer.category_id); //! Pré-remplir le champ dans le formulaire 
-    }
+      setSelectedCat(onEditOffer.category_id); //! Pré-remplir le champ dans le formulaire
+      setStatus(onEditOffer.is_active)    }
   }, [onEditOffer]);
 
   useEffect(() => {
@@ -38,13 +40,13 @@ export default function OfferForm({ onAddOffer, onEditOffer }) {
     const newOffer = {
       title,
       description,
-      is_active: false,
+      is_active: status,
       category_id: selectedCat,
       category_name: categoryObject?.name || '',
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString()
     };
-
+    console.log(onEditOffer)
     if (onEditOffer?.id !== undefined) {
       newOffer.id = onEditOffer.id;
     } else {
@@ -53,12 +55,12 @@ export default function OfferForm({ onAddOffer, onEditOffer }) {
 
     onAddOffer(newOffer);
     reset();
-    setErrorTitle('')
-    setErrorDesc('')
-    setSelectedCat('')
   }
-
+  
   const reset = () => {
+    setErrorDesc('')
+    setErrorTitle('')
+    setSelectedCat('')
     setTitle("");
     setDescription("");
   };
@@ -137,11 +139,19 @@ export default function OfferForm({ onAddOffer, onEditOffer }) {
                 ))}
               </select>
             </div>
-            <div className="flex justify-center">
-              <button type="submit" className="btn btn-neutral me-2">
-                Valider
-              </button>
-              <button onClick={reset} className='btn btn-error'>Annuler</button>
+                        <div className="form-control mb-4">
+              <label htmlFor="descriptionOffer" className="label">
+                <span className="label-text">Sélectionnez un statut</span>
+              </label>
+              <select className="select w-full" value={status} onChange={(e) => setStatus(parseInt(e.target.value))}> //! Ajout des états selectedCat et setSelectedCat pour capturer le changement d'état
+                <option disabled value="">Choisir un statut</option>
+                  <option  value={"1"}>Actif</option>
+                  <option  value={"0"}>Inactif</option>
+              </select>
+            </div>
+            <div className="flex justify-center space-x-2">
+              <Button label={'valider'} type="submit" className={'btn-neutral'}/>
+              <Button label={'annuler'}onAction={reset} className={'btn-error'}/>
             </div>
           </form>
         </div >

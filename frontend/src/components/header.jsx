@@ -2,8 +2,15 @@ import logo from "/logo_test.png";
 import Icon from '@mdi/react';
 import { mdilPower } from '@mdi/light-js';
 import Button from "./Button";
+import { useNavigate } from "react-router-dom";
 
 const Header = ({ menu }) => {
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    navigate('/login')
+  }
+
   return (
     <div className="flex items-center justify-between w-full py-2 md:py-0 px-2 md:px-8">
       <img
@@ -13,14 +20,16 @@ const Header = ({ menu }) => {
         className="h-12 md:h-17 hover:pointer"
       />
       <div className="text-2xl text-center font-bold me-3 md:me-0">Dashboard</div>
-      <Button action={'Déconnexion'}
-        className={'btn-accent text-neutral hover:btn-secondary hover:text-white hidden md:block'} />
+      <Button label={'Déconnexion'}
+        className={'btn-accent text-neutral hover:btn-secondary hover:text-white hidden md:block'}
+        onAction={handleLogout}/>
       <button
         className="bg-accent px-1 py-1 
         rounded-full text-neutral hover:bg-accent hover:text-neutral uppercase block md:hidden"
         type="button"
+        
       >
-        <Icon path={mdilPower} size={1} />
+        <Icon path={mdilPower} size={1} onClick={handleLogout}/>
       </button>
     </div>
   );

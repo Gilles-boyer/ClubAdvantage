@@ -12,6 +12,7 @@ export default function Users() {
     const [updtUser, setUpdtUser] = useState(null)
     const [toggle, setToggle] = useState(false)
     const [toast, setToast] = useState('')
+    const [editMode, setEditMode] = useState(false)
 
 
     useEffect(() => {
@@ -32,12 +33,17 @@ export default function Users() {
             setUpdtUser(null);
         } catch (err) {
             console.error("Erreur CREATE/UPDATE role :", err);
-            setToast({ show: true, message: "Erreur lors de l'opération", type: 'error' })
+            // setToast({ show: true, message: "Erreur lors de l'opération", type: 'error' })
+            setToast({ show: true, message: err.toString(), type: 'error' })
         }
     };
 
     const handleToUpdate = async (userToEdit) => {
+        console.table(userToEdit);
         setUpdtUser(userToEdit)
+    }
+    const handleCancelUpdate = () => {
+        setUpdtUser(null)
     }
 
     const handleDelete = async (id) => {
@@ -59,12 +65,20 @@ export default function Users() {
 
             <section className="pt-5 max-w-5xl mx-auto">
                 <div className='flex w-fit'>
-                    <Button action={'Ajouter un Utilisateur'} onAction={() => setToggle(!toggle)}
+                    <Button label={'Ajouter un Utilisateur'} onAction={() => setToggle(!toggle)}
                         className={'btn-neutral hover:btn-accent hover:text-neutral mb-2 md:mb-0'} />
                 </div>
                 {toggle && (
-                    <UsersForm onAddUser={handleAdd} onEditUser={updtUser} />)}
-                <UsersTable users={users} onUpdate={handleToUpdate} onDelete={handleDelete} setToggle={setToggle} />
+                    <UsersForm onAddUser={handleAdd}
+                        onEditUser={updtUser}
+                        editMode={editMode}
+                        setEditMode={setEditMode}
+                        onCancel={handleCancelUpdate} />)}
+                <UsersTable users={users}
+                    onUpdate={handleToUpdate}
+                    onDelete={handleDelete}
+                    setToggle={setToggle}
+                    setEditMode={setEditMode} />
             </section>
             <ToastAlert toast={toast} setToast={setToast} />
         </>

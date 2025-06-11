@@ -16,10 +16,10 @@ export default function RoleTable({ roles, onUpdate, onDelete, setToggle }) {
                             <tr key={role.id}  className="border-t hover:bg-gray-50 transition-colors">
                                 <td className="px-4 py-2">{role.name}</td>
                                 <td className="px-4 py-2 flex gap-2">
-                                    <Button type={'update'} onAction={() => {
+                                    <Button action={'update'} onAction={() => {
                                         setToggle(true),
                                         onUpdate(role)}} />
-                                    <Button type={'delete'} onAction={() => {onDelete(role.id)}} />
+                                    <Button action={'delete'} onAction={() => {onDelete(role.id)}} />
                                 </td>
                             </tr>
                         ))}
