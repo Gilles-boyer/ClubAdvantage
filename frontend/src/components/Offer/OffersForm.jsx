@@ -17,14 +17,15 @@ export default function OfferForm({ onAddOffer, onEditOffer }) {
   const [errorDesc, setErrorDesc] = useState("")
   const categories = useSelector(listOfCategories)
   const [selectedCat, setSelectedCat] = useState('')
+  const [status, setStatus] = useState(null)
   const dispatch = useDispatch()
 
   useEffect(() => {
     if (onEditOffer) {
       setTitle(onEditOffer.title);
       setDescription(onEditOffer.description);
-      setSelectedCat(onEditOffer.category_id); //! Pré-remplir le champ dans le formulaire 
-    }
+      setSelectedCat(onEditOffer.category_id); //! Pré-remplir le champ dans le formulaire
+      setStatus(onEditOffer.is_active)    }
   }, [onEditOffer]);
 
   useEffect(() => {
@@ -39,7 +40,7 @@ export default function OfferForm({ onAddOffer, onEditOffer }) {
     const newOffer = {
       title,
       description,
-      is_active: false,
+      is_active: status,
       category_id: selectedCat,
       category_name: categoryObject?.name || '',
       created_at: new Date().toISOString(),
@@ -136,6 +137,16 @@ export default function OfferForm({ onAddOffer, onEditOffer }) {
                 {categories.map((cat) => (
                   <option key={cat.id} value={String(cat.id)}>{cat.name}</option>
                 ))}
+              </select>
+            </div>
+                        <div className="form-control mb-4">
+              <label htmlFor="descriptionOffer" className="label">
+                <span className="label-text">Sélectionnez un statut</span>
+              </label>
+              <select className="select w-full" value={status} onChange={(e) => setStatus(parseInt(e.target.value))}> //! Ajout des états selectedCat et setSelectedCat pour capturer le changement d'état
+                <option disabled value="">Choisir un statut</option>
+                  <option  value={"1"}>Actif</option>
+                  <option  value={"0"}>Inactif</option>
               </select>
             </div>
             <div className="flex justify-center space-x-2">
