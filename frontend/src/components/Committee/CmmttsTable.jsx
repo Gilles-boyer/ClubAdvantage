@@ -40,9 +40,9 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle 
                         setCurrentPage(1);
                     }}
                 />
-                <div className="overflow-x-auto border rounded-xl bg-white shadow-sm">
-                    <table className="min-w-full text-left text-sm text-gray-700">
-                        <thead className="bg-secondary text-white uppercase tracking-wider">
+                <div className="overflow-x-auto border border-secondary rounded-xl bg-white shadow-sm">
+                    <table className="min-w-full text-left text-sm">
+                        <thead className="bg-primary text-white uppercase tracking-wider">
                             <tr>
                                 <th className="px-4 py-2">Nom</th>
                                 <th className="px-4 py-2">Renouvellement Auto</th>
@@ -55,9 +55,9 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle 
                             {paginated.map((committee) => (
                                 <tr
                                     key={committee.id}
-                                    className="border-t hover:bg-gray-50 transition-colors"
+                                    className="border-gray-300 border-t hover:bg-gray-100 transition-colors"
                                 >
-                                    <td className="px-4 py-2 font-medium bg-accent">{committee.name}</td>
+                                    <td className="px-4 py-2 font-medium">{committee.name}</td>
                                     <td className="px-4 py-2 font-medium text-center">
                                         <button
                                             className={`badge badge-lg w-20 text-white ${committee.auto_renew ? "badge-info" : "badge-warning"

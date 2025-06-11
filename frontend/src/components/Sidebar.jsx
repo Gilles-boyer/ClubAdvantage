@@ -6,7 +6,7 @@ import { mdilHome, mdilAccount, mdilDiamondStone, mdilGift, mdilCropFree, mdilFa
 const Sidebar = () => {
   return (
     <>
-      <h1 className="text-2xl font-bold mb-8 mt-4 bg-neutral text-accent border border-secondary p-2 rounded-tr-xl rounded-bl-xl">ClubAdvantage</h1>
+      <h1 className="text-2xl font-bold mb-8 mt-4 bg-neutral text-white border border-secondary border-t p-2 rounded-tr-xl rounded-bl-xl">ClubAdvantage</h1>
       <nav>
         <ul className="space-y-6">
             <NavLinkButton to="/" label="Accueil" icon={<Icon path={mdilHome} size={0.90} className="ms-5"/>}/>
