@@ -6,8 +6,6 @@ use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
-use App\Models\Role;
-use Mockery\Undefined;
 
 class UserController extends Controller {
 
@@ -123,15 +121,15 @@ class UserController extends Controller {
     }
                 
     // Retourne les informations du compte connecté (utilisé pour afficher le profil)
-    public function me() {
+    public function me(Request $request) {
         return response()->json([
-            'data' => new  UserResource(User::first())
+            'data' => new UserResource($request->user())  // ✅ Utilisateur connecté
         ]);
     }
 
     // Met à jour les informations de base du profil utilisateur connecté
     public function updateProfile(Request $request) {
-        $user = $request->user();   // utilisateur authentifié
+        $user = $request->user();
 
         $validated = $request->validate([
             'first_name' => ['sometimes', 'string', 'max:255'],
@@ -139,7 +137,7 @@ class UserController extends Controller {
             'email'      => ['sometimes', 'email', 'max:255','unique:users,email,' . $user->id],   // autorise son propre email
         ]);
 
-        if (empty($validated)) {        // rien à changer
+        if (empty($validated)) {
             return response()->json(['message' => 'Aucun champ fourni.'], 422);
         }
 
