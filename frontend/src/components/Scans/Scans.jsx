@@ -77,8 +77,8 @@ export default function Scans() {
                     qrCodeSuccessCallback={onNewScanResult}
                 />
             </div>
-            {commttsList && dataOfUser && ( 
-                <section className="card bg-accent w-80vw md:w-100 mx-auto card-xs shadow-xl p-3 border border-secondary">
+            {scanSuccess && commttsList && dataOfUser && (
+            <section id="result-scan" className="card bg-accent w-80vw md:w-100 mx-auto card-xs shadow-xl p-3 border border-secondary">
                     <h3 className="card-title w-full justify-center rounded my-2">Informations Membre</h3>
                     <div className="card-body bg-white rounded text-sm">
                         <div className="space-y-2"> 

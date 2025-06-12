@@ -11,6 +11,4 @@ axios.defaults.withXSRFToken = true;
     },
   });
 
-
-
 export default client;
