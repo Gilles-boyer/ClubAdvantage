@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Offer extends Model
-{
+class Offer extends Model {
     use HasFactory, SoftDeletes;
     
     protected $fillable = [
@@ -16,8 +15,9 @@ class Offer extends Model
         'is_active',
         'created_by',
         'category_id',
-        // 'category_name',
     ];
+
+    protected $casts = ['is_active' => 'boolean'];
 
     // Relation : L'utilisateur qui a créé l'offre
     public function creator() {

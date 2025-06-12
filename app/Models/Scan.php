@@ -7,12 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/** La méthode belongsTo() définit une relation 
-*   de un à plusieurs dans le modèle de la table secondaire de la relation.
- */ 
+/* La méthode belongsTo() définit une relation de un à plusieurs dans le modèle de la table secondaire de la relation. */ 
 
-class Scan extends Model
-{
+class Scan extends Model {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
@@ -20,6 +17,8 @@ class Scan extends Model
         'scanned_by',
         'user_id',
     ];
+
+    protected $casts = ['scanned_at' => 'datetime'];
 
     // Le membre du staff qui a scanné.
     public function scannedBy(): BelongsTo {

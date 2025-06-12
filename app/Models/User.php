@@ -2,14 +2,12 @@
 
 namespace App\Models;
 
-// use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
-{
+class User extends Authenticatable {
     use HasApiTokens, HasFactory, SoftDeletes;
 
     protected $fillable = [
@@ -23,8 +21,12 @@ class User extends Authenticatable
         'role_id',
         'role_name',
         'committee_id',
+        'committee_name',
         'remember_token',
     ];
+
+    // Cache le mdp et le token
+    protected $hidden = ['password','remember_token'];
 
     // Dit à laravel que c'est champs doivent être manipulés comme des dates automatique
     protected $casts = [
@@ -41,10 +43,12 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class, 'role_id');
     }
 
-
     // Relation : récupère le comité auquel cet utilisateur est rattaché (membre ou CSE)
+    public function committeeByName() {
+        return $this->belongsTo(Role::class, 'committee_name', 'name');
+    }
     public function committee() {
-        return $this->belongsTo(Committee::class);
+        return $this->belongsTo(Committee::class, 'committee_id');
     }
 
     // Relation : pour les STAFF - récupère les comités créés par cet utilisateur

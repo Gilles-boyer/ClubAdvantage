@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CommitteeOffer extends Model
-{
+class CommitteeOffer extends Model {
     use HasFactory;
 
     // Laravel vas gérer assigned_at comme une vrai date
