@@ -5,8 +5,8 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-
     public function up(): void {
+        
         Schema::create('scans', function (Blueprint $table) {
             $table->id();
             $table->timestamp('scanned_at');
@@ -16,9 +16,9 @@ return new class extends Migration {
             $table->softDeletes();
             
             // L'utilisateur STAFF qui fait un scan
-            $table->foreign('scanned_by')->references('id')->on('users');
+            $table->foreign('scanned_by')->references('id')->on('users')->onDelete('set null');
             // L'utilisateur Membre du CSE / CSE qui se fait scanner
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
 
         });
     }

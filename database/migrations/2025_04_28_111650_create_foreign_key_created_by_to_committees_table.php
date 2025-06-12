@@ -8,16 +8,17 @@ return new class extends Migration {
 
     public function up(): void {
         Schema::table('committees', function (Blueprint $table) {
-            $table->dropColumn('created_by');
-            $table->unsignedBigInteger('created_by');
-            $table->foreign('created_by')->references('id')->on('users');
+            $table->unsignedBigInteger('created_by')->nullable()->change();
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
         });
     }
 
     public function down(): void {
-        // Schema::table('committees', function (Blueprint $table) {
-        //     // $table->dropForeign('created_by');
-        //     $table->string('created_by')->nullable()->after('auto_renew');
-        // });
+        Schema::table('committees', function (Blueprint $table) {
+            // 1) On droppe la FK
+            $table->dropForeign(['created_by']);
+            // 2) On revient à un simple integer (ou on drop la colonne)
+            $table->integer('created_by')->nullable()->change();
+        });
     }
 };

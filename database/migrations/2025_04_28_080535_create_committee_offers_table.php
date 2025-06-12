@@ -5,8 +5,8 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-
     public function up(): void {
+
         Schema::create('committee_offers', function (Blueprint $table) {
             $table->unsignedBigInteger('committee_id');
             $table->unsignedBigInteger('offer_id');
@@ -20,6 +20,12 @@ return new class extends Migration {
     }
 
     public function down(): void {
+        // 1) Supprimer d'abord les contraintes FK
+        Schema::table('committee_offers', function (Blueprint $table) {
+            $table->dropForeign(['committee_id']);
+            $table->dropForeign(['offer_id']);
+        });
+        // 2) Puis la table
         Schema::dropIfExists('committee_offers');
     }
 };

@@ -5,13 +5,14 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-
     public function up(): void {
+        
         Schema::create('categories', function(Blueprint $table){
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->text('description');
-            $table->boolean('is_active');
+            $table->boolean('is_active')->default(true);
+            
             $table->timestamps();
             $table->softDeletes();
         });
