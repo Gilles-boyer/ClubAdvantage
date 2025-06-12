@@ -5,34 +5,61 @@ namespace App\Http\Controllers;
 use App\Models\Offer;
 use App\Http\Requests\OfferRequest;
 use App\Http\Resources\OfferResource;
+use Illuminate\Http\JsonResponse;
 
 class OfferController extends Controller {
     // Liste toutes les offres
-    public function index() {
+    public function index(): JsonResponse {
+
         $offers = Offer::with(['creator', 'category', 'committees'])->get();
-        return OfferResource::collection($offers);
+        $offers = OfferResource::collection($offers);
+
+        return response()->json([
+            'message' => 'Liste des offres récupérée avec succès.',
+            'data'    => OfferResource::collection($offers),
+        ], 200);
     }
-    
+
     // Affiche une offre en détail
-    public function show(Offer $offer)  {
+    public function show(Offer $offer): JsonResponse  {
+
         $offer->load(['creator', 'category', 'committees']);
-        return new OfferResource($offer);
+
+        return response()->json([
+            'message' => 'Offre récupéré avec succès.',
+            'data'    => new OfferResource($offer),
+        ], 200);
     }
 
     // Crée une nouvelle offre
-    public function store(OfferRequest $request) {
-        return new OfferResource(Offer::create($request->validated()));
+    public function store(OfferRequest $request): JsonResponse {
+
+        $offer = Offer::create($request->validated());
+
+        return response()->json([
+            'message' => 'Offre créée avec succès.',
+            'data'    => new OfferResource($offer),
+        ], 201);
     }
 
     // Met à jour une offre existante
-    public function update(OfferRequest $request, Offer $offer) {
+    public function update(OfferRequest $request, Offer $offer): JsonResponse {
+
         $offer->update($request->validated());
-        return new OfferResource($offer);
+
+        return response()->json([
+            'message' => 'Catégorie mise à jour.',
+            'data'    => new OfferResource($offer),
+        ], 200);
     }
 
     // Supprime une offre (soft delete)
     public function destroy(Offer $offer) {
+
         $offer->delete();
-        return response()->json(['message' => 'Offre supprimée avec succès.']);
+        
+        return response()->json([
+            'message' => 'Offre supprimée avec succès.'
+        ], 200);
     }
 }

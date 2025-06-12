@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller {
     public function login(Request $request) {
+
         $credentials = $request -> validate([
             'email'     => ['required', 'email'],
             'password'  => ['required','string','min:8'],
@@ -30,16 +32,17 @@ class AuthController extends Controller {
 
         return response()->json([
             'message'   => '✅ Connecté avec succès',
-            'user'      => $request-> user(),
+            'user'      => new UserResource($request->user()),
             'token'     => $token,
-        ]);
+        ], 200);
     }
 
     public function logout(Request $request) {
+        
         Auth::guard('web')-> logout();
         $request-> session()-> invalidate();
         $request-> session()-> regenerateToken();
 
-        return response()-> json(['message' => 'Déconnecté']);
+        return response()-> json(['message' => 'Déconnecté'], 200);
     }
 }

@@ -8,17 +8,19 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 
 class UserController extends Controller {
-
     public function index(Request $request) {
+
         $query = User::with(['role', 'committee', 'createdCommittees', 'committeeMembers']);
     
         if ($request->has('role')) {
+
             $query->where('role_name', $request->role);
         }
     
         $users = $query->orderBy('last_name')->orderBy('first_name')->paginate(30);
     
         return UserResource::collection($users)->additional([
+
             'meta' => [
                 'total' => $users->total(),
                 'current_page' => $users->currentPage(),
@@ -27,21 +29,25 @@ class UserController extends Controller {
         ]);
             
         $usersData = $users->map(function ($user) {
+
             $userResource = new UserResource($user);
     
             $notice = null;
             if (in_array($user->role_name, ['cse_member', 'cse_admin']) && empty($user->committee_id)) {
                 $notice = 'Ce membre ou CSE n’est pas rattaché à un comité.';
             }
+
             return [
                 'user' => $userResource,
                 'notice' => $notice,
             ];
         });
+
         return response()->json(['data' => $usersData]);
     }
 
     public function show(User $user) {
+
         $user->load(['role', 'committee', 'createdCommittees', 'committeeMembers']);
     
         $message = null;
@@ -56,10 +62,25 @@ class UserController extends Controller {
     }
 
     public function store(UserRequest $request) {
+
         $data = $request->validated();
 
+        // ─── Empêcher la création de plusieurs super_admin ───
+        // On récupère le nom du rôle demandé
+        $role = \App\Models\Role::find($data['role_id']);
+        if ($role?->name === 'super_admin') {
+            $exists = User::where('role_name', 'super_admin')->exists();
+            if ($exists) {
+
+                return response()->json([
+                    'message' => 'Un super-admin existe déjà, vous ne pouvez pas en créer un deuxième.'
+                ], 403);
+            }
+        }
+        
         // 🔄 Remplit automatiquement role_name à partir du role_id
         if (isset($data['role_id'])) {
+
             $data['role_name'] = \App\Models\Role::find($data['role_id'])?->name;
         }
 
@@ -78,9 +99,11 @@ class UserController extends Controller {
     }
 
     public function update(UserRequest $request, User $user) {
+
         if ($user->role_name === 'super_admin') {
             return response()->json(['message' => 'Cet utilisateur ne peut pas être modifié.'], 403);
         }
+
         $data = $request->validated();
 
         // 🔄 Met à jour automatiquement role_name si role_id changé
@@ -96,7 +119,6 @@ class UserController extends Controller {
         }
 
         $user->update($data);
-
         $message = null;
         $roleName = $data['role_name'] ?? $user->role_name;
         $committeeId = $data['committee_id'] ?? $user->committee_id;
@@ -112,16 +134,19 @@ class UserController extends Controller {
     }
 
     public function destroy(User $user) {
+
         if ($user->role_name === 'super_admin') {
             return response()->json(['message' => 'Cet utilisateur ne peut pas être supprimé.'], 403);
         }
 
         $user->delete();
+
         return response()->json(['message' => 'Utilisateur supprimé avec succès.']);
     }
                 
     // Retourne les informations du compte connecté (utilisé pour afficher le profil)
     public function me(Request $request) {
+
         return response()->json([
             'data' => new UserResource($request->user())  // ✅ Utilisateur connecté
         ]);
@@ -129,8 +154,8 @@ class UserController extends Controller {
 
     // Met à jour les informations de base du profil utilisateur connecté
     public function updateProfile(Request $request) {
-        $user = $request->user();
 
+        $user = $request->user();
         $validated = $request->validate([
             'first_name' => ['sometimes', 'string', 'max:255'],
             'last_name'  => ['sometimes', 'string', 'max:255'],
@@ -138,6 +163,7 @@ class UserController extends Controller {
         ]);
 
         if (empty($validated)) {
+
             return response()->json(['message' => 'Aucun champ fourni.'], 422);
         }
 
@@ -149,10 +175,8 @@ class UserController extends Controller {
         ]);
     }
 
-
     // Met à jour le mot de passe de l'utilisateur connecté
-    public function updatePassword(Request $request)
-    {
+    public function updatePassword(Request $request) {
         $user = $request->user(); 
 
         // Valide les champs nécessaires
@@ -163,6 +187,7 @@ class UserController extends Controller {
 
         // Vérifie que le mot de passe actuel est correct
         if (!Hash::check($validated['current_password'], $user->password)) {
+
             return response()->json(['message' => 'Mot de passe actuel incorrect.'], 422);
         }
 
@@ -173,10 +198,9 @@ class UserController extends Controller {
     }
 
     // Supprime (désactive) le compte de l'utilisateur connecté via soft delete
-    public function deleteAccount(Request $request)
-    {
-        $user = $request->user(); 
+    public function deleteAccount(Request $request) {
 
+        $user = $request->user(); 
         $user->delete(); // soft delete : l'utilisateur n'est pas supprimé physiquement
 
         return response()->json(['message' => 'Compte désactivé.']);
