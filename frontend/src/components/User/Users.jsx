@@ -12,7 +12,6 @@ export default function Users() {
     const [updtUser, setUpdtUser] = useState(null)
     const [toggle, setToggle] = useState(false)
     const [toast, setToast] = useState('')
-    const [editMode, setEditMode] = useState(false)
 
 
     useEffect(() => {
@@ -38,12 +37,11 @@ export default function Users() {
         }
     };
 
-    const handleToUpdate = async (userToEdit) => {
-        console.table(userToEdit);
-        setUpdtUser(userToEdit)
-    }
-    const handleCancelUpdate = () => {
+    const canceledEdit = () => {
         setUpdtUser(null)
+    }
+    const handleToUpdate = async (userToEdit) => {
+        setUpdtUser(userToEdit)
     }
 
     const handleDelete = async (id) => {
@@ -71,14 +69,12 @@ export default function Users() {
                 {toggle && (
                     <UsersForm onAddUser={handleAdd}
                         onEditUser={updtUser}
-                        editMode={editMode}
-                        setEditMode={setEditMode}
-                        onCancel={handleCancelUpdate} />)}
+                        setToggle={setToggle}
+                        onCancel={canceledEdit} />)}
                 <UsersTable users={users}
                     onUpdate={handleToUpdate}
                     onDelete={handleDelete}
-                    setToggle={setToggle}
-                    setEditMode={setEditMode} />
+                    setToggle={setToggle} />
             </section>
             <ToastAlert toast={toast} setToast={setToast} />
         </>

@@ -35,6 +35,9 @@ export default function Committees() {
             // setToast({ show: true, message: err.toString(), type: 'error' })
         }
     };
+        const canceledEdit = () => {
+        setToUpCmmtts(null);
+    }
 
     const handleUpdate = (cmmttToEdit) => {
         setToUpCmmtts(cmmttToEdit);
@@ -65,7 +68,10 @@ export default function Committees() {
                            className={'btn-neutral  hover:btn-secondary mb-2 md:mb-0'}/>
                 </div>
                 {toggle && (
-                    <CommitteeForm onAddCommittee={handleAddCmmtt} onEditUpCmmtt={toUpCmmtts} setToggle={setToggle}/>
+                    <CommitteeForm onAddCommittee={handleAddCmmtt} 
+                    onEditUpCmmtt={toUpCmmtts} 
+                    setToggle={setToggle}
+                    onCancel={canceledEdit}/>
 
                 )}
                 < CmmttsTable

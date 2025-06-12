@@ -6,7 +6,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"
 import Button from "../Button";
 
-export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt, setToggle}) {
+export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt, setToggle, onCancel}) {
     const [name, setName] = useState("");
     const [autoRenew, setAutoRenew] = useState(null);
     const [errorName, setErrorName] = useState(null);
@@ -163,7 +163,8 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt, setToggle
                             {/* Bouton */}
                             <Button type="submit" label={'valider'} className={'btn-neutral'}/>
                             <Button label={'annuler'} onAction={() => {reset();
-                                setToggle(true)
+                                setToggle(false);
+                                onCancel()
                             }} className={'btn-error'}/>
                         </form>
                     </div>

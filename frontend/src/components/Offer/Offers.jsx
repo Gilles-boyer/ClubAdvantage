@@ -54,9 +54,9 @@ export default function Offers() {
 
     };
 
-    // const handleToggle = (toggle) => {
-    //     setToggle(!toggle)
-    // }
+    const canceledEdit = () => {
+        setToUpOffer(null);
+    }
     const handleToUpOffer = async (offerToEdit) => {
         console.log(offerToEdit)
         setToUpOffer(offerToEdit);
@@ -98,7 +98,11 @@ export default function Offers() {
                     <Button label={'Ajouter une Offre'} onAction={() => setToggle(!toggle)}
                         className={'btn-neutral hover:btn-secondary mb-2 md:mb-0'} />
                 </div>
-                {toggle && (<OfferForm onAddOffer={handleAddOffer} onEditOffer={toUpOffer} />)}
+                {toggle && (<OfferForm 
+                onAddOffer={handleAddOffer} 
+                onEditOffer={toUpOffer}
+                setToggle={setToggle}
+                onCancel={canceledEdit} />)}
                 < OfferTable
                     offers={offers}
                     onUpdate={handleToUpOffer}

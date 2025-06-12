@@ -5,7 +5,7 @@ import { fetchCmmtts, listOfCommittees } from "../../store/slices/CommitteeSlice
 import { fetchRoles, listOfRoles } from "../../store/slices/rolesSlice";
 import Button from "../Button";
 
-export default function UsersForm({ onAddUser, onEditUser }) {
+export default function UsersForm({ onAddUser, onEditUser, onCancel, setToggle }) {
     const dispatch = useDispatch()
     const cmmtts = useSelector(listOfCommittees)
     const roles = useSelector(listOfRoles)
@@ -199,7 +199,11 @@ export default function UsersForm({ onAddUser, onEditUser }) {
                         </div>
                         <div className="flex justify-center space-x-2">
                             <Button label={'valider'} type="submit" className={'btn-neutral'} />
-                            <Button label={'annuler'} onAction={() => reset() } className={'btn-error'} />
+                            <Button label={'annuler'} onAction={() => {
+                                reset();
+                                setToggle(false)
+                                onCancel()
+                            } } className={'btn-error'} />
                         </div>
                     </form>
                 </div >

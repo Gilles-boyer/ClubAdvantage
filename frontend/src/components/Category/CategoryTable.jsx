@@ -57,7 +57,8 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                                     <td className="px-4 py-2">{category.description}</td>
                                     <td className="px-4 py-2">
                                         <Button label={`${category.is_active ? 'Active' : 'Inactive'}`} 
-                                                                                onAction={() => onUpStatus(category.is_active)} className={`btn-sm w-17 ${category.is_active ? 'btn-info' : 'btn-warning'}`}/>
+                                        onAction={() => onUpStatus(category.id)} 
+                                        className={`btn-sm w-17 ${category.is_active ? 'btn-info' : 'btn-warning'}`}/>
                                     </td>
                                     <td className="px-4 py-2 space-x-2 bg-accent">
                                         <Button action={'update'} onAction={() => {

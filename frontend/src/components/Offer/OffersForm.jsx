@@ -10,7 +10,7 @@ import Button from "../Button.jsx";
 
 
 
-export default function OfferForm({ onAddOffer, onEditOffer }) {
+export default function OfferForm({ onAddOffer, onEditOffer, setToggle, onCancel }) {
   const [title, setTitle] = useState("");
   const [errorTitle, setErrorTitle] = useState('')
   const [description, setDescription] = useState("")
@@ -25,7 +25,8 @@ export default function OfferForm({ onAddOffer, onEditOffer }) {
       setTitle(onEditOffer.title);
       setDescription(onEditOffer.description);
       setSelectedCat(onEditOffer.category_id); //! Pré-remplir le champ dans le formulaire
-      setStatus(onEditOffer.is_active)    }
+      setStatus(onEditOffer.is_active)
+    }
   }, [onEditOffer]);
 
   useEffect(() => {
@@ -56,7 +57,7 @@ export default function OfferForm({ onAddOffer, onEditOffer }) {
     onAddOffer(newOffer);
     reset();
   }
-  
+
   const reset = () => {
     setErrorDesc('')
     setErrorTitle('')
@@ -139,19 +140,23 @@ export default function OfferForm({ onAddOffer, onEditOffer }) {
                 ))}
               </select>
             </div>
-                        <div className="form-control mb-4">
+            <div className="form-control mb-4">
               <label htmlFor="descriptionOffer" className="label">
                 <span className="label-text">Sélectionnez un statut</span>
               </label>
               <select className="select w-full" value={status} onChange={(e) => setStatus(parseInt(e.target.value))}> //! Ajout des états selectedCat et setSelectedCat pour capturer le changement d'état
                 <option disabled value="">Choisir un statut</option>
-                  <option  value={"1"}>Actif</option>
-                  <option  value={"0"}>Inactif</option>
+                <option value={"1"}>Actif</option>
+                <option value={"0"}>Inactif</option>
               </select>
             </div>
             <div className="flex justify-center space-x-2">
-              <Button label={'valider'} type="submit" className={'btn-neutral'}/>
-              <Button label={'annuler'}onAction={reset} className={'btn-error'}/>
+              <Button label={'valider'} type="submit" className={'btn-neutral'} />
+              <Button label={'annuler'} onAction={() => {
+                reset();
+                setToggle(false);
+                onCancel()
+              }} className={'btn-error'} />
             </div>
           </form>
         </div >

@@ -1,5 +1,5 @@
 import LoginForm from "../components/Login/LoginForm";
-import logo from "/logo_test.png";
+import logo from "/Logo_doré.png";
 
 export default function Login() {
     return (

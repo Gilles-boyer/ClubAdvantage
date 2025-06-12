@@ -4,12 +4,13 @@ import { mdilAlert } from '@mdi/light-js';
 import { Textarea, Textbox } from "react-inputs-validation";
 import Button from "../Button";
 
-export default function CategoryForm({ onAddCategory, onEditUpCat }) {
+export default function CategoryForm({ onAddCategory, onEditUpCat, onCancelEdit, setToggle }) {
   const [name, setName] = useState("")
   const [errorName, setErrorName] = useState("")
   const [description, setDescription] = useState("")
   const [errorDesc, setErrorDesc] = useState("")
   const [status, setStatus] = useState(null)
+
 
   useEffect(() => {
     if (onEditUpCat) {
@@ -27,7 +28,7 @@ export default function CategoryForm({ onAddCategory, onEditUpCat }) {
     const newCategory = {
       name,
       description,
-      is_active: false,
+      is_active: status,
       updated_at: new Date().toISOString(),
     };
     console.table(onEditUpCat)
@@ -117,14 +118,22 @@ export default function CategoryForm({ onAddCategory, onEditUpCat }) {
               <label htmlFor="descriptionOffer" className="label">
                 <span className="label-text">Sélectionnez un statut</span>
               </label>
-              <select className="select w-full" value={status} onChange={(e) => setStatus(parseInt(e.target.value))}> //! Ajout des états selectedCat et setSelectedCat pour capturer le changement d'état
+              <select className="select w-full" value={status} onChange={(e) => {
+                setStatus(parseInt(e.target.value));
+                console.log("Valeur sélectionnée pour status:", e.target.value);
+
+              }}>
                 <option disabled value="">Choisir un statut</option>
-                  <option  value={"1"}>Actif</option>
-                  <option  value={"0"}>Inactif</option>
+                <option value={"1"}>Actif</option>
+                <option value={"0"}>Inactif</option>
               </select>
             </div>
             <Button label={'valider'} type="submit" className={"btn-neutral"} />
-            <Button label={'annuler'} onAction={() => reset()} className={'btn-error'} />
+            <Button label={'annuler'} type="reset" onAction={() => {
+              reset();
+              setToggle(false);
+              onCancelEdit();
+            }} className={'btn-error'} />
           </form>
         </div>
       </div>

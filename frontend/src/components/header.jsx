@@ -1,4 +1,4 @@
-import logo from "/logo_test.png";
+import logo from "/Logo_doré.png";
 import Icon from '@mdi/react';
 import { mdilPower } from '@mdi/light-js';
 import Button from "./Button";
@@ -21,7 +21,7 @@ const Header = ({ menu }) => {
       />
       <div className="text-2xl text-center font-bold me-3 md:me-0">Dashboard</div>
       <Button label={'Déconnexion'}
-        className={'btn-secondary text-primary font-semibold hover:btn-accent hidden md:block'}
+        className={'btn-secondary btn-sm text-primary font-semibold hover:btn-accent hidden md:block'}
         onAction={handleLogout}/>
       <button
         className="bg-accent px-1 py-1 

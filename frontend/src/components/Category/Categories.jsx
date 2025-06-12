@@ -35,7 +35,9 @@ export default function Categories() {
             setToast({ show: true, message: "Erreur lors de l'ajout", type: "error" });
         }
     };
-
+    const canceledEdit = () => {
+        setToUpCategory(null);
+    }
 
     const handleToUpCat = (categoryToEdit) => {
         console.table(categoryToEdit)
@@ -81,7 +83,10 @@ export default function Categories() {
                 </div>
 
                 {toggle && (
-                    <CategoryForm onAddCategory={handleAddCategory} onEditUpCat={toUpCategory} />)}
+                    <CategoryForm onAddCategory={handleAddCategory} 
+                    onEditUpCat={toUpCategory}
+                    setToggle={setToggle} 
+                    onCancelEdit={canceledEdit}/>)}
                 <CategoryTable
                     categories={categories}
                     onDelete={handleDeleteCategory}

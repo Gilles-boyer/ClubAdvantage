@@ -67,7 +67,7 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
 
                                     {isStaffPage && <><td className="px-4 py-2">
                                         <Button label={`${offer.is_active ? 'Active' : 'Inactive'}`}
-                                            onAction={() => onUpStatus(offer.is_active)} className={`btn-sm w-17 ${offer.is_active ? 'btn-info' : 'btn-warning'}`} />
+                                            onAction={() => onUpStatus(offer.id)} className={`btn-sm w-17 ${offer.is_active ? 'btn-info' : 'btn-warning'}`} />
                                     </td>
                                         <td className="bg-accent">
                                             <div className="flex justify-evenly">
