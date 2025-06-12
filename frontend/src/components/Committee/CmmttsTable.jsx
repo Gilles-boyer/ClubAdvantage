@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Button from "../Button";
+import MobilePagination from "../mobilePagination";
 
 export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle }) {
     const [search, setSearch] = useState('')
@@ -125,12 +126,12 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle 
 
                             <div className="card-action flex space-x-2 mt-2">
                                 <div className="flex mt-0 md:mt-2 space-x-2">
-                                    <Button action={'update'} 
-                                    href={"#comForm"}
-                                    onAction={() => {
-                                        setToggle(true),
-                                            onUpdate(committee)
-                                    }} />
+                                    <Button action={'update'}
+                                        href={"#comForm"}
+                                        onAction={() => {
+                                            setToggle(true),
+                                                onUpdate(committee)
+                                        }} />
                                     <Button action={'delete'} onAction={() => { onDelete(committee.id) }} />
                                 </div>
                             </div>
@@ -139,12 +140,7 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle 
                         </div>
                     </div>
                 ))}
-                {visibleCards < committees.length && (
-                    <div className="space-x-3 mb-3">
-                        <Button label={'voir plus'} onAction={() => setVisibleCards(vc => vc + 3)} className={'btn-neutral'} />
-                        <Button label={'voir moins'} onAction={() => setVisibleCards(3)} className={'btn-primary'} />
-                    </div>
-                )}
+                <MobilePagination object={committees} visibleCards={visibleCards} setVisibleCards={setVisibleCards} />
             </article>
         </>
     )

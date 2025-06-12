@@ -1,5 +1,6 @@
 import Button from "../Button";
 import { useState } from "react";
+import MobilePagination from "../mobilePagination";
 
 export default function CategoryTable({ categories, onDelete, onUpdate, onUpStatus, setToggle }) {
     const [search, setSearch] = useState('')
@@ -126,12 +127,7 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                         </div>
                     </div>
                 ))}
-                {visibleCards < categories.length && (
-                    <div className="space-x-3 mb-10">
-                        <Button label={'voir plus'} onAction={() => setVisibleCards(vc => vc + 3)} className={'btn-neutral'} />
-                        <Button label={'voir moins'} onAction={() => setVisibleCards(3)} className={'btn-primary'} />
-                    </div>
-                )}
+                < MobilePagination object={categories} visibleCards={visibleCards} setVisibleCards={setVisibleCards}/>
             </article>
 
         </>

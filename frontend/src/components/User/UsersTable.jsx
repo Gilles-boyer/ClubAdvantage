@@ -1,5 +1,6 @@
 import Button from "../Button"
 import { useState } from "react"
+import MobilePagination from "../mobilePagination"
 
 export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEditMode }) {
     const [search, setSearch] = useState('')
@@ -133,12 +134,7 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
                         </div>
                     </div>
                 ))}
-                {visibleCards < users.length && (
-                    <div className="space-x-3">
-                        <Button label={'voir plus'} onAction={() => setVisibleCards(vc => vc + 3)} className={'btn-neutral'} />
-                        <Button label={'voir moins'} onAction={() => setVisibleCards(3)} className={'btn-primary'} />
-                    </div>
-                )}
+                < MobilePagination object={users} visibleCards={visibleCards} setVisibleCards={setVisibleCards}/>
             </article>
         </>
     )
