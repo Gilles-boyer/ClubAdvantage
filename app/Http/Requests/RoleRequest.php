@@ -3,25 +3,37 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
-class RoleRequest extends FormRequest
-{
-    public function authorize(): bool
-    {
+class RoleRequest extends FormRequest {
+    public function authorize(): bool {
+
         return true;
     }
+    /**
+     * Prépare les données avant la validation.
+     */
+    protected function prepareForValidation(): void {
 
-    public function rules(): array
-    {
+        if ($this->has('name')) {
+            // transforme "Admin" ou "ADMIN" en "admin"
+            $this->merge(['name' => Str::lower($this->input('name'))]);
+        }
+    }
+
+    public function rules(): array {
+
         $roleId = $this->route('role')?->id;
 
         return [
-            'name' => 'required|string|max:100|unique:roles,name,' . $roleId,
+            'name' => ['required','string','max:100',
+            Rule::unique('roles', 'name')->ignore($roleId)],
         ];
     }
 
-    public function messages(): array
-    {
+    public function messages(): array {
+        
         return [
             'name.required' => 'Le nom du rôle est obligatoire.',
             'name.string'   => 'Le nom doit être une chaîne de caractères.',

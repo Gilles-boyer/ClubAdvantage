@@ -5,15 +5,14 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\User;
 
-class ScanRequest extends FormRequest
-{
-    public function authorize(): bool
-    {
+class ScanRequest extends FormRequest {
+    public function authorize(): bool {
+
         return true;
     }
 
-    public function rules(): array
-    {
+    public function rules(): array {
+
         return [
             'user_id'    => 'required|exists:users,id',
             'scanned_by' => 'required|exists:users,id',
@@ -21,8 +20,8 @@ class ScanRequest extends FormRequest
         ];
     }
 
-    public function withValidator($validator)
-    {
+    public function withValidator($validator) {
+
         $validator->after(function ($validator) {
             $user = User::find($this->user_id);
 
@@ -45,11 +44,12 @@ class ScanRequest extends FormRequest
         });
     }
 
-    public function messages(): array
-    {
+    public function messages(): array {
+
         return [
             'user_id.required'    => "L'utilisateur à scanner est obligatoire.",
             'user_id.exists'      => "L'utilisateur à scanner n'existe pas.",
+            
             'scanned_by.required' => "L'identifiant du scanneur est obligatoire.",
             'scanned_by.exists'   => "L'utilisateur qui scanne n'existe pas.",
         ];

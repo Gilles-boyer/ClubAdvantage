@@ -4,15 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CommitteeOfferRequest extends FormRequest
-{
-    public function authorize(): bool
-    {
+class CommitteeOfferRequest extends FormRequest {
+    public function authorize(): bool {
+
         return true;
     }
 
-    public function rules(): array
-    {
+    public function rules(): array {
+
         return [
             'committee_id' => 'required|exists:committees,id',
             'offer_id'     => 'required|exists:offers,id',
@@ -20,8 +19,8 @@ class CommitteeOfferRequest extends FormRequest
         ];
     }
 
-    public function messages(): array
-    {
+    public function messages(): array {
+        
         return [
             'committee_id.required' => 'Le comité est obligatoire.',
             'committee_id.exists'   => 'Ce comité n’existe pas.',
