@@ -19,7 +19,6 @@ export default function Users() {
     }, [dispatch])
 
 
-
     const handleAdd = async (newUser) => {
         try {
             if (newUser.id) {
@@ -67,10 +66,11 @@ export default function Users() {
                         className={'btn-neutral hover:btn-secondary mb-2 md:mb-0'} />
                 </div>
                 {toggle && (
-                    <UsersForm onAddUser={handleAdd}
-                        onEditUser={updtUser}
-                        setToggle={setToggle}
-                        onCancel={canceledEdit} />)}
+                        <UsersForm
+                            onAddUser={handleAdd}
+                            onEditUser={updtUser}
+                            setToggle={setToggle}
+                            onCancel={canceledEdit} />)}
                 <UsersTable users={users}
                     onUpdate={handleToUpdate}
                     onDelete={handleDelete}

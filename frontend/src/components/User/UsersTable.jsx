@@ -121,7 +121,7 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
                                     <Button action={'update'} onAction={() => {
                                         setToggle(true);
                                         onUpdate(user);
-                                        setEditMode(true)
+                                        setEditMode(true);
                                     }} />
                                     <Button action={'delete'} onAction={() => { onDelete(user.id) }} />
                                 </div>
