@@ -3,19 +3,22 @@
 namespace Database\Factories;
 
 use App\Models\Category;
+use App\Models\Offer;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class OfferFactory extends Factory {
 
+    protected $model = Offer::class;
+
     public function definition(): array {
         return [
             'title' => fake()->sentence(3),
             'description' => fake()->paragraph(),
-            'is_active' => fake()->boolean(),
-            'created_by' => Category::inRandomOrder()->first(), 
-            'category_id' => \App\Models\Category::inRandomOrder()->first()?->id,
-            // 'category_name' => \App\Models\Category::inRandomOrder()->first()?->name,
+            'is_active' => fake()->boolean(90),
+            'created_by' => User::whereIn('role_name', ['super_admin','staff'])->inRandomOrder()->first()?->id, 
+            'category_id' => Category::inRandomOrder()->value('id'),
+            // 'category_name' => Category::factory(),
         ];
     }
 }

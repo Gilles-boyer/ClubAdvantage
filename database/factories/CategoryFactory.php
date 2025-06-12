@@ -8,7 +8,7 @@ class CategoryFactory extends Factory {
 
     public function definition(): array {
         return [
-            'name' => fake()->randomElement([
+            'name' => fake()->unique()->randomElement([
                 'Pilotage', 
                 'Réduction boutique', 
                 'Stage auto', 
@@ -16,7 +16,7 @@ class CategoryFactory extends Factory {
                 'Location salle',
             ]),
             'description' => fake()->sentence(), //description aléatoire
-            'is_active' => fake()->boolean(90), // retourne true ou false avec 90% d'avoir true
+            'is_active' => fake()->boolean(90), // 90 % de vrais
         ];
     }
 }

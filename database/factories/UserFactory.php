@@ -29,21 +29,28 @@ class UserFactory extends Factory {
             'last_name'         => fake()->lastName(),
             'email'             => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password'          => static::$password ??= Hash::make('password12345'),
+            'password'          => bcrypt('password12345'),
             'remember_token'    => Str::random(10),
             'terms_accepted_at' => now(),
-            'status'            => fake()->randomElement(['active','inactive','expired']),
+            'status'            => 'active',
             'role_name'         => $roleName,
             'role_id'           => $role?->id, 
 
-            // Associe un comité uniquement aux rôle 3(membre) et 4(CSE)
-            'committee_id' => in_array($roleName, ['cse_admin', 'cse_member']) ? \App\Models\Committee::inRandomOrder()->first()?->id : null,
+            // Associe un comité uniquement aux rôle (membre[4]) et (CSE[3])
+            // 'committee_id' => in_array($roleName, ['cse_admin', 'cse_member']) 
+            //     ? \App\Models\Committee::inRandomOrder()->value('id')
+            //     : null,
             'created_at'   => $createdAt,
 
             // Met à jour la date de fin de l'année d'inscription 
             'updated_at'   => Carbon::createFromDate($createdAt->format('Y'),12,31),
             
         ];
+    }
+    public function forCse(): static {
+        return $this->state(fn(array $attrs) => [
+            'committee_id' => \App\Models\Committee::inRandomOrder()->value('id'),
+        ]);
     }
     
     public function unverified(): static {
