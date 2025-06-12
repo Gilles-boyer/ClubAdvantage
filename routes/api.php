@@ -22,7 +22,7 @@ Route::apiResources([
 ]);
 
 // Route qui renvoie simplement l’utilisateur connecté
-Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware('auth:sanctum')->group(function () {
     Route::get   ('user/me',        [UserController::class, 'me']);
     Route::patch ('user/me',        [UserController::class, 'updateProfile']);
     Route::patch ('user/password',  [UserController::class, 'updatePassword']);
