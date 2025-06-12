@@ -35,16 +35,16 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                 <input
                     type="text"
                     placeholder="Rechercher..."
-                    className="input input-bordered my-2 w-full max-w-md"
+                    className="input input-bordered my-2 w-full max-w-md hover:ring-secondary hover:ring-1"
                     value={search}
                     onChange={(e) => {
                         setSearch(e.target.value);
                         setCurrentPage(1);
                     }}
                 />
-                <div className="overflow-x-auto border rounded-xl bg-white">
-                    <table className="min-w-full text-left text-sm text-gray-700">
-                        <thead className="bg-secondary text-gray-700 uppercase tracking-wider">
+                <div className="overflow-x-auto border border-secondary rounded-xl bg-white">
+                    <table className="min-w-full text-left text-sm">
+                        <thead className="bg-primary text-white uppercase tracking-wider">
                             <tr>
                                 <th className="px-4 py-2">Titre</th>
                                 <th className="px-4 py-2">Catégorie</th>
@@ -59,27 +59,24 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                             {paginated.map((offer) => (
                                 <tr
                                     key={offer.id}
-                                    className="border-t hover:bg-gray-50 transition-colors"
+                                    className="border-gray-300 border-t hover:bg-gray-100 transition-colors"
                                 >
-                                    <td className="px-4 py-2 font-medium bg-accent">{offer.title}</td>
+                                    <td className="px-4 py-2 font-medium">{offer.title}</td>
                                     <td className="px-4 py-2">{offer.category_name}</td>
                                     <td className="px-4 py-2">{offer.description}</td>
 
                                     {isStaffPage && <><td className="px-4 py-2">
-                                        <button
-                                            onClick={() => onUpStatus(offer.id)}
-                                            className={`py-1 px-3 rounded text-white w-20 hover:cursor-pointer ${offer.is_active ? "bg-indigo-800" : "bg-orange-400"
-                                                }`}
-                                        >
-                                            {offer.is_active ? "Actif" : "Inactif"}
-                                        </button>
+                                        <Button label={`${offer.is_active ? 'Active' : 'Inactive'}`}
+                                            onAction={() => onUpStatus(offer.is_active)} className={`btn-sm w-17 ${offer.is_active ? 'btn-info' : 'btn-warning'}`} />
                                     </td>
-                                        <td className="px-4 py-2 space-x-2 bg-accent">
-                                            <Button action={'update'} onAction={() => {
-                                                setToggle(true),
-                                                    onUpdate(offer)
-                                            }} />
-                                            <Button action={'delete'} onAction={() => { onDelete(offer.id) }} />
+                                        <td className="bg-accent">
+                                            <div className="flex justify-evenly">
+                                                <Button action={'update'} onAction={() => {
+                                                    setToggle(true),
+                                                        onUpdate(offer)
+                                                }} />
+                                                <Button action={'delete'} onAction={() => { onDelete(offer.id) }} />
+                                            </div>
                                         </td></>}
                                 </tr>
                             ))}

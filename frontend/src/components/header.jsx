@@ -21,7 +21,7 @@ const Header = ({ menu }) => {
       />
       <div className="text-2xl text-center font-bold me-3 md:me-0">Dashboard</div>
       <Button label={'Déconnexion'}
-        className={'btn-accent text-neutral hover:btn-secondary hover:text-white hidden md:block'}
+        className={'btn-secondary text-primary font-semibold hover:btn-accent hidden md:block'}
         onAction={handleLogout}/>
       <button
         className="bg-accent px-1 py-1 

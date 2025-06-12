@@ -28,7 +28,7 @@ export default function ScanTable({ scans }) {
                 <input
                     type="text"
                     placeholder="Rechercher..."
-                    className="input input-bordered my-2 w-full max-w-md"
+                    className="input input-bordered my-2 w-full max-w-md hover:ring-secondary hover:ring-1"
                     value={search}
                     onChange={(e) => {
                         setSearch(e.target.value);
@@ -57,7 +57,7 @@ export default function ScanTable({ scans }) {
                 {/* 🔁 Contrôles de pagination */}
                 <div className="flex justify-evenly items-center mt-4">
                     <button
-                        className="btn btn-secondary"
+                        className="btn btn-neutral"
                         onClick={handlePrevious}
                         disabled={currentPage === 1}
                     >
@@ -67,7 +67,7 @@ export default function ScanTable({ scans }) {
                         Page {currentPage} sur {totalPages}
                     </span>
                     <button
-                        className="btn btn-secondary"
+                        className="btn btn-neutral"
                         onClick={handleNext}
                         disabled={currentPage === totalPages}
                     >

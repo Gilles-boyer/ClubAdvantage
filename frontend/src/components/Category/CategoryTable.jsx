@@ -33,16 +33,16 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                 <input
                     type="text"
                     placeholder="Rechercher..."
-                    className="input input-bordered my-2 w-full max-w-md"
+                    className="input input-bordered my-2 w-full max-w-md hover:ring-secondary hover:ring-1"
                     value={search}
                     onChange={(e) => {
                         setSearch(e.target.value);
                         setCurrentPage(1);
                     }}
                 />
-                <div className="overflow-x-auto border rounded-xl bg-white shadow-sm">
+                <div className="overflow-x-auto border border-secondary rounded-xl bg-white shadow-sm">
                     <table className="min-w-full text-left text-sm text-gray-700">
-                        <thead className="bg-secondary text-gray-700 uppercase tracking-wider">
+                        <thead className="bg-primary text-white uppercase tracking-wider">
                             <tr>
                                 <th className="px-4 py-2">Nom</th>
                                 <th className="px-4 py-2">Description</th>
@@ -52,17 +52,12 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                         </thead>
                         <tbody>
                             {paginated.map((category) => (
-                                <tr key={category.id} className="border-t hover:bg-gray-50 transition-colors">
-                                    <td className="px-4 py-2 font-medium bg-accent">{category.name}</td>
+                                <tr key={category.id} className="border-gray-300 border-t hover:bg-gray-100 transition-colors">
+                                    <td className="px-4 py-2 font-medium">{category.name}</td>
                                     <td className="px-4 py-2">{category.description}</td>
                                     <td className="px-4 py-2">
-                                        <button
-                                            onClick={() => onUpStatus(category.id)}
-                                            className={`py-1 px-3 rounded text-white w-20 hover:cursor-pointer ${category.is_active ? "bg-indigo-800" : "bg-orange-400"
-                                                }`}
-                                        >
-                                            {category.is_active ? "Actif" : "Inactif"}
-                                        </button>
+                                        <Button label={`${category.is_active ? 'Active' : 'Inactive'}`} 
+                                                                                onAction={() => onUpStatus(category.is_active)} className={`btn-sm w-17 ${category.is_active ? 'btn-info' : 'btn-warning'}`}/>
                                     </td>
                                     <td className="px-4 py-2 space-x-2 bg-accent">
                                         <Button action={'update'} onAction={() => {

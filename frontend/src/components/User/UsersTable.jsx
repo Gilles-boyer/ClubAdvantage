@@ -32,16 +32,16 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
                 <input
                     type="text"
                     placeholder="Rechercher..."
-                    className="input input-bordered my-2 w-full max-w-md"
+                    className="input input-bordered my-2 w-full max-w-md hover:border-secondary hover:ring-secondary hover:ring-1"
                     value={search}
                     onChange={(e) => {
                         setSearch(e.target.value);
                         setCurrentPage(1);
                     }}
                 />
-                <div className="overflow-x-auto border rounded-xl bg-white">
-                    <table className="min-w-full text-left text-sm text-gray-700">
-                        <thead className="bg-secondary text-white uppercase tracking-wider">
+                <div className="overflow-x-auto border border-secondary rounded-xl bg-white">
+                    <table className="min-w-full text-left text-sm ">
+                        <thead className="bg-primary text-white uppercase tracking-wider">
                             <tr>
                                 <th className="px-4 py-2">Nom</th>
                                 <th className="px-4 py-2">Prénom</th>
@@ -56,9 +56,9 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
                             {paginated.map((user) => (
                                 <tr
                                     key={user.id}
-                                    className="border-t hover:bg-gray-50 transition-colors"
+                                    className="border-gray-300 border-t hover:bg-gray-100 transition-colors"
                                 >
-                                    <td className="px-4 py-2 font-medium bg-accent">{user.last_name}</td>
+                                    <td className="px-4 py-2 font-medium">{user.last_name}</td>
                                     <td className="px-4 py-2">{user.first_name}</td>
                                     <td className="px-4 py-2">{user.email}</td>
                                     <td className="px-4 py-2">{user.committee_id}</td>
