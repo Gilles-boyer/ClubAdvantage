@@ -112,7 +112,9 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
 
                             <div className="card-action flex space-x-2 mt-2">
                                 <div className="flex mt-0 md:mt-2 space-x-2">
-                                    <Button action={'update'} onAction={() => {
+                                    <Button action={'update'}
+                                    href={"#catForm"}
+                                    onAction={() => {
                                         setToggle(true),
                                             onUpdate(category)
                                     }} />

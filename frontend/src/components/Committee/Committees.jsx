@@ -61,7 +61,7 @@ export default function Committees() {
                 <div className="flex-grow border-t border-neutral"></div>
             </div>
 
-            <section className="pt-5 max-w-5xl mx-auto">
+            <section className="pt-5 max-w-5xl mx-auto" id="comForm">
                 <div className='flex w-fit'>
                    <Button label={'Ajouter un CSE'} 
                            onAction={() => setToggle(!toggle)} 

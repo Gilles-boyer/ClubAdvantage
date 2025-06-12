@@ -60,7 +60,7 @@ export default function Users() {
                 <div className="flex-grow border-t border-neutral"></div>
             </div>
 
-            <section className="pt-5 max-w-5xl mx-auto">
+            <section className="pt-5 max-w-5xl mx-auto" id="userForm">
                 <div className='flex w-fit'>
                     <Button label={'Ajouter un Utilisateur'} onAction={() => setToggle(!toggle)}
                         className={'btn-neutral hover:btn-secondary mb-2 md:mb-0'} />

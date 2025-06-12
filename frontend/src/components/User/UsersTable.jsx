@@ -61,7 +61,7 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
                                     <td className="px-4 py-2 font-medium">{user.last_name}</td>
                                     <td className="px-4 py-2">{user.first_name}</td>
                                     <td className="px-4 py-2">{user.email}</td>
-                                    <td className="px-4 py-2">{user.committee_id}</td>
+                                    <td className="px-4 py-2"key={user.committee_id}>{user.committee_name}</td>
                                     <td className="px-4 py-2">{user.role_name}</td>
                                     <td className="px-4 py-2">{user.status}</td>
                                     <td className="px-4 py-2 space-x-2 bg-accent">
@@ -118,7 +118,9 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
                             </div>
                             <div className="card-action flex space-x-2 mt-2">
                                 <div className="flex mt-0 md:mt-2 space-x-2">
-                                    <Button action={'update'} onAction={() => {
+                                    <Button action={'update'} 
+                                    href={"#userForm"}
+                                    onAction={() => {
                                         setToggle(true);
                                         onUpdate(user);
                                         setEditMode(true);

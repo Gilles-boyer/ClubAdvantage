@@ -76,8 +76,8 @@ export default function Categories() {
                 <div className="flex-grow border-t border-neutral"></div>
             </div>
             <section className="pt-6 max-w-5xl mx-auto">
-                <div className='flex w-fit'>
-                    <Button label={'Ajouter une Catégorie'}
+                <div className='flex w-fit'id='catForm'>
+                    <Button  label={'Ajouter une Catégorie'}
                         onAction={() => setToggle(!toggle)}
                         className={'btn-neutral  hover:btn-secondary mb-2 md:mb-0'} />
                 </div>

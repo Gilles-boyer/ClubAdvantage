@@ -93,7 +93,7 @@ export default function Offers() {
                 <h2 className="text-2xl font-semibold text-gray-700">Offres</h2>
                 <div className="flex-grow border-t border-neutral"></div>
             </div>
-            <section className="pt-10 max-w-5xl mx-auto">
+            <section className="pt-10 max-w-5xl mx-auto" id="offersForm">
                 <div className='flex w-fit'>
                     <Button label={'Ajouter une Offre'} onAction={() => setToggle(!toggle)}
                         className={'btn-neutral hover:btn-secondary mb-2 md:mb-0'} />
