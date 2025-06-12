@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import Home       from '../views/Home';
 import Profil     from '../views/Profil';
 import Login      from '../views/Login';
-import Layout     from '../components/Layout';
+import Layout     from '../components/Layout/layout';
 import { ErrorBoundary } from '../components/ErrorBoundary';
 import Offer      from '../views/Offer';
 import Scan       from '../views/Scan';

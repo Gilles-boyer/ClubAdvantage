@@ -1,7 +1,7 @@
 import logo from "/Logo_doré.png";
 import Icon from '@mdi/react';
 import { mdilPower } from '@mdi/light-js';
-import Button from "./Button";
+import Button from "../Button";
 import { useNavigate } from "react-router-dom";
 
 const Header = ({ menu }) => {
