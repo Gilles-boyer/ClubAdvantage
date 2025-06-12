@@ -4,10 +4,9 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CommitteeOfferResource extends JsonResource
-{
-    public function toArray($request): array
-    {
+class CommitteeOfferResource extends JsonResource {
+    public function toArray($request): array {
+
         return [
             'committee_id' => $this->committee_id,
             'offer_id'     => $this->offer_id,
