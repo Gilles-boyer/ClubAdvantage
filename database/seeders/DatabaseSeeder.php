@@ -10,9 +10,9 @@ class DatabaseSeeder extends Seeder {
         $this->call([
             // Laravel va remplir les roles avant de remplir les utilisateurs (Sinon problème de role_id)
             RoleSeeder::class,
-            CategorySeeder::class,
             CommitteeSeeder::class,
             UserSeeder::class,
+            CategorySeeder::class,
             OfferSeeder::class,
             ScanSeeder::class,
             CommitteeOfferSeeder::class,
