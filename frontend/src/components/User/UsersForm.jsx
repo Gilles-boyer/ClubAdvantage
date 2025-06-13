@@ -31,6 +31,9 @@ export default function UsersForm({ onAddUser, onEditUser, onCancel, setToggle }
         if (onEditUser) {
             setLast_Name(onEditUser.last_name);
             setFirst_Name(onEditUser.first_name);
+            setEmail(onEditUser.email)
+            setSelectedRole(onEditUser.role_id)
+            setSelectedCom(onEditUser.committee_id)
             setStatus(onEditUser.status);
         }
     }, [onEditUser]);

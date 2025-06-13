@@ -27,6 +27,13 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle 
         if (currentPage < totalPages) setCurrentPage(currentPage + 1);
     };
 
+    const formatDate = (dateString) => {
+        if (!dateString) return '';
+
+        const [year, month, day] = dateString.split('-');
+        return `${day}/${month}/${year}`;
+    };
+    
     const mobileView = committees.slice(0, visibleCards)
     return (
         <>
@@ -66,8 +73,8 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle 
                                         >
                                             {committee.auto_renew ? "Actif" : "Inactif"}
                                         </button></td>
-                                    <td className="px-4 py-2 font-medium text-center">{committee.agreement_start_date}</td>
-                                    <td className="px-4 py-2 font-medium text-center">{committee.agreement_end_date}</td>
+                                    <td className="px-4 py-2 font-medium text-center">{formatDate(committee.agreement_start_date)}</td>
+                                    <td className="px-4 py-2 font-medium text-center">{formatDate(committee.agreement_end_date)}</td>
                                     <td className="px-4 py-2 space-x-2 bg-accent">
                                         <Button action={'update'} onAction={() => {
                                             setToggle(true),
@@ -118,9 +125,9 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle 
                             <div className="flex flex-col">
                                 <p className="text-sm">
                                     <span className="font-medium">Date de début : </span>
-                                    {committee.agreement_start_date}</p><p className="text-sm">
+                                    {formatDate(committee.agreement_start_date)}</p><p className="text-sm">
                                     <span className="font-medium">Date de fin: </span>
-                                    {committee.agreement_end_date}</p>
+                                    {formatDate(committee.agreement_end_date)}</p>
                             </div>
 
 

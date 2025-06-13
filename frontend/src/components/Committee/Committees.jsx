@@ -19,6 +19,7 @@ export default function Committees() {
 
     }, [dispatch]);
 
+
     const handleAddCmmtt = async (newCommittee) => {
         try {
             if (newCommittee.id) {
@@ -31,11 +32,11 @@ export default function Committees() {
             setToggle(false)
         } catch (err) {
             console.error("Erreur CREATE/UPDATE Category:", err);
-           setToast({ show: true, message: "Erreur lors de l'enregistrement du CSE !", type: 'error' })
+            setToast({ show: true, message: "Erreur lors de l'enregistrement du CSE !", type: 'error' })
             // setToast({ show: true, message: err.toString(), type: 'error' })
         }
     };
-        const canceledEdit = () => {
+    const canceledEdit = () => {
         setToUpCmmtts(null);
     }
 
@@ -63,15 +64,15 @@ export default function Committees() {
 
             <section className="pt-5 max-w-5xl mx-auto" id="comForm">
                 <div className='flex w-fit'>
-                   <Button label={'Ajouter un CSE'} 
-                           onAction={() => setToggle(!toggle)} 
-                           className={'btn-neutral  hover:btn-secondary mb-2 md:mb-0'}/>
+                    <Button label={'Ajouter un CSE'}
+                        onAction={() => setToggle(!toggle)}
+                        className={'btn-neutral  hover:btn-secondary mb-2 md:mb-0'} />
                 </div>
                 {toggle && (
-                    <CommitteeForm onAddCommittee={handleAddCmmtt} 
-                    onEditUpCmmtt={toUpCmmtts} 
-                    setToggle={setToggle}
-                    onCancel={canceledEdit}/>
+                    <CommitteeForm onAddCommittee={handleAddCmmtt}
+                        onEditUpCmmtt={toUpCmmtts}
+                        setToggle={setToggle}
+                        onCancel={canceledEdit} />
 
                 )}
                 < CmmttsTable
