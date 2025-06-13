@@ -9,7 +9,8 @@ export default function CategoryForm({ onAddCategory, onEditUpCat, onCancelEdit,
   const [errorName, setErrorName] = useState("")
   const [description, setDescription] = useState("")
   const [errorDesc, setErrorDesc] = useState("")
-  const [status, setStatus] = useState(null)
+  const [status, setStatus] = useState('')
+  const [errorSelect, setErrorSelect] = useState('')
 
 
   useEffect(() => {
@@ -57,6 +58,8 @@ export default function CategoryForm({ onAddCategory, onEditUpCat, onCancelEdit,
         <h3 className="font-poppins text-center text-white py-1 text-lg font-medium bg-primary">Ajouter une catégorie</h3>
         <div className="p-5 mx-auto rounded">
           <form onSubmit={handleSubmit} className="space-x-2 mt-4 text-center">
+
+            {/* NAME SECTION */}
             <div className="form-control mb-4">
               <label htmlFor="nameCategory" className="label">
                 <span className="label-text">Nom de la catégorie</span>
@@ -81,11 +84,13 @@ export default function CategoryForm({ onAddCategory, onEditUpCat, onCancelEdit,
                   if (typeof (e.target.value) !== "string") {
                     return setErrorName('Le Nom doit être une chaine de caractères !')
                   }
+                  if (e.target.value.trim()) return setErrorName('')
                 }}
               />
               {errorName && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorName}</p></div>}
             </div>
 
+            {/* DESCRIPTION SECTION */}
             <div className="form-control mb-4">
               <label htmlFor="descriptionCategory" className="label">
                 <span className="label-text">Description de la catégorie</span>
@@ -110,30 +115,58 @@ export default function CategoryForm({ onAddCategory, onEditUpCat, onCancelEdit,
                   if (typeof (e.target.value) !== "string") {
                     return setErrorDesc('La Description doit être une chaine de caractères !')
                   }
+                  if (e.target.value.trim()) return setErrorDesc('')
                 }}
               />
               {errorDesc && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorDesc}</p></div>}
             </div>
+
+            {/* STATUS SECTION */}
             <div className="form-control mb-4">
               <label htmlFor="descriptionOffer" className="label">
                 <span className="label-text">Sélectionnez un statut</span>
               </label>
-              <select className="select w-full" value={status} onChange={(e) => {
-                setStatus(parseInt(e.target.value));
-                console.log("Valeur sélectionnée pour status:", e.target.value);
+              <select
+                className="select w-full"
+                value={status === null ? "" : String(status)}
+                onChange={(e) => {
+                  const value = e.target.value;
 
-              }}>
-                <option disabled value="">Choisir un statut</option>
-                <option value={"1"}>Actif</option>
-                <option value={"0"}>Inactif</option>
+                  if (value === "null") {
+                    setStatus(null);
+                    setErrorSelect('Choisir une valeur pour le statut !');
+                  } else {
+                    setStatus(parseInt(value, 10));
+                    setErrorSelect('');
+                  }
+                }}
+                onBlur={(e) => {
+                  if (e.target.value === "null") {
+                    setErrorSelect('Choisir une valeur pour le statut !');
+                  }
+                }}
+              >
+                <option value="null">Choisir une valeur</option>
+                <option value="1">OUI</option>
+                <option value="0">NON</option>
               </select>
+
+              {errorSelect && (
+                <div className="text-red-500 text-sm mt-1">
+                  {errorSelect}
+                </div>
+              )}
             </div>
-            <Button label={'valider'} type="submit" className={"btn-neutral"} />
-            <Button label={'annuler'} type="reset" onAction={() => {
-              reset();
-              setToggle(false);
-              onCancelEdit();
-            }} className={'btn-error'} />
+
+            {/* BUTTONS SECTION */}
+            <div className="space-x-2 mt-5">
+              <Button label={'valider'} type="submit" className={"btn-neutral"} />
+              <Button label={'annuler'} type="reset" onAction={() => {
+                reset();
+                setToggle(false);
+                onCancelEdit();
+              }} className={'btn-error'} />
+            </div>
           </form>
         </div>
       </div>

@@ -126,10 +126,8 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt, setToggle
                                         setErrorSelect('Choisir une valeur !');
                                     } else {
                                         setAutoRenew(parseInt(value, 10));
-                                        setErrorSelect(''); // Effacer l'erreur si valeur valide
+                                        setErrorSelect('');
                                     }
-
-                                    console.log('Valeur sélectionnée :', value);
                                 }}
                                 onBlur={(e) => {
                                     if (e.target.value === "null") {
@@ -142,7 +140,6 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt, setToggle
                                 <option value="0">NON</option>
                             </select>
 
-                            {/* Affichage du message d'erreur */}
                             {errorSelect && (
                                 <div className="text-red-500 text-sm mt-1">
                                     {errorSelect}

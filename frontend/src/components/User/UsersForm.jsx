@@ -9,22 +9,30 @@ export default function UsersForm({ onAddUser, onEditUser, onCancel, setToggle }
     const dispatch = useDispatch()
     const cmmtts = useSelector(listOfCommittees)
     const roles = useSelector(listOfRoles)
+
+    // FIELDS VALUES & STATES
     const [last_name, setLast_Name] = useState('');
     const [first_name, setFirst_Name] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [status, setStatus] = useState(null);
-    const [selectedCom, setSelectedCom] = useState(null) //? Pour afficher les valeurs lors de l'update
+    const [selectedCom, setSelectedCom] = useState(null)
     const [selectedRole, setSelectedRole] = useState(null)
+
+    // ERROR MESSAGES
+    const [errorFN, setErrorFN] = useState('')
+    const [errorLN, setErrorLN] = useState('')
+    const [errorEmail, setErrorEmail] = useState('')
+    const [errorPSW, setErrorPSW] = useState('')
+    const [errorStatus, setErrorStatus] = useState('')
+    const [errorCSE, setErrorCSE] = useState('')
+    const [errorRole, setErrorRole] = useState('')
 
     useEffect(() => {
         if (onEditUser) {
             setLast_Name(onEditUser.last_name);
             setFirst_Name(onEditUser.first_name);
-            setEmail(onEditUser.email);
             setStatus(onEditUser.status);
-            setSelectedCom(onEditUser.committee_id);
-            setSelectedRole(onEditUser.role_id)
         }
     }, [onEditUser]);
 
@@ -39,7 +47,7 @@ export default function UsersForm({ onAddUser, onEditUser, onCancel, setToggle }
 
         const comObject = cmmtts.find((com) => com.id === selectedCom)
         const roleObject = roles.find((role) => role.id === selectedRole)
-        
+
         const newUser = {
             last_name,
             first_name,
@@ -54,13 +62,13 @@ export default function UsersForm({ onAddUser, onEditUser, onCancel, setToggle }
 
         if (onEditUser?.id !== undefined) {
             newUser.id = onEditUser.id;
-            
+
         } else {
             newUser.created_at = new Date().toISOString();
         }
-        
+
         onAddUser(newUser);
-        
+
         reset();
     }
 
@@ -77,133 +85,241 @@ export default function UsersForm({ onAddUser, onEditUser, onCancel, setToggle }
 
     return (
         <>
-            <div className="w-80vw border rounded mx-auto mt-10">
-                <h3 className="font-poppins text-center py-1 text-lg text-white font-medium bg-primary">Ajouter un Membre</h3>
+            <div className="w-80vw border rounded mx-auto mt-2">
+                <h3 className="font-poppins text-center py-1 text-lg text-white font-medium bg-primary">Ajouter un utilisateur</h3>
                 <div className="p-5 mx-auto rounded">
-                    <form onSubmit={handleSubmit} className="spacetext-center">
-                        <div className="form-control mb-4">
-                            <label htmlFor="lastName" className="label">
-                                <span className="label-text">Nom</span>
-                            </label>
-                            <Textbox
-                                attributesInput={{
-                                    id: "lastName",
-                                    name: "lastName",
-                                    type: "text",
-                                    className: "input input-bordered w-full",
-                                    placeholder: "Nom"
-                                }}
-                                value={last_name}
-                                onChange={(value) => setLast_Name(value)}
-                                onBlur={() => {
+                    <form onSubmit={handleSubmit} className="space">
+                        <div className="grid md:grid-cols-4 gap-3">
 
-                                }}
-                            />
-                            {/* {errorTitle && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorTitle}</p></div>} */}
+                            {/* LAST NAME SECTION */}
+                            <div className="form-control mb-4 col-span-2 ">
+                                <label htmlFor="lastName" className="label">
+                                    <span className="label-text">Nom</span>
+                                </label>
+                                <Textbox
+                                    attributesInput={{
+                                        id: "lastName",
+                                        name: "lastName",
+                                        type: "text",
+                                        className: "input input-bordered w-full",
+                                        placeholder: "Insérez le nom"
+                                    }}
+                                    value={last_name}
+                                    onChange={(value) => setLast_Name(value)}
+                                    onBlur={(e) => {
+                                        if (!e.target.value.trim()) {
+                                            return setErrorLN('Le Nom ne peut pas être vide !')
+                                        }
+                                        if (e.target.value.length > 255) {
+                                            return setErrorLN('Le Nom ne doit pas dépasser 255 caractères !')
+                                        }
+                                        if (typeof (e.target.value) !== "string") {
+                                            return setErrorLN('Le Nom doit être une chaine de caractères !')
+                                        }
+                                        if (e.target.value.trim()) return setErrorLN('')
+                                    }}
+                                />
+                                {errorLN && (
+                                    <div className="text-red-500 text-sm mt-1">
+                                        {errorLN}
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* FISRT NAME SECTION */}
+                            <div className="form-control mb-4 col-span-2">
+                                <label htmlFor="firstName" className="label">
+                                    <span className="label-text">Prenom</span>
+                                </label>
+                                <Textbox
+                                    attributesInput={{
+                                        id: "firstName",
+                                        name: "firstName",
+                                        type: "text",
+                                        className: "input input-bordered w-full",
+                                        placeholder: "Insérez le prénom"
+                                    }}
+                                    value={first_name}
+                                    onChange={(value) => setFirst_Name(value)}
+                                    onBlur={(e) => {
+                                        if (!e.target.value.trim()) {
+                                            return setErrorFN('Le Prénom ne peut pas être vide !')
+                                        }
+                                        if (e.target.value.length > 255) {
+                                            return setErrorFN('Le Prénom ne doit pas dépasser 255 caractères !')
+                                        }
+                                        if (typeof (e.target.value) !== "string") {
+                                            return setErrorFN('Le Prénom doit être une chaine de caractères !')
+                                        }
+                                        if (e.target.value.trim()) return setErrorFN('')
+                                    }}
+                                />
+                                {errorFN && (
+                                    <div className="text-red-500 text-sm mt-1">
+                                        {errorFN}
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* EMAIL SECTION */}
+                            <div className="form-control mb-4 col-span-4">
+                                <label htmlFor="firstName" className="label">
+                                    <span className="label-text">Email</span>
+                                </label>
+                                <Textbox
+                                    attributesInput={{
+                                        id: "email",
+                                        name: "email",
+                                        type: "text",
+                                        className: "input input-bordered w-full",
+                                        placeholder: "Insérez l'adresse email"
+                                    }}
+                                    value={email}
+                                    onChange={(value) => setEmail(value)}
+                                    onBlur={(e) => {
+                                        if (!e.target.value.trim()) {
+                                            return setErrorEmail("L'email ne peut pas être vide !")
+                                        }
+                                        if (e.target.value.length > 255) {
+                                            return setErrorEmail("L'email ne doit pas dépasser 255 caractères !")
+                                        }
+                                        if (typeof (e.target.value) !== "string") {
+                                            return setErrorEmail("L'email doit être une chaine de caractères !")
+                                        }
+                                        if (e.target.value.trim()) return setErrorEmail('')
+                                    }}
+                                />
+                                {errorEmail && (
+                                    <div className="text-red-500 text-sm mt-1">
+                                        {errorEmail}
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* PASSWORD SECTION */}
+                            <div className="form-control mb-4 col-span-4">
+                                <label htmlFor="firstName" className="label">
+                                    <span className="label-text">Mot De Passe</span>
+                                </label>
+                                <Textbox
+                                    attributesInput={{
+                                        id: "password",
+                                        name: "password",
+                                        type: "text",
+                                        className: "input input-bordered w-full",
+                                        placeholder: "Insérez le mot de passe"
+                                    }}
+                                    value={password}
+                                    onChange={(value) => setPassword(value)}
+                                    onBlur={(e) => {
+                                        if (!e.target.value.trim()) {
+                                            return setErrorPSW('Le Mot de Passe ne peut pas être vide !')
+                                        }
+                                        if (e.target.value.length > 255) {
+                                            return setErrorPSW('Le Mot de Passe ne doit pas dépasser 255 caractères !')
+                                        }
+                                        if (e.target.value.trim()) return setErrorPSW('')
+                                    }}
+                                />
+                                {errorPSW && (
+                                    <div className="text-red-500 text-sm mt-1">
+                                        {errorPSW}
+                                    </div>
+                                )}
+                            </div>
                         </div>
 
-                        <div className="form-control mb-4">
-                            <label htmlFor="firstName" className="label">
-                                <span className="label-text">Prenom</span>
-                            </label>
-                            <Textbox
-                                attributesInput={{
-                                    id: "firstName",
-                                    name: "firstName",
-                                    type: "text",
-                                    className: "input input-bordered w-full",
-                                    placeholder: "Prénom"
-                                }}
-                                value={first_name}
-                                onChange={(value) => setFirst_Name(value)}
-                                onBlur={() => {
+                        {/* STATUS SECTION */}
+                        <div className="grid md:grid-cols-3 gap-3">
+                            <div className="form-control mb-4 span-col">
+                                <label htmlFor="status" className="label">
+                                    <span className="label-text">Définir le statut</span>
+                                </label>
+                                <select className="select w-full"
+                                    value={status}
+                                    onChange={(e) => {
+                                        const value = e.target.value;
 
-                                }}
-                            />
-                            {/* {errorDesc && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorDesc}</p></div>} */}
-                        </div>
-                       <div className="form-control mb-4">
-                            <label htmlFor="firstName" className="label">
-                                <span className="label-text">Email</span>
-                            </label>
-                            <Textbox
-                                attributesInput={{
-                                    id: "email",
-                                    name: "email",
-                                    type: "text",
-                                    className: "input input-bordered w-full",
-                                    placeholder: "Email"
-                                }}
-                                value={email}
-                                onChange={(value) => setEmail(value)}
-                                onBlur={() => {
+                                        if (value === "null") {
+                                            setStatus(null);
+                                            setErrorStatus('Choisir une valeur pour le statut !');
+                                        } else {
+                                            setStatus(value);
+                                            setErrorStatus('');
+                                        }
+                                    }}
+                                    onBlur={(e) => {
+                                        if (e.target.value === "null") {
+                                            setErrorStatus('Choisir une valeur pour le statut!');
+                                        }
+                                    }}>
+                                    <option value="null">Choisir un statut</option>
+                                    <option value='active'>Actif</option>
+                                    <option value='inactive'>Inactif</option>
+                                    <option value='expired'>Expiré</option>
+                                </select>
+                                {errorStatus && (
+                                    <div className="text-red-500 text-sm mt-1">
+                                        {errorStatus}
+                                    </div>
+                                )}
+                            </div>
+                            <div className="form-control mb-4 span-col">
+                                <label htmlFor="committee" className="label">
+                                    <span className="label-text">Définir le CSE</span>
+                                </label>
+                                <select className="select w-full" value={selectedCom === null ? "" : selectedCom}
+                                    onChange={(e) => {
+                                        const value = e.target.value;
 
-                                }}
-                            />
-                            {/* {errorDesc && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorDesc}</p></div>} */}
-                        </div>
-                        <div className="form-control mb-4">
-                            <label htmlFor="firstName" className="label">
-                                <span className="label-text">Mot De Passe</span>
-                            </label>
-                            <Textbox
-                                attributesInput={{
-                                    id: "password",
-                                    name: "password",
-                                    type: "text",
-                                    className: "input input-bordered w-full",
-                                    placeholder: "Mot De Passe"
-                                }}
-                                value={password}
-                                onChange={(value) => setPassword(value)}
-                                onBlur={() => {
-
-                                }}
-                            />
-                            {/* {errorDesc && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorDesc}</p></div>} */}
-                        </div>
-
-                        <div className="form-control mb-4">
-                            <label htmlFor="status" className="label">
-                                <span className="label-text">Définir le statut</span>
-                            </label>
-                            <select className="select w-full" value={status} onChange={(e) => {
-                                console.log(typeof(e.target.value));
-                                
-                                setStatus(String(e.target.value))
-                            }}>
-                                <option disabled value="">Choisir un statut</option>
-                                <option value='active'>Actif</option>
-                                <option value='inactive'>Inactif</option>
-                                <option value='expired'>Expiré</option>
-                            </select>
-
-                            <label htmlFor="committee" className="label">
-                                <span className="label-text">Définir le CSE</span>
-                            </label>
-                                <select className="select w-full" value={selectedCom} onChange={(e) => setSelectedCom(e.target.value)}>
-                                    <option disabled value="">Choisir un CSE</option>
+                                        if (value === "null") {
+                                            setSelectedCom(null);
+                                            setErrorCSE('Choisir une valeur pour le CSE !');
+                                        } else {
+                                            setSelectedCom(String(value));
+                                            setErrorCSE('');
+                                        }
+                                    }}
+                                    onBlur={(e) => {
+                                        if (e.target.value === "null") {
+                                            setErrorCSE('Choisir une valeur pour le CSE!');
+                                        }
+                                    }}>
+                                    <option value="null">Choisir un CSE</option>
                                     {cmmtts.map((com) => (
                                         <option key={com.id} value={com.id}>{com.name}</option>
                                     ))}
+                                    {errorCSE && (
+                                        <div className="text-red-500 text-sm mt-1">
+                                            {errorCSE}
+                                        </div>
+                                    )}
                                 </select>
-                            <label htmlFor="role" className="label">
-                                <span className="label-text">Définir le Role</span>
-                            </label>
-                                <select className="select w-full" value={selectedRole} onChange={(e) => setSelectedRole(e.target.value)}>
-                                    <option disabled value="">Choisir un Role</option>
+                            </div>
+
+                            {/* ROLE SECTION */}
+                            <div className="form-control mb-4 span-col">
+                                <label htmlFor="role" className="label">
+                                    <span className="label-text">Définir le Role</span>
+                                </label>
+                                <select className="select w-full" value={selectedRole === null ? "" : selectedRole} 
+                                onChange={(e) => setSelectedRole(e.target.value)}>
+                                    <option value="null">Choisir un Role</option>
                                     {roles.map((r) => (
                                         <option key={r.id} value={r.id}>{r.name}</option>
                                     ))}
                                 </select>
+                            </div>
                         </div>
-                        <div className="flex justify-center space-x-2">
+
+                        {/* BUTTONS SECTION*/}
+                        <div className="flex justify-center space-x-2 mt-5">
                             <Button label={'valider'} type="submit" className={'btn-neutral'} />
                             <Button label={'annuler'} onAction={() => {
                                 reset();
                                 setToggle(false)
                                 onCancel()
-                            } } className={'btn-error'} />
+                            }} className={'btn-error'} />
                         </div>
                     </form>
                 </div >
