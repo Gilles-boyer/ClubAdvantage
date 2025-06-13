@@ -110,7 +110,7 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                 {mobileView.map((offer) => (
                     <div key={offer.id} className="card bg-accent w-80vw card-xs shadow-xl p-3 border border-secondary">
                         <div className="flex justify-between mb-3">
-                            <div className="badge badge-neutral font-medium">{offer.category_name}</div>
+                            <div className={`${offer.category_name ? 'badge badge-neutral font-medium' : ''}`}>{offer.category_name}</div>
                             {isStaffPage && <button
                                 onClick={() => onUpStatus(offer.id)}
                                 className={`badge badge-md me-2 font-medium ${offer.is_active ? "badge-info" : "badge-warning"
@@ -122,7 +122,7 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                         <div className="pb-1">
                             <h3 className="card-title font-medium text-lg rounded ps-0.5">{offer.title}</h3>
                         </div>
-                        <div className="card-body bg-white rounded-md">
+                        <div className="card-body bg-white border border-gray-200 rounded-md">
                             <p className="text-sm">
                                 <span className="font-medium underline">Description :</span>
                                 <br />{offer.description}</p>

@@ -1,6 +1,7 @@
 import Button from "../Button"
 import { useState } from "react"
 import MobilePagination from "../mobilePagination"
+import StatusBadge from "./StatusBadge"
 
 export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEditMode }) {
     const [search, setSearch] = useState('')
@@ -64,7 +65,7 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
                                     <td className="px-4 py-2">{user.email}</td>
                                     <td className="px-4 py-2"key={user.committee_id}>{user.committee_name}</td>
                                     <td className="px-4 py-2">{user.role_name}</td>
-                                    <td className="px-4 py-2">{user.status}</td>
+                                    <td className="px-4 py-2"><StatusBadge status={user.status}/></td>
                                     <td className="px-4 py-2 space-x-2 bg-accent">
                                         <Button action={'update'} onAction={() => {
                                             setToggle(true),
@@ -103,14 +104,10 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
                     <div key={user.id} className="card bg-accent w-80vw card-xs shadow-xl p-3 border border-secondary">
                         <div className="flex justify-between mb-3">
                             <div className="badge badge-neutral font-medium text-white">{user.role_name}</div>
-                            <div
-                                className={`badge badge-md me-2 font-medium`}
-                            >
-                                {user.status}
-                            </div>
+                                <StatusBadge status={user.status}/>
                         </div>
                         <h3 className="card-title font-medium pb-1 text-lg rounded ps-0.5">{user.last_name} {user.first_name}</h3>
-                        <div className="card-body bg-white rounded-md">
+                        <div className="card-body bg-white border border-gray-200 rounded-md">
                             <div className="flex flex-col">
                                 <p className="text-sm">
                                     <span className="font-medium">Email : </span>{user.email}</p>

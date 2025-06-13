@@ -106,7 +106,7 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                                 {category.is_active ? "Actif" : "Inactif"}
                             </button>
                         </div>
-                        <div className="card-body bg-white rounded-md">
+                        <div className="card-body bg-white border border-gray-200 rounded-md">
                             <p className="text-sm">
                                 <span className="font-medium underline">Description :</span>
                                 <br />{category.description}</p>

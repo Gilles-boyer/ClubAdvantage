@@ -12,7 +12,7 @@ export default function ToastAlert({ toast, setToast, }) {
 
   return (
     <div className="toast toast-end">
-      <div className={`alert ${toast.type === 'success' ? 'alert-success' : 'alert-error'}`}>
+      <div className={`alert z-10 ${toast.type === 'success' ? 'alert-success' : 'alert-error'}`}>
         <span>{toast.message}</span>
       </div>
     </div>

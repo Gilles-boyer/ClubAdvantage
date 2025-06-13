@@ -61,7 +61,7 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle 
                                     <td className="px-4 py-2 font-medium">{committee.name}</td>
                                     <td className="px-4 py-2 font-medium text-center">
                                         <button
-                                            className={`badge badge-lg w-20 text-white ${committee.auto_renew ? "badge-info" : "badge-warning"
+                                            className={`badge badge-lg md:text-xs md:py-2 w-17 uppercase text-white ${committee.auto_renew ? "badge-info" : "badge-warning"
                                                 }`}
                                         >
                                             {committee.auto_renew ? "Actif" : "Inactif"}
@@ -114,7 +114,7 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle 
                                 {committee.auto_renew ? "Actif" : "Inactif"}
                             </button>
                         </div>
-                        <div className="card-body bg-white rounded-md">
+                        <div className="card-body bg-white border border-gray-200 rounded-md">
                             <div className="flex flex-col">
                                 <p className="text-sm">
                                     <span className="font-medium">Date de début : </span>
