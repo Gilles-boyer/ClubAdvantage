@@ -26,7 +26,6 @@ export default function UsersForm({ onAddUser, onEditUser, onCancel, setToggle }
     const [errorPSW, setErrorPSW] = useState('')
     const [errorStatus, setErrorStatus] = useState('')
     const [errorCSE, setErrorCSE] = useState('')
-    const [errorRole, setErrorRole] = useState('')
 
     useEffect(() => {
         if (onEditUser) {
@@ -268,17 +267,8 @@ export default function UsersForm({ onAddUser, onEditUser, onCancel, setToggle }
                                 <label htmlFor="committee" className="label">
                                     <span className="label-text">Définir le CSE</span>
                                 </label>
-                                <select className="select w-full" value={selectedCom === null ? "" : selectedCom}
-                                    onChange={(e) => {
-                                        const value = e.target.value;
-
-                                        if (value === "null") {
-                                            setSelectedCom(null);
-                                            setErrorCSE('Choisir une valeur pour le CSE !');
-                                        } else {
-                                            setSelectedCom(String(value));
-                                            setErrorCSE('');
-                                        }
+                                <select className="select w-full" value={selectedCom}
+                                    onChange={(e) => { setSelectedCom(e.target.value)
                                     }}
                                     onBlur={(e) => {
                                         if (e.target.value === "null") {
