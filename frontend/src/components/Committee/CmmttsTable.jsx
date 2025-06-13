@@ -7,8 +7,10 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle 
     const [currentPage, setCurrentPage] = useState(1)
     const [visibleCards, setVisibleCards] = useState(3)
 
+    const mobileView = committees.slice(0, visibleCards)
+    
+    // Desktop logic for pagination ↓
     const itemsPerPage = 6
-
     const filtered = committees.filter(com =>
         com.name.toLowerCase().includes(search.toLowerCase())
     );
@@ -27,6 +29,7 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle 
         if (currentPage < totalPages) setCurrentPage(currentPage + 1);
     };
 
+    // Function for formating date display from: yyyy-dd-mm  / to: dd-mm-yyyy
     const formatDate = (dateString) => {
         if (!dateString) return '';
 
@@ -34,7 +37,6 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle 
         return `${day}/${month}/${year}`;
     };
     
-    const mobileView = committees.slice(0, visibleCards)
     return (
         <>
             <div className="overflow-x-auto hidden md:block">
