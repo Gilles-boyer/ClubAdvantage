@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createHashRouter } from 'react-router-dom';
 import Home       from '../views/Home';
 import Profil     from '../views/Profil';
 import Login      from '../views/Login';
@@ -9,7 +9,7 @@ import Scan       from '../views/Scan';
 import Committee  from '../views/Committee';
 import Role       from '../views/Role';
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: '/login',
     element: <Login />,
@@ -29,5 +29,4 @@ const router = createBrowserRouter([
     ],
   },
 ]);
-
 export default router;
