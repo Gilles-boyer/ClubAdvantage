@@ -7,18 +7,18 @@ use App\Http\Resources\RoleResource;
 use App\Models\Role;
 
 class RoleController extends Controller {
-    public function index() {
+    // Les 4 rôles principaux qu’on ne doit pas modifier ou supprimer
+    private array $reserved = ['super_admin', 'staff', 'cse_admin', 'cse_member'];
 
+    public function index() {
         return RoleResource::collection(Role::all());
     }
 
     public function show(Role $role) {
-
         return new RoleResource($role);
     }
 
     public function store(RoleRequest $request) {
-
         $data = $request->validated();
 
         // ─── Interdit de créer un second super_admin ───
@@ -33,45 +33,40 @@ class RoleController extends Controller {
                 ], 403);
             }
         }
-        $role = Role::create($data);
 
+        $role = Role::create($data);
         return new RoleResource($role);
     }
 
     public function update(RoleRequest $request, Role $role) {
-
-        // Impossible de modifier l’entrée super_admin elle-même
-        if (strtolower($role->name) === 'super_admin') {
-
+        // Impossible de modifier l’un des rôles principaux
+        if (in_array(strtolower($role->name), $this->reserved, true)) {
             return response()->json([
-                'message' => 'Le rôle super_admin ne peut pas être modifié.'
+                'message' => 'Les rôles principaux ne peuvent pas être modifiés.'
             ], 403);
         }
 
-        // Interdit de transformer un autre rôle en super_admin
+        // Interdit de transformer un autre rôle en l’un des rôles principaux
         $incoming = $request->validated();
-
-        if (isset($incoming['name']) && strtolower($incoming['name']) === 'super_admin') {
-
+        if (isset($incoming['name']) && in_array(strtolower($incoming['name']), $this->reserved, true)) {
             return response()->json([
-                'message' => 'Impossible de renommer un rôle en super_admin.'
+                'message' => 'Impossible de renommer un rôle en l’un des rôles principaux.'
             ], 403);
         }
+        
         $role->update($incoming);
-
         return new RoleResource($role);
     }
 
     public function destroy(Role $role) {
-
-        if (strtolower($role->name) === 'super_admin') {
-
+        // Impossible de supprimer l’un des rôles principaux
+        if (in_array(strtolower($role->name), $this->reserved, true)) {
             return response()->json([
-                'message' => 'Le rôle super_admin ne peut pas être supprimé.'
+                'message' => 'Les rôles principaux ne peuvent pas être supprimés.'
             ], 403);
         }
-        $role->delete();
         
+        $role->delete();
         return response()->json(['message' => 'Role supprimée avec succès.'], 200);
     }
 }

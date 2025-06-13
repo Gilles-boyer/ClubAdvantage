@@ -9,7 +9,7 @@ return new class extends Migration {
         
         Schema::create('offers', function(Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('title')->unique();
             $table->text('description');
             $table->boolean('is_active')->default(true);
             $table->unsignedBigInteger('created_by')->nullable();
