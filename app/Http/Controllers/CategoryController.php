@@ -55,7 +55,7 @@ class CategoryController extends Controller {
         $category->delete();
 
         return response()->json([
-            'message' => 'Catégorie supprimée avec succès.'
+            'message' => "Catégorie « {$category->name} » supprimée avec succès."
         ], 200);
     }
 }

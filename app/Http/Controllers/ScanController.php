@@ -9,23 +9,18 @@ use App\Http\Resources\ScanResource;
 class ScanController extends Controller {
     // Liste tous les scans.
     public function index() {
-
         $scans = Scan::with(['scannedBy', 'scannedUser'])->get();
-
         return ScanResource::collection($scans);
     }
 
     // Affiche un scan en détail.
     public function show(Scan $scan) {
-
         $scan->load(['scannedBy', 'scannedUser']);
-
         return new ScanResource($scan);
     }
 
     // Crée un nouveau scan.
     public function store(ScanRequest $request) {
-
         $data = $request->validated();
         $scan = Scan::create([
             'user_id'     => $data['user_id'],
@@ -40,17 +35,18 @@ class ScanController extends Controller {
 
     //  Met à jour un scan existant.
     public function update(ScanRequest $request, Scan $scan) {
-
         $scan->update($request->validated());
+        $scan->load(['scannedBy', 'scannedUser']);
 
-        return new ScanResource($scan);
+        return response()->json([
+            'message' => 'Scan mis à jour avec succès.',
+            'data'    => new ScanResource($scan),
+        ], 200);
     }
 
     // Supprime un scan (soft delete).
     public function destroy(Scan $scan) {
-
         $scan->delete();
-        
-        return response()->json(['message' => 'Scan supprimé avec succès.']);
+        return response()->json(['message' => 'Scan supprimé avec succès.'],200);
     }
 }
