@@ -45,7 +45,7 @@ const Html5QrcodePlugin = (props) => {
     }, [props]);
 
     return (
-        <div id={qrcodeRegionId} className='w-100 flex flex-col mx-auto align-center'/>
+        <div id={qrcodeRegionId} className='w-80vw md:w-100 flex flex-col mx-auto rounded-md'/>
     );
 };
 

@@ -73,7 +73,7 @@ export default function Scans() {
             setToast({ show: true, message: "Erreur lors de la suppression du scan" })
         }
     }
-    
+
     return (
         <>
             <h1 className="text-2xl font-semibold text-center my-4">Scans enregistrés</h1>
@@ -83,7 +83,7 @@ export default function Scans() {
                     qrbox={250}
                     disableFlip={false}
                     qrCodeSuccessCallback={onNewScanResult}
-                />
+                 />
             </div>
             {scanSuccess && commttsList && dataOfUser && (
                 <section id="result-scan" className="card bg-accent w-80vw md:w-100 mx-auto card-xs shadow-xl p-3 border border-secondary">
