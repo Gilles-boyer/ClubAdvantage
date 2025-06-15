@@ -87,16 +87,17 @@ export default function ScanTable({ scans, onDelete }) {
                     </div>
                 </section>
             </div>
-            <article className="block md:hidden space-y-5">
+            {/* CARDS for devices < 768px */}
+            <article className="block md:hidden space-y-5 mt-15">
                 {mobileView.map((scan) => (
                     <div key={scan.id} className="card bg-accent w-80vw card-xs shadow-xl p-3 border border-secondary">
                         <h3 className="card-title font-medium pb-1 text-lg rounded ps-0.5">{scan.scanned_user_name}</h3>
                         <div className="card-body bg-white border border-gray-200 rounded-md">
                             <div className="flex flex-col">
                                 <p className="text-sm">
-                                    <span className="font-medium">Scanné par :</span>{scan.scanned_by_name}</p>
+                                    <span className="font-medium">Scanné par : </span>{scan.scanned_by_name}</p>
                                 <p className="text-sm">
-                                    <span className="font-medium">Date du scan</span>{scan.scanned_at}</p>
+                                    <span className="font-medium">Date du scan : </span>{scan.scanned_at}</p>
                             </div>
                             <div className="card-action flex space-x-2 mt-2">
                                 <div className="flex mt-0 md:mt-2 space-x-2">

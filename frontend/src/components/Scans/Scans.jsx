@@ -76,7 +76,6 @@ export default function Scans() {
 
     return (
         <>
-            <h1 className="text-2xl font-semibold text-center my-4">Scans enregistrés</h1>
             <div>
                 <Html5QrcodePlugin
                     fps={10}
