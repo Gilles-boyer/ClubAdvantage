@@ -48,9 +48,7 @@ export default function LoginForm() {
               onBlur={() => { }}
             />
           </div>
-          <button type="submit" className="btn btn-primary mt-5 uppercase text-xs">
-            Se Connecter
-          </button>
+          <Button type="submit" label={"se connecter"} className={"btn btn-primary mt-5 uppercase text-xs"}/>
           <Button path={"/"} className="btn-neutral text-white mt-5 py-2 px-3 rounded" label="Retour à l'accueil" onAction={handleHome} />
         </form>
       </div>

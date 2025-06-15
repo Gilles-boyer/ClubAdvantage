@@ -86,7 +86,7 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                 </div>
                 <div className="flex justify-evenly items-center mt-4">
                     <button
-                        className="btn btn-neutral"
+                        className="btn btn-neutral rounded-lg"
                         onClick={handlePrevious}
                         disabled={currentPage === 1}
                     >
@@ -96,7 +96,7 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                         Page {currentPage} sur {totalPages}
                     </span>
                     <button
-                        className="btn btn-neutral"
+                        className="btn btn-neutral rounded-lg"
                         onClick={handleNext}
                         disabled={currentPage === totalPages}
                     >
