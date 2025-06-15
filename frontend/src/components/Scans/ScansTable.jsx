@@ -1,6 +1,7 @@
 import { useState } from "react";
+import Button from "../Button";
 
-export default function ScanTable({ scans }) {
+export default function ScanTable({ scans, onDelete }) {
     const [search, setSearch] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
     const itemsPerPage = 5
@@ -35,24 +36,29 @@ export default function ScanTable({ scans }) {
                         setCurrentPage(1);
                     }}
                 />
-                <table className="table w-full">
-                    <thead>
-                        <tr className="bg-primary text-white">
-                            <th>Date</th>
-                            <th>Scanné par</th>
-                            <th>Utilisateur scanné</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {paginated.map((scan) => (
-                            <tr key={scan.id}>
-                                <td>{scan.scanned_at}</td>
-                                <td>{scan.scanned_by_name}</td>
-                                <td>{scan.scanned_user_name}</td>
+                <div className="overflow-x-auto border border-secondary rounded-xl bg-white">
+                    <table className="min-w-full text-left text-sm">
+                        <thead className="bg-primary text-white uppercase tracking-wider">
+                            <tr>
+                                <th className="px-4 py-2">Date</th>
+                                <th className="px-4 py-2">Scanné par</th>
+                                <th className="px-4 py-2">Utilisateur scanné</th>
+                                <th className="px-4 py-2">Actions</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {paginated.map((scan) => (
+                                <tr key={scan.id}
+                                    className="border-gray-300 border-t hover:bg-gray-100 transition-colors">
+                                    <td className="px-4 py-2">{scan.scanned_at}</td>
+                                    <td className="px-4 py-2">{scan.scanned_by_name}</td>
+                                    <td className="px-4 py-2">{scan.scanned_user_name}</td>
+                                    <td className="px-4 py-2"><Button action={'delete'} onAction={() => onDelete(scan.id)}/></td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
 
                 {/* 🔁 Contrôles de pagination */}
                 <div className="flex justify-evenly items-center mt-4">

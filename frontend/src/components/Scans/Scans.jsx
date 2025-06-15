@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchScans, listOfScans, addScanThunk } from "../../store/slices/scanSlice";
+import { fetchScans, listOfScans, addScanThunk, deleteScanThunk } from "../../store/slices/scanSlice";
 import { fetchUsers, listOfUsers } from "../../store/slices/userSlice";
 import { fetchUserById } from "../../services/usersService";
 // import ScansCamera from "./ScansCamera"; // Caméra HTML5
@@ -64,8 +64,16 @@ export default function Scans() {
             console.error("Erreur CREATE/UPDATE Offer:", err);
         }
     }
-
-
+    const handleDelete = async (id) => {
+        try {
+            await dispatch(deleteScanThunk(id)).unwrap
+            setToast({ show: true, message: "Scan supprimé avec succès !" })
+        } catch (err) {
+            console.log("Error on delete :", err);
+            setToast({ show: true, message: "Erreur lors de la suppression du scan" })
+        }
+    }
+    
     return (
         <>
             <h1 className="text-2xl font-semibold text-center my-4">Scans enregistrés</h1>
@@ -78,10 +86,10 @@ export default function Scans() {
                 />
             </div>
             {scanSuccess && commttsList && dataOfUser && (
-            <section id="result-scan" className="card bg-accent w-80vw md:w-100 mx-auto card-xs shadow-xl p-3 border border-secondary">
+                <section id="result-scan" className="card bg-accent w-80vw md:w-100 mx-auto card-xs shadow-xl p-3 border border-secondary">
                     <h3 className="card-title w-full justify-center rounded my-2">Informations Membre</h3>
                     <div className="card-body bg-white rounded text-sm">
-                        <div className="space-y-2"> 
+                        <div className="space-y-2">
                             <p>Nom : {dataOfUser.last_name}</p>
                             <p>Prénom : {dataOfUser.first_name}</p>
                         </div>
@@ -114,7 +122,7 @@ export default function Scans() {
                 </>
             )}
 
-            <ScansTable scans={scans} />
+            <ScansTable scans={scans} onDelete={handleDelete} />
 
             <ToastAlert toast={toast} setToast={setToast} />
         </>
