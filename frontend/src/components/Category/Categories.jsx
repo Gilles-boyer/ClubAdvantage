@@ -9,7 +9,7 @@ import {
 import ToastAlert from "../ToastAlert.jsx";
 import Button from "../Button.jsx";
 
-export default function Categories() {
+export default function Categories({ref}) {
     const dispatch = useDispatch();
     const categories = useSelector(listOfCategories);
     const [toUpCategory, setToUpCategory] = useState(null);
@@ -68,9 +68,10 @@ export default function Categories() {
         }
     };
 
+
     return (
         <>
-            <div className="flex items-center gap-6 mt-5 mb-4">
+            <div className="flex items-center gap-6 mt-5 mb-4" ref={ref}>
                 <div className="flex-grow border-t border-neutral"></div>
                 <h2 className="text-2xl font-semibold text-gray-700">Catégories</h2>
                 <div className="flex-grow border-t border-neutral"></div>
