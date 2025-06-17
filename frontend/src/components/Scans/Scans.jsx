@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchScans, listOfScans, addScanThunk, deleteScanThunk } from "../../store/slices/scanSlice";
+import { fetchScans, listOfScans, addScanThunk} from "../../store/slices/scanSlice";
 import { fetchUsers, listOfUsers } from "../../store/slices/userSlice";
 import { fetchUserById } from "../../services/usersService";
 // import ScansCamera from "./ScansCamera"; // Caméra HTML5
@@ -64,15 +64,7 @@ export default function Scans() {
             console.error("Erreur CREATE/UPDATE Offer:", err);
         }
     }
-    const handleDelete = async (id) => {
-        try {
-            await dispatch(deleteScanThunk(id)).unwrap
-            setToast({ show: true, message: "Scan supprimé avec succès !" })
-        } catch (err) {
-            console.log("Error on delete :", err);
-            setToast({ show: true, message: "Erreur lors de la suppression du scan" })
-        }
-    }
+
 
     return (
         <>
@@ -110,7 +102,7 @@ export default function Scans() {
                                     user_id: dataOfUser.id,
                                     scanned_by: 2,
                                     scanned_user_name: `${dataOfUser.first_name} ${dataOfUser.last_name}`,
-                                    scanned_at: new Date().toISOString(),
+                                    scanned_at: new Date().toISOString().slice(0, 10),
                                 })
                             }}
                             className="btn btn-outline btn-sm"
@@ -121,7 +113,7 @@ export default function Scans() {
                 </>
             )}
 
-            <ScansTable scans={scans} onDelete={handleDelete} />
+            <ScansTable scans={scans} />
 
             <ToastAlert toast={toast} setToast={setToast} />
         </>

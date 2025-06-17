@@ -1,8 +1,7 @@
 import { useState } from "react";
-import Button from "../Button";
 import MobilePagination from "../mobilePagination";
 
-export default function ScanTable({ scans, onDelete }) {
+export default function ScanTable({ scans }) {
     const [search, setSearch] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
     const itemsPerPage = 5
@@ -25,6 +24,9 @@ export default function ScanTable({ scans, onDelete }) {
     const handleNext = () => {
         if (currentPage < totalPages) setCurrentPage(currentPage + 1);
     };
+    const dateSlice = (date) =>{
+       return date.slice(0, 10)
+    }
 
     const mobileView = scans.slice(0, visibleCards)
     return (
@@ -48,17 +50,15 @@ export default function ScanTable({ scans, onDelete }) {
                                     <th className="px-4 py-2">Date</th>
                                     <th className="px-4 py-2">Scanné par</th>
                                     <th className="px-4 py-2">Utilisateur scanné</th>
-                                    <th className="px-4 py-2">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {paginated.map((scan) => (
                                     <tr key={scan.id}
                                         className="border-gray-300 border-t hover:bg-gray-100 transition-colors">
-                                        <td className="px-4 py-2">{scan.scanned_at}</td>
+                                        <td className="px-4 py-2">{dateSlice(scan.scanned_at)}</td>
                                         <td className="px-4 py-2">{scan.scanned_by_name}</td>
                                         <td className="px-4 py-2">{scan.scanned_user_name}</td>
-                                        <td className="px-4 py-2"><Button action={'delete'} onAction={() => onDelete(scan.id)} /></td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -99,13 +99,6 @@ export default function ScanTable({ scans, onDelete }) {
                                 <p className="text-sm">
                                     <span className="font-medium">Date du scan : </span>{scan.scanned_at}</p>
                             </div>
-                            <div className="card-action flex space-x-2 mt-2">
-                                <div className="flex mt-0 md:mt-2 space-x-2">
-                                    <Button action={'delete'} onAction={() => { onDelete(scan.id) }} />
-                                </div>
-                            </div>
-
-
                         </div>
                     </div>
                 ))}

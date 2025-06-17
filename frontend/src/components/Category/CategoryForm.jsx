@@ -100,8 +100,9 @@ export default function CategoryForm({ onAddCategory, onEditUpCat, onCancelEdit,
                   id: "descriptionCategory",
                   name: "descriptionCategory",
                   type: "text",
-                  className: "input input-bordered w-full",
-                  placeholder: "Entrez le description de la catégorie"
+                  className: "input input-bordered w-full whitespace-pre-wrap break-words resize-y",
+                  placeholder: "Entrez le description de la catégorie",
+                  cols: '100'
                 }}
                 value={description}
                 onChange={(value) => setDescription(value)}

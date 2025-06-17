@@ -199,7 +199,7 @@ export default function UsersForm({ onAddUser, onEditUser, onCancel, setToggle }
                             </div>
 
                             {/* PASSWORD SECTION */}
-                            <div className="form-control mb-4 col-span-4">
+                            {!onEditUser && (<div className="form-control mb-4 col-span-4">
                                 <label htmlFor="firstName" className="label">
                                     <span className="label-text">Mot De Passe</span>
                                 </label>
@@ -228,7 +228,7 @@ export default function UsersForm({ onAddUser, onEditUser, onCancel, setToggle }
                                         {errorPSW}
                                     </div>
                                 )}
-                            </div>
+                            </div>)}
                         </div>
 
                         {/* STATUS SECTION */}

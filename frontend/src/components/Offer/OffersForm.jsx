@@ -117,8 +117,9 @@ export default function OfferForm({ onAddOffer, onEditOffer, setToggle, onCancel
                     id: "descriptionOffer",
                     name: "descriptionOffer",
                     type: "text",
-                    className: "input input-bordered w-full",
-                    placeholder: "Ajoutze la description de l'offre"
+                    className: "input input-bordered w-full whitespace-pre-wrap break-words resize-y",
+                    placeholder: "Ajoutez la description de l'offre",
+                    cols: '100'
                   }}
                   value={description}
                   onChange={(value) => setDescription(value)}
