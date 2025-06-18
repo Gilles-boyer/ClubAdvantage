@@ -125,7 +125,7 @@ export default function CategoryForm({ onAddCategory, onEditUpCat, onCancelEdit,
             {/* STATUS SECTION */}
             <div className="form-control mb-4">
               <label htmlFor="descriptionOffer" className="label">
-                <span className="label-text">Sélectionnez un statut</span>
+                <span className="label-text">Activer la Catégorie</span>
               </label>
               <select
                 className="select w-full"
@@ -135,7 +135,7 @@ export default function CategoryForm({ onAddCategory, onEditUpCat, onCancelEdit,
 
                   if (value === "null") {
                     setStatus(null);
-                    setErrorSelect('Choisir une valeur pour le statut !');
+                    setErrorSelect('Choisir une valeur !');
                   } else {
                     setStatus(parseInt(value, 10));
                     setErrorSelect('');
@@ -143,7 +143,7 @@ export default function CategoryForm({ onAddCategory, onEditUpCat, onCancelEdit,
                 }}
                 onBlur={(e) => {
                   if (e.target.value === "null") {
-                    setErrorSelect('Choisir une valeur pour le statut !');
+                    setErrorSelect('Choisir une valeur !');
                   }
                 }}
               >
