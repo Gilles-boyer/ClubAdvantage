@@ -2,19 +2,23 @@ import { useState, useEffect } from "react";
 import Icon from '@mdi/react';
 import { mdilAlert } from '@mdi/light-js';
 import { Textbox } from "react-inputs-validation";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css"
+import DatePicker, { registerLocale } from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import fr from "date-fns/locale/fr";
 import Button from "../Button";
+
+// Enregistre la locale française pour react-datepicker
+registerLocale("fr", fr);
 
 export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt, setToggle, onCancel }) {
     const [name, setName] = useState("");
     const [autoRenew, setAutoRenew] = useState(null);
     const [errorName, setErrorName] = useState(null);
-    const [errorSelect, setErrorSelect] = useState('')
-    const [startDate, setStartDate] = useState(""); // édition uniquement
-    const [endDate, setEndDate] = useState("");     // édition uniquement
-    const [startDateErr, setStartDateErr] = useState("")
-    const [endDateErr, setEndDateErr] = useState()
+    const [errorSelect, setErrorSelect] = useState("");
+    const [startDate, setStartDate] = useState(null); // édition uniquement
+    const [endDate, setEndDate] = useState(null);     // édition uniquement
+    const [startDateErr, setStartDateErr] = useState("");
+    const [endDateErr, setEndDateErr] = useState("");
     // const [newDate, setNewDate ]= useState(new Date().toISOString().slice(0, 10))
 
     useEffect(() => {
@@ -52,9 +56,7 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt, setToggle
 
         if (onEditUpCmmtt?.id !== undefined) {
             newCommittee.id = onEditUpCmmtt.id;
-        } else {
-            newCommittee
-        }
+    }
 
         onAddCommittee(newCommittee);
         reset();
@@ -66,6 +68,8 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt, setToggle
         setAutoRenew(null);
         setStartDate(null);
         setEndDate(null);
+        setErrorName('');
+        setErrorSelect('');
         setStartDateErr('');
         setEndDateErr('');
     };
@@ -94,12 +98,12 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt, setToggle
                                     placeholder: "Nom du CSE"
                                 }}
                                 value={name}
-                                onChange={(value) => setName(value)}
+                                onChange={setName}
                                 onBlur={(e) => {
-                                    if (!e.target.value.trim()) return setErrorName('Le Nom ne peut pas être vide !');
-                                    if (e.target.value.length > 255) return setErrorName('Le Nom ne doit pas dépasser 255 caractères !');
-                                    if (typeof e.target.value !== "string") return setErrorName('Le Nom doit être une chaine de caractères !');
-                                    if(e.target.value.trim()) return setErrorName('')
+                                        const v = e.target.value.trim();
+                                    if (!v) setErrorName('Le Nom ne peut pas être vide !');
+                                    else if (v.length > 255) setErrorName('Le Nom ne doit pas dépasser 255 caractères !');
+                                    else setErrorName('');
                                 }}
                             />
                             {errorName && (
@@ -147,7 +151,7 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt, setToggle
                             )}
                         </div>
 
-
+                        {/* Dates (édition uniquement) */}
                         {onEditUpCmmtt && (
                             <>
                                 <div className="form-control mb-4 flex flex-col">
@@ -158,40 +162,66 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt, setToggle
                                     <DatePicker
                                         selected={startDate}
                                         onChange={(date) => setStartDate(date)}
+                                        locale="fr"
+                                        dateFormat="dd/MM/yyyy"
+                                        placeholderText="JJ/MM/AAAA"
                                         className="input w-full text-center"
-                                        onBlur={(e) => {
-                                            if (new Date(e.target.value) > new Date(endDate)) return setStartDateErr('La date de début ne peut pas être supérieure à la date de fin !');
-                                        }} />
-
-                                    {startDateErr && <div className="flex w-100 mx-auto justify-center text-red-700 mt-3"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{startDateErr}</p></div>}
+                                        onBlur={() => {
+                                            if (startDate && endDate && startDate > endDate) {
+                                                setStartDateErr('La date de début ne peut pas être supérieure à la date de fin !');
+                                            } else {
+                                                setStartDateErr('');
+                                            }
+                                        }}
+                                    />
+                                    {startDateErr && (
+                                        <div className="flex w-100 mx-auto justify-center text-red-700 mt-3">
+                                            <Icon path={mdilAlert} size={1} />
+                                            <p className="ps-2 text-sm">{startDateErr}</p>
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className="form-control mb-4 flex flex-col">
                                     <label className="label">
-                                        <span className="label-text text-center w-full me-6">Date de fin de l'accord</span>
+                                        <span className="label-text text-center w-full">Date de fin de l'accord</span>
                                     </label>
 
                                     <DatePicker
                                         selected={endDate}
                                         onChange={(date) => setEndDate(date)}
+                                        locale="fr"
+                                        dateFormat="dd/MM/yyyy"
+                                        placeholderText="JJ/MM/AAAA"
                                         className="input w-full text-center"
-                                        onBlur={(e) => {
-                                            if (new Date(e.target.value) < new Date(startDate)) return setEndDateErr('La date de fin ne peut pas être inférieur à la date de début !');
-                                        }} />
-                                    {endDateErr && <div className="flex w-100 mx-auto justify-center text-red-700 mt-3"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{endDateErr}</p></div>}
+                                        onBlur={() => {
+                                            if (startDate && endDate && endDate < startDate) {
+                                                setEndDateErr('La date de fin ne peut pas être inférieure à la date de début !');
+                                            } else {
+                                                setEndDateErr('');
+                                            }
+                                        }}
+                                    />
+                                    {endDateErr && (
+                                        <div className="flex w-100 mx-auto justify-center text-red-700 mt-3">
+                                            <Icon path={mdilAlert} size={1} />
+                                            <p className="ps-2 text-sm">{endDateErr}</p>
+                                        </div>
+                                    )}
                                 </div>
                             </>
                         )}
 
                         {/* Bouton */}
-                        <Button type="submit" label={'valider'} className={'btn-neutral'} />
-                        <Button label={'annuler'} onAction={() => {
+                        <Button type="submit" label="valider" className="btn-neutral" />
+                        <Button label="annuler" onAction={() => {
                             reset();
                             setToggle(false);
-                            onCancel()
-                        }} className={'btn-error'} />
+                            onCancel();
+                        }} className="btn-error" />
                     </form>
                 </div>
             </div>
-        </>);
+        </>
+    );
 }
