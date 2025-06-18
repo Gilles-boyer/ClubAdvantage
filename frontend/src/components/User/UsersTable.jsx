@@ -78,7 +78,7 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
                         </tbody>
                     </table>
                 </div>
-                <div className="flex justify-evenly items-center mt-4">
+                {users.length > 1 && (<div className="flex justify-evenly items-center mt-4">
                     <button
                         className="btn btn-neutral"
                         onClick={handlePrevious}
@@ -96,7 +96,7 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
                     >
                         Suivant
                     </button>
-                </div>
+                </div>)}
             </div>
             {/* Cards pour les écrans de téléphones */}
             <article className="block md:hidden space-y-5">

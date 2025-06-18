@@ -73,7 +73,7 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                         </tbody>
                     </table>
                 </div>
-                <div className="flex justify-evenly items-center mt-4">
+                {categories.length > 1 && (<div className="flex justify-evenly items-center mt-4">
                     <button
                         className="btn btn-secondary"
                         onClick={handlePrevious}
@@ -91,7 +91,7 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                     >
                         Suivant
                     </button>
-                </div>
+                </div>)}
             </div >
             <article className="block md:hidden space-y-5">
                 {mobileView.map((category) => (

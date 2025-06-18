@@ -89,7 +89,7 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle 
                         </tbody>
                     </table>
                 </div>
-                <div className="flex justify-evenly items-center mt-4">
+                {committees.length > 1 && (<div className="flex justify-evenly items-center mt-4">
                     <button
                         className="btn btn-neutral"
                         onClick={handlePrevious}
@@ -107,7 +107,7 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle 
                     >
                         Suivant
                     </button>
-                </div>
+                </div>)}
             </div>
             <article className="block md:hidden space-y-5">
                 {mobileView.map((committee) => (

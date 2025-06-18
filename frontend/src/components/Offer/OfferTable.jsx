@@ -84,7 +84,7 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                         </tbody>
                     </table>
                 </div>
-                <div className="flex justify-evenly items-center mt-4">
+                {offers.length > 1 && (<div className="flex justify-evenly items-center mt-4">
                     <button
                         className="btn btn-neutral rounded-lg"
                         onClick={handlePrevious}
@@ -102,7 +102,7 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                     >
                         Suivant
                     </button>
-                </div>
+                </div>)}
             </div >
 
             {/* Cards pour les téléphones */}

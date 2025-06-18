@@ -66,7 +66,7 @@ export default function ScanTable({ scans }) {
                     </div>
 
                     {/* 🔁 Contrôles de pagination */}
-                    <div className="flex justify-evenly items-center mt-4">
+                    {scans.length > 1 && (<div className="flex justify-evenly items-center mt-4">
                         <button
                             className="btn btn-neutral"
                             onClick={handlePrevious}
@@ -84,7 +84,7 @@ export default function ScanTable({ scans }) {
                         >
                             Suivant
                         </button>
-                    </div>
+                    </div>)}
                 </section>
             </div>
             {/* CARDS for devices < 768px */}
