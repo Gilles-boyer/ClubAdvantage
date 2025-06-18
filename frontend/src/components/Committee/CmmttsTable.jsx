@@ -2,13 +2,13 @@ import { useState } from "react";
 import Button from "../Button";
 import MobilePagination from "../mobilePagination";
 
-export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle }) {
+export default function CmmttsTable({ committees, onUpdate, onUpStatus, onDelete, setToggle }) {
     const [search, setSearch] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
     const [visibleCards, setVisibleCards] = useState(3)
 
     const mobileView = committees.slice(0, visibleCards)
-    
+
     // Desktop logic for pagination ↓
     const itemsPerPage = 6
     const filtered = committees.filter(com =>
@@ -36,7 +36,7 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle 
         const [year, month, day] = dateString.split('-');
         return `${day}/${month}/${year}`;
     };
-    
+
     return (
         <>
             <div className="overflow-x-auto hidden md:block">
@@ -58,6 +58,7 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle 
                                 <th className="px-4 py-2">Renouvellement Auto</th>
                                 <th className="px-4 py-2">Date début inscription</th>
                                 <th className="px-4 py-2">Date fin d'inscirption</th>
+                                <th className="px-4 py-2">Statut</th>
                                 <th className="px-4 py-2">Action</th>
                             </tr>
                         </thead>
@@ -77,6 +78,15 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle 
                                         </button></td>
                                     <td className="px-4 py-2 font-medium text-center">{formatDate(committee.agreement_start_date)}</td>
                                     <td className="px-4 py-2 font-medium text-center">{formatDate(committee.agreement_end_date)}</td>
+                                    <td className="px-4 py-2 font-medium text-center">
+                                        <button
+                                            onClick={() => onUpStatus(committee.id)}
+                                            className={`badge badge-md me-2 hover:cursor-pointer font-medium uppercase ${committee.is_active ? "badge-info" : "badge-warning"
+                                                }`}
+                                        >
+                                            {committee.is_active ? "Actif" : "Inactif"}
+                                        </button>
+                                    </td>
                                     <td className="px-4 py-2 space-x-2 bg-accent">
                                         <Button action={'update'} onAction={() => {
                                             setToggle(true),
@@ -89,7 +99,7 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle 
                         </tbody>
                     </table>
                 </div>
-                <div className="flex justify-evenly items-center mt-4">
+                {committees.length > 1 && (<div className="flex justify-evenly items-center mt-4">
                     <button
                         className="btn btn-neutral"
                         onClick={handlePrevious}
@@ -107,7 +117,7 @@ export default function CmmttsTable({ committees, onUpdate, onDelete, setToggle 
                     >
                         Suivant
                     </button>
-                </div>
+                </div>)}
             </div>
             <article className="block md:hidden space-y-5">
                 {mobileView.map((committee) => (

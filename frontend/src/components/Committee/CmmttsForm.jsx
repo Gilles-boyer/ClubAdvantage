@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Icon from '@mdi/react';
-import { mdilAlert } from '@mdi/light-js';
+import { mdilAlert,  mdilAlertCircle } from '@mdi/light-js';
 import { Textbox } from "react-inputs-validation";
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -74,6 +74,7 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt, setToggle
         setEndDateErr('');
     };
 
+
     return (
         <>
 
@@ -83,7 +84,9 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt, setToggle
                 </h3>
                 <div className="p-5 mx-auto rounded">
                     <form onSubmit={handleSubmit} className="space-x-2 mt-4 text-center">
-
+                    {onEditUpCmmtt && (<p className="flex text-red-400 justify-center mb-6">
+                        <Icon path={mdilAlertCircle} size={1} />
+                        Appuyez sur annuler si vous souhaitez annuler la saisie</p>)}
                         {/* Champ nom */}
                         <div className="form-control mb-4">
                             <label htmlFor="nameCommittee" className="label">

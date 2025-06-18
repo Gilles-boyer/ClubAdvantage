@@ -5,10 +5,12 @@ import UsersTable from "./UsersTable";
 import { addUserThunk, fetchUsers, listOfUsers, updateUserThunk, deleteUserThunk } from "../../store/slices/userSlice";
 import ToastAlert from './../ToastAlert'
 import Button from "../Button";
+import { listOfCommittees } from "../../store/slices/CommitteeSlice";
 
 export default function Users() {
     const dispatch = useDispatch();
     const users = useSelector(listOfUsers)
+    const committees = useSelector(listOfCommittees)
     const [updtUser, setUpdtUser] = useState(null)
     const [toggle, setToggle] = useState(false)
     const [toast, setToast] = useState('')
@@ -66,12 +68,14 @@ export default function Users() {
                         className={'btn-neutral hover:btn-secondary mb-2 md:mb-0'} />
                 </div>
                 {toggle && (
-                        <UsersForm
-                            onAddUser={handleAdd}
-                            onEditUser={updtUser}
-                            setToggle={setToggle}
-                            onCancel={canceledEdit} />)}
+                    <UsersForm
+                        committees={committees}
+                        onAddUser={handleAdd}
+                        onEditUser={updtUser}
+                        setToggle={setToggle}
+                        onCancel={canceledEdit} />)}
                 <UsersTable users={users}
+                    committees={committees}
                     onUpdate={handleToUpdate}
                     onDelete={handleDelete}
                     setToggle={setToggle} />

@@ -2,22 +2,26 @@ import Button from "../Button"
 import { useState } from "react"
 import MobilePagination from "../mobilePagination"
 import StatusBadge from "./StatusBadge"
+import FilterByCmmtts from "./FilterByCmmtts"
 
-export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEditMode }) {
+export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEditMode, committees }) {
+    const commtts = committees
     const [search, setSearch] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
     const [visibleCards, setVisibleCards] = useState(3)
     const itemsPerPage = 6
+    // const [selectedCom, setSelectedCom] = useState(null)
 
     const filtered = users.filter(us =>
-        (us?.last_name + ' ' + us?.first_name + ' ' + us?.email).toLowerCase().includes(search.toLowerCase())
-    );
+                (us?.last_name + ' ' + us?.first_name + ' ' + us?.email).toLowerCase().includes(search.toLowerCase()))
 
     const totalPages = Math.ceil(filtered.length / itemsPerPage);
     const paginated = filtered.slice(
         (currentPage - 1) * itemsPerPage,
         currentPage * itemsPerPage
     );
+    console.log('Id du CSE sélectionné :', commtts);
+
 
     const handlePrevious = () => {
         if (currentPage > 1) setCurrentPage(currentPage - 1);
@@ -41,6 +45,7 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
                         setCurrentPage(1);
                     }}
                 />
+                {/* <FilterByCmmtts committees={commtts} selectedCom={selectedCom} setSelectedCom={setSelectedCom} /> */}
                 <div className="overflow-x-auto border border-secondary rounded-xl bg-white">
                     <table className="min-w-full text-left text-sm ">
                         <thead className="bg-primary text-white uppercase tracking-wider">
@@ -63,9 +68,9 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
                                     <td className="px-4 py-2 font-medium">{user.last_name}</td>
                                     <td className="px-4 py-2">{user.first_name}</td>
                                     <td className="px-4 py-2">{user.email}</td>
-                                    <td className="px-4 py-2"key={user.committee_id}>{user.committee_name}</td>
+                                    <td className="px-4 py-2" key={user.committee_id}>{user.committee_name}</td>
                                     <td className="px-4 py-2">{user.role_name}</td>
-                                    <td className="px-4 py-2"><StatusBadge status={user.status}/></td>
+                                    <td className="px-4 py-2"><StatusBadge status={user.status} /></td>
                                     <td className="px-4 py-2 space-x-2 bg-accent">
                                         <Button action={'update'} onAction={() => {
                                             setToggle(true),
@@ -78,7 +83,7 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
                         </tbody>
                     </table>
                 </div>
-                <div className="flex justify-evenly items-center mt-4">
+                {users.length > 1 && (<div className="flex justify-evenly items-center mt-4">
                     <button
                         className="btn btn-neutral"
                         onClick={handlePrevious}
@@ -96,7 +101,7 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
                     >
                         Suivant
                     </button>
-                </div>
+                </div>)}
             </div>
             {/* Cards pour les écrans de téléphones */}
             <article className="block md:hidden space-y-5">
@@ -104,7 +109,7 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
                     <div key={user.id} className="card bg-accent w-80vw card-xs shadow-xl p-3 border border-secondary">
                         <div className="flex justify-between mb-3">
                             <div className="badge badge-neutral font-medium text-white">{user.role_name}</div>
-                                <StatusBadge status={user.status}/>
+                            <StatusBadge status={user.status} />
                         </div>
                         <h3 className="card-title font-medium pb-1 text-lg rounded ps-0.5">{user.last_name} {user.first_name}</h3>
                         <div className="card-body bg-white border border-gray-200 rounded-md">
@@ -116,13 +121,13 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
                             </div>
                             <div className="card-action flex space-x-2 mt-2">
                                 <div className="flex mt-0 md:mt-2 space-x-2">
-                                    <Button action={'update'} 
-                                    href={"#userForm"}
-                                    onAction={() => {
-                                        setToggle(true);
-                                        onUpdate(user);
-                                        setEditMode(true);
-                                    }} />
+                                    <Button action={'update'}
+                                        href={"#userForm"}
+                                        onAction={() => {
+                                            setToggle(true);
+                                            onUpdate(user);
+                                            setEditMode(true);
+                                        }} />
                                     <Button action={'delete'} onAction={() => { onDelete(user.id) }} />
                                 </div>
                             </div>
@@ -131,7 +136,7 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
                         </div>
                     </div>
                 ))}
-                < MobilePagination object={users} visibleCards={visibleCards} setVisibleCards={setVisibleCards}/>
+                < MobilePagination object={users} visibleCards={visibleCards} setVisibleCards={setVisibleCards} />
             </article>
         </>
     )

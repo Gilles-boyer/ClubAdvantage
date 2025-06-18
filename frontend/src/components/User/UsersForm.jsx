@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { Textbox } from "react-inputs-validation";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCmmtts, listOfCommittees } from "../../store/slices/CommitteeSlice";
+import { fetchCmmtts } from "../../store/slices/CommitteeSlice";
 import { fetchRoles, listOfRoles } from "../../store/slices/rolesSlice";
+import Icon from '@mdi/react';
+import { mdilAlertCircle } from '@mdi/light-js';
 import Button from "../Button";
 
-export default function UsersForm({ onAddUser, onEditUser, onCancel, setToggle }) {
+export default function UsersForm({ onAddUser, onEditUser, onCancel, setToggle, committees }) {
     const dispatch = useDispatch()
-    const cmmtts = useSelector(listOfCommittees)
+    const cmmtts = committees
     const roles = useSelector(listOfRoles)
 
     // FIELDS VALUES & STATES
@@ -91,6 +93,9 @@ export default function UsersForm({ onAddUser, onEditUser, onCancel, setToggle }
                 <h3 className="font-poppins text-center py-1 text-lg text-white font-medium bg-primary">Ajouter un utilisateur</h3>
                 <div className="p-5 mx-auto rounded">
                     <form onSubmit={handleSubmit} className="space">
+                        {onEditUser && (<p className="flex text-red-400 justify-center mb-6">
+                            <Icon path={mdilAlertCircle} size={1} />
+                            Appuyez sur annuler si vous souhaitez annuler la saisie</p>)}
                         <div className="grid md:grid-cols-4 gap-3">
 
                             {/* LAST NAME SECTION */}
@@ -211,6 +216,7 @@ export default function UsersForm({ onAddUser, onEditUser, onCancel, setToggle }
                                         className: "input input-bordered w-full",
                                         placeholder: "Insérez le mot de passe"
                                     }}
+                                    
                                     value={password}
                                     onChange={(value) => setPassword(value)}
                                     onBlur={(e) => {
@@ -271,7 +277,8 @@ export default function UsersForm({ onAddUser, onEditUser, onCancel, setToggle }
                                     <span className="label-text">Définir le CSE</span>
                                 </label>
                                 <select className="select w-full" value={selectedCom}
-                                    onChange={(e) => { setSelectedCom(e.target.value)
+                                    onChange={(e) => {
+                                        setSelectedCom(e.target.value)
                                     }}
                                     onBlur={(e) => {
                                         if (e.target.value === "null") {
@@ -295,8 +302,8 @@ export default function UsersForm({ onAddUser, onEditUser, onCancel, setToggle }
                                 <label htmlFor="role" className="label">
                                     <span className="label-text">Définir le Role</span>
                                 </label>
-                                <select className="select w-full" value={selectedRole === null ? "" : selectedRole} 
-                                onChange={(e) => setSelectedRole(e.target.value)}>
+                                <select className="select w-full" value={selectedRole === null ? "" : selectedRole}
+                                    onChange={(e) => setSelectedRole(e.target.value)}>
                                     <option value="null">Choisir un Role</option>
                                     {roles.map((r) => (
                                         <option key={r.id} value={r.id}>{r.name}</option>

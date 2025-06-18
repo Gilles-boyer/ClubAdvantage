@@ -1,7 +1,10 @@
 import Button from "../Button"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
 import MobilePagination from "../mobilePagination"
+import FilterByCategories from "./FIlterByCat"
+import { useDispatch, useSelector } from "react-redux"
+import { listOfCategories, fetchCategories } from "../../store/slices/categorySlice"
 
 
 export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, setToggle }) {
@@ -10,10 +13,21 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
     const [visibleCards, setVisibleCards] = useState(3)
     const itemsPerPage = 6
     const location = useLocation()
+    const [selectedCat, setSelectedCat] = useState('')
+    const dispatch = useDispatch()
+    const categories = useSelector(listOfCategories)
 
-    const filtered = offers.filter(off =>
-        (off.title + " " + off.description + " " + off.category_name).toLowerCase().includes(search.toLowerCase())
-    );
+    useEffect(() => {
+        dispatch(fetchCategories())
+    }, [dispatch])
+
+    const filtered = offers.filter(off => {
+        const searchMatch = (off.title + " " + off.description + " " + off.category_name).toLowerCase().includes(search.toLowerCase())
+        const cmmttMatch = (selectedCat === '' || off.category_id === selectedCat)
+
+        return searchMatch && cmmttMatch
+    });
+
     const isStaffPage = location.pathname === '/offers'
     const totalPages = Math.ceil(filtered.length / itemsPerPage);
     const paginated = filtered.slice(
@@ -30,6 +44,12 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
     };
 
     const mobileView = offers.slice(0, visibleCards)
+
+    const clearFilters = () => {
+        setSearch('')
+        setSelectedCat('')
+    }
+
     return (
         <>
             <div className="overflow-x-auto hidden md:block">
@@ -43,6 +63,8 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                         setCurrentPage(1);
                     }}
                 />
+                < FilterByCategories catList={categories} selectedCat={selectedCat} setSelectedCat={setSelectedCat} />
+                {(filtered.length !== offers.length) && (<Button label={'annuler les filtres'} onAction={clearFilters} className={'btn-warning text-white'} />)}
                 <div className="overflow-x-auto border border-secondary rounded-xl bg-white">
                     <table className="min-w-full text-left text-sm">
                         <thead className="bg-primary text-white uppercase tracking-wider">
@@ -84,7 +106,7 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                         </tbody>
                     </table>
                 </div>
-                <div className="flex justify-evenly items-center mt-4">
+                {offers.length > 1 && (<div className="flex justify-evenly items-center mt-4">
                     <button
                         className="btn btn-neutral rounded-lg"
                         onClick={handlePrevious}
@@ -102,7 +124,7 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                     >
                         Suivant
                     </button>
-                </div>
+                </div>)}
             </div >
 
             {/* Cards pour les téléphones */}
@@ -130,11 +152,11 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                             {isStaffPage && <> <div className="card-action flex space-x-2 mt-2">
                                 <div className="flex mt-0 md:mt-2 space-x-2">
                                     <Button action={'update'}
-                                    href={"#offersForm"}
-                                    onAction={() => {
-                                        setToggle(true),
-                                            onUpdate(offer)
-                                    }} />
+                                        href={"#offersForm"}
+                                        onAction={() => {
+                                            setToggle(true),
+                                                onUpdate(offer)
+                                        }} />
                                     <Button action={'delete'} onAction={() => { onDelete(offer.id) }} />
                                 </div>
                             </div>
@@ -144,7 +166,7 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                         </div>
                     </div>
                 ))}
-                <MobilePagination object={offers} visibleCards={visibleCards} setVisibleCards={setVisibleCards}/>
+                <MobilePagination object={offers} visibleCards={visibleCards} setVisibleCards={setVisibleCards} />
             </article>
         </>
     )
