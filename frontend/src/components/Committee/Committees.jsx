@@ -54,6 +54,20 @@ export default function Committees() {
         }
     };
 
+        const handleStatus = async (id) => {
+            try {
+                const committee = committees.find(cat => cat.id === id);
+                if (!committee) return;
+                const updated = { ...committee, is_active: !committee.is_active };
+                await dispatch(updateCmmttThunk({ id, data: updated })).unwrap();
+                setToast({ show: true, message: "Statut modifié avec succès", type: "success" });
+            } catch (err) {
+                console.log("Erreur on UPDATE Category status :", err);
+                setToast({ show: true, message: "Erreur lors de la modification du statut", type: "error" });
+    
+            }
+        };
+
     return (
         <>
             <div className="flex items-center gap-6 mt-5 mb-4">
@@ -78,6 +92,7 @@ export default function Committees() {
                 < CmmttsTable
                     committees={committees}
                     onUpdate={handleUpdate}
+                    onUpStatus={handleStatus}
                     onDelete={handleDelete}
                     setToggle={setToggle}
                 />
