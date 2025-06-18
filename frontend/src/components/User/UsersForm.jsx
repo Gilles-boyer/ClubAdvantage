@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Textbox } from "react-inputs-validation";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCmmtts, listOfCommittees } from "../../store/slices/CommitteeSlice";
+import { fetchCmmtts } from "../../store/slices/CommitteeSlice";
 import { fetchRoles, listOfRoles } from "../../store/slices/rolesSlice";
 import Button from "../Button";
 
-export default function UsersForm({ onAddUser, onEditUser, onCancel, setToggle }) {
+export default function UsersForm({ onAddUser, onEditUser, onCancel, setToggle, committees }) {
     const dispatch = useDispatch()
-    const cmmtts = useSelector(listOfCommittees)
+    const cmmtts = committees
     const roles = useSelector(listOfRoles)
 
     // FIELDS VALUES & STATES
