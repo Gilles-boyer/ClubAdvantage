@@ -1,18 +1,29 @@
 import Button from "../Button";
 import { useState } from "react";
 import MobilePagination from "../mobilePagination";
+import FilterByStatus from "./FilterByStatus";
 
 export default function CategoryTable({ categories, onDelete, onUpdate, onUpStatus, setToggle }) {
     const [search, setSearch] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
     const [visibleCards, setVisibleCards] = useState(3)
+    const [selectedStatus, setSelectedStatus] = useState('')
 
     const itemsPerPage = 6
+    console.log('valeur du statut sélectionné', selectedStatus);
 
-    const filtered = categories.filter(cat =>
-        cat.name.toLowerCase().includes(search.toLowerCase())
+
+    const filtered = categories.filter(cat => {
+        const matchesSearch = cat.name.toLowerCase().includes(search.toLowerCase());
+
+        const matchesStatus = selectedStatus === '' ||
+            (selectedStatus === 'true' && cat.is_active) ||
+            (selectedStatus === 'false' && !cat.is_active);
+        return matchesSearch && matchesStatus;
+    }
     );
 
+    console.log('filtre du statut sélectionné', filtered);
     const totalPages = Math.ceil(filtered.length / itemsPerPage);
     const paginated = filtered.slice(
         (currentPage - 1) * itemsPerPage,
@@ -26,7 +37,10 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
     const handleNext = () => {
         if (currentPage < totalPages) setCurrentPage(currentPage + 1);
     };
-
+    const clearFilters = () => {
+        setSearch('')
+        setSelectedStatus('')
+    }
     const mobileView = categories.slice(0, visibleCards)
     return (
         <>
@@ -41,6 +55,8 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                         setCurrentPage(1);
                     }}
                 />
+                <FilterByStatus selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus} />
+                {(filtered.length !== categories.length) && (<Button label={'annuler les filtres'} onAction={clearFilters} className={'btn-warning text-white'} />)}
                 <div className="overflow-x-auto border border-secondary rounded-xl bg-white shadow-sm">
                     <table className="min-w-full text-left text-sm text-gray-700">
                         <thead className="bg-primary text-white uppercase tracking-wider">
@@ -57,9 +73,9 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                                     <td className="px-4 py-2 font-medium">{category.name}</td>
                                     <td className="px-4 py-2">{category.description}</td>
                                     <td className="px-4 py-2">
-                                        <Button label={`${category.is_active ? 'Active' : 'Inactive'}`} 
-                                        onAction={() => onUpStatus(category.id)} 
-                                        className={`btn-sm w-17 ${category.is_active ? 'btn-info' : 'btn-warning'}`}/>
+                                        <Button label={`${category.is_active ? 'Active' : 'Inactive'}`}
+                                            onAction={() => onUpStatus(category.id)}
+                                            className={`btn-sm w-17 ${category.is_active ? 'btn-info' : 'btn-warning'}`} />
                                     </td>
                                     <td className="px-4 py-2 space-x-2 bg-accent">
                                         <Button action={'update'} onAction={() => {
@@ -114,11 +130,11 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                             <div className="card-action flex space-x-2 mt-2">
                                 <div className="flex mt-0 md:mt-2 space-x-2">
                                     <Button action={'update'}
-                                    href={"#catForm"}
-                                    onAction={() => {
-                                        setToggle(true),
-                                            onUpdate(category)
-                                    }} />
+                                        href={"#catForm"}
+                                        onAction={() => {
+                                            setToggle(true),
+                                                onUpdate(category)
+                                        }} />
                                     <Button action={'delete'} onAction={() => { onDelete(category.id) }} />
                                 </div>
                             </div>
@@ -127,7 +143,7 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                         </div>
                     </div>
                 ))}
-                < MobilePagination object={categories} visibleCards={visibleCards} setVisibleCards={setVisibleCards}/>
+                < MobilePagination object={categories} visibleCards={visibleCards} setVisibleCards={setVisibleCards} />
             </article>
 
         </>

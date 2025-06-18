@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Icon from '@mdi/react';
-import { mdilAlert } from '@mdi/light-js';
+import { mdilAlert, mdilAlertCircle } from '@mdi/light-js';
 import { Textarea, Textbox } from "react-inputs-validation";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -74,7 +74,9 @@ export default function OfferForm({ onAddOffer, onEditOffer, setToggle, onCancel
         <h3 className="font-poppins text-center py-1 text-lg font-medium text-white bg-primary">Ajouter une Offre</h3>
         <div className="p-5 mx-auto rounded">
           <form onSubmit={handleSubmit} className="space">
-
+            {onEditOffer && (<p className="flex text-red-400 justify-center mb-6">
+              <Icon path={mdilAlertCircle} size={1} />
+              Appuyez sur annuler si vous souhaitez annuler la saisie</p>)}
             {/* TITLE SECTION */}
             <div className="grid md:grid-cols-4 gap-3">
               <div className="form-control mb-4 col-span-4">
@@ -144,32 +146,33 @@ export default function OfferForm({ onAddOffer, onEditOffer, setToggle, onCancel
                 <label htmlFor="descriptionOffer" className="label">
                   <span className="label-text">Choisir une catégorie</span>
                 </label>
-                <select className="select w-full" value={selectedCat === null ? "" : selectedCat} 
-                onChange={(e) => {
-                  const value = e.target.value;
+                <select className="select w-full" value={selectedCat === null ? "" : selectedCat}
+                  onChange={(e) => {
+                    const value = e.target.value;
 
-                  if (value === "null") {
-                    setSelectedCat(null);
-                    setErrorCat('Choisir une valeur pour la catégorie !');
-                  } else {
-                    setSelectedCat(value);
-                    setErrorCat('');
-                  }
-                }}
-                onBlur={(e) => {
+                    if (value === "null") {
+                      setSelectedCat(null);
+                      setErrorCat('Choisir une valeur pour la catégorie !');
+                    } else {
+                      setSelectedCat(value);
+                      setErrorCat('');
+                    }
+                  }}
+                  onBlur={(e) => {
                     if (e.target.value === "null") {
                       setErrorCat('Choisir une valeur pour la catégorie!');
-                    }}}
+                    }
+                  }}
                 >
                   <option value="null">Sélectionner une catégorie ↓</option>
                   {categories.map((cat) => (
                     <option key={cat.id} value={String(cat.id)}>{cat.name}</option>
                   ))}
                   {errorCat && (
-                  <div className="text-red-500 text-sm mt-1">
-                    {errorCat}
-                  </div>
-                )}
+                    <div className="text-red-500 text-sm mt-1">
+                      {errorCat}
+                    </div>
+                  )}
                 </select>
               </div>
 

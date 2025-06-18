@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Icon from '@mdi/react';
-import { mdilAlert } from '@mdi/light-js';
+import { mdilAlert, mdilAlertCircle } from '@mdi/light-js';
 import { Textarea, Textbox } from "react-inputs-validation";
 import Button from "../Button";
 
@@ -58,6 +58,9 @@ export default function CategoryForm({ onAddCategory, onEditUpCat, onCancelEdit,
         <h3 className="font-poppins text-center text-white py-1 text-lg font-medium bg-primary">Ajouter une catégorie</h3>
         <div className="p-5 mx-auto rounded">
           <form onSubmit={handleSubmit} className="space-x-2 mt-4 text-center">
+            {onEditUpCat && (<p className="flex text-red-400 justify-center mb-6">
+              <Icon path={mdilAlertCircle} size={1} />
+              Appuyez sur annuler si vous souhaitez annuler la saisie</p>)}
 
             {/* NAME SECTION */}
             <div className="form-control mb-4">
