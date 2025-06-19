@@ -11,7 +11,7 @@ export default function ToastAlert({ toast, setToast, }) {
   if (!toast.show) return null;
 
   return (
-    <div className="toast toast-center toast-middle md:toast-end">
+    <div className="toast toast-end">
       <div className={`alert z-50 ${toast.type === 'success' ? 'alert-success' : 'alert-error'}`}>
         <span>{toast.message}</span>
       </div>

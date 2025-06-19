@@ -41,22 +41,26 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
         setSearch('')
         setSelectedStatus('')
     }
-    const mobileView = categories.slice(0, visibleCards)
+    const mobileView = filtered.slice(0, visibleCards)
     return (
         <>
             <div className="overflow-x-auto hidden md:block">
-                <input
-                    type="text"
-                    placeholder="Rechercher..."
-                    className="input input-bordered my-2 w-full max-w-md hover:ring-secondary hover:ring-1"
-                    value={search}
-                    onChange={(e) => {
-                        setSearch(e.target.value);
-                        setCurrentPage(1);
-                    }}
-                />
-                <FilterByStatus selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus} />
-                {(filtered.length !== categories.length) && (<Button label={'annuler les filtres'} onAction={clearFilters} className={'btn-warning text-white'} />)}
+                <div className="flex justify-between items-center">
+                    <input
+                        type="text"
+                        placeholder="Rechercher..."
+                        className="input input-bordered my-2 w-full max-w-md hover:ring-secondary hover:ring-1"
+                        value={search}
+                        onChange={(e) => {
+                            setSearch(e.target.value);
+                            setCurrentPage(1);
+                        }}
+                    />
+                    <div className="flex items-center gap-x-2">
+                        <FilterByStatus selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus} />
+                        {(filtered.length !== categories.length) && (<Button label={'annuler les filtres'} onAction={clearFilters} className={'btn-warning text-white'} />)}
+                    </div>
+                </div>
                 <div className="overflow-x-auto border border-secondary rounded-xl bg-white shadow-sm">
                     <table className="min-w-full text-left text-sm text-gray-700">
                         <thead className="bg-primary text-white uppercase tracking-wider">
@@ -110,6 +114,20 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                 </div>)}
             </div >
             <article className="block md:hidden space-y-5">
+                <input
+                    type="text"
+                    placeholder="Rechercher..."
+                    className="input input-bordered my-2 w-full max-w-md hover:ring-secondary hover:ring-1"
+                    value={search}
+                    onChange={(e) => {
+                        setSearch(e.target.value);
+                        setCurrentPage(1);
+                    }}
+                />
+                <div className="flex items-center gap-x-2">
+                    <FilterByStatus selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus} />
+                    {(filtered.length !== categories.length) && (<Button label={'annuler les filtres'} onAction={clearFilters} className={'btn-warning text-white'} />)}
+                </div>
                 {mobileView.map((category) => (
                     <div key={category.id} className="card bg-accent w-80vw card-xs p-3 shadow-xl border border-secondary">
                         <div className="flex justify-between py-2">
@@ -144,7 +162,7 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                     </div>
                 ))}
                 < MobilePagination object={categories} visibleCards={visibleCards} setVisibleCards={setVisibleCards} />
-            </article>
+            </article >
 
         </>
     )
