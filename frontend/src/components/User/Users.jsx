@@ -5,15 +5,13 @@ import UsersTable from "./UsersTable";
 import { addUserThunk, fetchUsers, listOfUsers, updateUserThunk, deleteUserThunk } from "../../store/slices/userSlice";
 import ToastAlert from './../ToastAlert'
 import Button from "../Button";
-import { listOfCommittees } from "../../store/slices/CommitteeSlice";
 
 export default function Users() {
     const dispatch = useDispatch();
     const users = useSelector(listOfUsers)
-    const committees = useSelector(listOfCommittees)
     const [updtUser, setUpdtUser] = useState(null)
     const [toggle, setToggle] = useState(false)
-    const [toast, setToast] = useState('')
+    const [toast, setToast] = useState({ show: false, message: "", type: "" })
 
 
     useEffect(() => {
@@ -31,19 +29,19 @@ export default function Users() {
                 setToast({ show: true, message: "Utilisateur ajouté avec succès", type: 'success' })
             }
             setUpdtUser(null);
+            setToggle(false);
         } catch (err) {
-            console.error("Erreur CREATE/UPDATE role :", err);
-            // setToast({ show: true, message: "Erreur lors de l'opération", type: 'error' })
-            setToast({ show: true, message: err.toString(), type: 'error' })
+            console.error("Erreur CREATE/UPDATE user :", err);
+            const serverMsg = err?.response?.data?.message || err?.message || "Erreur lors de l'opération";
+            setToast({ show: true, message: serverMsg, type: 'error' })
         }
     };
 
-    const canceledEdit = () => {
-        setUpdtUser(null)
-    }
-    const handleToUpdate = async (userToEdit) => {
-        setUpdtUser(userToEdit)
-    }
+    const canceledEdit = () => { setUpdtUser(null) }
+    const handleToUpdate = (userToEdit) => {
+        setUpdtUser(userToEdit);
+        setToggle(true);
+    };
 
     const handleDelete = async (id) => {
         try {
@@ -64,21 +62,24 @@ export default function Users() {
 
             <section className="pt-5 max-w-5xl mx-auto" id="userForm">
                 <div className='flex w-fit'>
-                    <Button label={'Ajouter un Utilisateur'} onAction={() => setToggle(!toggle)}
-                        className={'btn-neutral hover:btn-secondary mb-2 md:mb-0'} />
+                    <Button label={toggle ? "Fermer le formulaire" : "Ajouter un Utilisateur"}
+                        onAction={() => setToggle(!toggle)}
+                        className={'btn-neutral hover:btn-secondary mb-2 md:mb-0'} 
+                    />
                 </div>
                 {toggle && (
                     <UsersForm
-                        committees={committees}
                         onAddUser={handleAdd}
                         onEditUser={updtUser}
                         setToggle={setToggle}
-                        onCancel={canceledEdit} />)}
+                        onCancel={canceledEdit} 
+                    />
+                )}
                 <UsersTable users={users}
-                    committees={committees}
                     onUpdate={handleToUpdate}
                     onDelete={handleDelete}
-                    setToggle={setToggle} />
+                    setToggle={setToggle} 
+                />
             </section>
             <ToastAlert toast={toast} setToast={setToast} />
         </>
