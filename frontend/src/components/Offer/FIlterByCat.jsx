@@ -12,7 +12,7 @@ export default function FilterByCategories({ catList, selectedCat, setSelectedCa
                 }
                 }
             >
-            <option value="">— Toutes les Catégories—</option>
+            <option value="">— Filtrer les Offres par Catégories —</option>
             {catList.map(cat => (
                 <option key={cat.id} value={cat.id}>
                     {cat.name}

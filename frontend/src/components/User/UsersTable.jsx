@@ -1,26 +1,37 @@
 import Button from "../Button"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import MobilePagination from "../mobilePagination"
 import StatusBadge from "./StatusBadge"
 import FilterByCmmtts from "./FilterByCmmtts"
+import { useDispatch, useSelector } from "react-redux"
+import { listOfCommittees, fetchCmmtts } from "../../store/slices/CommitteeSlice"
 
-export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEditMode, committees }) {
-    const commtts = committees
+export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEditMode }) {
     const [search, setSearch] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
     const [visibleCards, setVisibleCards] = useState(3)
     const itemsPerPage = 6
-    // const [selectedCom, setSelectedCom] = useState(null)
+    const [selectedCom, setSelectedCom] = useState('')
 
-    const filtered = users.filter(us =>
-                (us?.last_name + ' ' + us?.first_name + ' ' + us?.email).toLowerCase().includes(search.toLowerCase()))
+    const dispatch = useDispatch()
+    const committees = useSelector(listOfCommittees)
+
+    useEffect(() => {
+        dispatch(fetchCmmtts())
+    }, [dispatch])
+
+    const filtered = users.filter(us => {
+        const matchSearch = (us?.last_name + ' ' + us?.first_name + ' ' + us?.email).toLowerCase().includes(search.toLowerCase())
+        const matchCmmtts = selectedCom === '' || us.committee_id === selectedCom
+
+        return matchSearch && matchCmmtts
+    })
 
     const totalPages = Math.ceil(filtered.length / itemsPerPage);
     const paginated = filtered.slice(
         (currentPage - 1) * itemsPerPage,
         currentPage * itemsPerPage
     );
-    console.log('Id du CSE sélectionné :', commtts);
 
 
     const handlePrevious = () => {
@@ -32,6 +43,10 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
     };
 
     const mobileView = users.slice(0, visibleCards)
+    const clearFilters = () => {
+        setSearch('')
+        setSelectedCom('')
+    }
     return (
         <>
             <div className="overflow-x-auto hidden md:block">
@@ -45,7 +60,8 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
                         setCurrentPage(1);
                     }}
                 />
-                {/* <FilterByCmmtts committees={commtts} selectedCom={selectedCom} setSelectedCom={setSelectedCom} /> */}
+                <FilterByCmmtts committees={committees} selectedCom={selectedCom} setSelectedCom={setSelectedCom} />
+                {(filtered.length !== users.length) && (<Button label={'annuler les filtres'} onAction={clearFilters} className={'btn-warning text-white'} />)}
                 <div className="overflow-x-auto border border-secondary rounded-xl bg-white">
                     <table className="min-w-full text-left text-sm ">
                         <thead className="bg-primary text-white uppercase tracking-wider">

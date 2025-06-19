@@ -22,7 +22,7 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
     }, [dispatch])
 
     const filtered = offers.filter(off => {
-        const searchMatch = (off.title + " " + off.description + " " + off.category_name).toLowerCase().includes(search.toLowerCase())
+        const searchMatch = (off.title + " " + off.description).toLowerCase().includes(search.toLowerCase())
         const cmmttMatch = (selectedCat === '' || off.category_id === selectedCat)
 
         return searchMatch && cmmttMatch

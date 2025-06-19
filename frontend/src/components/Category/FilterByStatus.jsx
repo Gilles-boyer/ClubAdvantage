@@ -12,9 +12,9 @@ export default function FilterByStatus({ selectedStatus, setSelectedStatus }) {
                 }
                 }
             >
-            <option value="all">—Filtrer les CSE—</option>
-                <option value="true">Actif</option>
-                <option value="false">Inactif</option>
+            <option value="all">— Filtrer les Catégories —</option>
+                <option value="true">Catégories Actives</option>
+                <option value="false">Catégories Inactives</option>
         </select >
         </>
     )
