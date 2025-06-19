@@ -99,7 +99,7 @@ export default function CmmttsTable({ committees, onUpdate, onUpStatus, onDelete
                         </tbody>
                     </table>
                 </div>
-                {committees.length > 1 && (<div className="flex justify-evenly items-center mt-4">
+                {filtered.length > 1 && (<div className="flex justify-evenly items-center mt-4">
                     <button
                         className="btn btn-neutral"
                         onClick={handlePrevious}

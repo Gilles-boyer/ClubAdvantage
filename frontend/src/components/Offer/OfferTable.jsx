@@ -110,7 +110,7 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                         </tbody>
                     </table>
                 </div>
-                {offers.length > 1 && (<div className="flex justify-evenly items-center mt-4">
+                {filtered.length > 1 && (<div className="flex justify-evenly items-center mt-4">
                     <button
                         className="btn btn-neutral rounded-lg"
                         onClick={handlePrevious}

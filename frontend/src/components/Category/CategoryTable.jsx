@@ -93,7 +93,7 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                         </tbody>
                     </table>
                 </div>
-                {categories.length > 1 && (<div className="flex justify-evenly items-center mt-4">
+                {filtered.length > 1 && (<div className="flex justify-evenly items-center mt-4">
                     <button
                         className="btn btn-secondary"
                         onClick={handlePrevious}

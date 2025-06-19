@@ -50,18 +50,22 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
     return (
         <>
             <div className="overflow-x-auto hidden md:block">
-                <input
-                    type="text"
-                    placeholder="Rechercher..."
-                    className="input input-bordered my-2 w-full max-w-md hover:border-secondary hover:ring-secondary hover:ring-1"
-                    value={search}
-                    onChange={(e) => {
-                        setSearch(e.target.value);
-                        setCurrentPage(1);
-                    }}
-                />
-                <FilterByCmmtts committees={committees} selectedCom={selectedCom} setSelectedCom={setSelectedCom} />
-                {(filtered.length !== users.length) && (<Button label={'annuler les filtres'} onAction={clearFilters} className={'btn-warning text-white'} />)}
+                <div className="flex justify-between items-center">
+                    <input
+                        type="text"
+                        placeholder="Rechercher..."
+                        className="input input-bordered my-2 w-full max-w-md hover:border-secondary hover:ring-secondary hover:ring-1"
+                        value={search}
+                        onChange={(e) => {
+                            setSearch(e.target.value);
+                            setCurrentPage(1);
+                        }}
+                    />
+                    <div className="flex items-center gap-x-2">
+                        <FilterByCmmtts committees={committees} selectedCom={selectedCom} setSelectedCom={setSelectedCom} />
+                        {(filtered.length !== users.length) && (<Button label={'annuler les filtres'} onAction={clearFilters} className={'btn-warning text-white'} />)}
+                    </div>
+                </div>
                 <div className="overflow-x-auto border border-secondary rounded-xl bg-white">
                     <table className="min-w-full text-left text-sm ">
                         <thead className="bg-primary text-white uppercase tracking-wider">
@@ -121,6 +125,20 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
             </div>
             {/* Cards pour les écrans de téléphones */}
             <article className="block md:hidden space-y-5">
+                <input
+                    type="text"
+                    placeholder="Rechercher..."
+                    className="input input-bordered my-2 w-full max-w-md hover:border-secondary hover:ring-secondary hover:ring-1"
+                    value={search}
+                    onChange={(e) => {
+                        setSearch(e.target.value);
+                        setCurrentPage(1);
+                    }}
+                />
+                <div className="flex items-center gap-x-2">
+                    <FilterByCmmtts committees={committees} selectedCom={selectedCom} setSelectedCom={setSelectedCom} />
+                    {(filtered.length !== users.length) && (<Button label={'annuler les filtres'} onAction={clearFilters} className={'btn-warning text-white'} />)}
+                </div>
                 {mobileView.map((user) => (
                     <div key={user.id} className="card bg-accent w-80vw card-xs shadow-xl p-3 border border-secondary">
                         <div className="flex justify-between mb-3">
