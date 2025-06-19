@@ -42,7 +42,7 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
         if (currentPage < totalPages) setCurrentPage(currentPage + 1);
     };
 
-    const mobileView = users.slice(0, visibleCards)
+    const mobileView = filtered.slice(0, visibleCards)
     const clearFilters = () => {
         setSearch('')
         setSelectedCom('')
@@ -99,7 +99,7 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
                         </tbody>
                     </table>
                 </div>
-                {users.length > 1 && (<div className="flex justify-evenly items-center mt-4">
+                {filtered.length > 1 && (<div className="flex justify-evenly items-center mt-4">
                     <button
                         className="btn btn-neutral"
                         onClick={handlePrevious}

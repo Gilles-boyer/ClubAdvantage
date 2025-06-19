@@ -43,7 +43,7 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
         if (currentPage < totalPages) setCurrentPage(currentPage + 1);
     };
 
-    const mobileView = offers.slice(0, visibleCards)
+    const mobileView = filtered.slice(0, visibleCards)
 
     const clearFilters = () => {
         setSearch('')
@@ -53,18 +53,22 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
     return (
         <>
             <div className="overflow-x-auto hidden md:block">
-                <input
-                    type="text"
-                    placeholder="Rechercher..."
-                    className="input input-bordered my-2 w-full max-w-md hover:ring-secondary hover:ring-1"
-                    value={search}
-                    onChange={(e) => {
-                        setSearch(e.target.value);
-                        setCurrentPage(1);
-                    }}
-                />
-                < FilterByCategories catList={categories} selectedCat={selectedCat} setSelectedCat={setSelectedCat} />
-                {(filtered.length !== offers.length) && (<Button label={'annuler les filtres'} onAction={clearFilters} className={'btn-warning text-white'} />)}
+                <div className="flex justify-between items-center">
+                    <input
+                        type="text"
+                        placeholder="Rechercher..."
+                        className="input input-bordered my-2 w-full max-w-md hover:ring-secondary hover:ring-1"
+                        value={search}
+                        onChange={(e) => {
+                            setSearch(e.target.value);
+                            setCurrentPage(1);
+                        }}
+                    />
+                    <div className="flex items-center gap-x-2">
+                        < FilterByCategories catList={categories} selectedCat={selectedCat} setSelectedCat={setSelectedCat} />
+                        {(filtered.length !== offers.length) && (<Button label={'annuler les filtres'} onAction={clearFilters} className={'btn-warning text-white'} />)}
+                    </div>
+                </div>
                 <div className="overflow-x-auto border border-secondary rounded-xl bg-white">
                     <table className="min-w-full text-left text-sm">
                         <thead className="bg-primary text-white uppercase tracking-wider">
@@ -129,6 +133,20 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
 
             {/* Cards pour les téléphones */}
             <article className="block md:hidden space-y-5">
+                <input
+                    type="text"
+                    placeholder="Rechercher..."
+                    className="input input-bordered my-2 w-full max-w-md hover:ring-secondary hover:ring-1"
+                    value={search}
+                    onChange={(e) => {
+                        setSearch(e.target.value);
+                        setCurrentPage(1);
+                    }}
+                />
+                <div className="flex gap-x-1">
+                    < FilterByCategories catList={categories} selectedCat={selectedCat} setSelectedCat={setSelectedCat} />
+                    {(filtered.length !== offers.length) && (<Button label={'annuler les filtres'} onAction={clearFilters} className={'btn-warning text-white'} />)}
+                </div>
                 {mobileView.map((offer) => (
                     <div key={offer.id} className="card bg-accent w-80vw card-xs shadow-xl p-3 border border-secondary">
                         <div className="flex justify-between mb-3">
