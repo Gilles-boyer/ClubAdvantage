@@ -1,6 +1,6 @@
 import { Textbox } from "react-inputs-validation";
 import Icon from '@mdi/react';
-import { mdilAccount } from '@mdi/light-js';
+import { mdiAccountCircle } from '@mdi/js';
 import Button from "../Button";
 import { useNavigate } from "react-router-dom";
 
@@ -16,7 +16,7 @@ export default function LoginForm() {
   return (
     <>
       <div className="card bg-accent max-w-xs md:w-120 p-10 ring-2 ring-secondary" >
-        <Icon path={mdilAccount} size={4}  className="text-accent bg-neutral rounded-full p-3 items-center mx-auto ring-1 ring-secondary"/>
+        <Icon path={mdiAccountCircle} size={4}  className="text-accent bg-neutral rounded-full p-3 items-center mx-auto ring-1 ring-secondary"/>
         <form onSubmit={handleSubmit} className="space-y-4 mt-4 text-center">
           <div className="form-control mx-auto px-4 md:px-2 mb-4">
             <label htmlFor="nameCategory" className="label mb-2">

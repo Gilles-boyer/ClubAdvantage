@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import Icon from "@mdi/react";
-import { mdilPencil, mdilDelete } from '@mdi/light-js';
+import { mdiPencil, mdiDelete } from '@mdi/js';
 import { HashLink } from "react-router-hash-link";
 
 
@@ -11,7 +11,7 @@ export default function Button({ label, action, onAction, className = '', href }
         <HashLink to={href}
         onClick={onAction}
           className={'btn inline-flex justify-center items-center mask mask-squircle text-white bg-blue-700 p-1.5 hover:scale-105 hover:-translate-y-1 transition-transform'}>
-          <Icon path={mdilPencil}
+          <Icon path={mdiPencil}
             size={0.70} />
         </HashLink>
       )
@@ -19,13 +19,13 @@ export default function Button({ label, action, onAction, className = '', href }
   const ICN = (action) => {
     if (action === 'update'){
       return (
-        <Icon path={mdilPencil}
+        <Icon path={mdiPencil}
             size={0.70} />
       )
     }
     if (action === 'delete') {
       return (
-        <Icon path={mdilDelete}
+        <Icon path={mdiDelete}
           size={0.70} />
       )
     }

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchCmmtts } from "../../store/slices/CommitteeSlice";
 import { fetchRoles, listOfRoles } from "../../store/slices/rolesSlice";
 import Icon from '@mdi/react';
-import { mdilAlertCircle } from '@mdi/light-js';
+import { mdiAlertCircle } from '@mdi/js';
 import Button from "../Button";
 
 export default function UsersForm({ onAddUser, onEditUser, onCancel, setToggle, committees }) {
@@ -94,7 +94,7 @@ export default function UsersForm({ onAddUser, onEditUser, onCancel, setToggle, 
                 <div className="p-5 mx-auto rounded">
                     <form onSubmit={handleSubmit} className="space">
                         {onEditUser && (<p className="flex text-red-400 justify-center mb-6">
-                            <Icon path={mdilAlertCircle} size={1} />
+                            <Icon path={mdiAlertCircle} size={1} />
                             Appuyez sur annuler si vous souhaitez annuler la saisie</p>)}
                         <div className="grid md:grid-cols-4 gap-3">
 

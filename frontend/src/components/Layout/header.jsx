@@ -1,6 +1,6 @@
 import logo from "/Logo_doré.png";
 import Icon from '@mdi/react';
-import { mdilPower } from '@mdi/light-js';
+import { mdiPower } from '@mdi/js';
 import Button from "../Button";
 import { useNavigate } from "react-router-dom";
 
@@ -29,7 +29,7 @@ const Header = ({ menu }) => {
         type="button"
         
       >
-        <Icon path={mdilPower} size={1} onClick={handleLogout}/>
+        <Icon path={mdiPower} size={1} onClick={handleLogout}/>
       </button>
     </div>
   );

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Icon from '@mdi/react';
-import { mdilAlert,  mdilAlertCircle } from '@mdi/light-js';
+import { mdiAlert,  mdiAlertCircle } from '@mdi/js';
 import { Textbox } from "react-inputs-validation";
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -85,7 +85,7 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt, setToggle
                 <div className="p-5 mx-auto rounded">
                     <form onSubmit={handleSubmit} className="space-x-2 mt-4 text-center">
                     {onEditUpCmmtt && (<p className="flex text-red-400 justify-center mb-6">
-                        <Icon path={mdilAlertCircle} size={1} />
+                        <Icon path={mdiAlertCircle} size={1} />
                         Appuyez sur annuler si vous souhaitez annuler la saisie</p>)}
                         {/* Champ nom */}
                         <div className="form-control mb-4">
@@ -111,7 +111,7 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt, setToggle
                             />
                             {errorName && (
                                 <div className="flex w-75 mx-auto justify-center text-red-700">
-                                    <Icon path={mdilAlert} size={1} />
+                                    <Icon path={mdiAlert} size={1} />
                                     <p className="ps-2 text-sm mt-1">{errorName}</p>
                                 </div>
                             )}
@@ -179,7 +179,7 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt, setToggle
                                     />
                                     {startDateErr && (
                                         <div className="flex w-100 mx-auto justify-center text-red-700 mt-3">
-                                            <Icon path={mdilAlert} size={1} />
+                                            <Icon path={mdiAlert} size={1} />
                                             <p className="ps-2 text-sm">{startDateErr}</p>
                                         </div>
                                     )}
@@ -207,7 +207,7 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt, setToggle
                                     />
                                     {endDateErr && (
                                         <div className="flex w-100 mx-auto justify-center text-red-700 mt-3">
-                                            <Icon path={mdilAlert} size={1} />
+                                            <Icon path={mdiAlert} size={1} />
                                             <p className="ps-2 text-sm">{endDateErr}</p>
                                         </div>
                                     )}

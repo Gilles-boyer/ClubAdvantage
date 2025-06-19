@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Icon from '@mdi/react';
-import { mdilAlert, mdilAlertCircle } from '@mdi/light-js';
+import { mdiAlert, mdiAlertCircle } from '@mdi/js';
 import { Textarea, Textbox } from "react-inputs-validation";
 import Button from "../Button";
 
@@ -59,7 +59,7 @@ export default function CategoryForm({ onAddCategory, onEditUpCat, onCancelEdit,
         <div className="p-5 mx-auto rounded">
           <form onSubmit={handleSubmit} className="space-x-2 mt-4 text-center">
             {onEditUpCat && (<p className="flex text-red-400 justify-center mb-6">
-              <Icon path={mdilAlertCircle} size={1} />
+              <Icon path={mdiAlertCircle} size={1} />
               Appuyez sur annuler si vous souhaitez annuler la saisie</p>)}
 
             {/* NAME SECTION */}
@@ -90,7 +90,7 @@ export default function CategoryForm({ onAddCategory, onEditUpCat, onCancelEdit,
                   if (e.target.value.trim()) return setErrorName('')
                 }}
               />
-              {errorName && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorName}</p></div>}
+              {errorName && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdiAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorName}</p></div>}
             </div>
 
             {/* DESCRIPTION SECTION */}
@@ -122,7 +122,7 @@ export default function CategoryForm({ onAddCategory, onEditUpCat, onCancelEdit,
                   if (e.target.value.trim()) return setErrorDesc('')
                 }}
               />
-              {errorDesc && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorDesc}</p></div>}
+              {errorDesc && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdiAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorDesc}</p></div>}
             </div>
 
             {/* STATUS SECTION */}

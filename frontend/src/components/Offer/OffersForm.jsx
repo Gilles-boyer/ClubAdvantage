@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Icon from '@mdi/react';
-import { mdilAlert, mdilAlertCircle } from '@mdi/light-js';
+import { mdiAlert, mdiAlertCircle } from '@mdi/js';
 import { Textarea, Textbox } from "react-inputs-validation";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -75,7 +75,7 @@ export default function OfferForm({ onAddOffer, onEditOffer, setToggle, onCancel
         <div className="p-5 mx-auto rounded">
           <form onSubmit={handleSubmit} className="space">
             {onEditOffer && (<p className="flex text-red-400 justify-center mb-6">
-              <Icon path={mdilAlertCircle} size={1} />
+              <Icon path={mdiAlertCircle} size={1} />
               Appuyez sur annuler si vous souhaitez annuler la saisie</p>)}
             {/* TITLE SECTION */}
             <div className="grid md:grid-cols-4 gap-3">
@@ -106,7 +106,7 @@ export default function OfferForm({ onAddOffer, onEditOffer, setToggle, onCancel
                     if (e.target.value.trim()) return setErrorTitle('')
                   }}
                 />
-                {errorTitle && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorTitle}</p></div>}
+                {errorTitle && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdiAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorTitle}</p></div>}
               </div>
 
               {/* DESCRIPTION SECTION */}
@@ -138,7 +138,7 @@ export default function OfferForm({ onAddOffer, onEditOffer, setToggle, onCancel
                     if (e.target.value.trim()) return setErrorDesc('')
                   }}
                 />
-                {errorDesc && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdilAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorDesc}</p></div>}
+                {errorDesc && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdiAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorDesc}</p></div>}
               </div>
 
               {/* CATEGORY SECTION */}
