@@ -61,7 +61,7 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                         {(filtered.length !== categories.length) && (<Button label={'annuler les filtres'} onAction={clearFilters} className={'btn-warning text-white'} />)}
                     </div>
                 </div>
-                <div className="overflow-x-auto border border-secondary rounded-xl bg-white shadow-sm">
+               {paginated.length === 0 ? <div className="alert alert-neutral">Aucun élément à afficher</div> : <div className="overflow-x-auto border border-secondary rounded-xl bg-white shadow-sm">
                     <table className="min-w-full text-left text-sm text-gray-700">
                         <thead className="bg-primary text-white uppercase tracking-wider">
                             <tr>
@@ -92,7 +92,7 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                             ))}
                         </tbody>
                     </table>
-                </div>
+                </div>}
                 {filtered.length > 1 && (<div className="flex justify-evenly items-center mt-4">
                     <button
                         className="btn btn-secondary"

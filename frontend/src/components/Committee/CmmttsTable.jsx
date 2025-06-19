@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Button from "../Button";
 import MobilePagination from "../mobilePagination";
+import EmptyDatas from "../EmptyDatas";
 
 export default function CmmttsTable({ committees, onUpdate, onUpStatus, onDelete, setToggle }) {
     const [search, setSearch] = useState('')
@@ -50,7 +51,9 @@ export default function CmmttsTable({ committees, onUpdate, onUpStatus, onDelete
                         setCurrentPage(1);
                     }}
                 />
-                <div className="overflow-x-auto border border-secondary rounded-xl bg-white shadow-sm">
+                {paginated.length === 0 
+                ? <EmptyDatas /> 
+                : <div className="overflow-x-auto border border-secondary rounded-xl bg-white shadow-sm">
                     <table className="min-w-full text-left text-sm">
                         <thead className="bg-primary text-white uppercase tracking-wider">
                             <tr>
@@ -98,7 +101,7 @@ export default function CmmttsTable({ committees, onUpdate, onUpStatus, onDelete
                             ))}
                         </tbody>
                     </table>
-                </div>
+                </div>}
                 {filtered.length > 1 && (<div className="flex justify-evenly items-center mt-4">
                     <button
                         className="btn btn-neutral"

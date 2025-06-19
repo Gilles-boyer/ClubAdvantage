@@ -5,6 +5,7 @@ import MobilePagination from "../mobilePagination"
 import FilterByCategories from "./FIlterByCat"
 import { useDispatch, useSelector } from "react-redux"
 import { listOfCategories, fetchCategories } from "../../store/slices/categorySlice"
+import EmptyDatas from "../EmptyDatas"
 
 
 export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, setToggle }) {
@@ -69,7 +70,9 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                         {(filtered.length !== offers.length) && (<Button label={'annuler les filtres'} onAction={clearFilters} className={'btn-warning text-white'} />)}
                     </div>
                 </div>
-                <div className="overflow-x-auto border border-secondary rounded-xl bg-white">
+                {paginated.length === 0 
+                ? <EmptyDatas/> 
+                : <div className="overflow-x-auto border border-secondary rounded-xl bg-white">
                     <table className="min-w-full text-left text-sm">
                         <thead className="bg-primary text-white uppercase tracking-wider">
                             <tr>
@@ -109,7 +112,7 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                             ))}
                         </tbody>
                     </table>
-                </div>
+                </div>}
                 {filtered.length > 1 && (<div className="flex justify-evenly items-center mt-4">
                     <button
                         className="btn btn-neutral rounded-lg"

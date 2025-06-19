@@ -5,6 +5,7 @@ import StatusBadge from "./StatusBadge"
 import FilterByCmmtts from "./FilterByCmmtts"
 import { useDispatch, useSelector } from "react-redux"
 import { listOfCommittees, fetchCmmtts } from "../../store/slices/CommitteeSlice"
+import EmptyDatas from "../EmptyDatas"
 
 export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEditMode }) {
     const [search, setSearch] = useState('')
@@ -33,7 +34,6 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
         currentPage * itemsPerPage
     );
 
-
     const handlePrevious = () => {
         if (currentPage > 1) setCurrentPage(currentPage - 1);
     };
@@ -49,6 +49,7 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
     }
     return (
         <>
+
             <div className="overflow-x-auto hidden md:block">
                 <div className="flex justify-between items-center">
                     <input
@@ -66,43 +67,45 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
                         {(filtered.length !== users.length) && (<Button label={'annuler les filtres'} onAction={clearFilters} className={'btn-warning text-white'} />)}
                     </div>
                 </div>
-                <div className="overflow-x-auto border border-secondary rounded-xl bg-white">
-                    <table className="min-w-full text-left text-sm ">
-                        <thead className="bg-primary text-white uppercase tracking-wider">
-                            <tr>
-                                <th className="px-4 py-2">Nom</th>
-                                <th className="px-4 py-2">Prénom</th>
-                                <th className="px-4 py-2">Email</th>
-                                <th className="px-4 py-2">CSE</th>
-                                <th className="px-4 py-2">Role</th>
-                                <th className="px-4 py-2">Statut</th>
-                                <th className="px-4 py-2">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {paginated.map((user) => (
-                                <tr
-                                    key={user.id}
-                                    className="border-gray-300 border-t hover:bg-gray-100 transition-colors"
-                                >
-                                    <td className="px-4 py-2 font-medium">{user.last_name}</td>
-                                    <td className="px-4 py-2">{user.first_name}</td>
-                                    <td className="px-4 py-2">{user.email}</td>
-                                    <td className="px-4 py-2" key={user.committee_id}>{user.committee_name}</td>
-                                    <td className="px-4 py-2">{user.role_name}</td>
-                                    <td className="px-4 py-2"><StatusBadge status={user.status} /></td>
-                                    <td className="px-4 py-2 space-x-2 bg-accent">
-                                        <Button action={'update'} onAction={() => {
-                                            setToggle(true),
-                                                onUpdate(user)
-                                        }} />
-                                        <Button action={'delete'} onAction={() => { onDelete(user.id) }} />
-                                    </td>
+                {paginated.length === 0
+                    ? <EmptyDatas />
+                    : <div className="overflow-x-auto border border-secondary rounded-xl bg-white">
+                        <table className="min-w-full text-left text-sm ">
+                            <thead className="bg-primary text-white uppercase tracking-wider">
+                                <tr>
+                                    <th className="px-4 py-2">Nom</th>
+                                    <th className="px-4 py-2">Prénom</th>
+                                    <th className="px-4 py-2">Email</th>
+                                    <th className="px-4 py-2">CSE</th>
+                                    <th className="px-4 py-2">Role</th>
+                                    <th className="px-4 py-2">Statut</th>
+                                    <th className="px-4 py-2">Action</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                {paginated.map((user) => (
+                                    <tr
+                                        key={user.id}
+                                        className="border-gray-300 border-t hover:bg-gray-100 transition-colors"
+                                    >
+                                        <td className="px-4 py-2 font-medium">{user.last_name}</td>
+                                        <td className="px-4 py-2">{user.first_name}</td>
+                                        <td className="px-4 py-2">{user.email}</td>
+                                        <td className="px-4 py-2" key={user.committee_id}>{user.committee_name}</td>
+                                        <td className="px-4 py-2">{user.role_name}</td>
+                                        <td className="px-4 py-2"><StatusBadge status={user.status} /></td>
+                                        <td className="px-4 py-2 space-x-2 bg-accent">
+                                            <Button action={'update'} onAction={() => {
+                                                setToggle(true),
+                                                    onUpdate(user)
+                                            }} />
+                                            <Button action={'delete'} onAction={() => { onDelete(user.id) }} />
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>}
                 {filtered.length > 1 && (<div className="flex justify-evenly items-center mt-4">
                     <button
                         className="btn btn-neutral"
