@@ -6,7 +6,7 @@ import { fetchUserById } from "../../services/usersService";
 import ScansTable from "./ScansTable"; // Affiche les données d’un scan réussi
 import { useDispatch, useSelector } from "react-redux";
 import Html5QrcodePlugin from "./QrScannerPlugin";
-import { fetchCmmtts, listOfCommittees } from "../../store/slices/CommitteeSlice";
+import { fetchCmmtts, listOfCommittees } from "../../store/slices/committeeSlice";
 import ToastAlert from "../ToastAlert";
 
 

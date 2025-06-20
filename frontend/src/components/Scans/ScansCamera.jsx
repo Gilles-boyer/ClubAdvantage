@@ -3,7 +3,7 @@ import { Html5Qrcode, Html5QrcodeScannerState } from "html5-qrcode";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUsers, listOfUsers } from "../../store/slices/userSlice";
 import { fetchUserById } from "../../services/usersService";
-import { fetchCmmtts, listOfCommittees } from "../../store/slices/CommitteeSlice";
+import { fetchCmmtts, listOfCommittees } from "../../store/slices/committeeSlice";
 
 export default function ScansCamera({ onScanning }) {
     const html5QrCodeRef = useRef(null);                 // 🔁 Référence du scanner actif
@@ -65,7 +65,6 @@ export default function ScansCamera({ onScanning }) {
                             const userData = response.data; // Extraction des données
 
                             setDataOfUser(userData); // Mise à jour de l'état
-
 
                         } else {
                             console.log('Utilisateur non trouvé');
