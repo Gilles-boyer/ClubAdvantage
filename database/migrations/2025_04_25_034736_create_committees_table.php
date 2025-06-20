@@ -15,7 +15,8 @@ return new class extends Migration {
             $table->date('agreement_end_date');
             $table->boolean('auto_renew');
             $table->integer("created_by");
-            
+            $table->boolean('is_active')->default(true);
+
             $table->timestamps();
             $table->softDeletes();
         });

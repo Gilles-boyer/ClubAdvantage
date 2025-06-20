@@ -35,8 +35,8 @@ class CommitteeController extends Controller {
         $data = $request->validated();
 
         // Défauts : début = now(), fin = fin d’année
-        $data['agreement_start_date'] ??= now();
-        $data['agreement_end_date']   ??= Carbon::parse($data['agreement_start_date'])->endOfYear();
+        $data['agreement_start_date'] ??= now()->toDateString();;
+        $data['agreement_end_date']   ??= Carbon::parse($data['agreement_start_date'])->endOfYear()->toDateString();
 
         $committee = Committee::create($data);
 
@@ -49,12 +49,11 @@ class CommitteeController extends Controller {
     /* PUT/PATCH /api/committees/{committee} */
     public function update(CommitteeRequest $request, Committee $committee): JsonResponse {
 
-        $data = $request->validated();
-        $committee->update($data);
+        $committee->update($request->validated());
 
         return response()->json([
             'message' => 'Comité mis à jour avec succès.',
-            'data'    => new CommitteeResource($committee),
+            'data'    => new CommitteeResource($committee->fresh()),
         ], 200);
     }
 
@@ -67,6 +66,7 @@ class CommitteeController extends Controller {
             'message' => 'Comité supprimé avec succès.',
         ], 200);
     }
+
 }
 
 // : JsonResponse indique que cette méthode renvoie toujours une réponse JSON 

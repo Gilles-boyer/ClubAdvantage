@@ -10,15 +10,12 @@ class CommitteeResource extends JsonResource {
         return [
             'id'                     => $this->id,
             'name'                   => $this->name,
-            'agreement_start_date'   => $this->agreement_start_date
-                                        ? $this->agreement_start_date->format('Y-m-d')
-                                        : null,
-
-            'agreement_end_date'     => $this->agreement_end_date
-                                        ? $this->agreement_end_date->format('Y-m-d')
-                                        : null,
+            
+            'agreement_start_date' => $this->agreement_start_date?->toDateString(),
+            'agreement_end_date'   => $this->agreement_end_date?->toDateString(),
 
             'auto_renew'             => (bool) $this->auto_renew,
+            'is_active'              => (bool) $this->is_active,
             'created_by'             => $this->created_by,
         ];
     }

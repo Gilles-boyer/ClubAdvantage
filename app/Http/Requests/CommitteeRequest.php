@@ -26,8 +26,9 @@ class CommitteeRequest extends FormRequest {
             'auto_renew'   => ['required', 'boolean'],
             'created_by'   => ['nullable', 'exists:users,id'],
             
-            'agreement_start_date'=> ['nullable','date'],
-            'agreement_end_date'  => ['nullable','date','after_or_equal:agreement_start_date'],
+            'agreement_start_date'      => ['nullable','date'],
+            'agreement_end_date'        => ['nullable','date','after_or_equal:agreement_start_date'],
+            'is_active'                 => ['sometimes','boolean'],
         ];
     }
 

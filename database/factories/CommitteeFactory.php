@@ -20,6 +20,7 @@ class CommitteeFactory extends Factory {
 
             // Sélectionne un user(staff[2] ou admin[1]) existant au hasard
             'created_by' => User::whereIn('role_name', ['super_admin','staff'])->inRandomOrder()->first()?->id, 
+            'is_active' => fake()->boolean(90),
         ];
     }
 }
