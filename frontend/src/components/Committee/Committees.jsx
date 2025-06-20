@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CommitteeForm from "./CmmttsForm";
 import CmmttsTable from "./CmmttsTable";
-import { fetchCmmtts, updateCmmttThunk, deleteCmmttThunk, addCmmttThunk, listOfCommittees } from "../../store/slices/CommitteeSlice";
+import { fetchCmmtts, updateCmmttThunk, deleteCmmttThunk, addCmmttThunk, listOfCommittees } from "../../store/slices/committeeSlice";
 import ToastAlert from "../ToastAlert";
 import Button from "../Button";
 
