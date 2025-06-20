@@ -51,7 +51,7 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
         <>
 
             <div className="overflow-x-auto hidden md:block">
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center mx-1">
                         <input
                             type="text"
                             placeholder="Rechercher..."

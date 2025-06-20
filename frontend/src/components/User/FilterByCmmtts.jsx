@@ -7,13 +7,11 @@ export default function FilterByCmmtts({
 }) {
   const [search, setSearch] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-
-  // Filtre à la volée
   const filtered = committees.filter((com) =>
     com.name.toLowerCase().includes(search.toLowerCase())
   );
 
-  // Ref pour détecter les clics en dehors
+  //! Ref pour détecter les clics en dehors
   const wrapperRef = useRef(null);
   useEffect(() => {
     const onClickOutside = (e) => {
@@ -27,10 +25,10 @@ export default function FilterByCmmtts({
 
   return (
     <div className="relative w-full max-w-md rounded" ref={wrapperRef}>
-      {/* Le champ de recherche */}
+      {/* Search input */}
       <input
         type="text"
-        placeholder="Rechercher..."
+        placeholder="Filtrer ..."
         className="input input-bordered w-full"
         value={search}
         onFocus={() => setIsOpen(true)}
@@ -39,8 +37,7 @@ export default function FilterByCmmtts({
           setIsOpen(true);
         }}
       />
-
-      {/* La liste déroulante */}
+      {/* Select */}
       {isOpen && (
         <ul
           className="absolute z-50 mt-1 w-full bg-white border rounded shadow-lg max-h-60 overflow-auto"
@@ -53,7 +50,7 @@ export default function FilterByCmmtts({
               setIsOpen(false);
             }}
           >
-            —Toutes les CSE—
+            —Tous les CSE—
           </li>
           {filtered.map((com) => (
             <li

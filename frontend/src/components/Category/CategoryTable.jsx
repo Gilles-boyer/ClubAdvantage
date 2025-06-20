@@ -47,7 +47,7 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
     return (
         <>
             <div className="overflow-x-auto hidden md:block">
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center mx-1">
                     <input
                         type="text"
                         placeholder="Rechercher..."
