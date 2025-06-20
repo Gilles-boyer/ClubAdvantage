@@ -1,4 +1,3 @@
-
 export default function FilterByCmmtts({ committees, selectedCom, setSelectedCom }) {
 
     return (

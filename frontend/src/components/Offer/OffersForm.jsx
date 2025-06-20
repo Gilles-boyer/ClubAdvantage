@@ -72,11 +72,12 @@ export default function OfferForm({ onAddOffer, onEditOffer, setToggle, onCancel
     <>
       <div className="w-80vw border rounded mx-auto my-10">
         <h3 className="font-poppins text-center py-1 text-lg font-medium text-white bg-primary">Ajouter une Offre</h3>
+        <p className="flex text-xs md:text-base text-red-500 justify-center items-center mt-2">
+          <Icon path={mdiAlertCircle} size={1} />
+          Appuyez sur annuler si vous souhaitez annuler la saisie</p>
         <div className="p-5 mx-auto rounded">
           <form onSubmit={handleSubmit} className="space">
-            {onEditOffer && (<p className="flex text-red-400 justify-center mb-6">
-              <Icon path={mdiAlertCircle} size={1} />
-              Appuyez sur annuler si vous souhaitez annuler la saisie</p>)}
+
             {/* TITLE SECTION */}
             <div className="grid md:grid-cols-4 gap-3">
               <div className="form-control mb-4 col-span-4">

@@ -78,7 +78,7 @@ export default function Categories({ref}) {
             </div>
             <section className="pt-6 max-w-5xl mx-auto">
                 <div className='flex w-fit'id='catForm'>
-                    <Button  label={'Ajouter une Catégorie'}
+                    <Button  label={toggle ? 'Fermer le formulaire' :'Ajouter une Catégorie'}
                         onAction={() => setToggle(!toggle)}
                         className={'btn-neutral  hover:btn-secondary mb-2 md:mb-0'} />
                 </div>

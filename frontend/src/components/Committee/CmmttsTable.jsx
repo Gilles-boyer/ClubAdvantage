@@ -2,18 +2,26 @@ import { useState } from "react";
 import Button from "../Button";
 import MobilePagination from "../mobilePagination";
 import EmptyDatas from "../EmptyDatas";
+import FilterByStatus from "../FilterByStatus";
 
 export default function CmmttsTable({ committees, onUpdate, onUpStatus, onDelete, setToggle }) {
     const [search, setSearch] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
     const [visibleCards, setVisibleCards] = useState(3)
+    const [selectedStatus, setSelectedStatus] = useState('')
 
     const mobileView = committees.slice(0, visibleCards)
 
     // Desktop logic for pagination ↓
     const itemsPerPage = 6
-    const filtered = committees.filter(com =>
-        com.name.toLowerCase().includes(search.toLowerCase())
+    const filtered = committees.filter(com => {
+        const matchesSearch = com.name.toLowerCase().includes(search.toLowerCase());
+
+        const matchesStatus = selectedStatus === '' ||
+            (selectedStatus === 'true' && com.is_active) ||
+            (selectedStatus === 'false' && !com.is_active);
+        return matchesSearch && matchesStatus;
+    }
     );
 
     const totalPages = Math.ceil(filtered.length / itemsPerPage);
@@ -38,70 +46,78 @@ export default function CmmttsTable({ committees, onUpdate, onUpStatus, onDelete
         return `${day}/${month}/${year}`;
     };
 
+    const clearFilters = () => {
+        setSearch('')
+        setSelectedStatus('')
+    }
+
     return (
         <>
             <div className="overflow-x-auto hidden md:block">
-                <input
-                    type="text"
-                    placeholder="Rechercher..."
-                    className="input input-bordered my-2 w-full max-w-md hover:ring-secondary hover:ring-1"
-                    value={search}
-                    onChange={(e) => {
-                        setSearch(e.target.value);
-                        setCurrentPage(1);
-                    }}
-                />
-                {paginated.length === 0 
-                ? <EmptyDatas /> 
-                : <div className="overflow-x-auto border border-secondary rounded-xl bg-white shadow-sm">
-                    <table className="min-w-full text-left text-sm">
-                        <thead className="bg-primary text-white uppercase tracking-wider">
-                            <tr>
-                                <th className="px-4 py-2">Nom</th>
-                                <th className="px-4 py-2">Renouvellement Auto</th>
-                                <th className="px-4 py-2">Date début inscription</th>
-                                <th className="px-4 py-2">Date fin d'inscirption</th>
-                                <th className="px-4 py-2">Statut</th>
-                                <th className="px-4 py-2">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {paginated.map((committee) => (
-                                <tr
-                                    key={committee.id}
-                                    className="border-gray-300 border-t hover:bg-gray-100 transition-colors"
-                                >
-                                    <td className="px-4 py-2 font-medium">{committee.name}</td>
-                                    <td className="px-4 py-2 font-medium text-center">
-                                        <button
-                                            className={`badge badge-lg md:text-xs md:py-2 w-17 uppercase text-white ${committee.auto_renew ? "badge-info" : "badge-warning"
-                                                }`}
-                                        >
-                                            {committee.auto_renew ? "Actif" : "Inactif"}
-                                        </button></td>
-                                    <td className="px-4 py-2 font-medium text-center">{formatDate(committee.agreement_start_date)}</td>
-                                    <td className="px-4 py-2 font-medium text-center">{formatDate(committee.agreement_end_date)}</td>
-                                    <td className="px-4 py-2 font-medium text-center">
-                                        <button
-                                            onClick={() => onUpStatus(committee.id)}
-                                            className={`badge badge-md me-2 hover:cursor-pointer font-medium uppercase ${committee.is_active ? "badge-info" : "badge-warning"
-                                                }`}
-                                        >
-                                            {committee.is_active ? "Actif" : "Inactif"}
-                                        </button>
-                                    </td>
-                                    <td className="px-4 py-2 space-x-2 bg-accent">
-                                        <Button action={'update'} onAction={() => {
-                                            setToggle(true),
-                                                onUpdate(committee)
-                                        }} />
-                                        <Button action={'delete'} onAction={() => { onDelete(committee.id) }} />
-                                    </td>
+                <div className="flex justify-between items-center">
+                    <input
+                        type="text"
+                        placeholder="Rechercher..."
+                        className="input input-bordered my-2 w-full max-w-md hover:ring-secondary hover:ring-1"
+                        value={search}
+                        onChange={(e) => {
+                            setSearch(e.target.value);
+                            setCurrentPage(1);
+                        }}
+                    />
+                    <div className="flex items-center gap-x-2">
+
+                        <FilterByStatus label={"CSE"} selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus} />
+                        {(filtered.length !== committees.length) && (<Button label={'annuler les filtres'} onAction={clearFilters} className={'btn-warning text-white'} />)}
+                    </div>
+                </div>
+                {paginated.length === 0
+                    ? <EmptyDatas />
+                    : <div className="overflow-x-auto border border-secondary rounded-xl bg-white shadow-sm">
+                        <table className="min-w-full text-left text-sm">
+                            <thead className="bg-primary text-white uppercase tracking-wider">
+                                <tr>
+                                    <th className="px-4 py-2">Nom</th>
+                                    <th className="px-4 py-2">Renouvellement Auto</th>
+                                    <th className="px-4 py-2">Date début inscription</th>
+                                    <th className="px-4 py-2">Date fin d'inscirption</th>
+                                    <th className="px-4 py-2">Statut</th>
+                                    <th className="px-4 py-2">Action</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>}
+                            </thead>
+                            <tbody>
+                                {paginated.map((committee) => (
+                                    <tr
+                                        key={committee.id}
+                                        className="border-gray-300 border-t hover:bg-gray-100 transition-colors"
+                                    >
+                                        <td className="px-4 py-2 font-medium">{committee.name}</td>
+                                        <td className="px-4 py-2 font-medium text-center">
+                                            <button
+                                                className={`badge badge-lg md:text-xs md:py-2 w-17 uppercase text-white ${committee.auto_renew ? "badge-info" : "badge-warning"
+                                                    }`}
+                                            >
+                                                {committee.auto_renew ? "Actif" : "Inactif"}
+                                            </button></td>
+                                        <td className="px-4 py-2 font-medium text-center">{formatDate(committee.agreement_start_date)}</td>
+                                        <td className="px-4 py-2 font-medium text-center">{formatDate(committee.agreement_end_date)}</td>
+                                        <td className="px-4 py-2 font-medium text-center">
+                                            <Button label={`${committee.is_active ? 'Active' : 'Inactive'}`}
+                                                                                            onAction={() => onUpStatus(committee.id)}
+                                                                                            className={`btn-sm w-17 ${committee.is_active ? 'btn-info' : 'btn-warning'}`} />
+                                        </td>
+                                        <td className="px-4 py-2 space-x-2 bg-accent">
+                                            <Button action={'update'} onAction={() => {
+                                                setToggle(true),
+                                                    onUpdate(committee)
+                                            }} />
+                                            <Button action={'delete'} onAction={() => { onDelete(committee.id) }} />
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>}
                 {filtered.length > 1 && (<div className="flex justify-evenly items-center mt-4">
                     <button
                         className="btn btn-neutral"

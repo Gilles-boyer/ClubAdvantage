@@ -56,8 +56,11 @@ export default function CategoryForm({ onAddCategory, onEditUpCat, onCancelEdit,
 
       <div className="w-80vw md:w-150 border rounded mx-auto my-5">
         <h3 className="font-poppins text-center text-white py-1 text-lg font-medium bg-primary">Ajouter une catégorie</h3>
+        <p className="flex text-xs md:text-base text-red-500 justify-center items-center mt-2">
+          <Icon path={mdiAlertCircle} size={1} />
+          Appuyez sur 'Annuler' si vous souhaitez annuler la saisie</p>
         <div className="p-5 mx-auto rounded">
-          <form onSubmit={handleSubmit} className="space-x-2 mt-4 text-center">
+          <form onSubmit={handleSubmit} className="mt-4 text-center">
             {onEditUpCat && (<p className="flex text-red-400 justify-center mb-6">
               <Icon path={mdiAlertCircle} size={1} />
               Appuyez sur annuler si vous souhaitez annuler la saisie</p>)}

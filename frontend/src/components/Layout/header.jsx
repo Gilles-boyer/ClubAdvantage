@@ -24,7 +24,7 @@ const Header = ({ menu }) => {
         className={'btn-secondary btn-sm text-primary font-semibold hover:btn-accent hidden md:block'}
         onAction={handleLogout}/>
       <button
-        className="bg-accent px-1 py-1 
+        className="bg-secondary px-1 py-1 
         rounded-full text-neutral hover:bg-accent hover:text-neutral uppercase block md:hidden"
         type="button"
         

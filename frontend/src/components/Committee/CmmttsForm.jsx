@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Icon from '@mdi/react';
-import { mdiAlert,  mdiAlertCircle } from '@mdi/js';
+import { mdiAlert, mdiAlertCircle } from '@mdi/js';
 import { Textbox } from "react-inputs-validation";
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -56,7 +56,7 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt, setToggle
 
         if (onEditUpCmmtt?.id !== undefined) {
             newCommittee.id = onEditUpCmmtt.id;
-    }
+        }
 
         onAddCommittee(newCommittee);
         reset();
@@ -82,11 +82,12 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt, setToggle
                 <h3 className="font-poppins text-center text-white py-1 text-lg font-medium bg-primary">
                     {onEditUpCmmtt ? 'Modifier un CSE' : 'Ajouter un CSE'}
                 </h3>
+                <p className="flex text-xs md:text-base text-red-500 justify-center items-center mt-2">
+                    <Icon path={mdiAlertCircle} size={1} />
+                    Appuyez sur 'Annuler' si vous souhaitez annuler la saisie</p>
                 <div className="p-5 mx-auto rounded">
-                    <form onSubmit={handleSubmit} className="space-x-2 mt-4 text-center">
-                    {onEditUpCmmtt && (<p className="flex text-red-400 justify-center mb-6">
-                        <Icon path={mdiAlertCircle} size={1} />
-                        Appuyez sur annuler si vous souhaitez annuler la saisie</p>)}
+                    <form onSubmit={handleSubmit} className="mt-2 text-center">
+
                         {/* Champ nom */}
                         <div className="form-control mb-4">
                             <label htmlFor="nameCommittee" className="label">
@@ -103,7 +104,7 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt, setToggle
                                 value={name}
                                 onChange={setName}
                                 onBlur={(e) => {
-                                        const v = e.target.value.trim();
+                                    const v = e.target.value.trim();
                                     if (!v) setErrorName('Le Nom ne peut pas être vide !');
                                     else if (v.length > 255) setErrorName('Le Nom ne doit pas dépasser 255 caractères !');
                                     else setErrorName('');
@@ -216,12 +217,14 @@ export default function CommitteeForm({ onAddCommittee, onEditUpCmmtt, setToggle
                         )}
 
                         {/* Bouton */}
-                        <Button type="submit" label="valider" className="btn-neutral" />
-                        <Button label="annuler" onAction={() => {
-                            reset();
-                            setToggle(false);
-                            onCancel();
-                        }} className="btn-error" />
+                        <div className="space-x-2">
+                            <Button type="submit" label="valider" className="btn-neutral" />
+                            <Button label="annuler" onAction={() => {
+                                reset();
+                                setToggle(false);
+                                onCancel();
+                            }} className="btn-error" />
+                        </div>
                     </form>
                 </div>
             </div>

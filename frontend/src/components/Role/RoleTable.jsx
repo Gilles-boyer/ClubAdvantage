@@ -1,6 +1,6 @@
 import Button from "../Button"
 
-export default function RoleTable({ roles, onUpdate, onDelete, setToggle }) {
+export default function RoleTable({ roles }) {
     return (
         <>
             <div className="overflow-x-auto border rounded-xl bg-white">
@@ -8,19 +8,12 @@ export default function RoleTable({ roles, onUpdate, onDelete, setToggle }) {
                     <thead className="bg-primary text-gray-700 uppercase tracking-wider">
                         <tr className="bg-primary text-white uppercase">
                             <th className="px-4 py-2">Nom</th>
-                            <th className="px-4 py-2">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {roles.map((role) => (
                             <tr key={role.id}  className="border-t hover:bg-gray-50 transition-colors">
                                 <td className="px-4 py-2">{role.name}</td>
-                                <td className="px-4 py-2 flex gap-2">
-                                    <Button action={'update'} onAction={() => {
-                                        setToggle(true),
-                                        onUpdate(role)}} />
-                                    <Button action={'delete'} onAction={() => {onDelete(role.id)}} />
-                                </td>
                             </tr>
                         ))}
                     </tbody>

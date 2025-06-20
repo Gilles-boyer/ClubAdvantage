@@ -56,7 +56,7 @@ export default function Committees() {
 
         const handleStatus = async (id) => {
             try {
-                const committee = committees.find(cat => cat.id === id);
+                const committee = committees.find(com => com.id === id);
                 if (!committee) return;
                 const updated = { ...committee, is_active: !committee.is_active };
                 await dispatch(updateCmmttThunk({ id, data: updated })).unwrap();
@@ -78,7 +78,7 @@ export default function Committees() {
 
             <section className="pt-5 max-w-5xl mx-auto" id="comForm">
                 <div className='flex w-fit'>
-                     <Button label={'Ajouter un CSE'}
+                     <Button label={toggle ? 'Fermer le formulaire':'Ajouter un CSE'}
                         onAction={() => setToggle(!toggle)}
                         className={'btn-neutral  hover:btn-secondary mb-2 md:mb-0'} />
                 </div>

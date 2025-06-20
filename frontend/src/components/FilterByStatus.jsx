@@ -1,6 +1,5 @@
 
-export default function FilterByStatus({ selectedStatus, setSelectedStatus }) {
-
+export default function FilterByStatus({label, selectedStatus, setSelectedStatus }) {
     return (
         <>
             <select
@@ -12,9 +11,9 @@ export default function FilterByStatus({ selectedStatus, setSelectedStatus }) {
                 }
                 }
             >
-            <option value="all">— Filtrer les Catégories —</option>
-                <option value="true">Catégories Actives</option>
-                <option value="false">Catégories Inactives</option>
+            <option value="all">— Filtrer les {label} —</option>
+                <option value="true">{label} {label === "Catégories" ? "Actives" : "Actifs"}</option>
+                <option value="false">{label} {label === "Catégories" ? "Inactives" : "Inactifs"}</option>
         </select >
         </>
     )

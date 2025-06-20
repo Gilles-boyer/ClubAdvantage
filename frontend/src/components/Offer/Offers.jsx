@@ -95,7 +95,7 @@ export default function Offers() {
             </div>
             <section className="pt-10 max-w-5xl mx-auto" id="offersForm">
                 <div className='flex w-fit'>
-                    <Button label={'Ajouter une Offre'} onAction={() => setToggle(!toggle)}
+                    <Button label={ toggle ? 'Fermer le formulaire':'Ajouter une Offre'} onAction={() => setToggle(!toggle)}
                         className={'btn-neutral hover:btn-secondary mb-2 md:mb-0'} />
                 </div>
                 {toggle && (<OfferForm 

@@ -1,33 +1,35 @@
 import { useEffect, useState } from "react";
 import { Textbox } from "react-inputs-validation";
 import { useDispatch, useSelector } from "react-redux";
+import Icon from '@mdi/react';
+import { mdiAlertCircle } from '@mdi/js';
 import { fetchCmmtts, listOfCommittees } from "../../store/slices/CommitteeSlice";
 import { fetchRoles, listOfRoles } from "../../store/slices/rolesSlice";
 import "react-inputs-validation/lib/react-inputs-validation.min.css";
 import Button from "../Button";
 
 export default function UsersForm({ onAddUser, onEditUser, onCancel, setToggle }) {
-    const dispatch   = useDispatch();
-    const cmmtts     = useSelector(listOfCommittees);
-    const roles      = useSelector(listOfRoles);
+    const dispatch = useDispatch();
+    const cmmtts = useSelector(listOfCommittees);
+    const roles = useSelector(listOfRoles);
 
     // ─── États des champs ─────────
-    const [last_name,   setLast_Name]   = useState("");
-    const [first_name,  setFirst_Name]  = useState("");
-    const [email,       setEmail]       = useState("");
-    const [password,    setPassword]    = useState("");
-    const [status,      setStatus]      = useState("");
+    const [last_name, setLast_Name] = useState("");
+    const [first_name, setFirst_Name] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [status, setStatus] = useState("");
     const [selectedCom, setSelectedCom] = useState("");
-    const [selectedRole,setSelectedRole]= useState("");
+    const [selectedRole, setSelectedRole] = useState("");
 
     // ─── États d’erreur ────────────
-    const [errorLN, setErrorLN]        = useState("");
-    const [errorFN, setErrorFN]        = useState("");
-    const [errorEmail, setErrorEmail]  = useState("");
-    const [errorPSW, setErrorPSW]      = useState("");
-    const [errorStatus, setErrorStatus]=useState("");
-    const [errorCSE, setErrorCSE]      = useState("");
-    const [errorRole, setErrorRole]    = useState("");
+    const [errorLN, setErrorLN] = useState("");
+    const [errorFN, setErrorFN] = useState("");
+    const [errorEmail, setErrorEmail] = useState("");
+    const [errorPSW, setErrorPSW] = useState("");
+    const [errorStatus, setErrorStatus] = useState("");
+    const [errorCSE, setErrorCSE] = useState("");
+    const [errorRole, setErrorRole] = useState("");
 
     useEffect(() => {
         dispatch(fetchCmmtts());
@@ -115,8 +117,8 @@ export default function UsersForm({ onAddUser, onEditUser, onCancel, setToggle }
         // Si c’est un CSE (ID 3 ou 4), on réclame aussi la sélection d’un comité
         if ([3, 4].includes(currentRole)) {
             if (!selectedCom) {
-            setErrorCSE("Choisir un comité !");
-            ok = false;
+                setErrorCSE("Choisir un comité !");
+                ok = false;
             }
         }
         // Sinon on efface toute ancienne erreur CSE
@@ -132,7 +134,7 @@ export default function UsersForm({ onAddUser, onEditUser, onCancel, setToggle }
 
         return ok;
     };
-    
+
     const handleSubmit = async e => {
         e.preventDefault();
 
@@ -145,9 +147,9 @@ export default function UsersForm({ onAddUser, onEditUser, onCancel, setToggle }
         }
 
         // composition de l’objet user
-        const comObj  = cmmtts.find(com => com.id === +selectedCom);
+        const comObj = cmmtts.find(com => com.id === +selectedCom);
         const roleObj = roles.find(role => role.id === +selectedRole);
-        const CseRole = ['cse_admin','cse_member'].includes(roleObj?.name);
+        const CseRole = ['cse_admin', 'cse_member'].includes(roleObj?.name);
 
         const newUser = {
             last_name,
@@ -172,10 +174,10 @@ export default function UsersForm({ onAddUser, onEditUser, onCancel, setToggle }
 
             const errors = err?.errors || err?.response?.data?.errors;
             if (errors) {
-                if (errors.last_name)  setErrorLN(errors.last_name[0]);
+                if (errors.last_name) setErrorLN(errors.last_name[0]);
                 if (errors.first_name) setErrorFN(errors.first_name[0]);
-                if (errors.email)      setErrorEmail(errors.email[0]);
-                if (errors.password)   setErrorPSW(errors.password[0]);
+                if (errors.email) setErrorEmail(errors.email[0]);
+                if (errors.password) setErrorPSW(errors.password[0]);
                 if (errors.committee_id) setErrorCSE(errors.committee_id[0]);
             } else {
 
@@ -186,12 +188,12 @@ export default function UsersForm({ onAddUser, onEditUser, onCancel, setToggle }
 
     // ─── Effacement des champs & erreurs ──
     const reset = () => {
-        setLast_Name("");    setErrorLN("");
-        setFirst_Name("");   setErrorFN("");
-        setEmail("");        setErrorEmail("");
-        setPassword("");     setErrorPSW("");
-        setStatus("");       setErrorStatus("");
-        setSelectedCom("");  setErrorCSE("");
+        setLast_Name(""); setErrorLN("");
+        setFirst_Name(""); setErrorFN("");
+        setEmail(""); setErrorEmail("");
+        setPassword(""); setErrorPSW("");
+        setStatus(""); setErrorStatus("");
+        setSelectedCom(""); setErrorCSE("");
         setSelectedRole(""); setErrorRole("");
     };
 
@@ -200,7 +202,9 @@ export default function UsersForm({ onAddUser, onEditUser, onCancel, setToggle }
             <h3 className="font-poppins text-center py-1 text-lg text-white bg-primary">
                 {onEditUser ? "Modifier un utilisateur" : "Ajouter un utilisateur"}
             </h3>
-
+            <p className="flex text-xs md:text-base text-red-500 justify-center items-center mt-2">
+                <Icon path={mdiAlertCircle} size={1} />
+                Appuyez sur 'Annuler' si vous souhaitez annuler la saisie</p>
             <form onSubmit={handleSubmit} className="p-5 space-y-4">
 
                 <div className="grid md:grid-cols-4 gap-3">
@@ -290,16 +294,16 @@ export default function UsersForm({ onAddUser, onEditUser, onCancel, setToggle }
                                 if (e.target.value) setErrorStatus("");
                             }}
                         >
-                        <option value="">Choisir un statut</option>
-                        <option value="active">Actif</option>
-                        <option value="inactive">Inactif</option>
-                        <option value="expired">Expiré</option>
+                            <option value="">Choisir un statut</option>
+                            <option value="active">Actif</option>
+                            <option value="inactive">Inactif</option>
+                            <option value="expired">Expiré</option>
                         </select>
                         {errorStatus && <p className="text-red-500 text-sm mt-1">{errorStatus}</p>}
                     </div>
 
                     {/* Comité */}
-                    {(onEditUser? [3,4].includes(onEditUser.role_id): [3,4].includes(Number(selectedRole))) && (
+                    {(onEditUser ? [3, 4].includes(onEditUser.role_id) : [3, 4].includes(Number(selectedRole))) && (
                         <div>
                             <label className="label"><span>Définir le CSE</span></label>
                             <select
@@ -339,19 +343,19 @@ export default function UsersForm({ onAddUser, onEditUser, onCancel, setToggle }
                     </div>
                 </div>
 
-                    {/* Boutons */}
-                    <div className="flex justify-center space-x-2">
-                        <Button label="Valider" type="submit" className="btn-neutral" />
-                        <Button
-                            label="Annuler"
-                            onAction={() => {
-                                reset();
-                                setToggle(false);
-                                onCancel();
-                            }}
-                            className="btn-error"
-                        />
-                    </div>
+                {/* Boutons */}
+                <div className="flex justify-center space-x-2">
+                    <Button label="Valider" type="submit" className="btn-neutral" />
+                    <Button
+                        label="Annuler"
+                        onAction={() => {
+                            reset();
+                            setToggle(false);
+                            onCancel();
+                        }}
+                        className="btn-error"
+                    />
+                </div>
             </form>
         </div>
     );

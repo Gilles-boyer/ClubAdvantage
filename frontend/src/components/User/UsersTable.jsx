@@ -52,16 +52,16 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
 
             <div className="overflow-x-auto hidden md:block">
                 <div className="flex justify-between items-center">
-                    <input
-                        type="text"
-                        placeholder="Rechercher..."
-                        className="input input-bordered my-2 w-full max-w-md hover:border-secondary hover:ring-secondary hover:ring-1"
-                        value={search}
-                        onChange={(e) => {
-                            setSearch(e.target.value);
-                            setCurrentPage(1);
-                        }}
-                    />
+                        <input
+                            type="text"
+                            placeholder="Rechercher..."
+                            className="input input-bordered my-2 w-full max-w-md hover:border-secondary hover:ring-secondary hover:ring-1"
+                            value={search}
+                            onChange={(e) => {
+                                setSearch(e.target.value);
+                                setCurrentPage(1);
+                            }}
+                        />
                     <div className="flex items-center gap-x-2">
                         <FilterByCmmtts committees={committees} selectedCom={selectedCom} setSelectedCom={setSelectedCom} />
                         {(filtered.length !== users.length) && (<Button label={'annuler les filtres'} onAction={clearFilters} className={'btn-warning text-white'} />)}
