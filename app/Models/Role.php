@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Role extends Model {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name','description'];
 
     // Récupère tous les utilisateurs qui possèdent ce rôle
     public function users(): HasMany {

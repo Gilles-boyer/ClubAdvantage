@@ -47,6 +47,7 @@ class RoleRequest extends FormRequest {
         return [
             'name' => ['required','string','max:50',
             Rule::unique('roles', 'name')->ignore($roleId)],
+            'description' => 'nullable|string|max:1000',
         ];
     }
 
