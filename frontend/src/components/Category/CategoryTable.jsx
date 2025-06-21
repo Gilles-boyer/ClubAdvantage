@@ -100,7 +100,7 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                     </div>}
                 {filtered.length > 1 && (<div className="flex justify-evenly items-center mt-4">
                     <button
-                        className="btn btn-secondary"
+                        className="btn btn-neutral"
                         onClick={handlePrevious}
                         disabled={currentPage === 1}
                     >
@@ -110,7 +110,7 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                         Page {currentPage} sur {totalPages}
                     </span>
                     <button
-                        className="btn btn-secondary"
+                        className="btn btn-neutral"
                         onClick={handleNext}
                         disabled={currentPage === totalPages}
                     >

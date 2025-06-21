@@ -8,5 +8,6 @@ export default function Home() {
                 <div className="flex-grow border-t border-neutral"></div>
             </div>
         < Offers />
+
     </>
 }
