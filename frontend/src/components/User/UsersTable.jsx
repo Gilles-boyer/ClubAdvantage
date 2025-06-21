@@ -4,7 +4,7 @@ import MobilePagination from "../mobilePagination"
 import StatusBadge from "./StatusBadge"
 import FilterByCmmtts from "./FilterByCmmtts"
 import { useDispatch, useSelector } from "react-redux"
-import { listOfCommittees, fetchCmmtts } from "../../store/slices/CommitteeSlice"
+import { listOfCommittees, fetchCmmtts } from "../../store/slices/committeeSlice"
 import EmptyDatas from "../EmptyDatas"
 
 export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEditMode }) {
