@@ -8,6 +8,8 @@ use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
+use Laravel\Pail\ValueObjects\Origin\Console;
 
 class UserController extends Controller {
     // Liste paginée des utilisateurs, filtrable par rôle
@@ -18,7 +20,7 @@ class UserController extends Controller {
             $query->where('role_name', $request->role);
         }
     
-        $users = $query->orderBy('last_name')->orderBy('first_name')->paginate(30);
+        $users = $query->orderBy('last_name')->orderBy('first_name')->paginate(100000);
         return UserResource::collection($users)->additional([
             'meta' => [
                 'total' => $users->total(),
@@ -163,11 +165,36 @@ class UserController extends Controller {
     }
 
     // Récupère le profil de l’utilisateur connecté
-    public function me(Request $request) {
+    public function me(Request $request)
+{
+    try {
+        $user = $request->user();
+
+        // Si pour une raison quelconque l’utilisateur n’est pas authentifié
+        if (! $user) {
+            return response()->json([
+                'error'   => 'Utilisateur non authentifié',
+            ], 401);
+        }
+
+        // Tout est OK, on renvoie les données
         return response()->json([
-            'data' => new UserResource($request->user())
+            'data' => new UserResource($user),
+        ], 200);
+
+    } catch (\Exception $e) {
+        // On log l’erreur en back
+        Log::error('Erreur dans AuthController@me : '.$e->getMessage(), [
+            'trace' => $e->getTraceAsString(),
         ]);
+
+        // On renvoie une réponse JSON 500 avec le message
+        return response()->json([
+            'error'   => 'Une erreur est survenue',
+            'message' => $e->getMessage(),
+        ], 500);
     }
+}
 
     // Mise à jour du profil de l’utilisateur connecté
     public function updateProfile(Request $request) {

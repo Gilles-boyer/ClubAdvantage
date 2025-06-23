@@ -21,20 +21,20 @@ class UserSeeder extends Seeder {
         ]);
 
         // Crée 3 staffs 
-        User::factory(3)->create([
+        User::factory(5)->create([
             'role_name'     => 'staff',
             'role_id'       => Role::where('name', 'staff')->value('id'),
             'committee_id'  => null,
         ]);
 
         // Crée 10 cse_admin
-        User::factory(5)->forCse() ->create([
+        User::factory(500)->forCse() ->create([
             'role_name'     => 'cse_admin',
             'role_id'       => Role::where('name', 'cse_admin')->value('id'),
         ]);
 
         // Crée 10 cse_member
-        User::factory(10)->forCse() ->create([
+        User::factory(1000)->forCse() ->create([
             'role_name'     => 'cse_member',
             'role_id'       => Role::where('name', 'cse_member')->value('id'),
         ]);
