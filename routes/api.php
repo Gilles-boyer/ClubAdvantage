@@ -10,6 +10,22 @@ use App\Http\Controllers\ScanController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
+
+// CSRF pour Sanctum (automatiquement exposé par sanctum config)
+Route::get('/sanctum/csrf-cookie', [\Laravel\Sanctum\Http\Controllers\CsrfCookieController::class, 'show']);
+
+// Auth
+Route::post('/login',  [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout']);
+
+// Route qui renvoie simplement l’utilisateur connecté
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get   ('user/me',        [UserController::class, 'me']);
+    Route::patch ('user/me',        [UserController::class, 'updateProfile']);
+    Route::patch ('user/password',  [UserController::class, 'updatePassword']);
+    Route::delete('user/me',        [UserController::class, 'deleteAccount']);
+});
+
 // Route renvoyant les pages
 Route::apiResources([
     'categories'      => CategoryController::class,
@@ -21,18 +37,10 @@ Route::apiResources([
     'scans'           => ScanController::class,
 ]);
 
-// Route qui renvoie simplement l’utilisateur connecté
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get   ('user/me',        [UserController::class, 'me']);
-    Route::patch ('user/me',        [UserController::class, 'updateProfile']);
-    Route::patch ('user/password',  [UserController::class, 'updatePassword']);
-    Route::delete('user/me',        [UserController::class, 'deleteAccount']);
-});
-
-Route::middleware('web')->group(function () {
-    Route::post('/login',  [AuthController::class, 'login']);
-    Route::post('/logout', [AuthController::class, 'logout']);
-});
+// Route::middleware('web')->group(function () {
+//     Route::post('/login',  [AuthController::class, 'login']);
+//     Route::post('/logout', [AuthController::class, 'logout']);
+// });
 
 /** Exemple détailler de la Route categories: */ 
 /* 

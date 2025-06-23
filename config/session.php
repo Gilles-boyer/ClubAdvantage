@@ -156,7 +156,7 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN'),
+    'domain' => env('SESSION_DOMAIN', null),
 
     /*
     |--------------------------------------------------------------------------
@@ -213,9 +213,5 @@ return [
     */
 
     'partitioned' => env('SESSION_PARTITIONED_COOKIE', false),
-
-    'domain' => null, // ← ou ton IP exacte si problème de cookies entre ports
-    'same_site' => 'lax', // ← pour éviter blocages entre 5173 et 8000
-
 
 ];
