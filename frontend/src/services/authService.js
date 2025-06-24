@@ -1,12 +1,18 @@
-import axios from 'axios'
+import client from "../api/axiosInstance";
 
-const authClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,  // http://192.168.1.17:8000/api
-  withCredentials: true,
-  headers: { Accept: 'application/json' },
-});
+export const getToken = () => {
+    client.get('/sanctum/cstf-cookie')
+}
 
-export const csrf   = ()            => authClient.get("/sanctum/csrf-cookie");
-export const login  = creds         => authClient.post("/login", creds);
-export const logout = ()            => authClient.post("/logout");
-export const me     = ()            => authClient.get("/user/me");
+export const fetchUser = () => {
+    client.get('/api/user')
+}
+
+export const loginRequest = ({ email, password }) => {
+    client.post('/user', { email, password })
+}
+
+export const logout = () => {
+    client.post('/logout')
+}
+export const me = () => client.get("/user/me");

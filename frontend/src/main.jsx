@@ -5,13 +5,13 @@ import { store }        from './store/store.js'
 import App              from './App.jsx'
 import './style/tailwind.css'
 
-import { csrf }                 from './services/authService'
+import { getToken }                 from './services/authService'
 import { fetchCurrentUser }     from './store/slices/authSlice'
 
 // 1) On récupère le CSRF-cookie et la session Laravel    
 async function bootstrap() {
     try {
-        await csrf()
+        await getToken()
         console.log('✅ CSRF cookie obtenu')
     } catch (err) {
         console.warn('⚠️ Impossible de récupérer le CSRF-cookie :', err)

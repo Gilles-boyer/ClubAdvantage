@@ -1,32 +1,36 @@
-import { loginThunk, selectAuth }   from "../../store/slices/authSlice";
-import { useState, useEffect }      from 'react';
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate }              from "react-router-dom";
-import LoginForm                    from "./LoginForm";
-import ToastAlert                   from "../ToastAlert";
+import { getToken } from '../../services/authService';
+import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import LoginForm from "./LoginForm";
+import ToastAlert from "../ToastAlert";
 
 export default function Login() {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { user, status} = useSelector(selectAuth);
+    // const { user, status} = useSelector();
+    try {
+        const response = getToken()
+        console.log('voici la réponse envoyée :', response);
+    } catch (err){
+        console.log(err);
+        
+    }
 
     // toast local pour succès + erreur
-    const [toast, setToast] = useState({ show:false, message:'', type:'error' });
-    
-    // Si déjà logué, on redirige direct
-    useEffect(() => {
-        if (user) navigate('/', { replace: true });
-    }, [user, navigate]);
+    const [toast, setToast] = useState({ show: false, message: '', type: 'error' });
 
-    const handleLogin = async credentials => {
+    // Si déjà logué, on redirige direct
+    // useEffect(() => {
+    //     if (user) navigate('/', { replace: true });
+    // }, [user, navigate]);
+
+    const handleLogin = async () => {
         try {
             // 1) login (renvoie user + cookies)
-            await dispatch(loginThunk(credentials)).unwrap()
 
             // 2) on redirige tout de suite
             navigate('/', { replace: true })
         } catch (err) {
-            setToast({ show:true, type:'error', message: err })
+            setToast({ show: true, type: 'error', message: err })
         }
     }
     return (
@@ -37,7 +41,7 @@ export default function Login() {
                 </h2>
                 {/* toast succès local */}
                 {toast.show && <ToastAlert toast={toast} setToast={setToast} />}
-                <LoginForm onSubmit={handleLogin} loading={status==='loading'} />
+                <LoginForm onSubmit={handleLogin} />
             </div>
         </section>
     );
