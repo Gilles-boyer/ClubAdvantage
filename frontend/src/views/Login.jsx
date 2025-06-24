@@ -1,7 +1,7 @@
-import LoginForm from "../components/Login/LoginForm";
+import Login from "../components/Auth/Login";
 import logo from "/Logo_doré.png";
 
-export default function Login() {
+export default function Log() {
     return (
         <>
             <section className="min-h-screen flex flex-col items-center justify-center bg-neutral py-5">
@@ -9,7 +9,7 @@ export default function Login() {
                     <h2 className="text-center font-medium text-xl md:text-4xl uppercase text-accent">Bienvenue sur ClubAdvantage</h2>
                     <div className="flex flex-col md:flex-row md:gap-8 items-center pb-5">
                         <img src={logo} alt="Logo ClubAdvantage" className="w-35 md:w-130 object-contain" />
-                        < LoginForm />
+                        < Login />
                     </div>
                 </div>
             </section>

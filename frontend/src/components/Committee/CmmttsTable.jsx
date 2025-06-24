@@ -77,12 +77,12 @@ export default function CmmttsTable({ committees, onUpdate, onUpStatus, onDelete
                         <table className="min-w-full text-left text-sm">
                             <thead className="bg-primary text-white uppercase tracking-wider">
                                 <tr>
-                                    <th className="px-4 py-2">Nom</th>
-                                    <th className="px-4 py-2">Renouvellement Auto</th>
-                                    <th className="px-4 py-2">Date début inscription</th>
-                                    <th className="px-4 py-2">Date fin d'inscirption</th>
-                                    <th className="px-4 py-2">Statut</th>
-                                    <th className="px-4 py-2">Action</th>
+                                    <th className="px-4 py-2 text-center">Nom</th>
+                                    <th className="px-4 py-2 text-center">Auto-maj</th>
+                                    <th className="px-4 py-2 text-center">Date du début inscription</th>
+                                    <th className="px-4 py-2 text-center">Date de fin d'inscirption</th>
+                                    <th className="px-4 py-2 text-center">Statut</th>
+                                    <th className="px-4 py-2 text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -103,8 +103,8 @@ export default function CmmttsTable({ committees, onUpdate, onUpStatus, onDelete
                                         <td className="px-4 py-2 font-medium text-center">{formatDate(committee.agreement_end_date)}</td>
                                         <td className="px-4 py-2 font-medium text-center">
                                             <Button label={`${committee.is_active ? 'Active' : 'Inactive'}`}
-                                                                                            onAction={() => onUpStatus(committee.id)}
-                                                                                            className={`btn-sm w-17 ${committee.is_active ? 'btn-info' : 'btn-warning'}`} />
+                                            onAction={() => onUpStatus(committee.id)}
+                                            className={`btn-sm w-17 ${committee.is_active ? 'btn-info' : 'btn-warning'}`} />
                                         </td>
                                         <td className="px-4 py-2 space-x-2 bg-accent">
                                             <Button action={'update'} onAction={() => {
