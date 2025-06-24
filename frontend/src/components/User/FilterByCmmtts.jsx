@@ -43,7 +43,7 @@ export default function FilterByCmmtts({
           className="absolute z-50 mt-1 w-full bg-white border rounded shadow-lg max-h-60 overflow-auto"
           value={selectedCom}
         >
-          <li
+          {/* <li
             className="px-4 py-2 hover:bg-primary hover:text-white cursor-pointer"
             onClick={() => {
               setSelectedCom(null);
@@ -51,7 +51,7 @@ export default function FilterByCmmtts({
             }}
           >
             —Tous les CSE—
-          </li>
+          </li> */}
           {filtered.map((com) => (
             <li
               key={com.id}

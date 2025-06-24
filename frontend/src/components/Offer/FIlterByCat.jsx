@@ -43,7 +43,7 @@ export default function FilterByCategories({
           className="absolute z-50 mt-1 w-full bg-white border rounded shadow-lg max-h-60 overflow-auto"
           value={selectedCat}
         >
-          <li
+          {/* <li
             className="px-4 py-2 hover:bg-primary hover:text-white cursor-pointer"
             onClick={() => {
               setSelectedCat(null);
@@ -51,7 +51,7 @@ export default function FilterByCategories({
             }}
           >
             —Toutes les Catégories—
-          </li>
+          </li> */}
           {filtered.map((cat) => (
             <li
               key={cat.id}
