@@ -28,13 +28,13 @@ class UserSeeder extends Seeder {
         ]);
 
         // Crée 10 cse_admin
-        User::factory(5)->forCse() ->create([
+        User::factory(30)->forCse() ->create([
             'role_name'     => 'cse_admin',
             'role_id'       => Role::where('name', 'cse_admin')->value('id'),
         ]);
 
         // Crée 10 cse_member
-        User::factory(10)->forCse() ->create([
+        User::factory(90)->forCse() ->create([
             'role_name'     => 'cse_member',
             'role_id'       => Role::where('name', 'cse_member')->value('id'),
         ]);

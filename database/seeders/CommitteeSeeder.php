@@ -9,6 +9,7 @@ class CommitteeSeeder extends Seeder {
     public function run(): void {
         
         // Génération de 10 utilisateur aléatoires
-        Committee::factory(10)->create();
+        Committee::factory(30
+        )->create();
     }
 }
