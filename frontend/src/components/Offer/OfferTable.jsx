@@ -53,7 +53,7 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
 
     return (
         <>
-            <div className="overflow-x-auto hidden md:block">
+            <div className="overflow-x-auto hidden md:block h-full">
                 <div className="flex justify-between items-center mx-1">
                     <input
                         type="text"

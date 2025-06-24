@@ -50,7 +50,7 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
     return (
         <>
 
-            <div className="overflow-x-auto hidden md:block">
+            <div className="overflow-x-auto hidden md:block h-full">
                 <div className="flex justify-between items-center mx-1">
                         <input
                             type="text"

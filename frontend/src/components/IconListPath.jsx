@@ -51,7 +51,7 @@ export default function IconSelect({ value, onChange }) {
                 setIsOpen(false);
               }}
             >
-              <Icon path={opt.path} size={1} />
+              <Icon path={opt.path} size={1} key={opt.path}/>
             </li>
           ))}
         </ul>

@@ -3,7 +3,7 @@ import Icon from '@mdi/react';
 import { mdiAlert, mdiAlertCircle } from '@mdi/js';
 import { Textarea, Textbox } from "react-inputs-validation";
 import Button from "../Button";
-import IconPicker from "../IconListPath"
+// import IconPicker from "../IconListPath"
 
 export default function CategoryForm({ onAddCategory, onEditUpCat, onCancelEdit, setToggle }) {
   const [name, setName] = useState("")
@@ -165,9 +165,9 @@ export default function CategoryForm({ onAddCategory, onEditUpCat, onCancelEdit,
                 </div>
               )}
             </div>
-            <div>
+            {/* <div>
               <IconPicker />
-            </div>
+            </div> */}
 
             {/* BUTTONS SECTION */}
             <div className="space-x-2 mt-5">
