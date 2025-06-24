@@ -15,6 +15,16 @@ class CategorySeeder extends Seeder {
             'Stage auto',
             'Expérience VIP',
             'Location salle',
+            "Journées piste",
+            "Baptêmes passager",
+            "Simulateur de course",
+            "Coaching personnalisé",
+            "Sessions de karting",
+            "Ateliers mécanique auto",
+            "Team building corporate",
+            "Soirées networking",
+            "Photographie sur circuit",
+            "Événements exclusifs",
         ];
 
         // $names est un tableau de plusieurs noms et foreach parcoure chaque nom et l'enregistre individuellement

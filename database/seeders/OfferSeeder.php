@@ -9,6 +9,6 @@ class OfferSeeder extends Seeder {
     public function run(): void {
         
         // Génération de 10 utilisateur aléatoires
-        Offer::factory(10)->create();
+        Offer::factory(42)->create();
     }
 }
