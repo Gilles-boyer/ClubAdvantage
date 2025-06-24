@@ -20,11 +20,7 @@ class UserController extends Controller {
             $query->where('role_name', $request->role);
         }
     
-<<<<<<< HEAD
-        $users = $query->orderBy('last_name')->orderBy('first_name')->paginate(60);
-=======
         $users = $query->orderBy('last_name')->orderBy('first_name')->paginate(100000);
->>>>>>> f8dd12317fe0eebd3a1e140c94147d028da3db29
         return UserResource::collection($users)->additional([
             'meta' => [
                 'total' => $users->total(),
