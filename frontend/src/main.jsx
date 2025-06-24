@@ -1,21 +1,28 @@
-import { StrictMode }   from 'react';
-import { createRoot }   from 'react-dom/client';
-import { Provider }     from 'react-redux';
-import { store }        from './store/store.js';
-import App              from './App.jsx';
-import './style/tailwind.css';
-import client from './api/axiosInstance';
-// import axios from 'axios';
+import { StrictMode }   from 'react'
+import { createRoot }   from 'react-dom/client'
+import { Provider }     from 'react-redux'
+import { store }        from './store/store.js'
+import App              from './App.jsx'
+import './style/tailwind.css'
 
+import { csrf }                 from './services/authService'
+import { fetchCurrentUser }     from './store/slices/authSlice'
+
+// 1) On récupère le CSRF-cookie et la session Laravel    
 async function bootstrap() {
     try {
-        // 1) On bâtit dynamiquement l'URL racine sans /api
-        // const rootURL = import.meta.env.VITE_API_URL.replace(/\/api\/?$/, '');
-        // 2) On récupère le CSRF-cookie et la session Laravel
-        await client.get(`/sanctum/csrf-cookie`);
-        console.log('✅ CSRF cookie obtenu');
+        await csrf()
+        console.log('✅ CSRF cookie obtenu')
     } catch (err) {
-        console.error('❌ Échec du CSRF-cookie', err);
+        console.warn('⚠️ Impossible de récupérer le CSRF-cookie :', err)
+    }
+
+    // 2. On tente de recharger l’utilisateur
+    try {
+        await store.dispatch(fetchCurrentUser()).unwrap()
+        console.log('✅ Utilisateur courant :', store.getState().auth.user)
+    } catch {
+        console.log('ℹ️ Aucune session active')
     }
 
     // 3) Puis on monte notre appli
@@ -25,7 +32,7 @@ async function bootstrap() {
                 <App />
             </Provider>
         </StrictMode>
-    );
+    )
 }
 
-bootstrap();
+bootstrap()
