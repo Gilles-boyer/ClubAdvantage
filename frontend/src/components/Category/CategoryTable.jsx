@@ -12,8 +12,7 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
     const [selectedStatus, setSelectedStatus] = useState('')
 
     const itemsPerPage = 6
-    console.log('valeur du statut sélectionné', selectedStatus);
-
+    // console.log('valeur du statut sélectionné', selectedStatus);
 
     const filtered = categories.filter(cat => {
         const matchesSearch = cat.name.toLowerCase().includes(search.toLowerCase());
@@ -25,7 +24,7 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
     }
     );
 
-    console.log('filtre du statut sélectionné', filtered);
+    // console.log('filtre du statut sélectionné', filtered);
     const totalPages = Math.ceil(filtered.length / itemsPerPage);
     const paginated = filtered.slice(
         (currentPage - 1) * itemsPerPage,
@@ -161,14 +160,11 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                                     <Button action={'delete'} onAction={() => { onDelete(category.id) }} />
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
                 ))}
                 < MobilePagination object={categories} visibleCards={visibleCards} setVisibleCards={setVisibleCards} />
             </article >
-
         </>
     )
 }
