@@ -3,16 +3,32 @@ import { Textbox } from "react-inputs-validation";
 import Icon from "@mdi/react";
 import { mdiAccount } from "@mdi/js";
 // import Button from "../Button";
+import { getToken, loginRequest } from "../../services/authService";
+import { useNavigate } from "react-router-dom";
 
-export default function LoginForm({ onSubmit, loading }) {
-  const [email, setEmail]       = useState("admin@example.com");
-  const [password, setPassword] = useState("manger12345");
+export default function LoginForm() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const navigate = useNavigate()
 
-  const handle = (e) => {
-    e.preventDefault();
-    onSubmit({ email, password });
-  };
+    const handle = async (e) => {
+        e.preventDefault();
+        try {
+            await getToken()
+                .then(() => {
+                    loginRequest({ email: email, password: password })
+                        .then((res) =>
+                            localStorage.setItem('user/me', JSON.stringify(res.data)))
+                    navigate('/')
+                })
+        } catch (err) {
+            // setToast({ show: true, type: 'error', message: err })
+            console.error(err);
 
+        }
+
+
+    }
     return (
         <div className="card bg-accent p-8 ring-2 ring-secondary">
             <Icon
@@ -32,8 +48,8 @@ export default function LoginForm({ onSubmit, loading }) {
                             type: "email",
                         }}
                         value={email}
-                        onChange={(v) => setEmail(v)}
-                        onBlur={() => {}}
+                        onChange={(value) => setEmail(value)}
+                        onBlur={() => { }}
                     />
                 </div>
 
@@ -48,17 +64,16 @@ export default function LoginForm({ onSubmit, loading }) {
                             type: "password",
                         }}
                         value={password}
-                        onChange={(v) => setPassword(v)}
-                        onBlur={() => {}}
+                        onChange={(value) => setPassword(value)}
+                        onBlur={() => { }}
                     />
                 </div>
 
                 <button
                     type="submit"
-                    disabled={loading}
                     className="btn btn-primary w-full uppercase text-xs"
                 >
-                    {loading ? 'Connexion…' : 'Se connecter'}
+                    Se connecter
                 </button>
                 <button
                     type="button"

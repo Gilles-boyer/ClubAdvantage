@@ -1,19 +1,12 @@
-import { getToken } from '../../services/authService';
+import { getToken, loginRequest } from '../../services/authService';
 import { useState } from 'react';
-import { useNavigate } from "react-router-dom";
 import LoginForm from "./LoginForm";
 import ToastAlert from "../ToastAlert";
 
 export default function Login() {
-    const navigate = useNavigate();
     // const { user, status} = useSelector();
-    try {
-        const response = getToken()
-        console.log('voici la réponse envoyée :', response);
-    } catch (err){
-        console.log(err);
-        
-    }
+// ! email => admin@example.com
+// ! password => manger12345
 
     // toast local pour succès + erreur
     const [toast, setToast] = useState({ show: false, message: '', type: 'error' });
@@ -23,12 +16,12 @@ export default function Login() {
     //     if (user) navigate('/', { replace: true });
     // }, [user, navigate]);
 
-    const handleLogin = async () => {
+    const handleLogin = async (e) => {
+        e.preventDefault()
         try {
-            // 1) login (renvoie user + cookies)
-
-            // 2) on redirige tout de suite
-            navigate('/', { replace: true })
+            await getToken().then(() => {
+                loginRequest()
+            })
         } catch (err) {
             setToast({ show: true, type: 'error', message: err })
         }
