@@ -6,24 +6,31 @@ use App\Http\Requests\RoleRequest;
 use App\Http\Resources\RoleResource;
 use App\Models\Role;
 
-class RoleController extends Controller {
-    // Les 4 rôles principaux qu’on ne doit pas modifier ou supprimer
+class RoleController extends Controller
+{
+    // TODO The 4 main roles that must not be changed or removed (Les 4 rôles principaux qu’on ne doit pas modifier ou supprimer)
     private array $reserved = ['super_admin', 'staff', 'cse_admin', 'cse_member'];
 
-    public function index() {
+    // Handles index action (Gère l'action index)
+    public function index()
+    {
         return RoleResource::collection(Role::all());
     }
 
-    public function show(Role $role) {
+    // Handles show action (Gère l'action show)
+    public function show(Role $role)
+    {
         return new RoleResource($role);
     }
 
-    public function store(RoleRequest $request) {
+    // Handles store action (Gère l'action store)
+    public function store(RoleRequest $request)
+    {
         $data = $request->validated();
 
-        // ─── Interdit de créer un second super_admin ───
-        // strtolower => transforme une chaine de caractères en minuscules
-        if (strtolower($data['name'] ?? '') === 'super_admin') { 
+        // - ── Prohibits the creation of a second super_admin ─── (Interdit de créer un second super_admin)
+        // TODO strtolower => transforms a string into lowercase characters (transforme une chaine de caractères en minuscules)
+        if (strtolower($data['name'] ?? '') === 'super_admin') {
 
             $exists = Role::where('name', 'super_admin')->exists();
 
@@ -38,34 +45,38 @@ class RoleController extends Controller {
         return new RoleResource($role);
     }
 
-    public function update(RoleRequest $request, Role $role) {
-        // Impossible de modifier l’un des rôles principaux
+    // Handles update action (Gère l'action update)
+    public function update(RoleRequest $request, Role $role)
+    {
+        // Cannot modify one of the main roles (Impossible de modifier l’un des rôles principaux)
         if (in_array(strtolower($role->name), $this->reserved, true)) {
             return response()->json([
                 'message' => 'Les rôles principaux ne peuvent pas être modifiés.'
             ], 403);
         }
 
-        // Interdit de transformer un autre rôle en l’un des rôles principaux
+        // TODO Not allowed to transform another role into one of the main ones (Interdit de transformer un autre rôle en l’un des rôles principaux)
         $incoming = $request->validated();
         if (isset($incoming['name']) && in_array(strtolower($incoming['name']), $this->reserved, true)) {
             return response()->json([
                 'message' => 'Impossible de renommer un rôle en l’un des rôles principaux.'
             ], 403);
         }
-        
+
         $role->update($incoming);
         return new RoleResource($role);
     }
 
-    public function destroy(Role $role) {
-        // Impossible de supprimer l’un des rôles principaux
+    // Handles destroy action (Gère l'action destroy)
+    public function destroy(Role $role)
+    {
+        // Cannot remove one of the main roles (Impossible de supprimer l’un des rôles principaux)
         if (in_array(strtolower($role->name), $this->reserved, true)) {
             return response()->json([
                 'message' => 'Les rôles principaux ne peuvent pas être supprimés.'
             ], 403);
         }
-        
+
         $role->delete();
         return response()->json(['message' => 'Role supprimée avec succès.'], 200);
     }

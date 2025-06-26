@@ -6,9 +6,12 @@ use App\Models\Category;
 use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
 
-class CategoryController extends Controller {
-    // GET /api/categories
-    public function index() {
+class CategoryController extends Controller
+{
+    // TODO GET /api/categories (GET /api/categories)
+    // Handles index action (Gère l'action index)
+    public function index()
+    {
 
         $categories = Category::all();
 
@@ -18,8 +21,10 @@ class CategoryController extends Controller {
         ], 200);
     }
 
-    // GET /api/categories/{category}
-    public function show(Category $category) {
+    // TODO GET /api/categories/{category} (GET /api/categories/{category})
+    // Handles show action (Gère l'action show)
+    public function show(Category $category)
+    {
 
         return response()->json([
             'message' => "Détails de la catégorie « {$category->name} ».",
@@ -27,8 +32,10 @@ class CategoryController extends Controller {
         ], 200);
     }
 
-    // POST /api/categories
-    public function store(CategoryRequest $request) {
+    // TODO POST /api/categories (POST /api/categories)
+    // Handles store action (Gère l'action store)
+    public function store(CategoryRequest $request)
+    {
 
         $category = Category::create($request->validated());
 
@@ -38,8 +45,10 @@ class CategoryController extends Controller {
         ], 201);
     }
 
-    // PUT /api/categories/{category}
-    public function update(CategoryRequest $request, Category $category) {
+    // TODO PUT /api/categories/{category} (PUT /api/categories/{category})
+    // Handles update action (Gère l'action update)
+    public function update(CategoryRequest $request, Category $category)
+    {
 
         $category->update($request->validated());
 
@@ -49,9 +58,11 @@ class CategoryController extends Controller {
         ], 200);
     }
 
-    // DELETE /api/categories/{category}
-    public function destroy(Category $category) {
-        
+    // TODO DELETE /api/categories/{category} (DELETE /api/categories/{category})
+    // Handles destroy action (Gère l'action destroy)
+    public function destroy(Category $category)
+    {
+
         $category->delete();
 
         return response()->json([

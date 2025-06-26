@@ -7,9 +7,11 @@ use App\Http\Requests\OfferRequest;
 use App\Http\Resources\OfferResource;
 use Illuminate\Http\JsonResponse;
 
-class OfferController extends Controller {
-    // Liste toutes les offres
-    public function index(): JsonResponse {
+class OfferController extends Controller
+{
+    // Handles index action (Gère l'action index)
+    public function index(): JsonResponse
+    {
 
         $offers = Offer::with(['creator', 'category', 'committees'])->get();
         $offers = OfferResource::collection($offers);
@@ -20,8 +22,9 @@ class OfferController extends Controller {
         ], 200);
     }
 
-    // Affiche une offre en détail
-    public function show(Offer $offer): JsonResponse  {
+    // Handles show action (Gère l'action show)
+    public function show(Offer $offer): JsonResponse
+    {
 
         $offer->load(['creator', 'category', 'committees']);
 
@@ -31,8 +34,9 @@ class OfferController extends Controller {
         ], 200);
     }
 
-    // Crée une nouvelle offre
-    public function store(OfferRequest $request): JsonResponse {
+    // Handles store action (Gère l'action store)
+    public function store(OfferRequest $request): JsonResponse
+    {
 
         $offer = Offer::create($request->validated());
 
@@ -42,8 +46,9 @@ class OfferController extends Controller {
         ], 201);
     }
 
-    // Met à jour une offre existante
-    public function update(OfferRequest $request, Offer $offer): JsonResponse {
+    // Handles update action (Gère l'action update)
+    public function update(OfferRequest $request, Offer $offer): JsonResponse
+    {
 
         $offer->update($request->validated());
 
@@ -53,11 +58,12 @@ class OfferController extends Controller {
         ], 200);
     }
 
-    // Supprime une offre (soft delete)
-    public function destroy(Offer $offer) {
+    // Handles destroy action (Gère l'action destroy)
+    public function destroy(Offer $offer)
+    {
 
         $offer->delete();
-        
+
         return response()->json([
             'message' => 'Offre supprimée avec succès.'
         ], 200);
