@@ -2,33 +2,41 @@ import { useState } from "react";
 import { Textbox } from "react-inputs-validation";
 import Icon from "@mdi/react";
 import { mdiAccount } from "@mdi/js";
-// import Button from "../Button";
-import { getToken, loginRequest } from "../../services/authService";
-import { useNavigate } from "react-router-dom";
+import ToastAlert from "../ToastAlert";
+import { fetchUser, getToken, loginRequest } from "../../services/authService";
+import client from "../../api/axiosInstance";
 
 export default function LoginForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const navigate = useNavigate()
+    const [toast, setToast] = useState({ show: false, message: '', type: 'success' })
+
 
     const handle = async (e) => {
         e.preventDefault();
         try {
-            await getToken()
-                .then(() => {
-                    loginRequest({ email: email, password: password })
-                        .then((res) =>
-                            localStorage.setItem('user/me', JSON.stringify(res.data)))
-                    navigate('/')
-                })
+            await getToken();
+            const loginResponse = await loginRequest({ email, password });
+            const token = loginResponse.data.token
+            client.defaults.headers.common.Authorization = `Bearer ${token}`;
+            const tokenCopy = loginResponse.data.token
+            const user = JSON.stringify(loginResponse.data)
+
+
+            if (tokenCopy && loginResponse) {
+                localStorage.setItem("authToken", tokenCopy);
+                localStorage.setItem("user", user);
+
+            }
+            await fetchUser()
+                .then(window.location.href = "/#/")
         } catch (err) {
-            // setToast({ show: true, type: 'error', message: err })
-            console.error(err);
-
+            console.error(err.toString());
+            // setToast({show: true, message:"Erreur lors de l'authentification", type:'error'})
+            setToast({ show: true, message: `${err.toString()}`, type: 'error' })
         }
+    };
 
-
-    }
     return (
         <div className="card bg-accent p-8 ring-2 ring-secondary">
             <Icon
@@ -75,13 +83,7 @@ export default function LoginForm() {
                 >
                     Se connecter
                 </button>
-                <button
-                    type="button"
-                    onClick={() => window.location.replace('/')}
-                    className="btn-neutral w-full text-white uppercase text-xs mt-2"
-                >
-                    Retour à l'accueil
-                </button>
+                <ToastAlert toast={toast} setToast={setToast} />
             </form>
         </div>
     );

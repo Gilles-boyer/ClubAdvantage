@@ -1,20 +1,35 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { useSelector }      from 'react-redux';
-import { selectAuth }       from '../../store/slices/authSlice';
+import { verifyToken } from '../../services/authService';
+import { useState, useEffect } from 'react';
 
 export default function ProtectedRoute() {
-    const { user, status } = useSelector(selectAuth);
+    const [status, setStatus] = useState(null);
 
-    // pendant qu’on charge le currentUser, on peut afficher un loader
-    if (status === 'loading') {
-        return <p className="text-center mt-8">Chargement…</p>;
+    useEffect(() => {
+        const checkAuth = async () => {
+            try {
+                const response = await verifyToken();
+                console.log('Token valide:', response);
+                setStatus(true);
+            } catch (error) {
+                console.log('Token invalide:', error);
+                setStatus(false);
+                localStorage.removeItem("user");
+                localStorage.removeItem("authToken");
+            }
+        };
+
+        checkAuth();
+    }, []);
+
+    console.log('Valeur du status:', status);
+
+    if (status === null) {
+        console.log('Vérification du token...');
     }
-
-    // si pas d’utilisateur, redirige vers /login
-    if (!user) {
+    if (status === false) {
         return <Navigate to="/login" replace />;
     }
 
-    // sinon, on rendemare les routes enfants
-    return <Outlet />;
+    return <Outlet />
 }

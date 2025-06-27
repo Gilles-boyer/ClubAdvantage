@@ -1,23 +1,24 @@
 import { useState, useRef, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate, Outlet } from "react-router-dom";
-import { logoutThunk } from "../../store/slices/authSlice";
-
+import { Outlet, useNavigate } from "react-router-dom";
+// import { logoutThunk } from "../../store/slices/authSlice";
+import client from "../../api/axiosInstance";
 import Sidebar from "./Sidebar";
 import Header from "./header";
 import Footer from "./footer";
 import MobileNav from "./MobileNav";
 import ScrollComponent from "../scrollToTop";
 import ToastAlert from "../ToastAlert";
+import { logout } from "../../services/authService";
 
 export default function App() {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+    // const dispatch = useDispatch();
+    // const navigate = useNavigate();
 
     const [isOpen, setIsOpen] = useState(false);
     const [toast, setToast] = useState({ show: false, message: "", type: "" });
     const [showScroll, setShowScroll] = useState(false);
     const scrollRef = useRef(null);
+    const navigate = useNavigate()
 
     useEffect(() => {
         const onScroll = () => setShowScroll(window.scrollY > 200);
@@ -29,9 +30,15 @@ export default function App() {
         window.scrollTo({ top: 0, behavior: "smooth" });
 
     const handleLogout = async () => {
-        await dispatch(logoutThunk()).unwrap();
-        setToast({ show: true, message: "Déconnexion réussie !", type: "success" });
-        navigate("/login", { replace: true });
+        try {
+            await logout();
+        } catch (err) {
+            console.log("Error on logout", err);
+        }
+        localStorage.removeItem("authToken")
+        localStorage.removeItem("user")
+        delete client.defaults.headers.common.Authorization;
+        navigate("/login")
     };
 
     return (

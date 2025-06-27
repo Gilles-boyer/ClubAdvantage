@@ -4,6 +4,8 @@ const client = axios.create({
     // timeout: 10000,
     withCredentials: true,
     withXSRFToken: true,
+    xsrfCookieName: 'XSRF-TOKEN',
+    xsrfHeaderName: 'X-XSRF-TOKEN',
     headers: {
         "Content-Type": "application/json",
         "Accept": "application/json",
@@ -11,9 +13,4 @@ const client = axios.create({
 
 });
 
-client.interceptors.request.use((config) => {
-    const token = JSON.parse(localStorage.getItem("user"))?.token
-    if(token) config.headers.Authorization = `Bearer ${token}`
-    return config
-})
 export default client
