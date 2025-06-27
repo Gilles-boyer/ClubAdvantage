@@ -17,14 +17,15 @@ export default function LoginForm() {
         try {
             await getToken();
             const loginResponse = await loginRequest({ email, password });
+            console.log('Réponseeeeeee =>', loginResponse);
+            
             const token = loginResponse.data.token
             client.defaults.headers.common.Authorization = `Bearer ${token}`;
-            const tokenCopy = loginResponse.data.token
             const user = JSON.stringify(loginResponse.data)
 
 
-            if (tokenCopy && loginResponse) {
-                localStorage.setItem("authToken", tokenCopy);
+            if (token && loginResponse) {
+                localStorage.setItem("authToken", token);
                 localStorage.setItem("user", user);
 
             }
