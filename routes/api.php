@@ -8,15 +8,34 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ScanController;
 use App\Http\Controllers\UserController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
 // CSRF pour Sanctum (automatiquement exposé par sanctum config)
 Route::get('/sanctum/csrf-cookie', [\Laravel\Sanctum\Http\Controllers\CsrfCookieController::class, 'show']);
 
-// Auth
+// Auth publiques
 Route::post('/login',  [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
+
+// Si on passe ici, le jeton/cookie est valide
+Route::middleware('auth:sanctum')->get('/auth/validate', function (Request $request) {
+    try {
+        $user = $request->user();
+        
+        if (!$user) {
+            return response()->json(['valid' => false], 401);
+        }
+        
+        return response()->json([
+            'valid' => true,
+            'user'  => $user->only(['id', 'name', 'email']),
+        ]);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Internal server error'], 500);
+    }
+});
 
 // Route qui renvoie simplement l’utilisateur connecté
 Route::middleware('auth:sanctum')->group(function () {
@@ -24,32 +43,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch ('user/me',        [UserController::class, 'updateProfile']);
     Route::patch ('user/password',  [UserController::class, 'updatePassword']);
     Route::delete('user/me',        [UserController::class, 'deleteAccount']);
+    
+    // Route renvoyant les pages
+    Route::apiResources([
+        'categories'      => CategoryController::class,
+        'roles'           => RoleController::class,
+        'offers'          => OfferController::class,
+        'users'           => UserController::class,
+        'committees'      => CommitteeController::class,
+        'committee-offers'=> CommitteeOfferController::class,
+        'scans'           => ScanController::class,
+    ]);
 });
-
-// Route renvoyant les pages
-Route::apiResources([
-    'categories'      => CategoryController::class,
-    'roles'           => RoleController::class,
-    'offers'          => OfferController::class,
-    'users'           => UserController::class,
-    'committees'      => CommitteeController::class,
-    'committee-offers'=> CommitteeOfferController::class,
-    'scans'           => ScanController::class,
-]);
-
-// Route::middleware('web')->group(function () {
-//     Route::post('/login',  [AuthController::class, 'login']);
-//     Route::post('/logout', [AuthController::class, 'logout']);
-// });
-
-/** Exemple détailler de la Route categories: */ 
-/* 
-* Route::get('/categories', [CategoryController::class, 'index']);
-* Route::get('/categories/{category}', [CategoryController::class, 'show']);
-* Route::post('/categories', [CategoryController::class, 'store']);
-* Route::put('/categories/{category}', [CategoryController::class, 'update']);
-* Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
-*/ 
-
-/** Cette seule ligne génère automatiquement toutes les routes classiques (index, show, store, update, destroy) */
-/* Route::apiResource('categories', CategoryController::class);*/ 
