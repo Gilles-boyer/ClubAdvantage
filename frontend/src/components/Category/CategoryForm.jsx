@@ -5,6 +5,12 @@ import { Textarea, Textbox } from "react-inputs-validation";
 import Button from "../Button";
 // import IconPicker from "../IconListPath"
 
+/**
+ * Reusable form to CREATE or UPDATE categories.
+ * - If `onEditUpCat` is sent, the form is pre-filled.
+ * - Otherwise it create a nex category.
+ */
+
 export default function CategoryForm({ onAddCategory, onEditUpCat, onCancelEdit, setToggle }) {
   const [name, setName] = useState("")
   const [errorName, setErrorName] = useState("")
@@ -13,7 +19,7 @@ export default function CategoryForm({ onAddCategory, onEditUpCat, onCancelEdit,
   const [status, setStatus] = useState('')
   const [errorSelect, setErrorSelect] = useState('')
 
-
+   /** When a category is sent for update, it pre-fills the form */
   useEffect(() => {
     if (onEditUpCat) {
       setName(onEditUpCat.name);
@@ -27,25 +33,28 @@ export default function CategoryForm({ onAddCategory, onEditUpCat, onCancelEdit,
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    /** Data required and sent on Create */
     const newCategory = {
       name,
       description,
       is_active: status,
       updated_at: new Date().toISOString(),
     };
-    console.table(onEditUpCat)
+  
     if (onEditUpCat?.id !== undefined) {
       newCategory.id = onEditUpCat.id;
-    } else {
-      newCategory.created_at = new Date().toISOString();
     }
-    console.log({ name, description });
+    // else {
+    //   newCategory.created_at = new Date().toISOString();
+    // }
+
 
     onAddCategory(newCategory);
     reset();
 
   };
 
+    /** Reset all fields and validations errors */
   const reset = () => {
     setName('')
     setDescription('')
@@ -55,11 +64,11 @@ export default function CategoryForm({ onAddCategory, onEditUpCat, onCancelEdit,
   return (
     <>
 
-      <div className="w-80vw md:w-150 border rounded mx-auto my-5">
-        <h3 className="font-poppins text-center text-white py-1 text-lg font-medium bg-primary">Ajouter une catégorie</h3>
-        <p className="flex text-xs md:text-base text-red-500 justify-center items-center mt-2">
-          <Icon path={mdiAlertCircle} size={1} />
-          Appuyez sur 'Annuler' si vous souhaitez annuler la saisie</p>
+      <section id="category-form"
+        className="w-80vw md:w-150 border rounded mx-auto my-5">
+        <h3 id="category-form-title" className="font-poppins text-center text-white py-1 text-lg font-medium bg-primary">
+          Ajouter une catégorie
+        </h3>
         <div className="p-5 mx-auto rounded">
           <form onSubmit={handleSubmit} className="mt-4 text-center">
             {onEditUpCat && (<p className="flex text-red-400 justify-center mb-6">
@@ -68,13 +77,13 @@ export default function CategoryForm({ onAddCategory, onEditUpCat, onCancelEdit,
 
             {/* NAME SECTION */}
             <div className="form-control mb-4">
-              <label htmlFor="nameCategory" className="label">
+              <label htmlFor="category-name" className="label">
                 <span className="label-text">Nom de la catégorie</span>
               </label>
               <Textbox
                 attributesInput={{
-                  id: "nameCategory",
-                  name: "nameCategory",
+                  id: "category-name",
+                  name: "category-name",
                   type: "text",
                   className: "input input-bordered w-full",
                   placeholder: "Ajoutez le nom de la catégorie"
@@ -94,18 +103,23 @@ export default function CategoryForm({ onAddCategory, onEditUpCat, onCancelEdit,
                   if (e.target.value.trim()) return setErrorName('')
                 }}
               />
-              {errorName && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdiAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorName}</p></div>}
+              {errorName && <div
+                id="error-name"
+                role="alert"
+                aria-describedby="error-name"
+                className="flex w-75 mx-auto justify-center text-red-700">
+                <Icon path={mdiAlert} size={1} /><p id="error-name" className="ps-2 text-sm mt-1">{errorName}</p></div>}
             </div>
 
             {/* DESCRIPTION SECTION */}
             <div className="form-control mb-4">
-              <label htmlFor="descriptionCategory" className="label">
+              <label htmlFor="category-description" className="label">
                 <span className="label-text">Description de la catégorie</span>
               </label>
               <Textarea
                 attributesInput={{
-                  id: "descriptionCategory",
-                  name: "descriptionCategory",
+                  id: "category-description",
+                  name: "category-description",
                   type: "text",
                   className: "input input-bordered w-full whitespace-pre-wrap break-words resize-y",
                   placeholder: "Entrez le description de la catégorie",
@@ -126,15 +140,22 @@ export default function CategoryForm({ onAddCategory, onEditUpCat, onCancelEdit,
                   if (e.target.value.trim()) return setErrorDesc('')
                 }}
               />
-              {errorDesc && <div className="flex w-75 mx-auto justify-center text-red-700"> <Icon path={mdiAlert} size={1} /><p className="ps-2 text-sm mt-1">{errorDesc}</p></div>}
+              {errorDesc && <div
+                id="error-description"
+                role="alert"
+                aria-describedby="error-description"
+                className="flex w-75 mx-auto justify-center text-red-700">
+                <Icon path={mdiAlert} size={1} /><p id="error-description" className="ps-2 text-sm mt-1">{errorDesc}</p></div>}
             </div>
 
             {/* STATUS SECTION */}
             <div className="form-control mb-4">
-              <label htmlFor="descriptionOffer" className="label">
+              <label htmlFor="category-status" className="label">
                 <span className="label-text">Activer la Catégorie</span>
               </label>
               <select
+                id="category-status"
+                aria-describedby="error-status"
                 className="select w-full"
                 value={status === null ? "" : String(status)}
                 onChange={(e) => {
@@ -160,7 +181,10 @@ export default function CategoryForm({ onAddCategory, onEditUpCat, onCancelEdit,
               </select>
 
               {errorSelect && (
-                <div className="text-red-500 text-sm mt-1">
+                <div
+                  role="status"
+                  id="error-status"
+                  className="text-red-500 text-sm mt-1">
                   {errorSelect}
                 </div>
               )}
@@ -176,10 +200,11 @@ export default function CategoryForm({ onAddCategory, onEditUpCat, onCancelEdit,
                 reset();
                 setToggle(false);
                 onCancelEdit();
-              }} className={'btn-error'} />
+              }} className={'btn-error'}
+                aria-label="Annuler la saisie" />
             </div>
           </form>
         </div>
-      </div>
+      </section>
     </>)
 }

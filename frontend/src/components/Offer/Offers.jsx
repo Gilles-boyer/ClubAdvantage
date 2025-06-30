@@ -10,6 +10,7 @@ import {
 import { useLocation } from "react-router-dom";
 import Button from "../Button.jsx";
 
+/** Offers view : Parent component that fetches list from Redux, allows create, update & delete offers */
 
 export default function Offers() {
     const dispatch = useDispatch()
@@ -19,11 +20,15 @@ export default function Offers() {
     const [toast, setToast] = useState({ show: false, message: '', type: 'success' })
     const location = useLocation();
 
+     /** Fetch offers's list on first mount form Store on first mount*/
     useEffect(() => {
         dispatch(fetchOffers());
     }, [dispatch]);
 
 
+    /** Allows to Update an offer if an 'id' is sent
+     * if there is no 'id' a new category is created with 'newOffer' object values from <OffersForm />
+    */
     const handleAddOffer = async (newOffer) => {
         try {
             if (newOffer.id) {
@@ -40,6 +45,8 @@ export default function Offers() {
         }
     };
 
+    /** Modify offer status locally selected by 'id'
+     * then use patch method to update status value */
     const handleStatus = async (id) => {
         try {
             const offer = offers.find(off => off.id === id);
@@ -57,11 +64,15 @@ export default function Offers() {
     const canceledEdit = () => {
         setToUpOffer(null);
     }
+
+    /** Selected offer is set into state so <OffersForm /> can
+     * display it in “edit” mode (pre-fills the form).*/
     const handleToUpOffer = async (offerToEdit) => {
         console.log(offerToEdit)
         setToUpOffer(offerToEdit);
     }
 
+    /** Delete an offer by using her 'id'*/
     const handleDelete = async (id) => {
         try {
             await dispatch(deleteOfferThunk(id)).unwrap()

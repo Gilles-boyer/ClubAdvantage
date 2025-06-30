@@ -26,7 +26,7 @@ export default function Button({ label, action, onAction, className = '', href }
     if (action === 'delete') {
       return (
         <Icon path={mdiDelete}
-          size={0.70} />
+          size={0.70}/>
       )
     }
   }

@@ -45,9 +45,10 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
     const mobileView = filtered.slice(0, visibleCards)
     return (
         <>
-            <div className="overflow-x-auto hidden md:block">
+            <section id="category-table" role="table" className="overflow-x-auto hidden md:block">
                 <div className="flex justify-between items-center mx-1">
                     <input
+                    aria-label="Rechercher une catégorie"
                         type="text"
                         placeholder="Rechercher..."
                         className="input input-bordered my-2 w-full max-w-md hover:ring-secondary hover:ring-1"
@@ -63,7 +64,7 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                     </div>
                 </div>
                 {paginated.length === 0
-                    ? <EmptyDatas />
+                    ? <EmptyDatas aria-labelledby="no-data-message" />
                     : <div className="overflow-x-auto border border-secondary rounded-xl bg-white shadow-sm">
                         <table className="min-w-full text-left text-sm text-gray-700">
                             <thead className="bg-primary text-white uppercase tracking-wider">
@@ -83,14 +84,17 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                                             <Button label={`${category.is_active ? 'Active' : 'Inactive'}`}
                                                 onAction={() => onUpStatus(category.id)}
                                                 className={`btn-sm w-17 ${category.is_active ? 'btn-info' : 'btn-warning'}`} />
-                                                <ToggleStatus status={category.is_active} onAction={() => onUpStatus(category.id)}/>
+                                                <ToggleStatus role="switch" aria-checked={category.is_active} aria-labelledby="toggle-status"
+                                                status={category.is_active} onAction={() => onUpStatus(category.id)}/>
                                         </td>
                                         <td className="px-4 py-2 space-x-2 bg-accent">
-                                            <Button action={'update'} onAction={() => {
+                                            <Button action={'update'} aria-label="%odifier la catégorie"
+                                            onAction={() => {
                                                 setToggle(true),
                                                     onUpdate(category)
                                             }} />
-                                            <Button action={'delete'} onAction={() => { onDelete(category.id) }} />
+                                            <Button action={'delete'} aria-label="Supprimer la catégorie"
+                                            onAction={() => { onDelete(category.id) }} />
                                         </td>
                                     </tr>
                                 ))}
@@ -116,7 +120,7 @@ export default function CategoryTable({ categories, onDelete, onUpdate, onUpStat
                         Suivant
                     </button>
                 </div>)}
-            </div >
+            </section >
             <article className="block md:hidden space-y-5">
                 <input
                     type="text"

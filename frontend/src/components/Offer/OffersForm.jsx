@@ -9,6 +9,11 @@ import {
 import Button from "../Button.jsx";
 
 
+/**
+ * Form that allows to Create or Update offers.
+ * If 'onEditoffer' object is sent, the form is pre-filled by values.
+ * Else it create a new offer.
+ */
 
 export default function OfferForm({ onAddOffer, onEditOffer, setToggle, onCancel }) {
   const [title, setTitle] = useState("");
@@ -22,6 +27,9 @@ export default function OfferForm({ onAddOffer, onEditOffer, setToggle, onCancel
   const [errorCat, setErrorCat] = useState('')
   const dispatch = useDispatch()
 
+  /** When a category is sent for update, it pre-fills the form 
+   * Also fetch categories's list form Store on first mount
+  */
   useEffect(() => {
     if (onEditOffer) {
       setTitle(onEditOffer.title);
@@ -29,17 +37,20 @@ export default function OfferForm({ onAddOffer, onEditOffer, setToggle, onCancel
       setSelectedCat(onEditOffer.category_id); //! Pré-remplir le champ dans le formulaire
       setStatus(onEditOffer.is_active)
     }
-  }, [onEditOffer]);
-
-  useEffect(() => {
     dispatch(fetchCategories());
-  }, [dispatch]);
+  }, [onEditOffer, dispatch]);
+
+
+  // useEffect(() => {
+  //   dispatch(fetchCategories());
+  // }, [dispatch]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const categoryObject = categories.find((cat) => cat.id === selectedCat)
 
+    /** Datas required and sent on Create */
     const newOffer = {
       title,
       description,
@@ -49,17 +60,18 @@ export default function OfferForm({ onAddOffer, onEditOffer, setToggle, onCancel
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString()
     };
-    console.log(onEditOffer)
     if (onEditOffer?.id !== undefined) {
       newOffer.id = onEditOffer.id;
-    } else {
-      newOffer.created_at = new Date().toISOString();
     }
+    // else {
+    //   newOffer.created_at = new Date().toISOString();
+    // }
 
     onAddOffer(newOffer);
     reset();
   }
 
+  /** Reset all fields and validations errors */
   const reset = () => {
     setErrorDesc('')
     setErrorTitle('')

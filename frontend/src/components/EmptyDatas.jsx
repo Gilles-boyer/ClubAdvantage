@@ -4,7 +4,8 @@ import { mdiSleep } from '@mdi/js';
 export default function EmptyDatas() {
     return (
         <>
-            <div className="alert alert-neutral flex justify-center"> <Icon path={mdiSleep} size={1} />Aucun élément à afficher</div>
+            <div id="no-data-message"
+            className="alert alert-neutral flex justify-center"> <Icon path={mdiSleep} size={1} />Aucun élément à afficher</div>
         </>
     )
 }

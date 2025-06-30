@@ -9,18 +9,23 @@ import {
 import ToastAlert from "../ToastAlert.jsx";
 import Button from "../Button.jsx";
 
-export default function Categories({ref}) {
+/**Categories view : Parent component that fetches list from Redux, allows create, update & delete categories */
+
+export default function Categories({ ref }) {
     const dispatch = useDispatch();
     const categories = useSelector(listOfCategories);
     const [toUpCategory, setToUpCategory] = useState(null);
     const [toast, setToast] = useState({ show: false, message: '', type: 'success' })
     const [toggle, setToggle] = useState(false)
 
-    useEffect(() => {
+    useEffect(() => {  /** Fetch categories's list on first mount */
         dispatch(fetchCategories());
     }, [dispatch]);
 
-    const handleAddCategory = async (newCategory) => {
+    /** Create or Update depending on presence of an'id'
+     * if there is no 'id' a new category is created with 'newCategory' object values from <CategoryForm />
+    */
+    const handleAddCategory = async (newCategory) => { 
         try {
             if (newCategory.id) {
                 await dispatch(updateCategoryThunk({ id: newCategory.id, data: newCategory })).unwrap();
@@ -39,11 +44,13 @@ export default function Categories({ref}) {
         setToUpCategory(null);
     }
 
+    /** Selected category is set into state so <CategoryForm /> can
+     * display it in “edit” mode (pre-fills the form).*/
     const handleToUpCat = (categoryToEdit) => {
-        console.table(categoryToEdit)
         setToUpCategory(categoryToEdit);
     };
 
+    /**Delete a category by using her 'id'*/
     const handleDeleteCategory = async (id) => {
         try {
             await dispatch(deleteCategoryThunk(id)).unwrap();
@@ -54,6 +61,7 @@ export default function Categories({ref}) {
         }
     };
 
+    /** Modify category status locally by using her 'id', then use patch method to update status */
     const handleStatus = async (id) => {
         try {
             const category = categories.find(cat => cat.id === id);
@@ -73,22 +81,29 @@ export default function Categories({ref}) {
         <>
             <div className="flex items-center gap-6 mt-5 mb-4" ref={ref}>
                 <div className="flex-grow border-t border-neutral"></div>
-                <h2 className="text-2xl font-semibold text-gray-700">Catégories</h2>
+                <h2 id="categories-title"
+                    className="text-2xl font-semibold text-gray-700">Catégories</h2>
                 <div className="flex-grow border-t border-neutral"></div>
             </div>
-            <section className="pt-6 max-w-5xl mx-auto">
-                <div className='flex w-fit'id='catForm'>
-                    <Button  label={toggle ? 'Fermer le formulaire' :'Ajouter une Catégorie'}
+            <section className="pt-6 max-w-5xl mx-auto"
+            >
+                <div className='flex w-fit' id='catForm'>
+                    <Button label={toggle ? 'Fermer le formulaire' : 'Ajouter une Catégorie'}
+                        aria-expanded={toggle}
+                        aria-controls="category-form"
                         onAction={() => setToggle(!toggle)}
                         className={'btn-neutral  hover:btn-secondary mb-2 md:mb-0'} />
                 </div>
 
                 {toggle && (
-                    <CategoryForm onAddCategory={handleAddCategory} 
-                    onEditUpCat={toUpCategory}
-                    setToggle={setToggle} 
-                    onCancelEdit={canceledEdit}/>)}
+                    <CategoryForm
+                        aria-labelledby="category-form"
+                        onAddCategory={handleAddCategory}
+                        onEditUpCat={toUpCategory}
+                        setToggle={setToggle}
+                        onCancelEdit={canceledEdit} />)}
                 <CategoryTable
+                    aria-labelledby="category-table"
                     categories={categories}
                     onDelete={handleDeleteCategory}
                     onUpdate={handleToUpCat}

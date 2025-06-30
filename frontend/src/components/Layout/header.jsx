@@ -9,7 +9,7 @@ const Header = ({ menu: { isOpen, setIsOpen }, onLogout }) => {
             <img
                 onClick={() => setIsOpen(!isOpen)}
                 src={logo}
-                alt="Logo ClubAdvantage"
+                alt="Logo dde ClubAdvantage"
                 className="h-12 md:h-17 hover:pointer"
             />
             <div className="text-2xl text-center font-bold me-3 md:me-0">Dashboard</div>
