@@ -2,7 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Committee;
+use App\Enums\RoleEnum;
+// use App\Models\Committee;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -13,8 +14,8 @@ class UserSeeder extends Seeder {
 
         // Crée un seul admin 
         User::factory()->create([
-            'role_name'     => 'super_admin',
-            'role_id'       => Role::where('name', 'super_admin')->value('id'),
+            'role_name'     => RoleEnum::SUPER_ADMIN->value,
+            'role_id'       =>  Role::where('name', RoleEnum::SUPER_ADMIN->value)->value('id'),
             'committee_id'  => null,
             'email'         => 'admin@example.com',
             'password'      => Hash::make('manger12345'), // <- Hachage important ici !
@@ -22,21 +23,21 @@ class UserSeeder extends Seeder {
 
         // Crée 3 staffs 
         User::factory(5)->create([
-            'role_name'     => 'staff',
-            'role_id'       => Role::where('name', 'staff')->value('id'),
+            'role_name'     => RoleEnum::STAFF->value,
+            'role_id'       => Role::where('name', RoleEnum::STAFF->value)->value('id'),
             'committee_id'  => null,
         ]);
 
         // Crée 10 cse_admin
-        User::factory(500)->forCse() ->create([
-            'role_name'     => 'cse_admin',
-            'role_id'       => Role::where('name', 'cse_admin')->value('id'),
+        User::factory(200)->forCse() ->create([
+            'role_name'     => RoleEnum::CSE_ADMIN->value,
+            'role_id'       => Role::where('name', RoleEnum::CSE_ADMIN->value)->value('id'),
         ]);
 
         // Crée 10 cse_member
-        User::factory(1000)->forCse() ->create([
-            'role_name'     => 'cse_member',
-            'role_id'       => Role::where('name', 'cse_member')->value('id'),
+        User::factory(500)->forCse() ->create([
+            'role_name'     => RoleEnum::CSE_MEMBER->value,
+            'role_id'       => Role::where('name', RoleEnum::CSE_MEMBER->value)->value('id'),
         ]);
     }
 }
