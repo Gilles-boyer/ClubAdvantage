@@ -4,13 +4,14 @@ return [
 
     // Cross-Origin Resource Sharing (CORS) Configuration
 
-    'paths'              => ['api/*','login', 'logout', 'sanctum/csrf-cookie', '/auth/validate'],
+    'paths'              => ['api/*','api/stats','login', 'logout', 'sanctum/csrf-cookie', '/auth/validate'],
 
     'allowed_methods'    => ['*'],
 
     'allowed_origins'    => [
         'http://localhost:5173',
         'http://192.168.1.17:5173',
+        'http://192.168.1.27:5173',
         'http://192.168.1.28:5173',
         'http://192.168.1.220:5173',
         'http://localhost:5173',

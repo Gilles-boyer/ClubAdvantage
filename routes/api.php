@@ -7,6 +7,7 @@ use App\Http\Controllers\CommitteeOfferController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ScanController;
+use App\Http\Controllers\StatsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -43,7 +44,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch ('user/me',        [UserController::class, 'updateProfile']);
     Route::patch ('user/password',  [UserController::class, 'updatePassword']);
     Route::delete('user/me',        [UserController::class, 'deleteAccount']);
-    
+    Route::get   ('/stats',         [StatsController::class, 'index']);
     // Route renvoyant les pages
     Route::apiResources([
         'categories'      => CategoryController::class,
