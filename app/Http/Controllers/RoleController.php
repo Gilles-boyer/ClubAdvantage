@@ -2,14 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\RoleEnum;
 use App\Http\Requests\RoleRequest;
 use App\Http\Resources\RoleResource;
 use App\Models\Role;
 
 class RoleController extends Controller
 {
+    // Autorisation automatique via RolePolicy
+    public function __construct()
+    {
+        $this->authorizeResource(Role::class, 'role');
+    }
+
     // TODO The 4 main roles that must not be changed or removed (Les 4 rôles principaux qu’on ne doit pas modifier ou supprimer)
-    private array $reserved = ['super_admin', 'staff', 'cse_admin', 'cse_member'];
+    private array $reserved = [
+        RoleEnum::SUPER_ADMIN->value,
+        RoleEnum::STAFF->value,
+        RoleEnum::CSE_ADMIN->value,
+        RoleEnum::CSE_MEMBER->value,
+    ];
+
 
     // Handles index action (Gère l'action index)
     public function index()
@@ -26,22 +39,15 @@ class RoleController extends Controller
     // Handles store action (Gère l'action store)
     public function store(RoleRequest $request)
     {
-        $data = $request->validated();
+        $name = strtolower($request->validated()['name']);
 
         // - ── Prohibits the creation of a second super_admin ─── (Interdit de créer un second super_admin)
         // TODO strtolower => transforms a string into lowercase characters (transforme une chaine de caractères en minuscules)
-        if (strtolower($data['name'] ?? '') === 'super_admin') {
-
-            $exists = Role::where('name', 'super_admin')->exists();
-
-            if ($exists) {
-                return response()->json([
-                    'message' => 'Le rôle super_admin existe déjà.'
-                ], 403);
-            }
+        if ($name === RoleEnum::SUPER_ADMIN->value && Role::where('name', $name)->exists()) {
+            abort(403, 'Le rôle super_admin existe déjà.');
         }
 
-        $role = Role::create($data);
+        $role = Role::create($request->validated());
         return new RoleResource($role);
     }
 
@@ -50,20 +56,17 @@ class RoleController extends Controller
     {
         // Cannot modify one of the main roles (Impossible de modifier l’un des rôles principaux)
         if (in_array(strtolower($role->name), $this->reserved, true)) {
-            return response()->json([
-                'message' => 'Les rôles principaux ne peuvent pas être modifiés.'
-            ], 403);
+            abort(403, 'Les rôles principaux ne peuvent pas être modifiés.');
         }
 
         // TODO Not allowed to transform another role into one of the main ones (Interdit de transformer un autre rôle en l’un des rôles principaux)
-        $incoming = $request->validated();
-        if (isset($incoming['name']) && in_array(strtolower($incoming['name']), $this->reserved, true)) {
-            return response()->json([
-                'message' => 'Impossible de renommer un rôle en l’un des rôles principaux.'
-            ], 403);
+        $new = strtolower($request->validated()['name'] ?? '');
+
+        if ($new !== '' && in_array($new, $this->reserved, true)) {
+            abort(403, 'Impossible de renommer un rôle en l’un des rôles principaux.');
         }
 
-        $role->update($incoming);
+        $role->update($request->validated());
         return new RoleResource($role);
     }
 
@@ -72,9 +75,7 @@ class RoleController extends Controller
     {
         // Cannot remove one of the main roles (Impossible de supprimer l’un des rôles principaux)
         if (in_array(strtolower($role->name), $this->reserved, true)) {
-            return response()->json([
-                'message' => 'Les rôles principaux ne peuvent pas être supprimés.'
-            ], 403);
+            abort(403, 'Les rôles principaux ne peuvent pas être supprimés.');
         }
 
         $role->delete();
