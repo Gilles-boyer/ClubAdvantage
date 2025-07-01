@@ -1,17 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../Button";
 import MobilePagination from "../mobilePagination";
 import EmptyDatas from "../EmptyDatas";
+import { fetchAuthUser, selectAuth } from "../../store/slices/authSlice";
 import FilterByStatus from "../FilterByStatus";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function CmmttsTable({ committees, onUpdate, onUpStatus, onDelete, setToggle }) {
     const [search, setSearch] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
     const [visibleCards, setVisibleCards] = useState(3)
     const [selectedStatus, setSelectedStatus] = useState('')
+    const dispatch = useDispatch()
+    const currentUser = useSelector(selectAuth)
 
     const mobileView = committees.slice(0, visibleCards)
 
+    const canEdit = currentUser?.role_name === "super_admin" || currentUser?.role_name === "staff";
+
+
+
+    useEffect(() => {
+        dispatch(fetchAuthUser())
+    }, [dispatch])
     // Desktop logic for pagination ↓
     const itemsPerPage = 6
     const filtered = committees.filter(com => {
@@ -82,7 +93,9 @@ export default function CmmttsTable({ committees, onUpdate, onUpStatus, onDelete
                                     <th className="px-4 py-2 text-center">Date du début inscription</th>
                                     <th className="px-4 py-2 text-center">Date de fin d'inscirption</th>
                                     <th className="px-4 py-2 text-center">Statut</th>
-                                    <th className="px-4 py-2 text-center">Action</th>
+                                    {canEdit && (<>
+                                        <th className="px-4 py-2 text-center">Action</th>
+                                    </>)}
                                 </tr>
                             </thead>
                             <tbody>
@@ -103,16 +116,16 @@ export default function CmmttsTable({ committees, onUpdate, onUpStatus, onDelete
                                         <td className="px-4 py-2 font-medium text-center">{formatDate(committee.agreement_end_date)}</td>
                                         <td className="px-4 py-2 font-medium text-center">
                                             <Button label={`${committee.is_active ? 'Active' : 'Inactive'}`}
-                                            onAction={() => onUpStatus(committee.id)}
-                                            className={`btn-sm w-17 ${committee.is_active ? 'btn-info' : 'btn-warning'}`} />
+                                                onAction={() => onUpStatus(committee.id)}
+                                                className={`btn-sm w-17 ${committee.is_active ? 'btn-info' : 'btn-warning'}`} />
                                         </td>
-                                        <td className="px-4 py-2 space-x-2 bg-accent">
+                                        {canEdit && (<><td className="px-4 py-2 space-x-2 bg-accent">
                                             <Button action={'update'} onAction={() => {
                                                 setToggle(true),
                                                     onUpdate(committee)
                                             }} />
                                             <Button action={'delete'} onAction={() => { onDelete(committee.id) }} />
-                                        </td>
+                                        </td></>)}
                                     </tr>
                                 ))}
                             </tbody>

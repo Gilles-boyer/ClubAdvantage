@@ -1,7 +1,7 @@
 import client from "../api/axiosInstance";
 
 // GET le profil de l'utilisateur connecté
-export const displayProfil = () => client.get("/api/user/me");
+// export const displayProfil = () => client.get("/api/user/me");
 
 // PUT pour mettre à jour prénom/nom
 // export const updateProfil = (data) => client.put("/user/me", data);

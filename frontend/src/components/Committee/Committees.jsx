@@ -16,7 +16,6 @@ export default function Committees() {
 
     useEffect(() => {
         dispatch(fetchCmmtts())
-
     }, [dispatch]);
 
 
@@ -86,7 +85,8 @@ export default function Committees() {
                     <CommitteeForm onAddCommittee={handleAddCmmtt}
                         onEditUpCmmtt={toUpCmmtts}
                         setToggle={setToggle}
-                        onCancel={canceledEdit} />
+                        onCancel={canceledEdit} 
+                        />
 
                 )}
                 < CmmttsTable

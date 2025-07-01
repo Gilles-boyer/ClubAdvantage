@@ -1,9 +1,11 @@
 import NavLinkButton from "./NavLink";
 import Icon from '@mdi/react';
 import { mdiHome, mdiAccountEdit, mdiShieldAccount, mdiGift, mdiCropFree, mdiAccountGroup} from '@mdi/js';
-
+import { usePermissions } from "../../hooks/userPermissions";
 
 const MobileNav = () => {
+const Permission = usePermissions()
+
     return (
         <>
             <nav>
@@ -20,12 +22,12 @@ const MobileNav = () => {
                     <div className="tooltip p-1 uppercase" data-tip="Offres">
                         <NavLinkButton to="/offers" type="mobile" icon={<Icon path={mdiGift} size={0.90} />} />
                     </div>
-                    <div className="tooltip p-1 uppercase" data-tip="Scan">
+                    {Permission.canEdit && (<div className="tooltip p-1 uppercase" data-tip="Scan">
                         <NavLinkButton to="/scans" type="mobile" icon={<Icon path={mdiCropFree} size={0.90} />} />
-                    </div>
-                    <div className="tooltip p-1 uppercase" data-tip="Roles">
+                    </div>)}
+                    {Permission.isAdmin && (<div className="tooltip p-1 uppercase" data-tip="Roles">
                         <NavLinkButton to="/roles" type="mobile" icon={<Icon path={mdiShieldAccount} size={0.90} />} />
-                    </div>
+                    </div>)}
                 </ul>
             </nav>
         </>

@@ -5,17 +5,17 @@ import DeleteAccountButton from "../DeleteAccountButton";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { currentProfil, fetchProfil, updateProfilThunk } from "../../store/slices/profilSlice";
-
+import { updateProfilThunk } from "../../store/slices/profilSlice";
+import { fetchAuthUser, selectAuth } from "../../store/slices/authSlice";
 export default function Profils() {
-    const profil = useSelector(currentProfil);
+    const profil = useSelector(selectAuth);
     const [editMode, setEditMode] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     // Récupération de l'utilisateur connecté via /api/me
     useEffect(() => {
-        dispatch(fetchProfil());
+        dispatch(fetchAuthUser());
     }, [dispatch]);
 
     // Mise à jour des informations de profil
@@ -46,7 +46,8 @@ export default function Profils() {
             .catch(() => alert("Erreur suppression du compte"));
     };
 
-
+    console.log("Valeur du profil", profil);
+    
     if (!profil || profil.data) {
         return <>
             <p className="text-center mt-10 text-gray-500">Chargement du profil...</p>

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { displayProfil, updateProfil, deleteProfil } from "../../services/profilService";
+import { updateProfil, deleteProfil } from "../../services/profilService";
 
 const initialState = {
     profil: {},
@@ -8,17 +8,17 @@ const initialState = {
     error: null,
 };
 
-export const fetchProfil = createAsyncThunk(
-    'profil/fetchProfil',
-    async (_, thunkAPI) => {
-        try {
-            const response = await displayProfil()
-            return response.data.data
-        } catch (err) {
-            return thunkAPI.rejectWithValue(err.response?.data?.message || err.message);
-        }
-    }
-);
+// export const fetchProfil = createAsyncThunk(
+//     'profil/fetchProfil',
+//     async (_, thunkAPI) => {
+//         try {
+//             const response = await displayProfil()
+//             return response.data.data
+//         } catch (err) {
+//             return thunkAPI.rejectWithValue(err.response?.data?.message || err.message);
+//         }
+//     }
+// );
 
 export const updateProfilThunk = createAsyncThunk(
     'profil/updateProfil',
@@ -49,15 +49,15 @@ export const profilSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(fetchProfil.pending, (state) => {
-                state.loading = true;
-            })
-            .addCase(fetchProfil.fulfilled, (state, action) => {
-                state.status = "succeeded";
-                state.loading = false;
-                state.profil = action.payload
+            // .addCase(fetchProfil.pending, (state) => {
+            //     state.loading = true;
+            // })
+            // .addCase(fetchProfil.fulfilled, (state, action) => {
+            //     state.status = "succeeded";
+            //     state.loading = false;
+            //     state.profil = action.payload
 
-            })
+            // })
             .addCase(updateProfilThunk.fulfilled, (state, action) => {
                 state.profil = action.payload
             })

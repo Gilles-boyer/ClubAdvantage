@@ -3,13 +3,16 @@ import { Textbox } from "react-inputs-validation";
 import Icon from "@mdi/react";
 import { mdiAccount } from "@mdi/js";
 import ToastAlert from "../ToastAlert";
-import { fetchUser, getToken, loginRequest } from "../../services/authService";
+import { getToken, loginRequest } from "../../services/authService";
+import { fetchAuthUser } from "../../store/slices/authSlice";
 import client from "../../api/axiosInstance";
+import { useDispatch } from "react-redux";
 
 export default function LoginForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [toast, setToast] = useState({ show: false, message: '', type: 'success' })
+    const dispatch = useDispatch()
 
 
     const handle = async (e) => {
@@ -17,7 +20,6 @@ export default function LoginForm() {
         try {
             await getToken();
             const loginResponse = await loginRequest({ email, password });
-            console.log('Réponseeeeeee =>', loginResponse);
 
             const token = loginResponse.data.token
             client.defaults.headers.common.Authorization = `Bearer ${token}`;
@@ -29,13 +31,13 @@ export default function LoginForm() {
                 localStorage.setItem("user", user);
 
             }
-            await fetchUser()
+            await dispatch(fetchAuthUser())
                 .then((res) => {
-                    const actualUser = res.data.data
-                    console.log(`${actualUser.role_id === 1 ? 'Je suis le Super Admin' : 'Je ne suis pas le Super Admin'}`);
-                    
-                    window.location.href = "/#/"
-                })
+                    console.log('RESPONSE LOGIN FORM =>', res.payload); // → { email: "admin@example.com", role_id: 1, ... }
+                    // const actualUser = res.payload; // ← Accédez au payload
+                    // console.log(`${actualUser.role_name === "super_admin" ? 'Super Admin' : 'Utilisateur standard'}`);
+                    window.location.href = "/#/";
+                });
         } catch (err) {
             console.error(err.toString());
             // setToast({show: true, message:"Erreur lors de l'authentification", type:'error'})
