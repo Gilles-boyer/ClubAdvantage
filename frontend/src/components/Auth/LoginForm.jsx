@@ -18,7 +18,7 @@ export default function LoginForm() {
             await getToken();
             const loginResponse = await loginRequest({ email, password });
             console.log('Réponseeeeeee =>', loginResponse);
-            
+
             const token = loginResponse.data.token
             client.defaults.headers.common.Authorization = `Bearer ${token}`;
             const user = JSON.stringify(loginResponse.data)
@@ -30,7 +30,12 @@ export default function LoginForm() {
 
             }
             await fetchUser()
-                .then(window.location.href = "/#/")
+                .then((res) => {
+                    const actualUser = res.data.data
+                    console.log(`${actualUser.role_id === 1 ? 'Je suis le Super Admin' : 'Je ne suis pas le Super Admin'}`);
+                    
+                    window.location.href = "/#/"
+                })
         } catch (err) {
             console.error(err.toString());
             // setToast({show: true, message:"Erreur lors de l'authentification", type:'error'})
@@ -80,7 +85,7 @@ export default function LoginForm() {
 
                 <button
                     type="submit"
-                    className="btn btn-primary w-full uppercase text-xs"
+                    className="btn btn-primary w-full uppercase text-xs mt-7"
                 >
                     Se connecter
                 </button>

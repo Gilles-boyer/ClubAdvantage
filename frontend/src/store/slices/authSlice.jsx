@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import * as authService from '../../services/authService'
+import  { fetchUser, loginRequest, logout} from '../../services/authService'
 
 const initialState = {
     user   : null,
@@ -8,12 +8,12 @@ const initialState = {
 }
 
 /* 1)  Recharger l’utilisateur grâce au cookie Sanctum           */
-export const fetchCurrentUser = createAsyncThunk(
+export const fetchAuthUser = createAsyncThunk(
     'auth/fetchCurrentUser',
     async (_, thunkAPI) => {
         try {
-            const { data } = await authService.me()
-            return data.data?.user ?? data.user ?? null
+            const response = await fetchUser()
+            return response.data.data
         } catch {
             return thunkAPI.rejectWithValue(null)
         }
@@ -25,7 +25,7 @@ export const loginThunk = createAsyncThunk(
     'auth/login',
     async (credentials, thunkAPI) => {
         try {
-            const { data } = await authService.login(credentials)
+            const { data } = await loginRequest(credentials)
 
             /* 🆕 — optionnel : afficher la réponse du login ---------- */
             console.log('✅  Login OK :', data)
@@ -39,7 +39,7 @@ export const loginThunk = createAsyncThunk(
 
 /* 3)  Logout (destruction de la session)                        */
 export const logoutThunk = createAsyncThunk('auth/logout', async () => {
-    await authService.logout()
+    await logout()
 })
 
 /* Slice Redux                                                  */
@@ -50,14 +50,14 @@ const authSlice = createSlice({
     extraReducers: (builder) => {
         /* FETCH CURRENT --------------------------------------------------- */
         builder
-        .addCase(fetchCurrentUser.pending, (state) => {
+        .addCase(fetchAuthUser.pending, (state) => {
             state.status = 'loading'
         })
-        .addCase(fetchCurrentUser.fulfilled, (state, { payload }) => {
+        .addCase(fetchAuthUser.fulfilled, (state, { payload }) => {
             state.status = 'succeeded'
             state.user   = payload          // devient null si rejectWithValue(null)
         })
-        .addCase(fetchCurrentUser.rejected, (state) => {
+        .addCase(fetchAuthUser.rejected, (state) => {
             //console.info('Pas de session — c’est normal si on arrive sur /login');
             state.status = 'idle';
             state.user   = null;          // on ne met PAS d'erreur bloquante

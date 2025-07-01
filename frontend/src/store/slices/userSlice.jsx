@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { displayUsers, createUser, updateUser, deleteUser } from "../../services/usersService";
+import { displayUsers, createUser, updateUser, deleteUser, fetchCurrentUser } from "../../services/usersService";
 
 const initialState = {
   list: [],
@@ -20,13 +20,25 @@ export const fetchUsers = createAsyncThunk(
   }
 );
 
+export const fetchAuthUser = createAsyncThunk(
+  'users/fetchAuthUser',
+  async (thunkAPI) => {
+    try {
+      const response = await fetchCurrentUser()
+      return response.data.data
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message)
+    }
+  }
+)
+
 export const addUserThunk = createAsyncThunk(
   'users/addUser',
   async (userData, thunkAPI) => {
     try {
       const response = await createUser(userData);
       console.log("Réponse à l'ajout", response.data.user);
-      
+
       return response.data.user;
     } catch (err) {
       console.error("Axios Error:", err.response?.data || err.message);

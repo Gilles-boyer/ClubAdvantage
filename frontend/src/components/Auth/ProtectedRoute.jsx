@@ -25,7 +25,9 @@ export default function ProtectedRoute() {
     console.log('Valeur du status:', status);
 
     if (status === null) {
-        console.log('Vérification du token...');
+        return (<div className='text-center p-5 bg-neutral text-secondary rounded h-screen'>
+            <p className='font-medium'>Vérification des informations...</p>
+            </div>)
     }
     if (status === false) {
         return <Navigate to="/login" replace />;

@@ -6,7 +6,7 @@ export function ErrorBoundary() {
     const error = useRouteError();
     const navigate = useNavigate()
     const handleHome = () => {
-        navigate('/')
+        navigate('/#/')
     }
 
     if (isRouteErrorResponse(error)) {
@@ -17,7 +17,7 @@ export function ErrorBoundary() {
                         {error.status} {error.statusText}
                     </h1>
                     <p>{error.data}</p>
-                    <Button path={"/"} className="bg-secondary text-white mt-5 py-2 px-3 rounded" label="Retour à l'accueil" onAction={handleHome} />
+                    <Button path={"/#/"} className="bg-secondary text-white mt-5 py-2 px-3 rounded" label="Retour à l'accueil" onAction={handleHome} />
                 </div>
             </>
         );
