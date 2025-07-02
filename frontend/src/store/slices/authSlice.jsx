@@ -12,7 +12,7 @@ export const fetchAuthUser = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             const response = await fetchUser()
-            console.log('RESPONSE DANS LE THUNK =>', response);
+            // console.log('RESPONSE DANS LE THUNK =>', response);
             
             return response;
         } catch {

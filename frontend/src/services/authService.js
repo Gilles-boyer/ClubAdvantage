@@ -6,7 +6,7 @@ export const verifyToken = () => client.get('/api/auth/validate')
 
 export const fetchUser = async () => {
     const response = await client.get("/api/user/me");
-    console.log('RESPONSE SERVICE =>', response.data.user);
+    // console.log('RESPONSE SERVICE =>', response.data.user);
     
     return response.data.user
 }

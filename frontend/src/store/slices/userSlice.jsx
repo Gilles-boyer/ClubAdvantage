@@ -26,7 +26,7 @@ export const addUserThunk = createAsyncThunk(
   async (userData, thunkAPI) => {
     try {
       const response = await createUser(userData);
-      console.log("Réponse à l'ajout", response.data.user);
+      // console.log("Réponse à l'ajout", response.data.user);
 
       return response.data.user;
     } catch (err) {

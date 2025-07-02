@@ -6,7 +6,7 @@ export const usePermissions = () => {
     const user = useSelector(selectAuth);
     const dispatch = useDispatch()
 
-    console.log('Valeurs de USER =>', user);
+    // console.log('Valeurs de USER =>', user);
     useEffect(() => {
         if (!user) {
             dispatch(fetchAuthUser())

@@ -34,8 +34,8 @@ export default function LoginForm() {
 
             }
             await dispatch(fetchAuthUser())
-                .then((res) => {
-                    console.log('RESPONSE LOGIN FORM =>', res.payload); // → { email: "admin@example.com", role_id: 1, ... }
+                .then(() => {
+                    // console.log('RESPONSE LOGIN FORM =>', res.payload); // → { email: "admin@example.com", role_id: 1, ... }
                     // const actualUser = res.payload; // ← Accédez au payload
                     // console.log(`${actualUser.role_name === "super_admin" ? 'Super Admin' : 'Utilisateur standard'}`);
                     window.location.href = "/#/";

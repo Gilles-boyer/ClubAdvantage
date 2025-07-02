@@ -8,11 +8,11 @@ export default function ProtectedRoute() {
     useEffect(() => {
         const checkAuth = async () => {
             try {
-                const response = await verifyToken();
-                console.log('Token valide:', response);
+                await verifyToken();
+                // console.log('Token valide:', response);
                 setStatus(true);
-            } catch (error) {
-                console.log('Token invalide:', error);
+            } catch  {
+                // console.log('Token invalide:', error);
                 setStatus(false);
                 localStorage.removeItem("user");
                 localStorage.removeItem("authToken");
@@ -22,7 +22,7 @@ export default function ProtectedRoute() {
         checkAuth();
     }, []);
 
-    console.log('Valeur du status:', status);
+    // console.log('Valeur du status:', status);
 
     if (status === null) {
         return (<div className='text-center p-5 bg-neutral text-secondary rounded h-screen'>

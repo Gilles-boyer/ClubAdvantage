@@ -20,7 +20,7 @@ export default function Profils() {
 
     // Mise à jour des informations de profil
     const handleUpdate = (data) => {
-        console.log('Valeurs envoyées :', data);
+        // console.log('Valeurs envoyées :', data);
         
         dispatch(updateProfilThunk(data))
     };
@@ -46,7 +46,7 @@ export default function Profils() {
             .catch(() => alert("Erreur suppression du compte"));
     };
 
-    console.log("Valeur du profil", profil);
+    // console.log("Valeur du profil", profil);
     
     if (!profil || profil.data) {
         return <>
