@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Textbox } from "react-inputs-validation";
 import Icon from "@mdi/react";
-import { mdiAccount } from "@mdi/js";
+import { mdiAccount, mdiAlert } from "@mdi/js";
 import ToastAlert from "../ToastAlert";
 import { getToken, loginRequest } from "../../services/authService";
 import { fetchAuthUser } from "../../store/slices/authSlice";
@@ -9,8 +9,10 @@ import client from "../../api/axiosInstance";
 import { useDispatch } from "react-redux";
 
 export default function LoginForm() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("admin@example.com");
+    const [emailError, setEmailError] = useState("");
+    const [password, setPassword] = useState("manger12345");
+    const [pswdError, setPswdError] = useState("");
     const [toast, setToast] = useState({ show: false, message: '', type: 'success' })
     const dispatch = useDispatch()
 
@@ -46,7 +48,7 @@ export default function LoginForm() {
     };
 
     return (
-        <div className="card bg-accent p-8 ring-2 ring-secondary">
+        <div className="card bg-accent p-8 ring-2 ring-secondary w-80vw md:w-95">
             <Icon
                 path={mdiAccount}
                 size={3}
@@ -59,14 +61,24 @@ export default function LoginForm() {
                     </label>
                     <Textbox
                         attributesInput={{
-                            className: "input w-full ring-1 ring-secondary",
+                            className: "input w-full ring-1 ring-secondary rounded-lg",
                             placeholder: "Votre email",
                             type: "email",
                         }}
                         value={email}
                         onChange={(value) => setEmail(value)}
-                        onBlur={() => { }}
+                        onBlur={(e) => {
+                            if (!e.target.value.trim()) {
+                                setEmailError("L'adresse email ne doit pas être vide !")
+                            }
+                        }}
                     />
+                    {emailError && (
+                        <div className="flex w-75 mx-auto justify-center items-center text-red-700">
+                            <Icon path={mdiAlert} size={0.75} />
+                            <p className="ps-2 text-sm mt-1">{emailError}</p>
+                        </div>
+                    )}
                 </div>
 
                 <div>
@@ -75,14 +87,25 @@ export default function LoginForm() {
                     </label>
                     <Textbox
                         attributesInput={{
-                            className: "input w-full ring-1 ring-secondary",
+                            className: "input w-full ring-1 ring-secondary rounded-lg",
                             placeholder: "Votre mot de passe",
                             type: "password",
+                            style: { borderRadius: '0.5em' }
                         }}
                         value={password}
                         onChange={(value) => setPassword(value)}
-                        onBlur={() => { }}
+                        onBlur={(e) => {
+                            if (!e.target.value.trim()) {
+                                setPswdError("Le mot de passe ne doit pas être vide !")
+                            }
+                        }}
                     />
+                    {pswdError && (
+                        <div className="flex w-75 mx-auto justify-center items-center text-red-700">
+                            <Icon path={mdiAlert} size={0.75} />
+                            <p className="ps-2 text-sm mt-1">{pswdError}</p>
+                        </div>
+                    )}
                 </div>
 
                 <button

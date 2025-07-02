@@ -9,7 +9,7 @@ import {
 } from "../../store/slices/offerSlice.jsx";
 import { useLocation } from "react-router-dom";
 import Button from "../Button.jsx";
-
+import { usePermissions } from "../../hooks/userPermissions.js";
 /** Offers view : Parent component that fetches list from Redux, allows create, update & delete offers */
 
 export default function Offers() {
@@ -19,8 +19,9 @@ export default function Offers() {
     const [toggle, setToggle] = useState(false)
     const [toast, setToast] = useState({ show: false, message: '', type: 'success' })
     const location = useLocation();
+    const Permission = usePermissions()
 
-     /** Fetch offers's list on first mount form Store on first mount*/
+    /** Fetch offers's list on first mount form Store on first mount*/
     useEffect(() => {
         dispatch(fetchOffers());
     }, [dispatch]);
@@ -105,15 +106,19 @@ export default function Offers() {
                 <div className="flex-grow border-t border-neutral"></div>
             </div>
             <section className="pt- max-w-5xl mx-auto" id="offersForm">
-                <div className='flex w-fit'>
-                    <Button label={ toggle ? 'Fermer le formulaire':'Ajouter une Offre'} onAction={() => setToggle(!toggle)}
-                        className={'btn-neutral hover:btn-secondary mb-2 md:mb-0'} />
-                </div>
-                {toggle && (<OfferForm 
-                onAddOffer={handleAddOffer} 
-                onEditOffer={toUpOffer}
-                setToggle={setToggle}
-                onCancel={canceledEdit} />)}
+                {Permission.canEdit && (
+                    <>
+                        <div className='flex w-fit'>
+                            <Button label={toggle ? 'Fermer le formulaire' : 'Ajouter une Offre'} onAction={() => setToggle(!toggle)}
+                                className={'btn-neutral hover:btn-secondary mb-2 md:mb-0'} />
+                        </div>
+                        {toggle && (<OfferForm
+                            onAddOffer={handleAddOffer}
+                            onEditOffer={toUpOffer}
+                            setToggle={setToggle}
+                            onCancel={canceledEdit} />)}
+                    </>
+                )}
                 < OfferTable
                     offers={offers}
                     onUpdate={handleToUpOffer}

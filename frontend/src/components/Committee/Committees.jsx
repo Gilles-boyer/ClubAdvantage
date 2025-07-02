@@ -5,6 +5,7 @@ import CmmttsTable from "./CmmttsTable";
 import { fetchCmmtts, updateCmmttThunk, deleteCmmttThunk, addCmmttThunk, listOfCommittees } from "../../store/slices/committeeSlice";
 import ToastAlert from "../ToastAlert";
 import Button from "../Button";
+import { usePermissions } from "../../hooks/userPermissions";
 
 
 export default function Committees() {
@@ -13,6 +14,7 @@ export default function Committees() {
     const [toUpCmmtts, setToUpCmmtts] = useState(null);
     const [toast, setToast] = useState('')
     const [toggle, setToggle] = useState(false)
+    const Permission = usePermissions()
 
     useEffect(() => {
         dispatch(fetchCmmtts())

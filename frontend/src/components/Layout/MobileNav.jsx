@@ -16,9 +16,9 @@ const Permission = usePermissions()
                     <div className="tooltip p-1 uppercase" data-tip="Profil">
                         <NavLinkButton to="/profil" type="mobile" icon={<Icon path={mdiAccountEdit} size={1.1} />} />
                     </div>
-                    <div className="tooltip p-1 uppercase" data-tip="CSE">
+                    {(Permission.canEdit || Permission.isCSEAdmin) && (<div className="tooltip p-1 uppercase" data-tip="CSE">
                         <NavLinkButton to="/committees" type="mobile" icon={<Icon path={mdiAccountGroup} size={0.90} />} />
-                    </div>
+                    </div>)}
                     <div className="tooltip p-1 uppercase" data-tip="Offres">
                         <NavLinkButton to="/offers" type="mobile" icon={<Icon path={mdiGift} size={0.90} />} />
                     </div>

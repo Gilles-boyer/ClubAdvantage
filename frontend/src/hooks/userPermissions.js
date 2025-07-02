@@ -16,6 +16,7 @@ export const usePermissions = () => {
 
     return {
         canEdit: ["super_admin", "staff"].includes(user?.role_name),
+        isCSE: ["cse_admin", "cse_member"].includes(user?.role_name),
         isAdmin: user?.role_name === "super_admin",
         isStaff: user?.role_name === "staff",
         isCSEAdmin: user?.role_name === "cse_admin",

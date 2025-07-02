@@ -1,11 +1,12 @@
 import Offers from "../components/Offer/Offers";
 import Categories from "../components/Category/Categories";
+import { usePermissions } from "../hooks/userPermissions";
 
 export default function Offer() {
- 
+    const Permission = usePermissions()
 
     return <>
-        <Categories  />
+        {Permission.canEdit && (<Categories  />)}
         <Offers />
     </>
 }

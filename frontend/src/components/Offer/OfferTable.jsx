@@ -1,11 +1,11 @@
 import Button from "../Button"
 import { useEffect, useState } from "react"
-import { useLocation } from "react-router-dom"
 import MobilePagination from "../mobilePagination"
 import FilterByCategories from "./FIlterByCat"
 import { useDispatch, useSelector } from "react-redux"
 import { listOfCategories, fetchCategories } from "../../store/slices/categorySlice"
 import EmptyDatas from "../EmptyDatas"
+import { usePermissions } from "../../hooks/userPermissions"
 
 
 export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, setToggle }) {
@@ -13,10 +13,10 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
     const [currentPage, setCurrentPage] = useState(1)
     const [visibleCards, setVisibleCards] = useState(3)
     const itemsPerPage = 6
-    const location = useLocation()
     const [selectedCat, setSelectedCat] = useState('')
     const dispatch = useDispatch()
     const categories = useSelector(listOfCategories)
+    const Permission = usePermissions()
 
     useEffect(() => {
         dispatch(fetchCategories())
@@ -29,7 +29,7 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
         return searchMatch && cmmttMatch
     });
 
-    const isStaffPage = location.pathname === '/offers'
+
     const totalPages = Math.ceil(filtered.length / itemsPerPage);
     const paginated = filtered.slice(
         (currentPage - 1) * itemsPerPage,
@@ -79,7 +79,7 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                                 <th className="px-4 py-2">Titre</th>
                                 <th className="px-4 py-2">Catégorie</th>
                                 <th className="px-4 py-2">Description</th>
-                                {isStaffPage && <>
+                                {Permission.canEdit && <>
                                     <th className="px-4 py-2">Statut</th>
                                     <th className="px-4 py-2">Action</th>
                                 </>}
@@ -95,7 +95,7 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                                     <td className="px-4 py-2">{offer.category_name}</td>
                                     <td className="px-4 py-2">{offer.description}</td>
 
-                                    {isStaffPage && <><td className="px-4 py-2">
+                                    {Permission.canEdit && <><td className="px-4 py-2">
                                         <Button label={`${offer.is_active ? 'Active' : 'Inactive'}`}
                                             onAction={() => onUpStatus(offer.id)} className={`btn-sm w-17 ${offer.is_active ? 'btn-info' : 'btn-warning'}`} />
                                     </td>
@@ -154,7 +154,7 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                     <div key={offer.id} className="card bg-accent w-80vw card-xs shadow-xl p-3 border border-secondary">
                         <div className="flex justify-between mb-3">
                             <div className={`${offer.category_name ? 'badge badge-neutral font-medium' : ''}`}>{offer.category_name}</div>
-                            {isStaffPage && <button
+                            {Permission.canEdit && <button
                                 onClick={() => onUpStatus(offer.id)}
                                 className={`badge badge-md me-2 font-medium ${offer.is_active ? "badge-info" : "badge-warning"
                                     }`}
@@ -170,7 +170,7 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                                 <span className="font-medium underline">Description :</span>
                                 <br />{offer.description}</p>
 
-                            {isStaffPage && <> <div className="card-action flex space-x-2 mt-2">
+                            {Permission.canEdit && <> <div className="card-action flex space-x-2 mt-2">
                                 <div className="flex mt-0 md:mt-2 space-x-2">
                                     <Button action={'update'}
                                         href={"#offersForm"}
