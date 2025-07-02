@@ -59,7 +59,7 @@ export default function ProfilsForm({ profil, onSubmit, setEditMode }) {
     // Affichage du formulaire
     return (
         <form onSubmit={handleSubmit} className="w-full border rounded-md p-4 mx-auto bg-white shadow-md mt-6">
-            <h3 className="uppercase font-medium text-center bg-secondary text-white py-2 rounded mb-4">
+            <h3 className="uppercase font-medium text-center bg-primary text-white py-2 rounded mb-4">
                 Modifier mes informations
             </h3>
             {/* Champ prénom */}
