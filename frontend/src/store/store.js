@@ -7,6 +7,7 @@ import roleReducer      from './slices/rolesSlice'
 import scanReducer      from './slices/scanSlice'
 import profilReducer    from './slices/profilSlice'
 import authReducer      from './slices/authSlice.jsx';
+import statsReducer     from './slices/statsSlice.jsx';
 
 export const store = configureStore({
     reducer: {
@@ -18,5 +19,6 @@ export const store = configureStore({
         scan: scanReducer,
         profil: profilReducer,
         auth: authReducer,
+        stats: statsReducer,
     },
 });
