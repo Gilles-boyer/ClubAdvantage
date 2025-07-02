@@ -21,12 +21,6 @@ export default function Profils() {
     }, [dispatch]);
 
     // Mise à jour des informations de profil
-<<<<<<< HEAD
-    const handleUpdate = (data) => {
-        // console.log('Valeurs envoyées :', data);
-        
-        dispatch(updateProfilThunk(data))
-=======
     const handleUpdate = async (data) => {
         try {
             console.log('Valeurs envoyées :', data);
@@ -39,7 +33,6 @@ export default function Profils() {
             setToast({ show: true, message: "Erreur lors de la mise à jour du profil !", type: "error" })
         }
 
->>>>>>> profil
     };
 
     // Changement du mot de passe
@@ -63,13 +56,8 @@ export default function Profils() {
             .catch(() => alert("Erreur suppression du compte"));
     };
 
-<<<<<<< HEAD
     // console.log("Valeur du profil", profil);
     
-=======
-    console.log("Valeur du profil", profil);
-
->>>>>>> profil
     if (!profil || profil.data) {
         return <>
             <p className="text-center mt-10 text-gray-500">Chargement du profil...</p>
