@@ -48,7 +48,7 @@ export default function OfferForm({ onAddOffer, onEditOffer, setToggle, onCancel
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const categoryObject = categories.find((cat) => cat.id === selectedCat)
+    // const categoryObject = categories.find((cat) => cat.id === selectedCat)
 
     /** Datas required and sent on Create */
     const newOffer = {
@@ -56,16 +56,12 @@ export default function OfferForm({ onAddOffer, onEditOffer, setToggle, onCancel
       description,
       is_active: status,
       category_id: selectedCat,
-      category_name: categoryObject?.name || '',
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString()
     };
     if (onEditOffer?.id !== undefined) {
       newOffer.id = onEditOffer.id;
     }
-    // else {
-    //   newOffer.created_at = new Date().toISOString();
-    // }
 
     onAddOffer(newOffer);
     reset();

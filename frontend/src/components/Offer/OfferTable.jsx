@@ -17,6 +17,9 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
     const dispatch = useDispatch()
     const categories = useSelector(listOfCategories)
     const Permission = usePermissions()
+    
+    const findCategoryName = (id) =>
+    categories.find((c) => c.id === id)?.name ?? "—";
 
     useEffect(() => {
         dispatch(fetchCategories())
@@ -92,7 +95,7 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                                     className="border-gray-300 border-t hover:bg-gray-100 transition-colors"
                                 >
                                     <td className="px-4 py-2 font-medium">{offer.title}</td>
-                                    <td className="px-4 py-2">{offer.category_name}</td>
+                                    <td className="px-4 py-2">{findCategoryName(offer.category_id)}</td>
                                     <td className="px-4 py-2">{offer.description}</td>
 
                                     {Permission.canEdit && <><td className="px-4 py-2">
@@ -153,7 +156,7 @@ export default function OfferTable({ offers, onUpdate, onDelete, onUpStatus, set
                 {mobileView.map((offer) => (
                     <div key={offer.id} className="card bg-accent w-80vw card-xs shadow-xl p-3 border border-secondary">
                         <div className="flex justify-between mb-3">
-                            <div className={`${offer.category_name ? 'badge badge-neutral font-medium' : ''}`}>{offer.category_name}</div>
+                            <div className="badge badge-neutral font-medium">{findCategoryName(offer.category_id)}</div>
                             {Permission.canEdit && <button
                                 onClick={() => onUpStatus(offer.id)}
                                 className={`badge badge-md me-2 font-medium ${offer.is_active ? "badge-info" : "badge-warning"
