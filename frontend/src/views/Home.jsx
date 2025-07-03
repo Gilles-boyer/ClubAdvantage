@@ -1,4 +1,4 @@
-import InvitationForm from '../components/InvitationForm'
+// import InvitationForm from '../components/InvitationForm'
 import Offers from '../components/Offer/Offers'
 import Statistique from '../components/Statistique'
 
@@ -32,6 +32,6 @@ export default function Home() {
       <div className="flex-grow border-t border-neutral"></div>
     </div>
     <Offers />
-    <InvitationForm />
+    {/* <InvitationForm /> */}
   </>
 }

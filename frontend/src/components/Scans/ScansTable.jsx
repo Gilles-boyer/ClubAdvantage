@@ -97,7 +97,7 @@ export default function ScanTable({ scans }) {
                                 <p className="text-sm">
                                     <span className="font-medium">Scanné par : </span>{scan.scanned_by_name}</p>
                                 <p className="text-sm">
-                                    <span className="font-medium">Date du scan : </span>{scan.scanned_at}</p>
+                                    <span className="font-medium">Date du scan : </span>{dateSlice(scan.scanned_at)}</p>
                             </div>
                         </div>
                     </div>

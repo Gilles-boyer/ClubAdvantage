@@ -1,16 +1,13 @@
 import axios from 'axios';
+
 const client = axios.create({
-    baseURL: import.meta.env.VITE_API_URL,  // ex: "http://…:8000/api"
-    // timeout: 10000,
-    withCredentials: false,
-    withXSRFToken: true,
-    xsrfCookieName: 'XSRF-TOKEN',
-    xsrfHeaderName: 'X-XSRF-TOKEN',
+    baseURL: import.meta.env.VITE_API_URL,
+    withCredentials: true,
     headers: {
         "Content-Type": "application/json",
         "Accept": "application/json",
+        "X-Requested-With": "XMLHttpRequest",
     },
-
 });
 
 client.interceptors.request.use(config => {
@@ -21,4 +18,16 @@ client.interceptors.request.use(config => {
     return config;
 });
 
-export default client
+client.interceptors.response.use(
+    response => response,
+    error => {
+        if (error.response?.status === 401) {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+            window.location.href = '/#/login';
+        }
+        return Promise.reject(error);
+    }
+);
+
+export default client;

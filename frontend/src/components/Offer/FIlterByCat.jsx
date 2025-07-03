@@ -50,7 +50,6 @@ export default function FilterByCategories({
               setIsOpen(false);
             }}
           >
-            —Toutes les Catégories—
           </li> */}
           {filtered.map((cat) => (
             <li
