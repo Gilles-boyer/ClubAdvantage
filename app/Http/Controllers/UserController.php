@@ -9,9 +9,23 @@ use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
+    public function qrPayload(Request $request)
+    {
+        $user = $request->user();
+
+        // si pas encore généré → on le crée puis on le garde
+        if (!$user->qr_token) {
+            $user->qr_token = Str::uuid()->toString();  // ou Str::random(40)
+            $user->save();
+        }
+
+        return response()->json(['payload' => $user->qr_token]);
+    }
+
     // Paginated user lists, filterable by role (Liste paginée des utilisateurs, filtrable par rôle)
     // Handles index action (Gère l'action index)
     public function index(Request $request)

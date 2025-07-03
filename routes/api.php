@@ -46,8 +46,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch ('user/me',        [UserController::class, 'updateProfile']);
     Route::patch ('user/password',  [UserController::class, 'updatePassword']);
     Route::delete('user/me',        [UserController::class, 'deleteAccount']);
-    Route::get   ('/stats',         [StatsController::class, 'index']);
+    Route::get   ('/stats',         [StatsController::class,'index']);
     Route::post  ('/invitations',   [InvitationController::class, 'store']);
+    Route::get   ('user/qrcode',    [UserController::class, 'qrPayload']);
 
     // Route renvoyant les pages
     Route::apiResources([
