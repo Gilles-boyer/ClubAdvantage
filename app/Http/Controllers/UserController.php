@@ -30,37 +30,37 @@ class UserController extends Controller
     // Paginated user lists, filterable by role (Liste paginée des utilisateurs, filtrable par rôle)
     // Handles index action (Gère l'action index)
 
-public function index(Request $request)
-{
-    $user = Auth::user(); // 👤 Utilisateur connecté
+    public function index(Request $request)
+    {
+        $user = Auth::user(); // 👤 Utilisateur connecté
+        $query = User::with(['role', 'committee']);
+        $authRole = $user->role_name;   // déjà un RoleEnum
 
-    $query = User::with(['role', 'committee']);
+        // 🔐 Si l'utilisateur n'est pas super_admin ou staff, alors restreint au comité de l'utilisateur authentifié
 
-    // 🔐 Si l'utilisateur n'est pas super_admin ou staff, alors restreint au comité de l'utilisateur authentifié
-    if (!in_array($user->role_name, ['super_admin', 'staff'])) {
-        $query->where('committee_id', $user->committee_id);
+        if (! in_array($authRole, [RoleEnum::SUPER_ADMIN, RoleEnum::STAFF], true)) {
+            $query->where('committee_id', $user->committee_id);
+        }
+
+        // 🔍 Filtrage optionnel par rôle (ex: ?role=staff)
+        if ($request->has('role')) {
+            $query->whereHas('role', function ($q) use ($request) {
+                $q->where('name', $request->role);
+            });
+        }
+
+        $users = $query->orderBy('last_name')
+            ->orderBy('first_name')
+            ->paginate(100000);
+
+        return UserResource::collection($users)->additional([
+            'meta' => [
+                'total'        => $users->total(),
+                'current_page' => $users->currentPage(),
+                'last_page'    => $users->lastPage(),
+            ],
+        ]);
     }
-
-    // 🔍 Filtrage optionnel par rôle (ex: ?role=staff)
-    if ($request->has('role')) {
-        $query->whereHas('role', function ($q) use ($request) {
-            $q->where('name', $request->role);
-        });
-    }
-
-    $users = $query->orderBy('last_name')
-        ->orderBy('first_name')
-        ->paginate(100000);
-
-    return UserResource::collection($users)->additional([
-        'meta' => [
-            'total'        => $users->total(),
-            'current_page' => $users->currentPage(),
-            'last_page'    => $users->lastPage(),
-        ],
-    ]);
-}
-
 
     // Handles show action (Gère l'action show)
     public function show(User $user)
@@ -69,7 +69,7 @@ public function index(Request $request)
 
         $notice = null;
         if (
-            in_array($user->role_name, ['cse_admin', 'cse_member'], true)
+            in_array($user->role_name, [RoleEnum::CSE_ADMIN->value, RoleEnum::CSE_MEMBER->value], true)
             && is_null($user->committee_id)
         ) {
             $notice = 'Attention : ce membre ou CSE n’est pas rattaché à un comité.';
@@ -121,60 +121,81 @@ public function index(Request $request)
     // Handles update action (Gère l'action update)
     public function update(UserRequest $request, User $user)
     {
-        // Cannot modify the super_admin itself (Impossible de modifier le super_admin lui-même)
+        /* -----------------------------------------------------------------
+     |  1.  Garde-fous de haut niveau
+     | ----------------------------------------------------------------- */
+
+        // ⛔️ Le super-admin lui-même est intouchable
         if ($user->role_name === RoleEnum::SUPER_ADMIN->value) {
             abort(403, 'Le super-admin ne peut pas être modifié.');
         }
 
-        $data = $request->validated();
+        $data = $request->validated();   // Données sûres
 
-        // Cannot demote a staff (Impossible de démouvoir un staff)
+        /* -----------------------------------------------------------------
+     |  2.  Gestion (éventuelle) du changement de rôle
+     | ----------------------------------------------------------------- */
         if (isset($data['role_id'])) {
+
+            // — Interdire la rétrogradation d’un STAFF —
             $staffId = Role::where('name', RoleEnum::STAFF->value)->value('id');
             if ($user->role_id === $staffId && $data['role_id'] !== $staffId) {
                 abort(403, 'Le rôle staff ne peut pas être modifié.');
             }
 
-            // TODO Also secures the assignment of a super_admin to another user (Sécurise aussi l’attribution d’un super_admin à un autre user)
+            // — Empêcher la création d’un second SUPER_ADMIN —
             $superId = Role::where('name', RoleEnum::SUPER_ADMIN->value)->value('id');
-            if (
-                $data['role_id'] === $superId
-                && User::where('role_id', $superId)
+            $alreadyASuper = User::where('role_id', $superId)
                 ->where('id', '!=', $user->id)
-                ->exists()
-            ) {
+                ->exists();
+            if ($data['role_id'] === $superId && $alreadyASuper) {
                 abort(403, 'Un super-admin existe déjà.');
             }
 
-            // Updates automatiquement role_name si role_id changé (Met à jour automatiquement role_name si role_id changé)
+            // — Met à jour  role_name  ↔  role_id —
             $data['role_name'] = Role::findOrFail($data['role_id'])->name;
-
-            // TODO Hash password if modified (Hachage du mot de passe si modifié)
-            if (! empty($data['password'])) {
-                $data['password'] = Hash::make($data['password']);
-            } else {
-                unset($data['password']);
-            }
-
-            $user->update($data);
-            $user->refresh()->load(['role', 'committee']);
-
-            // Notice if CSE role without committee (Notice si rôle CSE sans comité)
-            $notice = null;
-            if (
-                in_array($user->role_name, [RoleEnum::CSE_ADMIN->value, RoleEnum::CSE_MEMBER->value], true)
-                && is_null($user->committee_id)
-            ) {
-                $notice = 'Attention : ce rôle nécessite un comité.';
-            }
-
-            return response()->json([
-                'user'   => new UserResource($user),
-                'notice' => $notice,
-            ]);
         }
-    }
 
+        /* -----------------------------------------------------------------
+     |  3.  Gestion (éventuelle) du mot de passe
+     | ----------------------------------------------------------------- */
+        if (!empty($data['password'])) {
+            // Hachage systématique dès qu’un password est fourni
+            $data['password'] = Hash::make($data['password']);
+        } else {
+            unset($data['password']);   // Évite d’écraser avec une chaîne vide
+        }
+
+        /* -----------------------------------------------------------------
+     |  4.  Persistance + rafraîchissement
+     | ----------------------------------------------------------------- */
+        if (!empty($data)) {
+            $user->update($data);
+        }
+        $user->refresh()->load(['role', 'committee']);
+
+        /* -----------------------------------------------------------------
+     |  5.  Notice éventuelle : rôle CSE sans comité
+     | ----------------------------------------------------------------- */
+        $notice = null;
+        if (
+            in_array($user->role_name, [
+                RoleEnum::CSE_ADMIN->value,
+                RoleEnum::CSE_MEMBER->value,
+            ], true)
+            && is_null($user->committee_id)
+        ) {
+            $notice = 'Attention : ce rôle nécessite un comité.';
+        }
+
+        /* -----------------------------------------------------------------
+     |  6.  Réponse
+     | ----------------------------------------------------------------- */
+        return response()->json([
+            'user'   => new UserResource($user),
+            'notice' => $notice,
+        ]);
+    }
     // Handles destroy action (Gère l'action destroy)
     public function destroy(User $user)
     {
@@ -208,7 +229,7 @@ public function index(Request $request)
     public function updateProfile(Request $request)
     {
         $user      = $request->user();
-        
+
         $validated = $request->validate([
             'first_name' => ['sometimes', 'string', 'max:255'],
             'last_name'  => ['sometimes', 'string', 'max:255'],
@@ -233,7 +254,7 @@ public function index(Request $request)
     public function updatePassword(Request $request)
     {
         $user      = $request->user();
-        
+
         $validated = $request->validate([
             'current_password' => ['required'],
             'new_password'     => ['required', 'min:8', 'confirmed'],
