@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\RoleEnum;
-// use App\Models\Committee;
+use App\Models\Committee;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -15,7 +15,7 @@ class UserSeeder extends Seeder {
         // Crée un seul admin 
         User::factory()->create([
             'role_name'     => RoleEnum::SUPER_ADMIN->value,
-            'role_id'       =>  Role::where('name', RoleEnum::SUPER_ADMIN->value)->value('id'),
+            'role_id'       => Role::where('name', RoleEnum::SUPER_ADMIN->value)->value('id'),
             'committee_id'  => null,
             'email'         => 'admin@example.com',
             'password'      => Hash::make('manger12345'), // <- Hachage important ici !

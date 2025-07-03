@@ -17,7 +17,7 @@ class InvitationController extends Controller
 
         $committee_id   = $user->committee_id;
         $committee_name = $user->committee_name;
-        $role_id        = \App\Models\Role::where('name','cse_member')->value('id');
+        $role_id        = Role::where('name','cse_member')->value('id');
         $role_name      = 'cse_member';
 
         // 3) Prépare les données pour l'email
