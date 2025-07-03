@@ -7,6 +7,8 @@ use App\Http\Requests\OfferRequest;
 use App\Http\Resources\OfferResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use App\Enums\RoleEnum;
+
 
 
 class OfferController extends Controller
@@ -17,7 +19,7 @@ class OfferController extends Controller
     $user = Auth::user();
 
     // Si c'est un super admin → toutes les offres
-    if ($user->role_name === 'super_admin' || $user->role_name === 'staff') {
+    if (in_array($user->role_name, ["super_admin", "staff"])) {
         $offers = Offer::with(['creator', 'category', 'committees'])->get();
     } else {
         // Sinon, uniquement celles liées au comité du user

@@ -10,23 +10,9 @@ use Illuminate\Http\Request;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
-    public function qrPayload(Request $request)
-    {
-        $user = $request->user();
-
-        // si pas encore généré → on le crée puis on le garde
-        if (!$user->qr_token) {
-            $user->qr_token = Str::uuid()->toString();  // ou Str::random(40)
-            $user->save();
-        }
-
-        return response()->json(['payload' => $user->qr_token]);
-    }
-
     // Paginated user lists, filterable by role (Liste paginée des utilisateurs, filtrable par rôle)
     // Handles index action (Gère l'action index)
 
@@ -36,8 +22,8 @@ public function index(Request $request)
 
     $query = User::with(['role', 'committee']);
 
-    // 🔐 Si l'utilisateur n'est pas super_admin ou staff, alors restreint au comité de l'utilisateur authentifié
-    if (!in_array($user->role_name, ['super_admin', 'staff'])) {
+    // 🔐 Si l'utilisateur n'est pas super_admin, restreint au comité
+    if ($user->role_name !== 'super_admin' ) {
         $query->where('committee_id', $user->committee_id);
     }
 
