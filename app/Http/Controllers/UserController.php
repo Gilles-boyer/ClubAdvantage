@@ -9,31 +9,44 @@ use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
     // Paginated user lists, filterable by role (Liste paginée des utilisateurs, filtrable par rôle)
     // Handles index action (Gère l'action index)
-    public function index(Request $request)
-    {
-        $query = User::with(['role', 'committee']);
 
-        if ($request->has('role')) {
-            $query->where('role_name', $request->role);
-        }
+public function index(Request $request)
+{
+    $user = Auth::user(); // 👤 Utilisateur connecté
 
-        $users = $query->orderBy('last_name')
-            ->orderBy('first_name')
-            ->paginate(100000);
+    $query = User::with(['role', 'committee']);
 
-        return UserResource::collection($users)->additional([
-            'meta' => [
-                'total'        => $users->total(),
-                'current_page' => $users->currentPage(),
-                'last_page'    => $users->lastPage(),
-            ],
-        ]);
+    // 🔐 Si l'utilisateur n'est pas super_admin, restreint au comité
+    if ($user->role_name !== 'super_admin' || $user->role_name !== 'staff') {
+        $query->where('committee_id', $user->committee_id);
     }
+
+    // 🔍 Filtrage optionnel par rôle (ex: ?role=staff)
+    if ($request->has('role')) {
+        $query->whereHas('role', function ($q) use ($request) {
+            $q->where('name', $request->role);
+        });
+    }
+
+    $users = $query->orderBy('last_name')
+        ->orderBy('first_name')
+        ->paginate(100000);
+
+    return UserResource::collection($users)->additional([
+        'meta' => [
+            'total'        => $users->total(),
+            'current_page' => $users->currentPage(),
+            'last_page'    => $users->lastPage(),
+        ],
+    ]);
+}
+
 
     // Handles show action (Gère l'action show)
     public function show(User $user)

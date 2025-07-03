@@ -64,4 +64,9 @@ class Committee extends Model {
             }
         });
     }
+    public function offers()
+    {
+        return $this->belongsToMany(Offer::class, 'committee_offers')
+                    ->withPivot('assigned_at');
+    }
 }

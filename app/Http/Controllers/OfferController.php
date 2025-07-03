@@ -6,21 +6,34 @@ use App\Models\Offer;
 use App\Http\Requests\OfferRequest;
 use App\Http\Resources\OfferResource;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
+
 
 class OfferController extends Controller
 {
     // Handles index action (Gère l'action index)
     public function index(): JsonResponse
-    {
+{
+    $user = Auth::user();
 
+    // Si c'est un super admin → toutes les offres
+    if ($user->role_name === 'super_admin' || $user->role_name === 'staff') {
         $offers = Offer::with(['creator', 'category', 'committees'])->get();
-        $offers = OfferResource::collection($offers);
+    } else {
+        // Sinon, uniquement celles liées au comité du user
+        $committeeId = $user->committee_id;
 
-        return response()->json([
-            'message' => 'Liste des offres récupérée avec succès.',
-            'data'    => OfferResource::collection($offers),
-        ], 200);
+        $offers = Offer::whereHas('committees', function ($query) use ($committeeId) {
+            $query->where('committees.id', $committeeId);
+        })->with(['creator', 'category', 'committees'])->get();
     }
+
+    return response()->json([
+        'message' => 'Liste des offres récupérée avec succès.',
+        'data'    => OfferResource::collection($offers),
+    ], 200);
+}
+
 
     // Handles show action (Gère l'action show)
     public function show(Offer $offer): JsonResponse
