@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-        $table->string('qr_token', 512)->unique()->nullable();
+            $table->string('qr_token', 512)->unique()->nullable();
         });
     }
 
@@ -23,7 +23,6 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('qr_token');
-            //
         });
     }
 };
