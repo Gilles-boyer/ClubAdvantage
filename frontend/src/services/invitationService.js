@@ -1,3 +1,3 @@
 import client from "../api/axiosInstance";
-
-export default function 
+export const sendInvitation = (payload) =>
+  client.post("/api/invitations", payload);
