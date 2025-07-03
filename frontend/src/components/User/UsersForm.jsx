@@ -146,8 +146,6 @@ export default function UsersForm({ onAddUser, onEditUser, onCancel, setToggle }
             return; // on arrête l’envoi
         }
 
-        // composition de l’objet user
-        const comObj = cmmtts.find(com => com.id === +selectedCom);
         const roleObj = roles.find(role => role.id === +selectedRole);
         const CseRole = ['cse_admin', 'cse_member'].includes(roleObj?.name);
 
@@ -161,7 +159,7 @@ export default function UsersForm({ onAddUser, onEditUser, onCancel, setToggle }
             role_name: roleObj?.name || "",
             // on n’envoie le committee_id QUE pour les rôles CSE
             ...(CseRole
-                ? { committee_id: Number(selectedCom), committee_name: comObj?.name || '' }
+                ? { committee_id: Number(selectedCom) }
                 : { committee_id: null }
             ),
             ...(onEditUser ? { id: onEditUser.id } : { created_at: new Date().toISOString() }),

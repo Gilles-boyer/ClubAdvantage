@@ -16,17 +16,21 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
 
     const dispatch = useDispatch()
     const committees = useSelector(listOfCommittees)
+    const findCommitteeName = (id) => committees.find((c) => c.id === id)?.name ?? "—";
 
     useEffect(() => {
         dispatch(fetchCmmtts())
     }, [dispatch])
 
-    const filtered = users.filter(us => {
-        const matchSearch = (us?.last_name + ' ' + us?.first_name + ' ' + us?.email).toLowerCase().includes(search.toLowerCase())
-        const matchCmmtts = selectedCom === '' || us.committee_id === selectedCom
-
-        return matchSearch && matchCmmtts
-    })
+    const filtered = (users ?? [])
+    .filter(Boolean)                 // enlève undefined / null
+    .filter((u) => {
+        const { last_name = '', first_name = '', email = '' } = u;
+        const haystack = `${last_name} ${first_name} ${email}`.toLowerCase();
+        const matchSearch  = haystack.includes(search.toLowerCase());
+        const matchCmmtts  = !selectedCom || u.committee_id === selectedCom;
+        return matchSearch && matchCmmtts;
+    });
 
     const totalPages = Math.ceil(filtered.length / itemsPerPage);
     const paginated = filtered.slice(
@@ -47,6 +51,8 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
         setSearch('')
         setSelectedCom('')
     }
+
+
     return (
         <>
 
@@ -88,10 +94,10 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
                                         key={user.id}
                                         className="border-gray-300 border-t hover:bg-gray-100 transition-colors"
                                     >
-                                        <td className="px-4 py-2 font-medium">{user.last_name}</td>
+                                        <td className="px-4 py-2 font-medium">{user.last_name ?? '_'}</td>
                                         <td className="px-4 py-2">{user.first_name}</td>
                                         <td className="px-4 py-2">{user.email}</td>
-                                        <td className="px-4 py-2" key={user.committee_id}>{user.committee_name}</td>
+                                        <td className="px-4 py-2">{findCommitteeName(user.committee_id)}</td>
                                         <td className="px-4 py-2">{user.role_name}</td>
                                         <td className="px-4 py-2"><StatusBadge status={user.status} /></td>
                                         <td className="px-4 py-2 space-x-2 bg-accent">
@@ -148,13 +154,13 @@ export default function UsersTable({ users, onUpdate, onDelete, setToggle, setEd
                             <div className="badge badge-neutral font-medium text-white">{user.role_name}</div>
                             <StatusBadge status={user.status} />
                         </div>
-                        <h3 className="card-title font-medium pb-1 text-lg rounded ps-0.5">{user.last_name} {user.first_name}</h3>
+                        <h3 className="card-title font-medium pb-1 text-lg rounded ps-0.5">{`${user.last_name ?? ''} ${user.first_name ?? ''}`.trim() || '—'}</h3>
                         <div className="card-body bg-white border border-gray-200 rounded-md">
                             <div className="flex flex-col">
                                 <p className="text-sm">
                                     <span className="font-medium">Email : </span>{user.email}</p>
                                 <p className="text-sm">
-                                    <span className="font-medium">CSE : </span>{user.committee_name}</p>
+                                    <span className="font-medium">CSE : </span>{findCommitteeName(user.committee_id)}</p>
                             </div>
                             <div className="card-action flex space-x-2 mt-2">
                                 <div className="flex mt-0 md:mt-2 space-x-2">
