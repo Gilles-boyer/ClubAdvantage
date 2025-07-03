@@ -23,7 +23,7 @@ public function index(Request $request)
     $query = User::with(['role', 'committee']);
 
     // 🔐 Si l'utilisateur n'est pas super_admin, restreint au comité
-    if ($user->role_name !== 'super_admin' || $user->role_name !== 'staff') {
+    if ($user->role_name !== 'super_admin') {
         $query->where('committee_id', $user->committee_id);
     }
 
