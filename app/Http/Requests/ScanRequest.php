@@ -4,25 +4,42 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\User;
+use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Support\Facades\Crypt;
 
-class ScanRequest extends FormRequest {
+class ScanRequest extends FormRequest
+{
 
-    public function authorize(): bool {
+    public function authorize(): bool
+    {
         return true;
     }
 
-    public function rules(): array {
+    public function rules(): array
+    {
         return [
-            'user_id'    => 'required|exists:users,id',
+            'qr_token'   => 'required|string',
             'scanned_by' => 'required|exists:users,id',
-            // on ne demande plus scanned_at, il est généré automatiquement
         ];
     }
 
-    public function withValidator($validator) {
+    public function withValidator($validator)
+    {
         $validator->after(function ($validator) {
+
+            /* ---------------- Déchiffrage du QR ---------------- */
+            try {
+                $userId = Crypt::decryptString($this->qr_token);
+            } catch (DecryptException $e) {
+                $validator->errors()->add('qr_token', 'QR-Code invalide ou corrompu.');
+                return;
+            }
+
+            // On "injecte" l’ID dans l’instance pour la suite
+            $this->merge(['user_id' => $userId]);
+
             // 👉 L’utilisateur scanné
-            $user = User::find($this->user_id);
+            $user = User::find($userId);
             if ($user) {
                 // 👤 L'utilisateur scanné doit être actif
                 if ($user->status !== 'active') {
@@ -53,13 +70,12 @@ class ScanRequest extends FormRequest {
         });
     }
 
-    public function messages(): array {
+    public function messages(): array
+    {
         return [
-            // user_id
-            'user_id.required'    => "L'utilisateur à scanner est obligatoire.",
-            'user_id.exists'      => "L'utilisateur à scanner n'existe pas.",
 
-            // scanned_by
+            'qr_token.required' => 'Le QR-Code est obligatoire.',
+
             'scanned_by.required' => "L'identifiant du scanneur est obligatoire.",
             'scanned_by.exists'   => "L'utilisateur qui scanne n'existe pas.",
         ];

@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommitteeController;
 use App\Http\Controllers\CommitteeOfferController;
+use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ScanController;
@@ -17,8 +18,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/sanctum/csrf-cookie', [\Laravel\Sanctum\Http\Controllers\CsrfCookieController::class, 'show']);
 
 // Auth publiques
-Route::post('/login',  [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout']);
+Route::post('/login',    [AuthController::class, 'login']);
+Route::post('/logout',   [AuthController::class, 'logout']);
+Route::post('/register', [AuthController::class, 'register']);
 
 // Si on passe ici, le jeton/cookie est valide
 Route::middleware('auth:sanctum')->get('/auth/validate', function (Request $request) {
@@ -44,7 +46,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch ('user/me',        [UserController::class, 'updateProfile']);
     Route::patch ('user/password',  [UserController::class, 'updatePassword']);
     Route::delete('user/me',        [UserController::class, 'deleteAccount']);
-    Route::get   ('/stats',         [StatsController::class, 'index']);
+    Route::get   ('/stats',         [StatsController::class,'index']);
+    Route::post  ('/invitations',   [InvitationController::class, 'store']);
+    Route::get   ('user/qrcode',    [UserController::class, 'qrPayload']);
+
     // Route renvoyant les pages
     Route::apiResources([
         'categories'      => CategoryController::class,

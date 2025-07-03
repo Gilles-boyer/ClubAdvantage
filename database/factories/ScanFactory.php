@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\RoleEnum;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -13,14 +14,10 @@ class ScanFactory extends Factory {
             'scanned_at' => fake()->dateTimeBetween('-6 months', 'now'),
             
             // Celui qui scanne : un membre du staff
-            'scanned_by' => User::whereIn('role_name', ['super_admin', 'staff'])
-                   ->inRandomOrder()
-                   ->first(),
+            'scanned_by' => User::whereIn('role_name',[RoleEnum::SUPER_ADMIN->value, RoleEnum::STAFF->value])->inRandomOrder()->value('id'),
             
             // Celui qui est scanné : un membre CSE
-            'user_id' => User::whereIn('role_name', ['cse_member', 'cse_admin'])
-                 ->inRandomOrder()
-                 ->first(),
+            'user_id'    => User::whereIn('role_name',[RoleEnum::CSE_MEMBER->value, RoleEnum::CSE_ADMIN->value])->inRandomOrder()->value('id'),
         ];
     }
 }

@@ -25,15 +25,15 @@ class ScanController extends Controller
     // Handles store action (Gère l'action store)
     public function store(ScanRequest $request)
     {
-        $data = $request->validated();
         $scan = Scan::create([
-            'user_id'     => $data['user_id'],
-            'scanned_by'  => $data['scanned_by'],
-            'scanned_at'  => now(), // automatically generated (générée automatiquement)
+            'user_id'    => $request->user_id,     // fourni par ScanRequest
+            'scanned_by' => $request->scanned_by,  // ou auth()->id() si API protégée
+            'scanned_at' => now(),
         ]);
+        
         return response()->json([
             'message' => 'Scan enregistré avec succès.',
-            'data'    => new ScanResource($scan),
+            'data'    => new ScanResource($scan->load(['scannedBy','scannedUser'])),
         ], 201);
     }
 
