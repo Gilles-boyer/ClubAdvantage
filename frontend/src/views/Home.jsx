@@ -1,19 +1,9 @@
-import { useState, useEffect } from "react";
 import InvitationForm from '../components/InvitationForm'
 import Offers from '../components/Offer/Offers'
 import Statistique from '../components/Statistique'
-import { fetchQrCode } from "../services/qrService";
 
 export default function Home() {
-  const [qrUrl, setQrUrl] = useState(null);
 
-  useEffect(() => {
-    fetchQrCode()
-      .then(url => setQrUrl(url))
-      .catch(err => {
-        console.error("Impossible de charger le QR-Code", err);
-      });
-  }, []);
   return ( 
     <>
       <div className="bg-white shadow-md rounded-lg p-6 mx-auto mb-8 max-w-3xl text-center">
@@ -26,20 +16,6 @@ export default function Home() {
           Plongez dès maintenant dans votre univers personnalisé et profitez pleinement de tous les avantages que nous vous offrons !
         </p>
       </div>
-
-      {/* Affichage du QR Code de l’utilisateur */}
-      {qrUrl && (
-        <div className="mx-auto mb-8 text-center">
-          <h4 className="text-xl font-semibold mb-2">Votre QR Code personnel</h4>
-          <img
-            src={qrUrl}
-            alt="Votre QR Code"
-            className="inline-block border p-2 rounded shadow"
-            width={200}
-            height={200}
-          />
-        </div>
-      )}
 
       {/* Sections Statistiques / Offres / Invitation */}
       <SectionTitle title="Statistiques" />

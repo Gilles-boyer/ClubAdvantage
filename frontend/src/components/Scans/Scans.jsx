@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { fetchScans, listOfScans, addScanThunk} from "../../store/slices/scanSlice";
 import { fetchUsers, listOfUsers } from "../../store/slices/userSlice";
 import { fetchUserById } from "../../services/usersService";
-// import ScansCamera from "./ScansCamera"; // Caméra HTML5
 import ScansTable from "./ScansTable"; // Affiche les données d’un scan réussi
 import { useDispatch, useSelector } from "react-redux";
 import Html5QrcodePlugin from "./QrScannerPlugin";
@@ -54,8 +53,6 @@ export default function Scans() {
         }
     }
 
-
-
     // ✅ Fonction exécutée à chaque scan réussi (via le composant ScanCamera)
     const handleAddScan = async (newScan) => {
         try {
@@ -64,7 +61,6 @@ export default function Scans() {
             console.error("Erreur CREATE/UPDATE Offer:", err);
         }
     }
-
 
     return (
         <>

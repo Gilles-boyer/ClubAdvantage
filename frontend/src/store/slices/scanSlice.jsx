@@ -34,8 +34,6 @@ export const addScanThunk = createAsyncThunk(
   }
 );
 
-
-
 export const deleteScanThunk = createAsyncThunk(
   'scans/deleteScan',
   async (id, thunkAPI) => {
