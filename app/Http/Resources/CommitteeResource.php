@@ -4,13 +4,14 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CommitteeResource extends JsonResource {
-    public function toArray($request): array {
-
+class CommitteeResource extends JsonResource
+{
+    public function toArray($request): array
+    {
         return [
             'id'                     => $this->id,
             'name'                   => $this->name,
-            
+
             'agreement_start_date' => $this->agreement_start_date?->toDateString(),
             'agreement_end_date'   => $this->agreement_end_date?->toDateString(),
 

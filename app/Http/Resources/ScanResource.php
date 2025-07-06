@@ -4,8 +4,10 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ScanResource extends JsonResource {
-    public function toArray($request): array {
+class ScanResource extends JsonResource
+{
+    public function toArray($request): array
+    {
         return [
             'id'         => $this->id,
             'scanned_at' => $this->scanned_at,

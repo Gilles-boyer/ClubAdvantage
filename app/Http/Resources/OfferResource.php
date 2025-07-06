@@ -4,9 +4,10 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class OfferResource extends JsonResource {
-    public function toArray($request): array {
-
+class OfferResource extends JsonResource
+{
+    public function toArray($request): array
+    {
         return [
             'id'            => $this->id,
             'title'         => $this->title,
@@ -21,20 +22,20 @@ class OfferResource extends JsonResource {
 
             // Nom complet du créateur
             'creator_name'  => $this->creator?->first_name . ' ' . $this->creator?->last_name,
-            
+
             // Nom de la catégorie
             'category_name' => $this->category?->name,
-            
+
             // Liste des comités liés à cette offre
-            'committees'    => $this->whenLoaded('committees', function() {
-                
+            'committees'    => $this->whenLoaded('committees', function () {
+
                 return $this->committees->map(function ($committee) {
                     return [
                         'id'          => $committee->id,
                         'name'        => $committee->name,
                         'assigned_at' => $committee->pivot->assigned_at,
                     ];
-                });  
+                });
             }),
         ];
     }

@@ -4,18 +4,19 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource {
-    public function toArray($request): array {
-
+class UserResource extends JsonResource
+{
+    public function toArray($request): array
+    {
         return [
             'id'    => $this->id,
             'email' => $this->email,
-        
+
             // Infos du nom & prénom (séparés et combinés)
             'first_name'        => $this->first_name,
             'last_name'         => $this->last_name,
             'full_name'         => trim($this->first_name . ' ' . $this->last_name),
-        
+
             // Rôle
             'role_id'           => $this->role_id ?? null,
             'role_name'         => $this->role_name ?? null,
@@ -25,9 +26,9 @@ class UserResource extends JsonResource {
             'committee_name'    => $this->committee->name ?? null,
 
             'status'            => $this->status,
-        
+
             // Relations supplémentaires
-            'committees_created'=> CommitteeResource::collection($this->whenLoaded('createdCommittees')), // Comités créés si user = staff
+            'committees_created' => CommitteeResource::collection($this->whenLoaded('createdCommittees')), // Comités créés si user = staff
             'committee_members' => UserResource::collection($this->whenLoaded('committeeMembers')), // Membres du comité si user = CSE
         ];
     }
