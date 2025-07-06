@@ -2,14 +2,14 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Enums\RoleEnum;
 use App\Models\User;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Foundation\Http\FormRequest;
 
 class ScanRequest extends FormRequest
 {
-
     public function authorize(): bool
     {
         return true;
@@ -18,19 +18,18 @@ class ScanRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'qr_token'   => 'required|string',
-            'scanned_by' => 'required|exists:users,id',
+            'qr_token'   => ['required', 'string'],
+            'scanned_by' => ['required', 'exists:users,id'],
         ];
     }
 
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-
             /* ---------------- Déchiffrage du QR ---------------- */
             try {
                 $userId = Crypt::decryptString($this->qr_token);
-            } catch (DecryptException $e) {
+            } catch (DecryptException) {
                 $validator->errors()->add('qr_token', 'QR-Code invalide ou corrompu.');
                 return;
             }
@@ -46,7 +45,7 @@ class ScanRequest extends FormRequest
                     $validator->errors()->add('user_id', 'L’utilisateur est inactif ou expiré.');
                 }
                 // 👮‍♂️ Le rôle doit être un cse_member ou un cse_admin
-                if (!in_array($user->role_name, ['cse_member', 'cse_admin'], true)) {
+                if (!in_array($user->role->name, [RoleEnum::CSE_MEMBER->value, RoleEnum::CSE_ADMIN->value], true)) {
                     $validator->errors()->add('user_id', 'Seuls les membres du CSE peuvent être scannés.');
                 }
                 // 🧷 Il doit avoir un comité
@@ -63,7 +62,7 @@ class ScanRequest extends FormRequest
                     $validator->errors()->add('scanned_by', 'Le scanneur est inactif ou expiré.');
                 }
                 // 👮‍♂️ Le rôle doit être un staff ou un super_admin 
-                if (!in_array($scanner->role_name, ['staff', 'super_admin'], true)) {
+                if (!in_array($scanner->role->name, [RoleEnum::STAFF->value, RoleEnum::SUPER_ADMIN->value], true)) {
                     $validator->errors()->add('scanned_by', 'Seuls les membres du staff ou super_admin peuvent scanner.');
                 }
             }
@@ -73,7 +72,6 @@ class ScanRequest extends FormRequest
     public function messages(): array
     {
         return [
-
             'qr_token.required' => 'Le QR-Code est obligatoire.',
 
             'scanned_by.required' => "L'identifiant du scanneur est obligatoire.",
