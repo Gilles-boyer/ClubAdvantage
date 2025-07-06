@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class QrcodeController extends Controller
 {
     public function qrPayload(Request $request)
-    {
-        $cipher = encrypt($request->user()->id);   // ex. eyJpdiI6Ij…==
-        return response()->json(['payload' => $cipher]);
-    }
+{
+    $payload = Crypt::encryptString($request->user()->id);
+    return response()->json(['payload' => $payload]);
+}
 }
