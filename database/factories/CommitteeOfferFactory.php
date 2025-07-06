@@ -2,18 +2,19 @@
 
 namespace Database\Factories;
 
-use App\Models\Committee;
-use App\Models\Offer;
-use Carbon\Carbon;
+use App\Models\{Committee, Offer, CommitteeOffer};
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class CommitteeOfferFactory extends Factory {
+class CommitteeOfferFactory extends Factory
+{
+    protected $model = CommitteeOffer::class;
 
-    public function definition(): array {
+    public function definition(): array
+    {
         return [
-            'committee_id' => Committee::inRandomOrder(),
-            'offer_id' => Offer::inRandomOrder(),
-            'assigned_at' => Carbon::now(),
+            'committee_id' => fn () => Committee::factory()->create()->id,
+            'offer_id'     => fn () => Offer::factory()->create()->id,
+            'assigned_at'  => now(),
         ];
     }
 }

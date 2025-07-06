@@ -3,16 +3,34 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;   // ou Pivot si tu l’utilises
 
-class CommitteeOffer extends Model {
+class CommitteeOffer extends Model
+{
     use HasFactory;
 
-    // Laravel vas gérer assigned_at comme une vrai date
-    protected $casts = [
-        'assigned_at' => 'datetime',
+    public $timestamps  = false;   // ← si ta table n’a pas created_at / updated_at
+    public $incrementing = false;  // clé composite
+    protected $table     = 'committee_offers';
+    protected $primaryKey = null;  // pas de PK auto-incrément
+
+    protected $casts = ['assigned_at' => 'datetime']; // Laravel vas gérer assigned_at comme une vrai date
+
+    protected $fillable = [
+        'committee_id',
+        'offer_id',
+        'assigned_at',
     ];
-    
-    // Pour pas que Laravel essaye de les insérers automatiquement.
-    public $timestamps = false;
+
+    /* ---------------- RELATIONS ---------------- */
+
+    public function committee()
+    {
+        return $this->belongsTo(Committee::class);
+    }
+
+    public function offer()
+    {
+        return $this->belongsTo(Offer::class);
+    }
 }
